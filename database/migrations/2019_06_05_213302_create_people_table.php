@@ -23,7 +23,7 @@ class CreatePeopleTable extends Migration
             $table->integer('form');
 
             // Goalkeeping
-            $table->integer('aerial_each');
+            $table->integer('aerial_reach');
             $table->integer('command_of_area');
             $table->integer('communication');
             $table->integer('eccentricity');

@@ -2,6 +2,8 @@
 
 namespace App\Engines;
 
+use App\Person;
+
 class GameEngine
 {
 
@@ -61,7 +63,178 @@ class GameEngine
             $this->awayteam = $awayteam;
         }
 
+        $goalKeeper = Person::find(1);
+        $midfielder = Person::find(2);
+        $defender = Person::find(1);
+        $forward = Person::find(3);
+
+        $this->hometeamLineup = [
+            'GK' => $goalKeeper->goalkeeping['GK'],
+
+            'LD' => $defender->wide_defending,
+            'CLD' => $defender->central_defending, // no player
+            'CD' => $defender->central_defending,
+            'CRD' => null,
+            'RD' => null,
+
+            'LM' => $midfielder->wide_midfielder,
+            'CLM' => $midfielder->central_midfielder,
+            'CM' => $midfielder->central_midfielder,
+            'CRM' => $midfielder->central_midfielder,
+            'RM' => $midfielder->wide_midfielder,
+
+            'LF' => $forward->wide_attacker,
+            'CLF' => $forward->central_attacker,
+            'CF' => null,
+            'CRF' => null,
+            'RF' => null,
+        ];
+
+        $players = 0;
+        foreach ($this->hometeamLineup as $value) {
+            if (!is_null($value)) {
+                $players++;
+            }
+        }
+
+
+        dd([
+            'players' => $players,
+            'GK' => $this->hometeamLineup['GK'],
+            'LD' => $this->countStrengthForPosition('hometeam', 'LD'),
+            'CLD' => $this->countStrengthForPosition('hometeam', 'CLD'),
+            'CD' => $this->countStrengthForPosition('hometeam', 'CD'),
+            'CRD' => $this->countStrengthForPosition('hometeam', 'CRD'),
+            'RD' => $this->countStrengthForPosition('hometeam', 'RD'),
+            'LM' => $this->countStrengthForPosition('hometeam', 'LM'),
+            'CLM' => $this->countStrengthForPosition('hometeam', 'CLM'),
+            'CM' => $this->countStrengthForPosition('hometeam', 'CM'),
+            'CRM' => $this->countStrengthForPosition('hometeam', 'CRM'),
+            'RM' => $this->countStrengthForPosition('hometeam', 'RM'),
+            'LF' => $this->countStrengthForPosition('hometeam', 'LF'),
+            'CLF' => $this->countStrengthForPosition('hometeam', 'CLF'),
+            'CF' => $this->countStrengthForPosition('hometeam', 'CF'),
+            'CRF' => $this->countStrengthForPosition('hometeam', 'CRF'),
+            'RF' => $this->countStrengthForPosition('hometeam', 'RF'),
+        ]);
+        //dd($this->countStrengthForPosition('hometeam', 'CD'));
+        /*        dd([
+                    'CD' => $this->hometeamLineup['CD'],
+                    'CLD' => $this->hometeamLineup['CLD'],
+                    'CRD' => $this->hometeamLineup['CRD'],
+                    'LD counted' => $this->countStrengthForPosition('hometeam', 'CD'),
+                ]);*/
+
+        /* Divide strength into areas
+         * LD = 75% + 25% from CLD
+         * CLD = 50% + 25% from LD + 25% from CD
+         */
+
+        /*
+         * 5x9 positions available = 45, 3 roles for every position = 135 variations + goalie
+         * Positions: (offensive / defensive role is possible in every position)
+         *
+         * Left Defender (LDO, LDM, LDD)
+         * Centre Left Defender
+         * Centre Defender
+         * Centre Right Defender
+         * Right Defender
+         *
+         * Left midfielder
+         * Centre left midfielder
+         * Centre midfielder
+         * Centre right midfielder
+         * Right midfielder
+         *
+         * Left forward
+         * Centre left forward
+         * Centre forward
+         * Centre right forward
+         * Right forward
+         */
+
+        /*
+         * Positions:
+         *
+         * (SW) (Sweeper) Sweeper - Sweep up balls behind defensive line, rarely meets a forward
+         *  - Hold Position, Dribble Less, Shoot Less Often
+         * (LI) (Sweeper) Libero - Sweep up balls behind defensive line, helps the midfield in possession
+         *  - More Risky Passes, (if attack Get Further Forward, Shoot More Often )
+         * (CD) (Centre back) Central Defender - Stop the attackers, mark forwards, clear ball when required.
+         *  - Hold Position, Dribble Less, Shoot Less Often
+         * (BPD) (Centre back) Ball Playing Defender - CD + long passes to launch counter attacks.
+         *  - Hold Position, More Risky Passes
+         * (DCB) (Centre back) Defensive Centre Back - CD + tackling more + prevent ball from getting into the area.
+         * - Hold Position, Dribble Less, Shoot Less Often, More Direct Passes, Fewer Risky Passes
+         * (DM) (Defensive midfielder) Defensive Midfielder - Help defenders when out of possession, help creative midfielders when in possession.
+         * - Hold Position, Dribble Less
+         * (DLP) (Centre back, Defensive midfielder) Deep Lying Playmaker - Focus on pinpoint offensive passes, helps defeners when out of possession.
+         * - Hold Position, Shoot Less Often
+         * (BWM) (Defensive midfielder, Centre midfielder) Ball Winning Midfielder - Focus on winning balls, need technique to keep ball when in possession.
+         * - Close Down Much More, Tackle Harder
+         * (AM) (Defensive midfielder) Anchor Man -
+         */
+
         $this->playGame();
+    }
+
+    public function countStrengthForPosition($team, $position)
+    {
+        $sidePositions = ['LD', 'RD', 'LM', 'RM', 'LF', 'RF'];
+
+        if (in_array($position, $sidePositions)) {
+            //dd($position . ' is a side position');
+            $posVal = $this->{$team . 'Lineup'}[$position][$position] * .75;
+            $assistVal = $this->{$team . 'Lineup'}['C' . $position]['C' . $position] * .2;
+
+            return $posVal + $assistVal;
+        }
+
+        if (in_array($position, ['CD', 'CLD', 'CRD', 'CM', 'CLM', 'CRM', 'CF', 'CLF', 'CRF'])) {
+
+            $posVal = $this->{$team . 'Lineup'}[$position][$position] * .6;
+
+            $key = array_search($position, array_keys($this->{$team . 'Lineup'}));
+            $assisting1 = array_slice($this->{$team . 'Lineup'}, $key - 1, 1);
+            $assisting2 = array_slice($this->{$team . 'Lineup'}, $key + 1, 1);
+
+            $ass1pos = array_keys($assisting1)[0];
+            $ass2pos = array_keys($assisting2)[0];
+
+            if (in_array($ass1pos, $sidePositions)) {
+                $a = reset($assisting1);
+                if (isset($a[$position])) {
+                    $assist1Val = $a[$position] * .25;
+                } else {
+                    $assist1Val = 0;
+                }
+            } else {
+                $a = reset($assisting1);
+                if (isset($a[$position])) {
+                    $assist1Val = $a[$position] * .2;
+                } else {
+                    $assist1Val = 0;
+                }
+            }
+
+            if (in_array($ass2pos, $sidePositions)) {
+                $a = reset($assisting2);
+                if (isset($a[$position])) {
+                    $assist2Val = $a[$position] * .25;
+                } else {
+                    $assist2Val = 0;
+                }
+            } else {
+                $a = reset($assisting2);
+                if (isset($a[$position])) {
+                    $assist2Val = $a[$position] * .2;
+                } else {
+                    $assist2Val = 0;
+                }
+            }
+        }
+
+        return ($posVal + $assist1Val + $assist2Val);
     }
 
     public function playGame()
@@ -76,7 +249,8 @@ class GameEngine
         // echo $this->chances['hometeam'] . '% : ' . $this->chances['awayteam'] . '%\\n';
     }
 
-    private function createShot($currentTeamKey)
+    private
+    function createShot($currentTeamKey)
     {
         $quality = rand(1, 100);
 
@@ -93,7 +267,8 @@ class GameEngine
         return $event;
     }
 
-    private function createAttack($currentTeamKey, $competitorTeamKey, $counter, $isCounter = false)
+    private
+    function createAttack($currentTeamKey, $competitorTeamKey, $counter, $isCounter = false)
     {
         $event = (!$isCounter) ? $currentTeamKey . ' ' . CommentsEngine::is_attacking() . '. ' : '';
 
@@ -114,7 +289,8 @@ class GameEngine
         return $event;
     }
 
-    private function createEvent($currentTeamKey, $competitorTeamKey, $minute)
+    private
+    function createEvent($currentTeamKey, $competitorTeamKey, $minute)
     {
 
         if ($this->tactics[$currentTeamKey] > 80) {
@@ -147,7 +323,8 @@ class GameEngine
         ];
     }
 
-    private function startEvents()
+    private
+    function startEvents()
     {
         foreach ($this->eventMinutes as $minute) {
             $chance = rand(0, 100) / 100;
@@ -161,7 +338,8 @@ class GameEngine
         }
     }
 
-    private function setEvents()
+    private
+    function setEvents()
     {
         $events = rand(5, 25);
 
@@ -173,7 +351,8 @@ class GameEngine
         sort($this->eventMinutes);
     }
 
-    private function setWinningChances()
+    private
+    function setWinningChances()
     {
         $totalChance = 0;
 
@@ -184,7 +363,8 @@ class GameEngine
         $this->chances['awayteam'] = ($awayChance / $totalChance) - 0.0075; // away disadvantage
     }
 
-    private function setWeightBasedOnTactics()
+    private
+    function setWeightBasedOnTactics()
     {
         $this->attacking['hometeam'] = $this->tactics['hometeam'] * $this->chances['hometeam'];
         $this->defending['hometeam'] = (100 - $this->tactics['hometeam']) * $this->chances['hometeam'];
@@ -193,7 +373,8 @@ class GameEngine
         $this->defending['awayteam'] = (100 - $this->tactics['awayteam']) * $this->chances['awayteam'];
     }
 
-    private function setTactics()
+    private
+    function setTactics()
     {
         $this->tactics['hometeam'] = $this->getTactic();
         $this->tactics['awayteam'] = $this->getTactic();
@@ -201,7 +382,8 @@ class GameEngine
         $this->setWeightBasedOnTactics();
     }
 
-    private function getTactic()
+    private
+    function getTactic()
     {
         $tactics = [
             85, // all out offensive 85-15
@@ -232,7 +414,8 @@ class GameEngine
      * @param $totalChance
      * @return array
      */
-    protected function calculateChanceForTeam($totalChance, $team): array
+    protected
+    function calculateChanceForTeam($totalChance, $team): array
     {
         $chance = 0;
         $benchChance = 0;
@@ -249,9 +432,10 @@ class GameEngine
         return [$chance, $totalChance, $benchChance];
     }
 
-    public function renderEvents()
+    public
+    function renderEvents()
     {
-        $data = '<h1>' . $this->hometeamName . ' '.$this->score['hometeam'].'-'.$this->score['awayteam'].' ' . $this->awayteamName . '</h1>';
+        $data = '<h1>' . $this->hometeamName . ' ' . $this->score['hometeam'] . '-' . $this->score['awayteam'] . ' ' . $this->awayteamName . '</h1>';
 
         foreach ($this->events as $event) {
             $ev = str_replace('hometeam', $this->hometeamName, $event['event']);
