@@ -16,6 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::resource('/tournaments', 'TournamentController');
 Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
 Route::post('/games/{game}/points', 'GameEventController@store')->name('save_score');

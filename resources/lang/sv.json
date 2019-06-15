@@ -1,0 +1,27 @@
+{
+  "The goalkeeper": "Målvakten",
+  " is passing the ball short.": " passar bollen kort.",
+  " passes the ball short.": " passar kort.",
+  " passes the ball to his defense.": " passar bollen till sitt försvar.",
+  " kicks the ball upfield.": " sparkar iväg bollen långt upp i planen.",
+  " plays the ball long.": " spelar bollen långt.",
+  " kicks the ball far up the field.": " sparkar bollen långt upp i banan.",
+
+  "The ball just rolls out over the line.": "Bollen rullar ut över sidlinjen.",
+  "No player was fast enough to get the ball before it rolls out of play.": "Ingen spelare var snabb nog att hinna ikapp bollen innan den gick ut över linjen.",
+  "The players did not manage to keep the ball on the pitch.": "Ingen spelare lyckades ta bollen innan den försvann ut utanför planen.",
+
+  "Only :Player met the ball, easy game for him.": "Bara :Player mötte bollen, så han kunde lugnt och fint ta hand om den.",
+  "There were no other players than :Player to meet the ball, so he is in possession.": "Där var ingen annan spelare än :Player som mötte bollen, så nu är han bollförande.",
+  ":Player could pick up the ball without a duel.": ":Player kunde enkelt ta hand om bollen utan någon duell.",
+  "No opponent close to where the ball was dropping down, so easy pick up for :Player.": "Ingen motståndare i närheten av vart bollen damp ner, så enkelt att ta hand om den för :Player.",
+
+  ":Winner and :Loser goes up in a duel, this time :Winner gets his head on the ball.": ":Winner och :Loser går upp i en duell om bollen, denna gång drar :Winner det längsta strået.",
+  ":Loser and :Winner goes up in a duel, this time :Winner gets his head on the ball.": ":Loser och :Winner går upp i en duell om bollen, denna gång drar :Winner det längsta strået.",
+  ":Winner and :Loser in a duel, :Winner gets up highest and reach the ball in front of :Loser.": ":Winner och :Loser i en duell, :Winner kommer upp högst och når bollen före :Loser.",
+  ":Loser and :Winner in a duel, :Winner gets up highest and reach the ball in front of :Loser.": ":Loser och :Winner i en duell, :Winner kommer upp högst och når bollen före :Loser.",
+  "Wow, both :Loser and :Winner jumps high in the duel, but this time :Winner gets the ball.": "Wow, både :Loser och :Winner hoppar högt in i en duell, denna gången får :Winner tag i bollen.",
+  "Wow, both :Winner and :Loser jumps high in the duel, but this time :Winner gets the ball.": "Wow, både :Winner och :Loser hoppar högt in i en duell, denna gången får :Winner tag i bollen."
+}
+
+

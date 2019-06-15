@@ -15,6 +15,11 @@ class Person extends Model
         'important_matches',
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
     private function getMentalValues() {
         return [
             'aggression' => $this->aggression,

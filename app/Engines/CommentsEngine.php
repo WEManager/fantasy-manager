@@ -2,10 +2,88 @@
 
 namespace App\Engines;
 
-use function Psy\sh;
-
 class CommentsEngine
 {
+
+    public static function goalkeeper_passes_the_ball_short($playerName)
+    {
+        $player = [__('The goalkeeper'), $playerName];
+        shuffle($player);
+
+        $passBallShort = [
+            $player[0] . __(' is passing the ball short.'),
+            $player[0] . __(' passes the ball short.'),
+            $player[0] . __(' passes the ball to his defense.'),
+        ];
+        shuffle($passBallShort);
+
+        return $passBallShort[0];
+    }
+
+    public static function goalkeeper_kicks_the_ball($playerName)
+    {
+        $player = [__('The goalkeeper'), $playerName];
+        shuffle($player);
+
+        $kicksBall = [
+            $player[0] . __(' kicks the ball upfield.'),
+            $player[0] . __(' plays the ball long.'),
+            $player[0] . __(' kicks the ball far up the field.'),
+        ];
+        shuffle($kicksBall);
+
+        return $kicksBall[0];
+    }
+
+    public static function ball_out_of_play()
+    {
+        $ballOutOfPlay = [
+            __('The ball just rolls out over the line.'),
+            __('No player was fast enough to get the ball before it rolls out of play.'),
+            __('The players did not manage to keep the ball on the pitch.'),
+        ];
+        shuffle($ballOutOfPlay);
+
+        return $ballOutOfPlay[0];
+    }
+
+    public static function won_ball_without_duel($player)
+    {
+        $player = [$player->lastname, $player->full_name];
+        shuffle($player);
+
+        $wonBallWithoutDuel = [
+            __('Only :Player met the ball, easy game for him.', ['player' => $player[0]]),
+            __('There were no other players than :Player to meet the ball, so he is in possession.', ['player' => $player[0]]),
+            __(':Player could pick up the ball without a duel.', ['player' => $player[0]]),
+            __('No opponent close to where the ball was dropping down, so easy pick up for :Player.', ['player' => $player[0]]),
+        ];
+        shuffle($wonBallWithoutDuel);
+
+        return $wonBallWithoutDuel[0];
+    }
+
+    public static function won_ball_in_heading_duel_against($winner, $loser)
+    {
+        $winnerName = [$winner->lastname, $winner->full_name];
+        $loserName = [$loser->lastname, $loser->full_name];
+        shuffle($winnerName); shuffle($loserName);
+
+        if ($winnerName[0] == $loserName[0]) $loserName[0] = $loserName[1];
+
+        $wonBallInHeadingDuel = [
+            __(':Winner and :Loser goes up in a duel, this time :Winner gets his head on the ball.', ['winner' => $winnerName[0], 'loser' => $loserName[0]]),
+            __(':Loser and :Winner goes up in a duel, this time :Winner gets his head on the ball.', ['winner' => $winnerName[0], 'loser' => $loserName[0]]),
+            __(':Winner and :Loser in a duel, :Winner gets up highest and reach the ball in front of :Loser.', ['winner' => $winnerName[0], 'loser' => $loserName[0]]),
+            __(':Loser and :Winner in a duel, :Winner gets up highest and reach the ball in front of :Loser.', ['winner' => $winnerName[0], 'loser' => $loserName[0]]),
+            __('Wow, both :Loser and :Winner jumps high in the duel, but this time :Winner gets the ball.', ['winner' => $winnerName[0], 'loser' => $loserName[0]]),
+            __('Wow, both :Winner and :Loser jumps high in the duel, but this time :Winner gets the ball.', ['winner' => $winnerName[0], 'loser' => $loserName[0]]),
+        ];
+        shuffle($wonBallInHeadingDuel);
+
+        return $wonBallInHeadingDuel[0];
+    }
+
 
     public static function is_attacking()
     {
@@ -137,7 +215,8 @@ class CommentsEngine
         return $oppositionGetsTheBall[0];
     }
 
-    public static function counter_attack($theOppositionTeamKey) {
+    public static function counter_attack($theOppositionTeamKey)
+    {
 
         $counterAttack = [
             $theOppositionTeamKey . ' is going for a counter attack! ',
@@ -149,7 +228,8 @@ class CommentsEngine
         return $counterAttack[0];
     }
 
-    public static function shoots() {
+    public static function shoots()
+    {
         $shoots = [
             'Shoots! ',
             'Taking on a shot! ',
@@ -166,7 +246,8 @@ class CommentsEngine
         return $shoots[0];
     }
 
-    public static function missed_shot() {
+    public static function missed_shot()
+    {
         $missedShot = [
             'But it goes way wide. ',
             'But it flies way over the bar. ',
@@ -183,7 +264,8 @@ class CommentsEngine
         return $missedShot[0];
     }
 
-    public static function saved_shot() {
+    public static function saved_shot()
+    {
         $savedShot = [
             'Saved by the goalkeeper!',
             'The keeper saves that one!',
@@ -197,7 +279,8 @@ class CommentsEngine
         return $savedShot[0];
     }
 
-    public static function goal() {
+    public static function goal()
+    {
         $goal = [
             'GOAAAAL!!',
             'THEY SCOOOORE!!',

@@ -1,0 +1,10 @@
+Decide what classes should be responsible of what.
+
+GameEngine should only decide what is happening in a game at a particular minute.
+GameDuelsEngine should only decide what is happening in a specific duel and new up a class in a job that takes care of next occasion.
+
+Most important things:
+    - Goals
+    - Yellow / Red cards
+    - Freekicks / Penalties
+    -

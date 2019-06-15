@@ -34,48 +34,63 @@ Route::get('/tournaments', 'TournamentController@index')->name('list_tournaments
 
 Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
 
+Route::get('/test-heading', function() {
+    $player = \App\Person::find(1);
+    $duelant = \App\Person::find(2);
+    echo \App\Engines\GameDuelsEngine::headingDuelBetween($player, $duelant, true);
+});
 Route::get('/test-game', function () {
 
     $engine = new \App\Engines\GameEngine(1,
         [
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
-            90,
+            'GK' => \App\Person::find(1),
+
+            'LD' => \App\Person::find(2),
+            'CD' => \App\Person::find(3),
+            'RD' => \App\Person::find(1),
+
+            'LM' => \App\Person::find(2),
+            'CLM' => \App\Person::find(3),
+            'CM' => \App\Person::find(1),
+            'CRM' => \App\Person::find(2),
+            'RM' => \App\Person::find(3),
+
+            'CLF' => \App\Person::find(1),
+            'CRF' => \App\Person::find(2),
+
+            'SUB1' => \App\Person::find(3),
+            'SUB2' => \App\Person::find(1),
+            'SUB3' => \App\Person::find(2),
+            'SUB4' => \App\Person::find(3),
+            'SUB5' => \App\Person::find(1),
+
+            'tactics' => 70,
         ],
         [
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
-            5,
+            'GK' => \App\Person::find(1),
+
+            'LD' => \App\Person::find(2),
+            'CLD' => \App\Person::find(2),
+            'CD' => \App\Person::find(3),
+            'CRD' => \App\Person::find(1),
+            'RD' => \App\Person::find(1),
+
+            'LM' => \App\Person::find(3),
+            'CLM' => \App\Person::find(3),
+            'CRM' => \App\Person::find(2),
+            'RM' => \App\Person::find(2),
+
+            'CF' => \App\Person::find(1),
+
+            'SUB1' => \App\Person::find(3),
+            'SUB2' => \App\Person::find(1),
+            'SUB3' => \App\Person::find(2),
+            'SUB4' => \App\Person::find(3),
+            'SUB5' => \App\Person::find(1),
+
+            'tactics' => 30,
         ]
     );
 
     echo $engine->renderEvents();
-
 });
