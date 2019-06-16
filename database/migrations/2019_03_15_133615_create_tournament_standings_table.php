@@ -15,7 +15,7 @@ class CreateTournamentStandingsTable extends Migration
     {
         Schema::create('tournament_standings', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('club_id');
             $table->integer('group_id');
             $table->integer('won')->default(0);
             $table->integer('tie')->default(0);

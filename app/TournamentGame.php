@@ -8,23 +8,23 @@ class TournamentGame extends Model
 {
     protected $guarded = [];
 
-    protected $with = ['playerOne', 'playerTwo'];
+    protected $with = ['hometeam', 'awayteam'];
 
-    protected $hidden = ['group_id', 'first_player_id', 'second_player_id', 'created_at', 'updated_at'];
+    protected $hidden = ['group_id', 'hometeam_id', 'awayteam_id', 'created_at', 'updated_at'];
 
     public function group()
     {
         return $this->belongsTo(TournamentGroup::class, 'group_id');
     }
 
-    public function playerOne()
+    public function hometeam()
     {
-        return $this->belongsTo(User::class, 'first_player_id');
+        return $this->belongsTo(Club::class, 'hometeam_id');
     }
 
-    public function playerTwo()
+    public function awayteam()
     {
-        return $this->belongsTo(User::class, 'second_player_id');
+        return $this->belongsTo(Club::class, 'awayteam_id');
     }
 
     public function gameEvents()
@@ -32,13 +32,13 @@ class TournamentGame extends Model
         return $this->hasMany(GameEvent::class, 'game_id');
     }
 
-    public function playerOneEvents()
+    public function hometeamEvents()
     {
-        return $this->hasMany(GameEvent::class, 'game_id')->where('player_id', $this->first_player_id);
+        return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->hometeam_id);
     }
 
-    public function playerTwoEvents()
+    public function awayteamEvents()
     {
-        return $this->hasMany(GameEvent::class, 'game_id')->where('player_id', $this->second_player_id);
+        return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->awayteam_id);
     }
 }

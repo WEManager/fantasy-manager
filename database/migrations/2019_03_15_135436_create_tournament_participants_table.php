@@ -15,7 +15,7 @@ class CreateTournamentParticipantsTable extends Migration
     {
         Schema::create('tournament_participants', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('club_id');
             $table->integer('tournament_id');
             $table->timestamps();
         });

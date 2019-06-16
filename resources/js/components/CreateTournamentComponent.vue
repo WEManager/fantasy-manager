@@ -4,17 +4,17 @@
         <div v-if="currentStep === 1">
             <div class="row">
                 <div class="col-sm-12">
-                    <span>Choose players</span>
+                    <span>Choose Clubs</span>
                 </div>
-                <div class="col-sm-4 player" v-for="(player, index) in JSON.parse(players)" :key="index" @click="selectPlayer(player.id)" :class="selectedPlayers.includes(player.id) ? 'selected' : null">
-                    {{ player.name }}
+                <div class="col-sm-4 player" v-for="(club, index) in JSON.parse(clubs)" :key="index" @click="selectPlayer(club.id)" :class="selectedClubs.includes(club.id) ? 'selected' : null">
+                    {{ club.name }}
                 </div>
             </div>
 
             <div class="form-group row mb-0">
                 <div class="col-md-6 offset-md-4">
                     <button @click.prevent="currentStep++" type="button" class="btn btn-success">
-                        Create Tournament With {{ selectedPlayers.length }} Players
+                        Create Tournament With {{ selectedClubs.length }} Clubs
                     </button>
                 </div>
             </div>
@@ -23,7 +23,7 @@
         <div v-if="currentStep === 2">
 
             <div class="form-group row">
-                <label for="competitionType" class="col-md-4 col-form-label text-md-right">Type Of Competition</label>
+                <label class="col-md-4 col-form-label text-md-right">Type Of Competition</label>
 
                 <div class="col-md-6">
                     <div class="radio">
@@ -63,7 +63,7 @@
                     PlayOffs</label>
 
                 <div class="col-md-6">
-                    <input id="proceedingToPlayoffs" type="number" min="2" :max="selectedPlayers.length" class="form-control" v-model="proceedingToPlayoffs" name="proceedingToPlayoffs" required>
+                    <input id="proceedingToPlayoffs" type="number" min="2" :max="selectedClubs.length" class="form-control" v-model="proceedingToPlayoffs" name="proceedingToPlayoffs" required>
                 </div>
             </div>
 
@@ -102,7 +102,7 @@
 
 <script>
     export default {
-        props: ['action', 'players', 'token'],
+        props: ['action', 'clubs', 'token'],
         data() {
             return {
                 name: null,
@@ -110,17 +110,17 @@
                 groups: 2,
                 playOffs: false,
                 proceedingToPlayoffs: 2,
-                selectedPlayers: [],
+                selectedClubs: [],
 
                 currentStep: 1
             }
         },
         methods: {
             selectPlayer(id) {
-                if (this.selectedPlayers.includes(id)) {
-                    this.selectedPlayers = this.selectedPlayers.filter(e => e !== id);
+                if (this.selectedClubs.includes(id)) {
+                    this.selectedClubs = this.selectedClubs.filter(e => e !== id);
                 } else {
-                    this.selectedPlayers.push(id)
+                    this.selectedClubs.push(id)
                 }
             },
             createTournament() {
@@ -129,7 +129,7 @@
                     groups: this.groups,
                     playOffs: this.playOffs,
                     competitionType: this.competitionType,
-                    selectedPlayers: this.selectedPlayers,
+                    selectedClubs: this.selectedClubs,
                     proceedingToPlayoffs: this.proceedingToPlayoffs,
                 }).then(response => {
                     console.log(response);

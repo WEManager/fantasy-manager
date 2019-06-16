@@ -12,31 +12,11 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <game-results gameId="{{ $game->id }}" playerName="{{ $game->playerOne->name }}" points="{{ $game->first_player_score }}" player="player_one"/>
+                                <game-results gameId="{{ $game->id }}" clubName="{{ $game->hometeam->name }}" score="{{ $game->hometeam_score }}" club="hometeam"/>
                             </div>
                             <div class="col-sm-6">
-                                <h1>{{ $game->playerTwo->name }}</h1>
-                                <h1>{{ 501 - $game->second_player_score }}</h1>
-                                <table class="table table-responsive">
-                                    <thead>
-                                    <tr>
-                                        <th>Darts</th>
-                                        <th>Points</th>
-                                        <th>Left</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php $left = 501; ?>
-                                    @foreach($game->playerTwoEvents as $event)
-                                        <tr>
-                                            <td>3</td>
-                                            <td>{{ $event->value }}</td>
-                                            <td>{{ $left - $event->value }}</td>
-                                        </tr>
-                                        <?php $left = $left - $event->value; ?>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                <h1>{{ $game->awayteam->name }}</h1>
+                                <h1>{{ $game->awayteam_score }}</h1>
                             </div>
                         </div>
                     </div>

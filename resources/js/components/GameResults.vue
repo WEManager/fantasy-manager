@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1>{{ playername }}</h1>
-        <h1>{{ points }}</h1>
+        <h1>{{ clubname }}</h1>
+        <h1>{{ score }}</h1>
 
         <table class="table table-responsive">
             <thead>
@@ -25,20 +25,14 @@
     import axios from 'axios';
 
     export default {
-        props: ['gameid', 'player', 'playername'],
+        props: ['gameid', 'club', 'clubname'],
         mounted() {
             axios.get('/api/games/' + this.gameid).then(({data}) => {
-                this.events = data[this.player + '_events'];
-
-                this.events.map(event => {
-                    this.points -= event.value;
-                    event.points = this.points;
-                })
+                this.events = data[this.club + '_events'];
             });
         },
         data() {
             return {
-                points: 501,
                 events: []
             }
         }

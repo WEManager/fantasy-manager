@@ -28,7 +28,7 @@ class StoreTournament extends FormRequest
             'groups' => 'integer',
             'playOffs' => 'required|boolean',
             'competitionType' => 'required',
-            'selectedPlayers' => 'required',
+            'selectedClubs' => 'required',
             'proceedingToPlayoffs' => 'integer',
         ];
     }

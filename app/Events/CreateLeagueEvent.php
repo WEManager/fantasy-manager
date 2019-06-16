@@ -36,20 +36,20 @@ class CreateLeagueEvent
                 ]);
 
                 // shuffle competitors
-                $players = TournamentParticipant::where('tournament_id', $tournament->id)->pluck('user_id')->toArray();
-                shuffle($players);
+                $clubs = TournamentParticipant::where('tournament_id', $tournament->id)->pluck('club_id')->toArray();
+                shuffle($clubs);
 
                 // set competitors into league table
-                foreach ($players as $player) {
+                foreach ($clubs as $club) {
                     TournamentStanding::create([
-                        'user_id' => $player,
+                        'club_id' => $club,
                         'group_id' => $group->id,
                     ]);
                 }
 
 
                 // create games schedule
-                $this->generateGameSchedule($players, $group);
+                $this->generateGameSchedule($clubs, $group);
 
 
                 break;
@@ -65,15 +65,15 @@ class CreateLeagueEvent
                 }
 
                 // shuffle competitors
-                $players = TournamentParticipant::where('tournament_id', $tournament->id)->pluck('user_id')->toArray();
-                shuffle($players);
+                $clubs = TournamentParticipant::where('tournament_id', $tournament->id)->pluck('club_id')->toArray();
+                shuffle($clubs);
 
                 // set competitors into the different groups
                 $i = 0;
-                foreach ($players as $player) {
+                foreach ($clubs as $club) {
                     if (isset($groups[$i])) {
                         TournamentStanding::create([
-                            'user_id' => $player,
+                            'club_id' => $club,
                             'group_id' => $groups[$i]->id,
                         ]);
                     }
@@ -89,8 +89,8 @@ class CreateLeagueEvent
 
                 // create games schedule
                 foreach ($groups as $group) {
-                    $players = TournamentStanding::where('group_id', $group->id)->pluck('user_id');
-                    $this->generateGameSchedule($players, $group);
+                    $clubs = TournamentStanding::where('group_id', $group->id)->pluck('club_id');
+                    $this->generateGameSchedule($clubs, $group);
                 }
 
                 break;
@@ -128,12 +128,12 @@ class CreateLeagueEvent
                     $hometeam = $awayteam;
                     $awayteam = $swap;
                 }
-                // never print the ghost-team..
+                // never add the ghost-team to database..
                 if (!isset($ghost) || (($hometeam != $ghost) && ($awayteam != $ghost))) {
                     TournamentGame::create([
                         'group_id' => $group->id,
-                        'first_player_id' => $players[($hometeam - 1)],
-                        'second_player_id' => $players[($awayteam - 1)],
+                        'hometeam_id' => $players[($hometeam - 1)],
+                        'awayteam_id' => $players[($awayteam - 1)],
                     ]);
                 }
             }

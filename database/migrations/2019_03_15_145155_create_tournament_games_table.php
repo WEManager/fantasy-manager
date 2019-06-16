@@ -16,10 +16,10 @@ class CreateTournamentGamesTable extends Migration
         Schema::create('tournament_games', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('group_id');
-            $table->integer('first_player_id');
-            $table->integer('second_player_id');
-            $table->integer('first_player_score')->nullable();
-            $table->integer('second_player_score')->nullable();
+            $table->integer('hometeam_id');
+            $table->integer('awayteam_id');
+            $table->integer('hometeam_score')->nullable();
+            $table->integer('awayteam_score')->nullable();
             $table->timestamps();
         });
     }

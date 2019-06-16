@@ -15,20 +15,20 @@
                                 <table class="table table-responsive">
                                     <tr>
                                         <td>#ID</td>
-                                        <td>Player 1</td>
+                                        <td>Hometeam</td>
                                         <td>-</td>
-                                        <td>Player 2</td>
+                                        <td>Awayteam</td>
                                         <td>P1 Score</td>
                                         <td>P2 Score</td>
                                     </tr>
                                     @foreach($group->games as $game)
                                         <tr>
                                             <td><a href="{{ route('show_game', $game->id) }}">{{ $game->id }}</a></td>
-                                            <td>{{ $game->playerOne->name }}</td>
+                                            <td>{{ $game->hometeam->name }}</td>
                                             <td>-</td>
-                                            <td>{{ $game->playerTwo->name }}</td>
-                                            <td>{{ $game->first_player_score }}</td>
-                                            <td>{{ $game->second_player_score }}</td>
+                                            <td>{{ $game->awayteam->name }}</td>
+                                            <td>{{ $game->hometeam_score }}</td>
+                                            <td>{{ $game->awayteam_score }}</td>
                                         </tr>
                                     @endforeach
                                 </table>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Club;
 use App\Events\CreateLeagueEvent;
 use App\Tournament;
 use App\TournamentParticipant;
@@ -17,9 +18,9 @@ class TournamentController extends Controller
 
     public function create()
     {
-        $players = User::all();
+        $clubs = Club::all();
 
-        return view('tournaments.create', ['players' => $players]);
+        return view('tournaments.create', ['clubs' => $clubs]);
     }
 
     public function store(StoreTournament $tournament)
@@ -29,13 +30,13 @@ class TournamentController extends Controller
             'type' => $tournament->competitionType,
             'groups' => $tournament->groups,
             'playoffs' => $tournament->playOffs,
-            'participants' => count($tournament->selectedPlayers),
+            'participants' => count($tournament->selectedClubs),
             'proceeding_to_playoffs' => $tournament->proceedingToPlayoffs,
         ]);
 
-        foreach ($tournament->selectedPlayers as $player) {
+        foreach ($tournament->selectedClubs as $club) {
             TournamentParticipant::create([
-                'user_id' => $player,
+                'club_id' => $club,
                 'tournament_id' => $createdTournament->id,
             ]);
         }
