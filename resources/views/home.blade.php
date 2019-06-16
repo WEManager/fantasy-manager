@@ -5,11 +5,11 @@
         <div class="row">
 
             <div class="col-sm-6">
-                <a href="{{ route('create_player') }}" class="btn btn-primary">{{ __('New Player') }}</a>
+                <a href="{{ route('create_player') }}" class="btn btn-primary">{{ __('New Manager') }}</a>
             </div>
 
             <div class="col-sm-6">
-                <a href="{{ route('list_players') }}" class="btn btn-primary">{{ __('Players') }}</a>
+                <a href="{{ route('list_players') }}" class="btn btn-primary">{{ __('Managers') }}</a>
             </div>
 
         </div>

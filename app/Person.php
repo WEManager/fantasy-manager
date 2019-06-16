@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
+    protected $fillable = [
+        'age',
+        'lastname',
+        'firstname',
+        'nationality',
+    ];
+
     protected $hidden = [
         'dirtiness',
         'consistency',
@@ -15,12 +22,21 @@ class Person extends Model
         'important_matches',
     ];
 
+    public function club()
+    {
+        return $this->belongsToMany(Club::class, 'player_contracts', 'person_id', 'club_id')
+            // Only get contracts that are currently valid
+            ->whereDate('from', '<', date('Y-m-d'))
+            ->whereDate('until', '>', date('Y-m-d'));
+    }
+
     public function getFullNameAttribute()
     {
         return $this->firstname . ' ' . $this->lastname;
     }
 
-    private function getMentalValues() {
+    private function getMentalValues()
+    {
         return [
             'aggression' => $this->aggression,
             'anticipation' => $this->anticipation,
@@ -39,7 +55,8 @@ class Person extends Model
         ];
     }
 
-    private function getPhysicalValues() {
+    private function getPhysicalValues()
+    {
         return [
             'acceleration' => $this->acceleration,
             'agility' => $this->agility,
@@ -52,7 +69,8 @@ class Person extends Model
         ];
     }
 
-    private function getGoalkeepingValues() {
+    private function getGoalkeepingValues()
+    {
         return [
             'aerial_reach' => $this->aerial_reach,
             'command_of_area' => $this->command_of_area,
@@ -70,7 +88,8 @@ class Person extends Model
         ];
     }
 
-    private function getTechnicalValues() {
+    private function getTechnicalValues()
+    {
         return [
             'corners' => $this->corners,
             'crossing' => $this->crossing,
@@ -107,18 +126,19 @@ class Person extends Model
                 (
                     // Give primary goalkeeping values more weight (50% more)
                     ($this->aerial_reach + $this->agility + $this->handling + $this->reflexes) * 1.5
-                // Divide the weighted values to an average
+                    // Divide the weighted values to an average
                 ) / 4 +
 
                 // Give the rest of goalkeeping values importance
                 $goalkeeping['average_goalkeeping']
-            // Divide weighted and default values by 2 to get a combined value
+                // Divide weighted and default values by 2 to get a combined value
             ) / 2;
 
         return $goalkeeping;
     }
 
-    private function getSkills() {
+    private function getSkills()
+    {
         $skills = [
             'mental' => $this->getMentalValues(),
             'physical' => $this->getPhysicalValues(),

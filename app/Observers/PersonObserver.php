@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Person;
+use App\PlayerContract;
 
 class PersonObserver
 {
@@ -11,6 +12,16 @@ class PersonObserver
     public function creating(Person $person)
     {
         $this->person = &$person;
+
+        if ($this->person->club_id) {
+            dd('je');
+            PlayerContract::create([
+                'person_id' => $this->person->id,
+                'club_id', $this->person->club_id,
+                'wage' => rand(100, 999)
+            ]);
+            unset($this->person->club_id);
+        }
 
         $this->generatePersonalDetails();
         $this->generateGoalkeepingSkills();
@@ -22,23 +33,8 @@ class PersonObserver
 
     public function generatePersonalDetails()
     {
-        $firstnames = ['Adam', 'August', 'Hildur'];
-        shuffle($firstnames);
-
-        $lastnames = ['Andersson', 'Johansson', 'Nilsson'];
-        shuffle($lastnames);
-
-        $nationalities = ['SE'];
-        shuffle($nationalities);
-
-
-        $this->person->firstname = $firstnames[0];
-        $this->person->lastname = $lastnames[0];
-        $this->person->nationality = $nationalities[0];
-
-        $this->person->age = rand(15,35);
-        $this->person->form = rand(1,99);
-        $this->person->birthday = rand(1,91);
+        $this->person->form = rand(1, 99);
+        $this->person->birthday = rand(1, 91);
     }
 
     public function generateHiddenSkills()
@@ -101,7 +97,7 @@ class PersonObserver
 
     public function generateGoalkeepingSkills()
     {
-        $this->person->aerial_each = rand(1, 100);
+        $this->person->aerial_reach = rand(1, 100);
         $this->person->command_of_area = rand(1, 100);
         $this->person->communication = rand(1, 100);
         $this->person->eccentricity = rand(1, 100);
