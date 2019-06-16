@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/players/create', 'PlayerController@create')->name('create_player');
 Route::get('/players/{user}/edit', 'PlayerController@edit')->name('edit_player');
-Route::get('/players/{user}', 'PlayerController@show')->name('show_player');
+Route::get('/players/{person}', 'PlayerController@show')->name('show_player');
 Route::post('/players', 'PlayerController@store')->name('store_player');
 Route::put('/players/{user}', 'PlayerController@update')->name('update_player');
 Route::get('/players', 'PlayerController@index')->name('list_players');
@@ -31,6 +31,9 @@ Route::get('/tournaments/create', 'TournamentController@create')->name('create_t
 Route::get('/tournaments/{tournament}', 'TournamentController@show')->name('show_tournament');
 Route::post('/tournaments', 'TournamentController@store')->name('store_tournament');
 Route::get('/tournaments', 'TournamentController@index')->name('list_tournaments');
+
+Route::get('/clubs/{club}', 'ClubController@show')->name('show_club');
+Route::get('/clubs/{club}/{squad}', 'SquadController@show')->name('show_club_squad');
 
 Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
 

@@ -30,6 +30,49 @@ class Person extends Model
             ->whereDate('until', '>', date('Y-m-d'));
     }
 
+    public function contract()
+    {
+        return $this->hasOne(PlayerContract::class, 'person_id')
+            ->whereDate('from', '<', date('Y-m-d'))
+            ->whereDate('until', '>', date('Y-m-d'));
+    }
+
+    public function getTechnicalAttribute()
+    {
+        $technical = [];
+        foreach ($this->getTechnicalValues() as $key => $value) {
+            $technical[__($key)] = $value;
+        }
+
+        ksort($technical);
+
+        return $technical;
+    }
+
+    public function getMentalAttribute()
+    {
+        $mental = [];
+        foreach ($this->getMentalValues() as $key => $value) {
+            $mental[__($key)] = $value;
+        }
+
+        ksort($mental);
+
+        return $mental;
+    }
+
+    public function getPhysicalAttribute()
+    {
+        $physical = [];
+        foreach ($this->getPhysicalValues() as $key => $value) {
+            $physical[__($key)] = $value;
+        }
+
+        ksort($physical);
+
+        return $physical;
+    }
+
     public function getFullNameAttribute()
     {
         return $this->firstname . ' ' . $this->lastname;

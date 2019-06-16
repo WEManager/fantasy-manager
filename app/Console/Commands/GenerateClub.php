@@ -71,13 +71,23 @@ class GenerateClub extends Command
                 'nationality' => Player::nationality($this->argument('locale')),
                 'age' => Player::age($type),
             ]);
+
+            if ($type == 'U19') {
+                $contractType = 'youth';
+            } elseif ($type == 'U21') {
+                $contractType = 'reserve';
+            } else {
+                $contractType = 'regular';
+            }
+
             $contractLength = [3, 6, 9];
             shuffle($contractLength);
+
             PlayerContract::create([
                 'club_id' => $club->id,
                 'person_id' => $person->id,
                 'wage' => rand(100, 999),
-                'type' => 'youth',
+                'type' => $contractType,
                 'from' => date('Y-m-d H:i:s', strtotime('-1 day')),
                 'until' => date('Y-m-d H:i:s', strtotime('+' . $contractLength[0] . ' months')),
             ]);

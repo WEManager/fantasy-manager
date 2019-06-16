@@ -29,7 +29,11 @@ class Player
 
     public static function nationality($locale)
     {
-        if ($locale == 'sv') return 'SE';
+        if ($locale == 'sv') {
+            return 'SE';
+        }
+
+        return strtoupper($locale);
     }
 
     public static function age($type)

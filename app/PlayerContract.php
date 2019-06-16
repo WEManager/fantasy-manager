@@ -9,6 +9,7 @@ class PlayerContract extends Model
     protected $fillable = [
         'from',
         'wage',
+        'type',
         'until',
         'club_id',
         'person_id',

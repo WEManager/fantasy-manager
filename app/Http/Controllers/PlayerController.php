@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePlayerUser;
+use App\Person;
+use App\PlayerContract;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -30,9 +32,9 @@ class PlayerController extends Controller
         return view('users.edit', ['player' => $user]);
     }
 
-    public function show(User $user)
+    public function show(Person $person)
     {
-        return $user;
+        return view('players.show')->with(compact('person'));
     }
 
     public function store(StorePlayerUser $user)

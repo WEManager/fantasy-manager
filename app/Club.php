@@ -8,11 +8,17 @@ class Club extends Model
 {
     protected $fillable = ['name', 'locale'];
 
-    public function players()
+    public function players($type = [])
     {
-        return $this->belongsToMany(Person::class, 'player_contracts', 'club_id', 'person_id')
+        $players = $this->belongsToMany(Person::class, 'player_contracts', 'club_id', 'person_id')
             // Only get contracts that are currently valid
             ->whereDate('from', '<', date('Y-m-d'))
             ->whereDate('until', '>', date('Y-m-d'));
+
+        if (count($type) > 0) {
+            $players->whereIn('type', $type);
+        }
+
+        return $players;
     }
 }
