@@ -32,6 +32,7 @@ Route::get('/tournaments/{tournament}', 'TournamentController@show')->name('show
 Route::post('/tournaments', 'TournamentController@store')->name('store_tournament');
 Route::get('/tournaments', 'TournamentController@index')->name('list_tournaments');
 
+Route::get('/clubs', 'ClubController@index')->name('list_clubs');
 Route::get('/clubs/{club}', 'ClubController@show')->name('show_club');
 Route::get('/clubs/{club}/{squad}', 'SquadController@show')->name('show_club_squad');
 

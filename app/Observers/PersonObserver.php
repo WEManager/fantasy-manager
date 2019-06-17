@@ -14,7 +14,6 @@ class PersonObserver
         $this->person = &$person;
 
         if ($this->person->club_id) {
-            dd('je');
             PlayerContract::create([
                 'person_id' => $this->person->id,
                 'club_id', $this->person->club_id,
@@ -35,6 +34,43 @@ class PersonObserver
     {
         $this->person->form = rand(1, 99);
         $this->person->birthday = rand(1, 91);
+
+        $length = rand(160, 210);
+        $diff = rand(1, 15);
+
+        if ($length > 190) {
+            $this->person->length = $length - $diff;
+        } elseif ($length < 170) {
+            $this->person->length = $length + $diff;
+        } else {
+            $this->person->length = $length;
+        }
+
+        $weight = rand(60, 100);
+        $diff = rand(1, 5);
+
+        if ($weight < 66) {
+            $this->person->weight = $weight + $diff;
+        } elseif ($weight > 90) {
+            $this->person->weight = $weight - $diff;
+        } else {
+            $this->person->weight = $weight;
+        }
+
+        $preferredFoot = ['only_right', 'right', 'left', 'only_left'];
+        shuffle($preferredFoot);
+
+        $this->person->preferred_foot = $preferredFoot[0];
+
+        // Personality
+        $this->person->ambition = rand(1, 100);
+        $this->person->controversy = rand(1, 100);
+        $this->person->loyalty = rand(1, 100);
+        $this->person->pressure = rand(1, 100);
+        $this->person->professionalism = rand(1, 100);
+        $this->person->sportsmanship = rand(1, 100);
+        $this->person->temperament = rand(1, 100);
+
     }
 
     public function generateHiddenSkills()

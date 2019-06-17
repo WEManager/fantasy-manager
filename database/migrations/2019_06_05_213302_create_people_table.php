@@ -22,6 +22,26 @@ class CreatePeopleTable extends Migration
             $table->integer('birthday'); //1-91 eftersom en säsong är 91 dagar
             $table->integer('form');
 
+            $table->integer('length');
+            $table->integer('weight');
+
+            /*
+             * Only right
+             * Right
+             * Left
+             * Only left
+             */
+            $table->enum('preferred_foot', ['only_right', 'right', 'left', 'only_left']);
+
+            // Personality
+            $table->integer('ambition');
+            $table->integer('controversy');
+            $table->integer('loyalty');
+            $table->integer('pressure');
+            $table->integer('professionalism');
+            $table->integer('sportsmanship');
+            $table->integer('temperament');
+
             // Goalkeeping
             $table->integer('aerial_reach');
             $table->integer('command_of_area');
