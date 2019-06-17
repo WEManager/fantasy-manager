@@ -19,8 +19,18 @@ class LineupController extends Controller
 
         $this->authorize('view', $lineup);
 
-        $players = $club->players([$squad])->get();
+        $type = getContractType($squad);
+        $players = $club->players($type)->get();
 
         return view('lineups.edit')->with(['club' => $club, 'lineup' => $lineup, 'players' => $players]);
+    }
+
+    public function update(Lineup $lineup)
+    {
+        $this->authorize('update', $lineup);
+
+        if ($lineup->update(\request()->all())) {
+            return response('Success!');
+        }
     }
 }

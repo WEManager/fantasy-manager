@@ -21,6 +21,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('game-results', require('./components/GameResults.vue').default);
+Vue.component('lineup-component', require('./components/LineupComponent.vue').default);
 Vue.component('input-game-result', require('./components/InputGameResult.vue').default);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('createtournamentcomponent', require('./components/CreateTournamentComponent.vue').default);

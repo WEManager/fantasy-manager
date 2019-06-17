@@ -10,15 +10,7 @@ class SquadController extends Controller
 {
     public function show(Club $club, $squad)
     {
-        $type = [];
-        if (strtolower($squad) == 'u19') {
-            $type[] = 'youth';
-        } elseif (strtolower($squad) == 'u21') {
-            $type[] = 'reserve';
-        } else {
-            $type[] = 'key';
-            $type[] = 'regular';
-        }
+        $type = getContractType($squad);
 
         $players = $club->players($type)
             ->get([

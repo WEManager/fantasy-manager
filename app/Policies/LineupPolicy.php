@@ -53,7 +53,7 @@ class LineupPolicy
      */
     public function update(User $user, Lineup $lineup)
     {
-        //
+        return $user->club->id === $lineup->club_id;
     }
 
     /**

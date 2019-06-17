@@ -1991,6 +1991,383 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LineupComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/LineupComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['players', 'positions', 'token', 'action', 'lineup'],
+  mounted: function mounted() {
+    this.setPlayersFromLineup();
+  },
+  data: function data() {
+    return {
+      selectedPlayers: [],
+      selectedPositions: [],
+      position_1: 'GK',
+      position_2: null,
+      position_3: null,
+      position_4: null,
+      position_5: null,
+      position_6: null,
+      position_7: null,
+      position_8: null,
+      position_9: null,
+      position_10: null,
+      position_11: null,
+      player_1: null,
+      player_2: null,
+      player_3: null,
+      player_4: null,
+      player_5: null,
+      player_6: null,
+      player_7: null,
+      player_8: null,
+      player_9: null,
+      player_10: null,
+      player_11: null
+    };
+  },
+  methods: {
+    setPlayersFromLineup: function setPlayersFromLineup() {
+      if (this.lineup) {
+        var lineup = JSON.parse(this.lineup);
+        this.position_1 = lineup.position_1;
+        this.position_2 = lineup.position_2;
+        this.position_3 = lineup.position_3;
+        this.position_4 = lineup.position_4;
+        this.position_5 = lineup.position_5;
+        this.position_6 = lineup.position_6;
+        this.position_7 = lineup.position_7;
+        this.position_8 = lineup.position_8;
+        this.position_9 = lineup.position_9;
+        this.position_10 = lineup.position_10;
+        this.position_11 = lineup.position_11;
+        this.player_1 = lineup.player_1;
+        this.player_2 = lineup.player_2;
+        this.player_3 = lineup.player_3;
+        this.player_4 = lineup.player_4;
+        this.player_5 = lineup.player_5;
+        this.player_6 = lineup.player_6;
+        this.player_7 = lineup.player_7;
+        this.player_8 = lineup.player_8;
+        this.player_9 = lineup.player_9;
+        this.player_10 = lineup.player_10;
+        this.player_11 = lineup.player_11;
+      }
+    },
+    submit: function submit() {
+      axios.post(this.action, {
+        position_1: this.position_1,
+        position_2: this.position_2,
+        position_3: this.position_3,
+        position_4: this.position_4,
+        position_5: this.position_5,
+        position_6: this.position_6,
+        position_7: this.position_7,
+        position_8: this.position_8,
+        position_9: this.position_9,
+        position_10: this.position_10,
+        position_11: this.position_11,
+        player_1: this.player_1,
+        player_2: this.player_2,
+        player_3: this.player_3,
+        player_4: this.player_4,
+        player_5: this.player_5,
+        player_6: this.player_6,
+        player_7: this.player_7,
+        player_8: this.player_8,
+        player_9: this.player_9,
+        player_10: this.player_10,
+        player_11: this.player_11
+      });
+    }
+  },
+  watch: {
+    position_2: function position_2(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_3: function position_3(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_4: function position_4(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_5: function position_5(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_6: function position_6(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_7: function position_7(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_8: function position_8(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_9: function position_9(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_10: function position_10(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    position_11: function position_11(val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions);
+    },
+    player_1: function player_1(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_2: function player_2(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_3: function player_3(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_4: function player_4(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_5: function player_5(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_6: function player_6(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_7: function player_7(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_8: function player_8(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_9: function player_9(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_10: function player_10(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    },
+    player_11: function player_11(val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
+    }
+  }
+});
+
+function updateArray(newValue, oldValue, arrayToUpdate) {
+  if (oldValue !== null) {
+    var deleteIndex = -1;
+    arrayToUpdate.map(function (item, index) {
+      if (item === oldValue) deleteIndex = index;
+    });
+    arrayToUpdate.splice(deleteIndex, 1);
+  }
+
+  arrayToUpdate.push(newValue);
+  return arrayToUpdate;
+}
+
+/***/ }),
+
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
 /*!*****************************************************!*\
   !*** ./node_modules/bootstrap/dist/js/bootstrap.js ***!
@@ -38528,6 +38905,945 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LineupComponent.vue?vue&type=template&id=325a4193&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/LineupComponent.vue?vue&type=template&id=325a4193& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-xs-12" }, [
+    _c(
+      "form",
+      {
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.submit($event)
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "row" }, [
+          _c("label", { attrs: { for: "goalkeeper" } }, [_vm._v("Goalkeeper")]),
+          _vm._v(" "),
+          JSON.parse(_vm.players).length
+            ? _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.player_1,
+                      expression: "player_1"
+                    }
+                  ],
+                  attrs: { name: "player_1", id: "goalkeeper" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.player_1 = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                _vm._l(JSON.parse(_vm.players), function(player, index) {
+                  return player.id === _vm.player_1 ||
+                    !_vm.selectedPlayers.includes(player.id)
+                    ? _c("option", { domProps: { value: player.id } }, [
+                        _vm._v(
+                          _vm._s(player.firstname) +
+                            "\n                    " +
+                            _vm._s(player.lastname) +
+                            "\n                "
+                        )
+                      ])
+                    : _vm._e()
+                }),
+                0
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_2,
+                  expression: "position_2"
+                }
+              ],
+              attrs: { name: "position_2", id: "position_2" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_2 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_2 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_2,
+                  expression: "player_2"
+                }
+              ],
+              attrs: { name: "player_2", id: "player_2" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_2 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_2 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        "\n                    " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_3,
+                  expression: "position_3"
+                }
+              ],
+              attrs: { name: "position_3", id: "position_3" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_3 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_3 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_3,
+                  expression: "player_3"
+                }
+              ],
+              attrs: { name: "player_3", id: "player_3" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_3 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_3 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        "\n                    " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_4,
+                  expression: "position_4"
+                }
+              ],
+              attrs: { name: "position_4", id: "position_4" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_4 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_4 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_4,
+                  expression: "player_4"
+                }
+              ],
+              attrs: { name: "player_4", id: "player_4" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_4 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_4 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        "\n                    " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_5,
+                  expression: "position_5"
+                }
+              ],
+              attrs: { name: "position_5", id: "position_5" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_5 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_5 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_5,
+                  expression: "player_5"
+                }
+              ],
+              attrs: { name: "player_5", id: "player_5" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_5 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_5 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        "\n                    " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_6,
+                  expression: "position_6"
+                }
+              ],
+              attrs: { name: "position_6", id: "position_6" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_6 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_6 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_6,
+                  expression: "player_6"
+                }
+              ],
+              attrs: { name: "player_6", id: "player_6" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_6 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_6 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        "\n                    " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_7,
+                  expression: "position_7"
+                }
+              ],
+              attrs: { name: "position_7", id: "position_7" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_7 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_7 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_7,
+                  expression: "player_7"
+                }
+              ],
+              attrs: { name: "player_7", id: "player_7" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_7 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_7 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        "\n                    " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_8,
+                  expression: "position_8"
+                }
+              ],
+              attrs: { name: "position_8", id: "position_8" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_8 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_8 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_8,
+                  expression: "player_8"
+                }
+              ],
+              attrs: { name: "player_8", id: "player_8" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_8 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_8 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        "\n                    " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_9,
+                  expression: "position_9"
+                }
+              ],
+              attrs: { name: "position_9", id: "position_9" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_9 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_9 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_9,
+                  expression: "player_9"
+                }
+              ],
+              attrs: { name: "player_9", id: "player_9" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_9 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_9 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        "\n                    " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_10,
+                  expression: "position_10"
+                }
+              ],
+              attrs: { name: "position_10", id: "position_10" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_10 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_10 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_10,
+                  expression: "player_10"
+                }
+              ],
+              attrs: { name: "player_10", id: "player_10" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_10 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_10 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        " " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.position_11,
+                  expression: "position_11"
+                }
+              ],
+              attrs: { name: "position_11", id: "position_11" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.position_11 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.positions), function(position, index) {
+              return position === _vm.position_11 ||
+                !_vm.selectedPositions.includes(position)
+                ? _c("option", { domProps: { value: position } }, [
+                    _vm._v(_vm._s(position) + "\n                ")
+                  ])
+                : _vm._e()
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.player_11,
+                  expression: "player_11"
+                }
+              ],
+              attrs: { name: "player_11", id: "player_11" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.player_11 = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(JSON.parse(_vm.players), function(player, index) {
+              return player.id === _vm.player_11 ||
+                !_vm.selectedPlayers.includes(player.id)
+                ? _c("option", { domProps: { value: player.id } }, [
+                    _vm._v(
+                      _vm._s(player.firstname) +
+                        " " +
+                        _vm._s(player.lastname) +
+                        "\n                "
+                    )
+                  ])
+                : _vm._e()
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("input", { attrs: { type: "submit", value: "Save" } })
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -50690,6 +52006,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('game-results', __webpack_require__(/*! ./components/GameResults.vue */ "./resources/js/components/GameResults.vue")["default"]);
+Vue.component('lineup-component', __webpack_require__(/*! ./components/LineupComponent.vue */ "./resources/js/components/LineupComponent.vue")["default"]);
 Vue.component('input-game-result', __webpack_require__(/*! ./components/InputGameResult.vue */ "./resources/js/components/InputGameResult.vue")["default"]);
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('createtournamentcomponent', __webpack_require__(/*! ./components/CreateTournamentComponent.vue */ "./resources/js/components/CreateTournamentComponent.vue")["default"]);
@@ -51052,6 +52369,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InputGameResult_vue_vue_type_template_id_0fa0cc04___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_InputGameResult_vue_vue_type_template_id_0fa0cc04___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/LineupComponent.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/LineupComponent.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _LineupComponent_vue_vue_type_template_id_325a4193___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LineupComponent.vue?vue&type=template&id=325a4193& */ "./resources/js/components/LineupComponent.vue?vue&type=template&id=325a4193&");
+/* harmony import */ var _LineupComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LineupComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/LineupComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _LineupComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _LineupComponent_vue_vue_type_template_id_325a4193___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _LineupComponent_vue_vue_type_template_id_325a4193___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/LineupComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/LineupComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/LineupComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LineupComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./LineupComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LineupComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LineupComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/LineupComponent.vue?vue&type=template&id=325a4193&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/LineupComponent.vue?vue&type=template&id=325a4193& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LineupComponent_vue_vue_type_template_id_325a4193___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./LineupComponent.vue?vue&type=template&id=325a4193& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/LineupComponent.vue?vue&type=template&id=325a4193&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LineupComponent_vue_vue_type_template_id_325a4193___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LineupComponent_vue_vue_type_template_id_325a4193___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

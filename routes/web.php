@@ -32,6 +32,7 @@ Route::get('/clubs', 'ClubController@index')->name('list_clubs');
 Route::get('/clubs/{club}', 'ClubController@show')->name('show_club');
 Route::get('/clubs/{club}/{squad}', 'SquadController@show')->name('show_club_squad');
 Route::get('/clubs/{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
+Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
 
 Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->name('apply_for_job');
 Route::post('/apply-for-job', 'ManagerContractController@store')->name('send_job_application');
