@@ -14,15 +14,30 @@
                 @endif
 
 
-                <p>Lorem ipsum...</p>
+                <h2>{{ __('Games for :Club', ['Club' => $club->name]) }}</h2>
+                <table class="table">
+                    <tr>
+                        <td>{{ __('Competition') }}</td>
+                        <td>{{ __('Hometeam') }}</td>
+                        <td>- {{ __('Awayteam') }}</td>
+                    </tr>
+                    @foreach($games as $game)
+                        <tr>
+                            <td>{{ $game->group->name }}</td>
+                            <td>
+                                <a href="{{ route('show_club', ['club' => $game->hometeam_id]) }}">{{ $game->hometeam->name }}</a>
+                            </td>
+                            <td>-
+                                <a href="{{ route('show_club', ['club' => $game->awayteam_id]) }}">{{ $game->awayteam->name }}</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+                {{ $games->links() }}
 
             </div>
             <div class="col-md-4">
-                <ul>
-                    <li><a href="/clubs/{{$club->id}}/senior">Senior</a></li>
-                    <li><a href="/clubs/{{$club->id}}/u21">Reserv / U21</a></li>
-                    <li><a href="/clubs/{{$club->id}}/u19">U19</a></li>
-                </ul>
+                @include('clubs.partials.sidemenu')
             </div>
         </div>
     </div>

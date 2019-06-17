@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 
 Route::get('/players/create', 'PlayerController@create')->name('create_player');
@@ -35,6 +31,10 @@ Route::get('/tournaments', 'TournamentController@index')->name('list_tournaments
 Route::get('/clubs', 'ClubController@index')->name('list_clubs');
 Route::get('/clubs/{club}', 'ClubController@show')->name('show_club');
 Route::get('/clubs/{club}/{squad}', 'SquadController@show')->name('show_club_squad');
+Route::get('/clubs/{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
+
+Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->name('apply_for_job');
+Route::post('/apply-for-job', 'ManagerContractController@store')->name('send_job_application');
 
 Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
 

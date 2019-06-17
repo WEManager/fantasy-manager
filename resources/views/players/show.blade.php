@@ -58,6 +58,17 @@
                             </tr>
                         @endforeach
                     </table>
+                    <hr>
+                    <table class="table">
+                        <tr>
+                            <td>{{ __('Length') }}</td>
+                            <td align="right">{{ $person->length }} cm</td>
+                        </tr>
+                        <tr>
+                            <td>{{ __('Weight') }}</td>
+                            <td align="right">{{ $person->weight }} kg</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

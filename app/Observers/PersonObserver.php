@@ -92,7 +92,7 @@ class PersonObserver
         $this->person->natural_fitness = rand(1, 100);
         $this->person->pace = rand(1, 100);
         $this->person->stamina = rand(1, 100);
-        $this->person->strength = rand(1, 100);
+        $this->person->strength = round(rand(1, 100) * ($this->person->weight / 100));
     }
 
     public function generateMentalSkills()

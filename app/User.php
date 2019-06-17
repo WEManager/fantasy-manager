@@ -38,4 +38,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin()
+    {
+        if ($this->id === 1) return true;
+
+        return $this->admin == true;
+    }
+
+    public function club()
+    {
+        return $this->hasOneThrough(Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id');
+    }
 }

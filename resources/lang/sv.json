@@ -6,6 +6,11 @@
   "New Tournament": "Ny tävling",
   "Tournament": "Tävling",
   "Tournaments": "Tävlingar",
+  "Competition": "Tävling",
+  "Competitions": "Tävlingar",
+  "Hometeam": "Hemmalag",
+  "Awayteam": "Bortalag",
+  "Games for :Club": "Matcher för :Club",
 
   "Firstname": "Förnamn",
   "Lastname": "Efternamn",
@@ -15,6 +20,9 @@
   ":Age years old": ":Age år gammal",
   "Contract with :Club": "Kontrakt med :Club",
   ":Wage per month until :Until": ":Wage per månad till :Until",
+
+  "Length": "Längd",
+  "Weight": "Vikt",
 
   "Technical": "Tekniska",
   "corners": "Hörnor",
@@ -57,6 +65,16 @@
   "pace": "Fart",
   "stamina": "Uthållighet",
   "strength": "Styrka",
+
+  "Starting date": "Tillträde",
+  "Ending date": "Gäller tills",
+  "Wage": "Lön",
+  "per month": "per månad",
+  "Send application": "Skicka ansökan",
+
+  "List of clubs": "Lista på klubbar",
+  "List of available clubs": "Lista på klubbar utan manager",
+  ":Club already has a manager.": ":Club har redan en manager.",
 
   "The goalkeeper": "Målvakten",
   " is passing the ball short.": " passar bollen kort.",

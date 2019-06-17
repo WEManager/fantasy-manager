@@ -8,8 +8,6 @@ class TournamentGame extends Model
 {
     protected $guarded = [];
 
-    protected $with = ['hometeam', 'awayteam'];
-
     protected $hidden = ['group_id', 'hometeam_id', 'awayteam_id', 'created_at', 'updated_at'];
 
     public function group()
