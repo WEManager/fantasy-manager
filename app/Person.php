@@ -24,10 +24,13 @@ class Person extends Model
 
     public function club()
     {
+        return $this->hasOneThrough(Club::class, PlayerContract::class, 'person_id', 'id', 'id', 'club_id');
+
+        /*return $this->hasOneThrough(Club::class, )
         return $this->belongsToMany(Club::class, 'player_contracts', 'person_id', 'club_id')
             // Only get contracts that are currently valid
             ->whereDate('from', '<', date('Y-m-d'))
-            ->whereDate('until', '>', date('Y-m-d'));
+            ->whereDate('until', '>', date('Y-m-d'));*/
     }
 
     public function contract()

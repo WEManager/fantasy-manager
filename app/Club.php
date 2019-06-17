@@ -8,6 +8,11 @@ class Club extends Model
 {
     protected $fillable = ['name', 'locale'];
 
+    public function manager()
+    {
+        return $this->hasOneThrough(User::class, ManagerContract::class, 'club_id', 'id', 'id', 'user_id');
+    }
+
     public function players($type = [])
     {
         $players = $this->belongsToMany(Person::class, 'player_contracts', 'club_id', 'person_id')

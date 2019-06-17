@@ -7,6 +7,13 @@
             <div class="col-md-8">
                 <h1>{{ $club->name }} ({{ $club->locale }})</h1>
 
+                @if ($club->manager)
+                    <small>{{ __('Manager') }}: {{ optional($club->manager)->name }}</small>
+                @else
+                    <small>{{ __('No manager') }}.</small>
+                @endif
+
+
                 <p>Lorem ipsum...</p>
 
             </div>

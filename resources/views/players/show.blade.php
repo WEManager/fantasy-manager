@@ -16,7 +16,7 @@
 
                 <div class="col-xs-4">
                     <ul>
-                        <li>{{ __('Contract with :Club', ['Club' => $person->club->first()->name]) }}</li>
+                        <li>{{ __('Contract with :Club', ['Club' => $person->club->name]) }}</li>
                         <li>{{ __(':Wage per month until :Until', ['Wage' => $person->contract->wage, 'Until' => $person->contract->until]) }}</li>
                     </ul>
                 </div>
