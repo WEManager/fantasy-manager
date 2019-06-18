@@ -23,7 +23,7 @@
                     </tr>
                     @foreach($games as $game)
                         <tr>
-                            <td>{{ $game->group->name }}</td>
+                            <td><a href="{{ route('show_tournament', [$game->group->tournament_id]) }}">{{ $game->group->name }}</a></td>
                             <td>
                                 <a href="{{ route('show_club', ['club' => $game->hometeam_id]) }}">{{ $game->hometeam->name }}</a>
                             </td>
