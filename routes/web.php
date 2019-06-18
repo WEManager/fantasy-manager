@@ -48,6 +48,10 @@ Route::get('/test-heading', function() {
 });
 Route::get('/test-game/{id}', function ($id) {
 
+    $game = \App\TournamentGame::find(1);
+    $engine = new \App\Engines\MatchEngine($game);
+    dd($engine);
+
     $engine = new \App\Engines\GameEngine($id /*,
         [
             'GK' => \App\Person::find(1),

@@ -18,12 +18,18 @@
                 <table class="table">
                     <tr>
                         <td>{{ __('Competition') }}</td>
+                        <td>{{ __('Date') }}</td>
                         <td>{{ __('Hometeam') }}</td>
                         <td>- {{ __('Awayteam') }}</td>
                     </tr>
                     @foreach($games as $game)
                         <tr>
-                            <td><a href="{{ route('show_tournament', [$game->group->tournament_id]) }}">{{ $game->group->name }}</a></td>
+                            <td>
+                                <a href="{{ route('show_tournament', [$game->group->tournament_id]) }}">{{ $game->group->name }}</a>
+                            </td>
+                            <td>
+                                {{ date('j/n H:i', strtotime($game->start_time)) }}
+                            </td>
                             <td>
                                 <a href="{{ route('show_club', ['club' => $game->hometeam_id]) }}">{{ $game->hometeam->name }}</a>
                             </td>

@@ -6,14 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tournament extends Model
 {
-    protected $fillable = [
-        'name',
-        'type',
-        'groups',
-        'playoffs',
-        'participants',
-        'proceeding_to_playoffs',
-    ];
+    protected $guarded = [];
 
     public function tournamentGroups()
     {

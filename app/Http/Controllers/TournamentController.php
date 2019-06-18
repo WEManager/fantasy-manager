@@ -27,10 +27,13 @@ class TournamentController extends Controller
     {
         $createdTournament = Tournament::create([
             'name' => $tournament->name,
+            'team' => $tournament->team,
+            'season' => $tournament->season,
             'type' => $tournament->competitionType,
             'groups' => $tournament->groups,
             'playoffs' => $tournament->playOffs,
             'participants' => count($tournament->selectedClubs),
+            'recurring_every_of_year' => $tournament->recurringEveryOfYear,
             'proceeding_to_playoffs' => $tournament->proceedingToPlayoffs,
         ]);
 

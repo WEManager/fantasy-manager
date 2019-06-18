@@ -1821,13 +1821,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['action', 'clubs', 'token'],
   data: function data() {
     return {
       name: null,
       competitionType: null,
+      recurringEveryOfYear: 1,
       groups: 2,
+      season: 1,
+      team: 'senior',
       playOffs: false,
       proceedingToPlayoffs: 2,
       selectedClubs: [],
@@ -1847,9 +1882,12 @@ __webpack_require__.r(__webpack_exports__);
     createTournament: function createTournament() {
       axios.post(this.action, {
         name: this.name,
+        team: this.team,
+        season: this.season,
         groups: this.groups,
         playOffs: this.playOffs,
         competitionType: this.competitionType,
+        recurringEveryOfYear: this.recurringEveryOfYear,
         selectedClubs: this.selectedClubs,
         proceedingToPlayoffs: this.proceedingToPlayoffs
       }).then(function (response) {
@@ -38351,6 +38389,165 @@ var render = function() {
     _vm._v(" "),
     _vm.currentStep === 2
       ? _c("div", [
+          _c("div", { staticClass: "form-group row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-md-4 col-form-label text-md-right",
+                attrs: { for: "season" }
+              },
+              [_vm._v("Season")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.season,
+                    expression: "season"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "season", type: "number", min: "1", required: "" },
+                domProps: { value: _vm.season },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.season = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-md-4 col-form-label text-md-right",
+                attrs: { for: "recurring_every_of_year" }
+              },
+              [
+                _vm._v(
+                  "Recurring ever X year (0 = never, 1 = every season, 2 every second...)"
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.recurringEveryOfYear,
+                    expression: "recurringEveryOfYear"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  id: "recurring_every_of_year",
+                  type: "number",
+                  min: "0",
+                  max: "5",
+                  required: ""
+                },
+                domProps: { value: _vm.recurringEveryOfYear },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.recurringEveryOfYear = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row" }, [
+            _c(
+              "label",
+              { staticClass: "col-md-4 col-form-label text-md-right" },
+              [_vm._v("Type Of Teams")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "radio" }, [
+                _c("label", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.team,
+                        expression: "team"
+                      }
+                    ],
+                    attrs: { type: "radio", value: "senior" },
+                    domProps: { checked: _vm._q(_vm.team, "senior") },
+                    on: {
+                      change: function($event) {
+                        _vm.team = "senior"
+                      }
+                    }
+                  }),
+                  _vm._v("Senior")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "radio" }, [
+                _c("label", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.team,
+                        expression: "team"
+                      }
+                    ],
+                    attrs: { type: "radio", value: "u21" },
+                    domProps: { checked: _vm._q(_vm.team, "u21") },
+                    on: {
+                      change: function($event) {
+                        _vm.team = "u21"
+                      }
+                    }
+                  }),
+                  _vm._v("U21")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "radio disabled" }, [
+                _c("label", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.team,
+                        expression: "team"
+                      }
+                    ],
+                    attrs: { type: "radio", value: "u19" },
+                    domProps: { checked: _vm._q(_vm.team, "u19") },
+                    on: {
+                      change: function($event) {
+                        _vm.team = "u19"
+                      }
+                    }
+                  }),
+                  _vm._v("U19")
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
           _c("div", { staticClass: "form-group row" }, [
             _c(
               "label",

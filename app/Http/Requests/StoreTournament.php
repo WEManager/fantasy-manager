@@ -25,10 +25,13 @@ class StoreTournament extends FormRequest
     {
         return [
             'name' => 'required',
+            'team' => 'required',
+            'season' => 'required',
             'groups' => 'integer',
             'playOffs' => 'required|boolean',
             'competitionType' => 'required',
             'selectedClubs' => 'required',
+            'recurringEveryOfYear' => 'required|integer',
             'proceedingToPlayoffs' => 'integer',
         ];
     }

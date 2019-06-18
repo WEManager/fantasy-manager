@@ -23,6 +23,38 @@
         <div v-if="currentStep === 2">
 
             <div class="form-group row">
+                <label for="season" class="col-md-4 col-form-label text-md-right">Season</label>
+
+                <div class="col-md-6">
+                    <input id="season" type="number" min="1" class="form-control" v-model="season" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="recurring_every_of_year" class="col-md-4 col-form-label text-md-right">Recurring ever X year (0 = never, 1 = every season, 2 every second...)</label>
+
+                <div class="col-md-6">
+                    <input id="recurring_every_of_year" type="number" min="0" max="5" class="form-control" v-model="recurringEveryOfYear" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-right">Type Of Teams</label>
+
+                <div class="col-md-6">
+                    <div class="radio">
+                        <label><input type="radio" v-model="team" value="senior">Senior</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" v-model="team" value="u21">U21</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" v-model="team" value="u19">U19</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right">Type Of Competition</label>
 
                 <div class="col-md-6">
@@ -107,7 +139,10 @@
             return {
                 name: null,
                 competitionType: null,
+                recurringEveryOfYear: 1,
                 groups: 2,
+                season: 1,
+                team: 'senior',
                 playOffs: false,
                 proceedingToPlayoffs: 2,
                 selectedClubs: [],
@@ -126,9 +161,12 @@
             createTournament() {
                 axios.post(this.action, {
                     name: this.name,
+                    team: this.team,
+                    season: this.season,
                     groups: this.groups,
                     playOffs: this.playOffs,
                     competitionType: this.competitionType,
+                    recurringEveryOfYear: this.recurringEveryOfYear,
                     selectedClubs: this.selectedClubs,
                     proceedingToPlayoffs: this.proceedingToPlayoffs,
                 }).then(response => {

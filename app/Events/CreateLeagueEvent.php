@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Season;
 use App\Tournament;
 use App\TournamentGame;
 use App\TournamentGroup;
@@ -90,7 +91,7 @@ class CreateLeagueEvent
                 // create games schedule
                 foreach ($groups as $group) {
                     $clubs = TournamentStanding::where('group_id', $group->id)->pluck('club_id');
-                    $this->generateGameSchedule($clubs, $group);
+                    $this->generateGameSchedule($clubs, $group, $startDate, $endDate);
                 }
 
                 break;
@@ -114,8 +115,25 @@ class CreateLeagueEvent
         // Number of rounds
         $rounds = ($amountOfParticipants - 1) * $meetings;
 
+        // Count playing days
+        $season = Season::find($group->tournament->season);
+
+        $restingDaysBeforeStart = 7;
+        $restingDaysAfterSeason = 5;
+
+        $startDate = strtotime($season->start_time . ' +' . $restingDaysBeforeStart . ' days');
+        $endDate = strtotime($season->end_time . ' -' . $restingDaysAfterSeason . ' days');
+
+        $daysBetween = (int) round(($endDate - $startDate) / 86400);
+
+        $oneRoundEvery = round($daysBetween / $rounds);
+
         // Loop the rounds...
         for ($r = 1; $r <= $rounds; $r++) {
+
+            $daysAfterStart = ($r-1) * $oneRoundEvery;
+            $roundDate = date('Y-m-d', strtotime(date('Y-m-d',$startDate) . ' +' . $daysAfterStart . ' days'));
+
             // For each round loop teams / 2 ... it takes 2 to tango...
             for ($s = 1; $s <= $amountOfParticipants / 2; $s++) {
                 // algorithm to take each team "backwards"
@@ -134,6 +152,11 @@ class CreateLeagueEvent
                         'group_id' => $group->id,
                         'hometeam_id' => $players[($hometeam - 1)],
                         'awayteam_id' => $players[($awayteam - 1)],
+                        'hometeam_squad' => $group->tournament->team,
+                        'awayteam_squad' => $group->tournament->team,
+                        'type' => '1', // 90min only
+                        'status' => '0', // Not started
+                        'start_time' => $roundDate,
                     ]);
                 }
             }
