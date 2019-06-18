@@ -2,7 +2,9 @@
 
 namespace App\Engines;
 
+use App\Lineup;
 use App\Person;
+use App\TournamentGame;
 
 class GameEngine
 {
@@ -48,20 +50,21 @@ class GameEngine
         'LF', 'CLF', 'CF', 'CRF', 'RF',
     ];
 
-    public function __construct($gameId = null, $hometeam, $awayteam)
+    public function __construct($gameId = null)
     {
         $this->gameId = $gameId;
 
-        $this->setLineup('hometeam', $hometeam);
-        $this->setLineup('awayteam', $awayteam);
+        if (!is_null($gameId)) {
+            $game = TournamentGame::find($gameId);
+            $homeLineup = Lineup::where('club_id', $game->hometeam_id)->where('team', 'u21')->first();
+            $awayLineup = Lineup::where('club_id', $game->awayteam_id)->where('team', 'u21')->first();
 
-        $this->tactics['hometeam'] = $hometeam['tactics'];
-        $this->tactics['awayteam'] = $awayteam['tactics'];
+            $this->setLineup('hometeam', $homeLineup);
+            $this->setLineup('awayteam', $awayLineup);
+
+        }
 
         $this->setAreaSkills();
-
-        $this->hometeam = $hometeam;
-        $this->awayteam = $awayteam;
 
         $this->playGame();
 
@@ -238,13 +241,30 @@ class GameEngine
         //$this->playGame();
     }
 
-    private function setLineup($team, $lineup)
+    private function setLineup($team, Lineup $lineup)
     {
+        $this->{$team . 'Lineup'}[$lineup->position_1] = Person::find($lineup->player_1);
+        $this->{$team . 'Lineup'}[$lineup->position_2] = Person::find($lineup->player_2);
+        $this->{$team . 'Lineup'}[$lineup->position_3] = Person::find($lineup->player_3);
+        $this->{$team . 'Lineup'}[$lineup->position_4] = Person::find($lineup->player_4);
+        $this->{$team . 'Lineup'}[$lineup->position_5] = Person::find($lineup->player_5);
+        $this->{$team . 'Lineup'}[$lineup->position_6] = Person::find($lineup->player_6);
+        $this->{$team . 'Lineup'}[$lineup->position_7] = Person::find($lineup->player_7);
+        $this->{$team . 'Lineup'}[$lineup->position_8] = Person::find($lineup->player_8);
+        $this->{$team . 'Lineup'}[$lineup->position_9] = Person::find($lineup->player_9);
+        $this->{$team . 'Lineup'}[$lineup->position_10] = Person::find($lineup->player_10);
+        $this->{$team . 'Lineup'}[$lineup->position_11] = Person::find($lineup->player_11);
+        $this->{$team . 'Lineup'}['tactics'] = 70;
+
+        $this->tactics[$team] = $this->{$team . 'Lineup'}['tactics'];
+        //dd([$team . 'Lineup' => $this->{$team . 'Lineup'}]);
+
         foreach (self::$availablePositions as $position) {
-            if (!array_key_exists($position, $lineup)) {
+            if (!array_key_exists($position, $this->{$team . 'Lineup'})) {
                 $this->{$team . 'Lineup'}[$position] = null;
             } else {
-                $this->{$team . 'Lineup'}[$position] = $this->getPlayerPositionSkills($lineup[$position], $position)[$position];
+                $this->{$team}[$position] = $this->{$team . 'Lineup'}[$position];
+                $this->{$team . 'Lineup'}[$position] = $this->getPlayerPositionSkills($this->{$team . 'Lineup'}[$position], $position)[$position];
             }
         }
     }
@@ -421,17 +441,17 @@ class GameEngine
         shuffle($areas);
         $teamPart = substr($areas[0], -1); // K = Keeper, D = Defense, M = Midfield, F = Forward
 
-        dd($this->makeGoalKick($competitorTeamKey));
+        //dd($this->makeGoalKick($competitorTeamKey));
 
-        if ($teamPart == 'K') $this->makeGoalKick($currentTeamKey);
-        if ($teamPart == 'D') $this->makeDefensivePass($currentTeamKey, $areas[0]);
-        if ($teamPart == 'M') $this->makeMidfieldPass($currentTeamKey, $areas[0]);
-        if ($teamPart == 'F') $this->makeForwardPlay($currentTeamKey, $areas[0]);
+        if ($teamPart == 'K') $event = $this->makeGoalKick($currentTeamKey);
+        if ($teamPart == 'D') $event = $this->makeDefensivePass($currentTeamKey, $areas[0]);
+        if ($teamPart == 'M') $event = $this->makeMidfieldPass($currentTeamKey, $areas[0]);
+        if ($teamPart == 'F') $event = $this->makeForwardPlay($currentTeamKey, $areas[0]);
 
-        dd([
+        /*dd([
             $this->{$currentTeamKey . 'AreaSkills'},
             substr($areas[0], -1)
-        ]);
+        ]);*/
 
         /*if ($this->tactics[$currentTeamKey] > 80) {
             // anfall med hela laget, extremt stor risk för kontring
@@ -507,7 +527,7 @@ class GameEngine
             list($player, $playerDisadvantage) = $this->getPlayerOnPitchAtArea($currentTeamKey, $possiblePositions[0]);
 
 
-            dd([$player->full_name, $playerDisadvantage]);
+            //dd([$player->full_name, $playerDisadvantage]);
 
             // TODO: Defenders starting attack or passing back home
             return CommentsEngine::goalkeeper_passes_the_ball_short($playerName);
@@ -521,7 +541,35 @@ class GameEngine
         if (isset($this->{$currentTeamKey}[$pos])) $player = $this->{$currentTeamKey}[$pos];
 
         if ($player) {
-            dd($player->full_name . ' har bollen i försvaret.');
+            shuffle(self::$availablePositions);
+
+            if (strlen(self::$availablePositions[0]) == 2) {
+                $keyLetter = self::$availablePositions[0][1];
+            } else {
+                $keyLetter = self::$availablePositions[0][2];
+            }
+
+            // Short pass to another defender
+            if ($keyLetter == 'D') {
+                // Is pass successful?
+                // TODO: Should depend upon opponent tactics regarding press
+                // Create a new "makeDefensivePass?"
+                if (rand(1,100) < $player->passing) {
+                    return CommentsEngine::passes($player);
+                } else {
+                    return CommentsEngine::bad_pass($player);
+                }
+            }
+
+            // Pass from defender to midfield
+            if ($keyLetter == 'M') {
+                dd($player->full_name . ' passar upp bollen på mittfältet');
+            }
+            // Pass from defender to forwards
+            if ($keyLetter == 'F') {
+                dd($player->full_name . ' slår en långboll mot forwardsen');
+            }
+
         } else {
             dd('De passar mellan försvararna i backlinjen.');
         }

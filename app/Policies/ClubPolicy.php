@@ -53,7 +53,7 @@ class ClubPolicy
      */
     public function update(User $user, Club $club)
     {
-        return $user->club->id === $club->id;
+        return optional($user->club)->id === $club->id;
     }
 
     /**

@@ -42,18 +42,12 @@ class CreateLineupsTable extends Migration
             $table->string('position_11')->nullable();
             $table->integer('player_11')->nullable();
 
-            $table->string('substitute_1')->nullable();
-            $table->integer('player_12')->nullable();
-            $table->string('substitute_2')->nullable();
-            $table->integer('player_13')->nullable();
-            $table->string('substitute_3')->nullable();
-            $table->integer('player_14')->nullable();
-            $table->string('substitute_4')->nullable();
-            $table->integer('player_15')->nullable();
-            $table->string('substitute_5')->nullable();
-            $table->integer('player_16')->nullable();
-            $table->string('substitute_6')->nullable();
-            $table->integer('player_17')->nullable();
+            $table->integer('substitute_1')->nullable();
+            $table->integer('substitute_2')->nullable();
+            $table->integer('substitute_3')->nullable();
+            $table->integer('substitute_4')->nullable();
+            $table->integer('substitute_5')->nullable();
+            $table->integer('substitute_6')->nullable();
             $table->timestamps();
         });
     }

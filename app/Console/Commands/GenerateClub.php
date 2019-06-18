@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Club;
 use App\Generators\Player;
+use App\Lineup;
 use App\Person;
 use App\PlayerContract;
 use Illuminate\Console\Command;
@@ -48,21 +49,64 @@ class GenerateClub extends Command
         $club = Club::create(['name' => $name, 'locale' => nationalityBasedOnLocale($this->argument('locale'))]);
 
         // Let us create a U19 team
-        $this->createPlayers($club, 'U19');
+        $players = $this->createPlayers($club, 'U19');
+        Lineup::create($this->setupLineup($players, $club, 'u19'));
 
         // Let us create a U21 team
-        $this->createPlayers($club, 'U21');
+        $players = $this->createPlayers($club, 'U21');
+        Lineup::create($this->setupLineup($players, $club, 'u21'));
 
         // Let us create am A-team
-        $this->createPlayers($club, 'regular');
+        $players = $this->createPlayers($club, 'regular');
+        Lineup::create($this->setupLineup($players, $club, 'senior'));
 
+    }
+
+    protected function setupLineup($players, $club, $team)
+    {
+        $lineup = [
+            'club_id' => $club->id,
+            'team' => $team,
+            'position_1' => 'GK',
+            'player_1' => $players[0],
+            'position_2' => 'LD',
+            'player_2' => $players[1],
+            'position_3' => 'CLD',
+            'player_3' => $players[2],
+            'position_4' => 'CRD',
+            'player_4' => $players[3],
+            'position_5' => 'RD',
+            'player_5' => $players[4],
+            'position_6' => 'LM',
+            'player_6' => $players[5],
+            'position_7' => 'CLM',
+            'player_7' => $players[6],
+            'position_8' => 'CRM',
+            'player_8' => $players[7],
+            'position_9' => 'RM',
+            'player_9' => $players[8],
+            'position_10' => 'CLF',
+            'player_10' => $players[9],
+            'position_11' => 'CRF',
+            'player_11' => $players[10],
+
+            'substitute_1' => $players[11],
+            'substitute_2' => $players[12],
+            'substitute_3' => $players[13],
+            'substitute_4' => $players[14],
+            'substitute_5' => $players[15],
+            'substitute_6' => $players[16],
+        ];
+
+        return $lineup;
     }
 
     /**
      * @param $club
      */
-    protected function createPlayers($club, $type): void
+    protected function createPlayers($club, $type): array
     {
+        $players = [];
         for ($i = 0; $i < 20; $i++) {
 
             $person = Person::create([
@@ -71,6 +115,7 @@ class GenerateClub extends Command
                 'nationality' => Player::nationality($this->argument('locale')),
                 'age' => Player::age($type),
             ]);
+            $players[] = $person->id;
 
             if ($type == 'U19') {
                 $contractType = 'youth';
@@ -92,5 +137,7 @@ class GenerateClub extends Command
                 'until' => date('Y-m-d H:i:s', strtotime('+' . $contractLength[0] . ' months')),
             ]);
         }
+
+        return $players;
     }
 }

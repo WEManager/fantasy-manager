@@ -4,6 +4,11 @@ namespace App\Engines;
 
 class CommentsEngine
 {
+    public static function pass_in_defence($player)
+    {
+        $player = [$player->lastname, $player->full_name];
+        shuffle($player);
+    }
 
     public static function goalkeeper_passes_the_ball_short($playerName)
     {

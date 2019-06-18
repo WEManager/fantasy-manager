@@ -30,7 +30,7 @@ class LineupPolicy
      */
     public function view(User $user, Lineup $lineup)
     {
-        return $user->club->id === $lineup->club_id;
+        return optional($user->club)->id === $lineup->club_id;
     }
 
     /**
@@ -53,7 +53,7 @@ class LineupPolicy
      */
     public function update(User $user, Lineup $lineup)
     {
-        return $user->club->id === $lineup->club_id;
+        return optional($user->club)->id === $lineup->club_id;
     }
 
     /**

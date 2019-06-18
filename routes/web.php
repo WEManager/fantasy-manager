@@ -37,6 +37,8 @@ Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_
 Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->name('apply_for_job');
 Route::post('/apply-for-job', 'ManagerContractController@store')->name('send_job_application');
 
+//Route::get('/match/{game}', '')
+
 Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
 
 Route::get('/test-heading', function() {
@@ -44,9 +46,9 @@ Route::get('/test-heading', function() {
     $duelant = \App\Person::find(2);
     echo \App\Engines\GameDuelsEngine::headingDuelBetween($player, $duelant, true);
 });
-Route::get('/test-game', function () {
+Route::get('/test-game/{id}', function ($id) {
 
-    $engine = new \App\Engines\GameEngine(1,
+    $engine = new \App\Engines\GameEngine($id /*,
         [
             'GK' => \App\Person::find(1),
 
@@ -94,7 +96,7 @@ Route::get('/test-game', function () {
             'SUB5' => \App\Person::find(1),
 
             'tactics' => 30,
-        ]
+        ]*/
     );
 
     echo $engine->renderEvents();
