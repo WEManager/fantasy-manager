@@ -18,7 +18,7 @@ class TournamentController extends Controller
 
     public function create()
     {
-        $clubs = Club::all();
+        $clubs = Club::doesnthave('tournament')->get();
 
         return view('tournaments.create', ['clubs' => $clubs]);
     }

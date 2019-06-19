@@ -6,15 +6,12 @@ use App\Season;
 use App\Tournament;
 use App\TournamentGame;
 use App\TournamentGroup;
-use App\TournamentParticipant;
 use App\TournamentStanding;
-use Illuminate\Broadcasting\Channel;
+use App\TournamentParticipant;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class CreateLeagueEvent
 {
@@ -91,7 +88,7 @@ class CreateLeagueEvent
                 // create games schedule
                 foreach ($groups as $group) {
                     $clubs = TournamentStanding::where('group_id', $group->id)->pluck('club_id');
-                    $this->generateGameSchedule($clubs, $group, $startDate, $endDate);
+                    $this->generateGameSchedule($clubs, $group);
                 }
 
                 break;
@@ -124,15 +121,20 @@ class CreateLeagueEvent
         $startDate = strtotime($season->start_time . ' +' . $restingDaysBeforeStart . ' days');
         $endDate = strtotime($season->end_time . ' -' . $restingDaysAfterSeason . ' days');
 
-        $daysBetween = (int) round(($endDate - $startDate) / 86400);
+        $daysBetween = (int)round(($endDate - $startDate) / 86400);
 
         $oneRoundEvery = round($daysBetween / $rounds);
 
         // Loop the rounds...
         for ($r = 1; $r <= $rounds; $r++) {
 
-            $daysAfterStart = ($r-1) * $oneRoundEvery;
-            $roundDate = date('Y-m-d', strtotime(date('Y-m-d',$startDate) . ' +' . $daysAfterStart . ' days'));
+            $daysAfterStart = ($r - 1) * $oneRoundEvery;
+            $roundDate = date('Y-m-d 19:00:00', strtotime(date('Y-m-d', $startDate) . ' +' . $daysAfterStart . ' days'));
+
+            // If it is weekend, set other time
+            if (date('N', strtotime($roundDate)) >= 6) {
+                $roundDate = date('Y-m-d 16:00:00', strtotime(date('Y-m-d', $startDate) . ' +' . $daysAfterStart . ' days'));
+            }
 
             // For each round loop teams / 2 ... it takes 2 to tango...
             for ($s = 1; $s <= $amountOfParticipants / 2; $s++) {

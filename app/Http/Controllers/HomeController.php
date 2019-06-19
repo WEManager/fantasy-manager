@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $clubs = Club::doesntHave('manager')->paginate();
+        $clubs = Club::doesntHave('manager')->has('tournament')->paginate();
 
         return view('home')->with(compact('clubs'));
     }
