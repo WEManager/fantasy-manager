@@ -1,23 +1,38 @@
 @extends('layouts.app')
 
+
+@section('header')
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12">
+                <h1>{{ $tournament->name }}</h1>
+
+                @if (count($tournament->tournamentGroups) > 1)
+                    <small>{{ __(':Tournament has :Amount groups', ['Tournament' => $tournament->name,'Amount' => count($tournament->tournamentGroups)]) }}</small>
+                @endif
+            </div>
+        </div>
+    </div>
+@endsection
+
 @section('content')
 
     <div class="container">
         <div class="col-xs-12">
-            <h1>{{ $tournament->name }}</h1>
+
 
             @foreach($tournament->tournamentGroups as $group)
                 <div class="row">
                     <div class="col-sm">
 
-                        <h3>{{ $group->name }}</h3>
+                        <h3 id="{{ slugify($group->name) }}">{{ $group->name }}</h3>
                         <table class="table table-responsive">
                             <tr>
-                                <td>Lag</td>
-                                <td>Vinster</td>
-                                <td>Oavgjorda</td>
-                                <td>Förluster</td>
-                                <td>Poäng</td>
+                                <td>{{ __('Club') }}</td>
+                                <td>{{ __('Won') }}</td>
+                                <td>{{ __('Ties') }}</td>
+                                <td>{{ __('Lost') }}</td>
+                                <td>{{ __('Points') }}</td>
                             </tr>
                             @foreach ($group->standings as $standing)
                                 <tr>
@@ -35,13 +50,13 @@
                     </div>
 
                     <div class="col-sm">
-                        <h3>Spelschema</h3>
+                        <h3>{{ __('Schedule') }}</h3>
                         <table class="table table-responsive">
                             <tr>
                                 <td>ID</td>
-                                <td>Hometeam</td>
+                                <td>{{ __('Hometeam') }}</td>
                                 <td></td>
-                                <td>Awayteam</td>
+                                <td>{{ __('Awayteam') }}</td>
                             </tr>
                             @foreach ($group->upcomingGames->take('8') as $game)
                                 <tr>

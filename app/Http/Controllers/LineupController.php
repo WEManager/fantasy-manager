@@ -20,9 +20,12 @@ class LineupController extends Controller
         $this->authorize('view', $lineup);
 
         $type = getContractType($squad);
+
+        if ($squad == 'senior') $squad = '';
+
         $players = $club->players($type)->get();
 
-        return view('lineups.edit')->with(['club' => $club, 'lineup' => $lineup, 'players' => $players]);
+        return view('lineups.edit')->with(['club' => $club, 'lineup' => $lineup, 'players' => $players, 'squad' => $squad]);
     }
 
     public function update(Lineup $lineup)

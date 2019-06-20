@@ -1,5 +1,9 @@
 <?php
 
+function slugify($string) {
+    return \Illuminate\Support\Str::slug($string);
+}
+
 function nationalityBasedOnLocale($locale) {
     if ($locale == 'sv') {
         return 'SE';

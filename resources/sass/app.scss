@@ -1,6 +1,6 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Merriweather|Open+Sans');
 
 // Variables
 @import 'variables';
@@ -11,4 +11,21 @@
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.main-header {
+  background-color: #293340;
+  color: #fff;
+
+  h1 {
+    font-weight: bold;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      padding: 0;
+    }
+  }
 }

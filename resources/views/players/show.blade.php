@@ -1,27 +1,35 @@
 @extends('layouts.app')
 
-@section('content')
-
-    <div class="container">
+@section('header')
+    <div class="container py-4">
         <div class="col-xs-12">
             <h1>{{ $person->firstname }} {{ $person->lastname }}</h1>
 
-            <div class="row">
-                <div class="col-xs-4">
-                    <ul>
-                        <li>{{ __($person->nationality) }}</li>
-                        <li>{{ __(':Age years old', ['Age' => $person->age]) }}</li>
-                    </ul>
-                </div>
-
-                <div class="col-xs-4">
-                    <ul>
-                        <li>{{ __('Contract with :Club', ['Club' => $person->club->name]) }}</li>
-                        <li>{{ __(':Wage per month until :Until', ['Wage' => $person->contract->wage, 'Until' => date('j/n Y', strtotime($person->contract->until))]) }}</li>
-                    </ul>
-                </div>
-            </div>
+            <table>
+                <tr>
+                    <td>
+                        {{ __($person->nationality) }}
+                    </td>
+                    <td>
+                        {{ __('Contract with :Club', ['Club' => $person->club->name]) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ __(':Age years old', ['Age' => $person->age]) }}
+                    </td>
+                    <td>
+                        {{ __(':Wage per month until :Until', ['Wage' => $person->contract->wage, 'Until' => date('j/n Y', strtotime($person->contract->until))]) }}
+                    </td>
+                </tr>
+            </table>
         </div>
+    </div>
+@endsection
+
+@section('content')
+
+    <div class="container">
         <div class="col-xs-12">
             <div class="row">
                 <div class="col-sm-3">

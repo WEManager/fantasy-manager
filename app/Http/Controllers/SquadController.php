@@ -22,6 +22,8 @@ class SquadController extends Controller
                 'form',
             ]);
 
-        return view('squads.show')->with(['club' => $club, 'players' => $players]);
+        if ($squad == 'senior') $squad = '';
+
+        return view('squads.show')->with(['club' => $club, 'players' => $players, 'squad' => $squad]);
     }
 }
