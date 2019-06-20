@@ -4,6 +4,15 @@ function slugify($string) {
     return \Illuminate\Support\Str::slug($string);
 }
 
+function route_path($name, array $parameters = [], $extension = '') {
+    $url = route($name, $parameters) . $extension;
+    return str_replace(config('app.url') . '/', '', $url);
+}
+
+function is_current($name, array $parameters = [], $extension = '') {
+    return request()->is(route_path($name, $parameters, $extension));
+}
+
 function nationalityBasedOnLocale($locale) {
     if ($locale == 'sv') {
         return 'SE';

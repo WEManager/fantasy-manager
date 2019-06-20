@@ -1,19 +1,56 @@
-
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Merriweather|Open+Sans');
-
+@import url('https://fonts.googleapis.com/css?family=Merriweather|Source+Sans+Pro');
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-serif;
+}
 
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
 .navbar-light .navbar-nav .nav-link {
-  color: $gold;
+  color: $blue;
+  opacity: .65;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+}
+
+.submenu {
+  padding: 0;
+  list-style: none;
+  text-transform: uppercase;
+
+  li {
+    &.active:before {
+      width: 3px;
+      content: '';
+      float: left;
+      height: 1.5em;
+      margin-right: 3px;
+      display: inline-block;
+      background-color: $red;
+    }
+
+    a {
+      opacity: .65;
+      font-weight: bold;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .main-header {
@@ -28,6 +65,7 @@
   ul {
     list-style: none;
     padding: 0;
+
     li {
       padding: 0;
     }
