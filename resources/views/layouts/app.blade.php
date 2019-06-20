@@ -51,7 +51,7 @@
                     @else
                         @if (Auth::user()->club)
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('show_club', ['club' => Auth::user()->club]) }}">{{ Auth::user()->club->name }}</a>
+                                <a class="nav-link {{ is_current('show_club', ['club' => Auth::user()->club]) ? 'active' : '' }}" href="{{ route('show_club', ['club' => Auth::user()->club]) }}">{{ Auth::user()->club->name }}</a>
                             </li>
                         @endif
                         <li class="nav-item dropdown">

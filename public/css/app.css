@@ -10667,6 +10667,7 @@ h6 {
   text-transform: uppercase;
 }
 
+.navbar-light .navbar-nav .nav-link.active,
 .navbar-light .navbar-nav .nav-link:hover {
   opacity: 1;
   text-decoration: underline;
