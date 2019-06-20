@@ -12,13 +12,17 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+.navbar-light .navbar-nav .nav-link {
+  color: $gold;
+}
 
 .main-header {
-  background-color: #293340;
+  background-color: $blue;
   color: #fff;
 
   h1 {
     font-weight: bold;
+    color: $gold;
   }
 
   ul {
