@@ -1,0 +1,1 @@
+<a href="{{ route('show_club', $club->id) }}">{{ $club->name }}</a>

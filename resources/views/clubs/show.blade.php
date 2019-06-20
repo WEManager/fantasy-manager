@@ -25,7 +25,7 @@
                     @foreach($games as $game)
                         <tr>
                             <td>
-                                <a href="{{ route('show_tournament', [$game->group->tournament_id]) }}">{{ $game->group->name }}</a>
+                                @include('tournaments.partials.tournamentname', ['group' => $game->group])
                             </td>
                             <td>
                                 {{ date('j/n H:i', strtotime($game->start_time)) }}

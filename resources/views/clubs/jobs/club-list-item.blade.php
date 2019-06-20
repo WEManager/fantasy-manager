@@ -1,6 +1,6 @@
 <li>
     {{ $club->locale }}
-    <a href="{{ route('show_club', ['club' => $club]) }}">{{ $club->name }}</a>
+    @include('clubs.partials.clubname')
     -
     @if ($club->manager)
         {{ __('Manager') }}: {{ optional($club->manager)->name }}

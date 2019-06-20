@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Club;
 use App\Events\CreateLeagueEvent;
 use App\Tournament;
+use App\TournamentGroup;
 use App\TournamentParticipant;
+use App\TournamentStanding;
 use App\User;
 use App\Http\Requests\StoreTournament;
 
@@ -51,6 +53,21 @@ class TournamentController extends Controller
 
     public function show(Tournament $tournament)
     {
+        //$groups = TournamentGroup::where('tournament_id', $tournament->id)->get();
+
+        //$groupIds = $groups->pluck('id')->toArray();
+        $standings = TournamentStanding::whereIn('group_id', $tournament->tournamentGroups->pluck('id'))->get();
+
+        foreach ($tournament->tournamentGroups as $group) {
+            $table = [];
+            foreach ($standings as $standing) {
+                if ($group->id === $standing->group_id) {
+                    $table[] = $standing;
+                }
+            }
+            $group->standings = $table;
+        }
+
         return view('tournaments.show')->with(['tournament' => $tournament]);
     }
 }
