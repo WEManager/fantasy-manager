@@ -1,5 +1,5 @@
 <li>
-    {{ $club->locale }}
+    <span class="flag-icon flag-icon-{{ strtolower($club->locale) }}"></span>
     @include('clubs.partials.clubname')
     -
     @if ($club->manager)

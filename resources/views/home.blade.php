@@ -33,9 +33,6 @@
 
             </div>
         </div>
-        <div class="row">
-            {{ $clubs->links() }}
-        </div>
 
         @if (auth()->check() && auth()->user()->isAdmin())
             <div class="row">

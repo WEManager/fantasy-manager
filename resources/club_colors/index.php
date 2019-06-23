@@ -24,7 +24,7 @@ return [
     ['#008D55', '#000000', '#C5453E'], // GAIS
     ['#005A9F', '#FFFFFF', '#CBB26B'], // Halmstads BK
     ['#000000', '#C54852', '#967E4E'], // IF Brommapojkarna
-    ['#007957', '#FFFFFF'], // IK Brage
+    ['#007957', '#FFFFFF', '#000000'], // IK Brage - modded since it did not worky
     ['#F6CF00', '#000000'], // IK Frej Täby
     ['#006342', '#FFFFFF', '#E2BA00'], // Jkpg Södra IF
     ['#FFD301', '#231F20'], // Mjällby AIF

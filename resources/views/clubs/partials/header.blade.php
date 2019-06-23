@@ -5,9 +5,8 @@
                 <h1
                     style="
                         color: {{ $club->club_colors[1] }};
-
                         text-shadow: 1px 1px 0 {{ $club->club_colors[2] }},-1px 1px 0 {{ $club->club_colors[2] }},1px -1px 0 {{ $club->club_colors[2] }},-1px -1px 0 {{ $club->club_colors[2] }},0px 1px 0 {{ $club->club_colors[2] }},0px -1px 0 {{ $club->club_colors[2] }},-1px 0px 0 {{ $club->club_colors[2] }},1px 0px 0 {{ $club->club_colors[2] }},2px 2px 0 {{ $club->club_colors[2] }},-2px 2px 0 {{ $club->club_colors[2] }},2px -2px 0 {{ $club->club_colors[2] }},-2px -2px 0 {{ $club->club_colors[2] }},0px 2px 0 {{ $club->club_colors[2] }},0px -2px 0 {{ $club->club_colors[2] }},-2px 0px 0 {{ $club->club_colors[2] }},2px 0px 0 {{ $club->club_colors[2] }},1px 2px 0 {{ $club->club_colors[2] }},-1px 2px 0 {{ $club->club_colors[2] }},1px -2px 0 {{ $club->club_colors[2] }},-1px -2px 0 {{ $club->club_colors[2] }},2px 1px 0 {{ $club->club_colors[2] }},-2px 1px 0 {{ $club->club_colors[2] }},2px -1px 0 {{ $club->club_colors[2] }},-2px -1px 0 {{ $club->club_colors[2] }};
-                        ">{{ $club->name }} ({{ $club->locale }})</h1>
+                        ">{{ $club->name }} <span class="flag-icon flag-icon-{{ strtolower($club->locale) }}"></span></h1>
 
                 @if ($club->manager)
                     <small style="color: {{ $club->club_colors[1] }};text-shadow: 1px 1px 0 {{ $club->club_colors[2] }},-1px 1px 0 {{ $club->club_colors[2] }};">{{ __('Manager') }}: {{ optional($club->manager)->name }}</small>

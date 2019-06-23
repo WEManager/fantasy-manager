@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Club;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $clubs = Club::doesntHave('manager')->has('tournament')->paginate();
+        if (!Cache::has('available-clubs')) {
+            $clubs = Club::doesntHave('manager')->has('tournament')->inRandomOrder()->take(100)->get();
+            Cache::put('available-clubs', $clubs, 5);
+        } else {
+            $clubs = Cache::get('available-clubs');
+        }
 
         return view('home')->with(compact('clubs'));
     }
