@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'BC',
+    'FC',
+    'Calcio',
+    'FC',
+    'Calcio',
+    'CFC',
+    'FC',
+    'FC',
+    'FC',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'FC',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+    'Calcio',
+];
