@@ -46,8 +46,9 @@ class GenerateClub extends Command
         for ($i = 0; $i < $this->argument('amount'); $i++) {
             $clubGenerator = new ClubGenerator();
             $name = $clubGenerator->name($this->argument('locale'));
+            $colors = $clubGenerator->colors();
 
-            $club = Club::create(['name' => $name, 'locale' => nationalityBasedOnLocale($this->argument('locale'))]);
+            $club = Club::create(['name' => $name, 'colors' => $colors, 'locale' => nationalityBasedOnLocale($this->argument('locale'))]);
 
             // Let us create a U19 team
             $players = $this->createPlayers($club, 'U19');

@@ -20,8 +20,7 @@ class Club
         // Give the club a prefix
         if ($preOrSuffixRandomizer <= count($prefixes)) {
             $clubName = $prefixes[0] . ' ' . $names[0];
-        }
-        // Give the club a suffix
+        } // Give the club a suffix
         else {
             $clubName = $names[0] . ' ' . $suffixes[0];
         }
@@ -31,6 +30,13 @@ class Club
         }
 
         return $clubName;
+    }
 
+    public static function colors()
+    {
+        $colors = include resource_path('club_colors/index.php');
+        shuffle($colors);
+
+        return json_encode($colors[0]);
     }
 }

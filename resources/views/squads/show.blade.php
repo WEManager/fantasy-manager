@@ -1,19 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-    <div class="container py-4">
-        <div class="row">
-            <div class="col-12">
-                <h1>{{ $club->name }} {{ strtoupper($squad) }} ({{ $club->locale }})</h1>
-
-                @if ($club->manager)
-                    <small>{{ __('Manager') }}: {{ optional($club->manager)->name }}</small>
-                @else
-                    <small>{{ __('No manager') }}.</small>
-                @endif
-            </div>
-        </div>
-    </div>
+    @include('clubs.partials.header')
 @endsection
 
 @section('content')

@@ -10674,3 +10674,18 @@ a.text-dark:focus {
   padding: 0;
 }
 
+.club_colors {
+  float: left;
+  width: 20px;
+  margin-right: 5px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 3px;
+}
+
+.club_colors:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
