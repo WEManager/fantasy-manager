@@ -9,6 +9,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: $font-family-serif;
 }
 
+  // Flags
+@import '~flag-icon-css/sass/flag-icon';
+
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -70,4 +74,22 @@ h1, h2, h3, h4, h5, h6 {
       padding: 0;
     }
   }
+}
+
+.club--header {
+}
+
+.club_colors {
+    float: left;
+    width: 20px;
+    margin-right: 5px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 3px;
+
+    &:after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+    }
 }

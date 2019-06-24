@@ -6,9 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Club extends Model
 {
-    protected $fillable = ['name', 'locale'];
+    protected $fillable = ['name', 'colors', 'locale'];
 
     protected $with = ['tournament'];
+
+    public function getClubColorsAttribute()
+    {
+        $colors = json_decode($this->colors);
+
+        if (!isset($colors[2])) {
+            $colors[2] = ($colors[1] == '#FFFFFF') ? '#000000' : '#FFFFFF';
+        }
+
+        return $colors;
+    }
 
     public function manager()
     {

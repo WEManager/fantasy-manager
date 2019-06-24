@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
-@section('header')
-    <div class="container py-4">
-        <div class="row">
-            <div class="col-12">
-                <h1>{{ $club->name }} ({{ $club->locale }})</h1>
+@section('title', $club->name)
 
-                @if ($club->manager)
-                    <small>{{ __('Manager') }}: {{ optional($club->manager)->name }}</small>
-                @else
-                    <small>{{ __('No manager') }}.</small>
-                @endif
-            </div>
-        </div>
-    </div>
+@section('header')
+    @include('clubs.partials.header')
 @endsection
 
 @section('content')
@@ -28,7 +18,7 @@
                         <td>{{ __('Competition') }}</td>
                         <td>{{ __('Date') }}</td>
                         <td>{{ __('Hometeam') }}</td>
-                        <td>- {{ __('Awayteam') }}</td>
+                        <td>{{ __('Awayteam') }}</td>
                     </tr>
                     @foreach($games as $game)
                         <tr>
@@ -39,10 +29,10 @@
                                 {{ date('j/n H:i', strtotime($game->start_time)) }}
                             </td>
                             <td>
-                                <a href="{{ route('show_club', ['club' => $game->hometeam_id]) }}">{{ $game->hometeam->name }}</a>
+                                @include('clubs.partials.clubname', ['club' => $game->hometeam])
                             </td>
-                            <td>-
-                                <a href="{{ route('show_club', ['club' => $game->awayteam_id]) }}">{{ $game->awayteam->name }}</a>
+                            <td>
+                                @include('clubs.partials.clubname', ['club' => $game->awayteam])
                             </td>
                         </tr>
                     @endforeach

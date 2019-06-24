@@ -8,7 +8,7 @@
             <div class="col-xs-4">
 
                 <ul>
-                    @foreach($clubs->take(5) as $club)
+                    @foreach($clubs->take(30) as $club)
                         @include('clubs.jobs.club-list-item')
                     @endforeach
                 </ul>
@@ -17,7 +17,7 @@
             <div class="col-xs-4">
 
                 <ul>
-                    @foreach($clubs->slice(5)->take(5) as $club)
+                    @foreach($clubs->slice(30)->take(30) as $club)
                         @include('clubs.jobs.club-list-item')
                     @endforeach
                 </ul>
@@ -26,15 +26,12 @@
             <div class="col-xs-4">
 
                 <ul>
-                    @foreach($clubs->slice(10)->take(5) as $club)
+                    @foreach($clubs->slice(60)->take(30) as $club)
                         @include('clubs.jobs.club-list-item')
                     @endforeach
                 </ul>
 
             </div>
-        </div>
-        <div class="row">
-            {{ $clubs->links() }}
         </div>
 
         @if (auth()->check() && auth()->user()->isAdmin())
