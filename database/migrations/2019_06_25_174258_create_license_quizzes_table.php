@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClubsTable extends Migration
+class CreateLicenseQuizzesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateClubsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clubs', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('license_quizzes', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('name')->unique();
-            $table->json('colors');
-            $table->string('locale');
-            $table->integer('reputation')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateClubsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clubs');
+        Schema::dropIfExists('license_quizzes');
     }
 }

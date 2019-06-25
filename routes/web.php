@@ -34,8 +34,10 @@ Route::get('/clubs/{club}/{squad}', 'SquadController@show')->name('show_club_squ
 Route::get('/clubs/{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
 Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
 
-Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->name('apply_for_job');
+Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->middleware('auth')->name('apply_for_job');
 Route::post('/apply-for-job', 'ManagerContractController@store')->name('send_job_application');
+
+Route::get('/license-test/{licenseQuiz}', 'LicenseQuizController@show')->middleware('level0')->name('license_test');
 
 //Route::get('/match/{game}', '')
 

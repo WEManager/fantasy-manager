@@ -9,7 +9,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1>{{ $club->name }} ({{ $club->locale }})</h1>
 
                 <table class="table">
                     <thead>

@@ -13,7 +13,6 @@
                     <small>{{ __('No manager') }}.</small>
                 @endif
 
-
                 <form action="{{ route('send_job_application') }}" method="post">
                     {{ csrf_field() }}
                     <input type="hidden" name="club_id" value="{{ $club->id }}">

@@ -80,6 +80,8 @@
     "Wage": "Lön",
     "per month": "per månad",
     "Send application": "Skicka ansökan",
+    ":Club has rejected your job application from :Date.": ":Club har tackat nej till din jobbansökan den :Date.",
+    "You need to pass the exam for the basic manager license, in order to be able to apply for a job as a manager in a club.": "Du behöver klara provet för den grundläggande managerlicensen, för att kunna söka jobb som manager i en klubb.",
     "List of clubs": "Lista på klubbar",
     "List of available clubs": "Lista på klubbar utan manager",
     ":Club already has a manager.": ":Club har redan en manager.",
