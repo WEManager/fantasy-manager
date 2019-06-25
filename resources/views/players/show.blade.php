@@ -14,7 +14,7 @@
                 <table style="color: {{ $person->club->club_colors[1] }};">
                     <tr>
                         <td>
-                            {{ __($person->nationality) }}
+                            <span class="flag-icon flag-icon-{{ strtolower($person->nationality) }}"></span>
                         </td>
                         <td>
                             {{ __('Contract with :Club', ['Club' => $person->club->name]) }}

@@ -102,5 +102,5 @@ return [
     'Salzgitter',
     'Trier',
 
-    // 100 largest cities from Italy: https://population.mongabay.com/population/italy/
+    // 100 largest cities from Germany: https://population.mongabay.com/population/germany/
 ];

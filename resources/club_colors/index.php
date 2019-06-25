@@ -38,7 +38,7 @@ return [
 
     ['#E20613', '#000000', '#FFFFFF'], // Athletic Club Bilbao
     ['#E73324', '#FFFFFF', '#242E61'], // Atlético Madrid
-    ['#FFFFFF', '#017BD9', '#207D00'], // CD Leganes
+    ['#017BD9', '#FFFFFF', '#207D00'], // CD Leganes
     ['#026BB6', '#FFFFFF'], // Deportivo Alaves
     ['#004B99', '#A30343', '#ECBC00'], // FC Barcelona
     ['#0E5EA3', '#FFFFFF'], // Getafe FC
