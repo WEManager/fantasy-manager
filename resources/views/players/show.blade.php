@@ -1,28 +1,35 @@
 @extends('layouts.app')
 
 @section('header')
-    <div class="container py-4">
-        <div class="col-xs-12">
-            <h1>{{ $person->firstname }} {{ $person->lastname }}</h1>
+    <div class="club--header" style="background-color: {{ $person->club->club_colors[0] }}">
 
-            <table>
-                <tr>
-                    <td>
-                        {{ __($person->nationality) }}
-                    </td>
-                    <td>
-                        {{ __('Contract with :Club', ['Club' => $person->club->name]) }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {{ __(':Age years old', ['Age' => $person->age]) }}
-                    </td>
-                    <td>
-                        {{ __(':Wage per month until :Until', ['Wage' => $person->contract->wage, 'Until' => date('j/n Y', strtotime($person->contract->until))]) }}
-                    </td>
-                </tr>
-            </table>
+        <div class="container py-4">
+            <div class="col-xs-12">
+                <h1
+                        style="
+                                color: {{ $person->club->club_colors[1] }};
+                                text-shadow: 1px 1px 0 {{ $person->club->club_colors[2] }},-1px 1px 0 {{ $person->club->club_colors[2] }},1px -1px 0 {{ $person->club->club_colors[2] }},-1px -1px 0 {{ $person->club->club_colors[2] }},0px 1px 0 {{ $person->club->club_colors[2] }},0px -1px 0 {{ $person->club->club_colors[2] }},-1px 0px 0 {{ $person->club->club_colors[2] }},1px 0px 0 {{ $person->club->club_colors[2] }},2px 2px 0 {{ $person->club->club_colors[2] }},-2px 2px 0 {{ $person->club->club_colors[2] }},2px -2px 0 {{ $person->club->club_colors[2] }},-2px -2px 0 {{ $person->club->club_colors[2] }},0px 2px 0 {{ $person->club->club_colors[2] }},0px -2px 0 {{ $person->club->club_colors[2] }},-2px 0px 0 {{ $person->club->club_colors[2] }},2px 0px 0 {{ $person->club->club_colors[2] }},1px 2px 0 {{ $person->club->club_colors[2] }},-1px 2px 0 {{ $person->club->club_colors[2] }},1px -2px 0 {{ $person->club->club_colors[2] }},-1px -2px 0 {{ $person->club->club_colors[2] }},2px 1px 0 {{ $person->club->club_colors[2] }},-2px 1px 0 {{ $person->club->club_colors[2] }},2px -1px 0 {{ $person->club->club_colors[2] }},-2px -1px 0 {{ $person->club->club_colors[2] }};
+                                ">{{ $person->firstname }} {{ $person->lastname }}</h1>
+
+                <table style="color: {{ $person->club->club_colors[1] }};">
+                    <tr>
+                        <td>
+                            {{ __($person->nationality) }}
+                        </td>
+                        <td>
+                            {{ __('Contract with :Club', ['Club' => $person->club->name]) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ __(':Age years old', ['Age' => $person->age]) }}
+                        </td>
+                        <td>
+                            {{ __(':Wage per month until :Until', ['Wage' => $person->contract->wage, 'Until' => date('j/n Y', strtotime($person->contract->until))]) }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
