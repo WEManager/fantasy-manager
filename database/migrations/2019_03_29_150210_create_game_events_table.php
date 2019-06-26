@@ -16,8 +16,7 @@ class CreateGameEventsTable extends Migration
         Schema::create('game_events', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('game_id');
-            $table->integer('club_id');
-            $table->integer('value');
+            $table->dateTime('event_time');
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function() {
+Route::get('/', function () {
     return redirect(app()->getLocale());
 });
 
@@ -52,63 +52,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         $duelant = \App\Person::find(2);
         echo \App\Engines\GameDuelsEngine::headingDuelBetween($player, $duelant, true);
     });
-    Route::get('/test-game/{id}', function ($id) {
+    Route::get('/test-game/{id}', function ($locale, $id) {
 
-        $game = \App\TournamentGame::find(1);
-        $engine = new \App\Engines\MatchEngine($game);
-        dd($engine);
-
-        $engine = new \App\Engines\GameEngine($id /*,
-        [
-            'GK' => \App\Person::find(1),
-
-            'LD' => \App\Person::find(2),
-            'CD' => \App\Person::find(3),
-            'RD' => \App\Person::find(1),
-
-            'LM' => \App\Person::find(2),
-            'CLM' => \App\Person::find(3),
-            'CM' => \App\Person::find(1),
-            'CRM' => \App\Person::find(2),
-            'RM' => \App\Person::find(3),
-
-            'CLF' => \App\Person::find(1),
-            'CRF' => \App\Person::find(2),
-
-            'SUB1' => \App\Person::find(3),
-            'SUB2' => \App\Person::find(1),
-            'SUB3' => \App\Person::find(2),
-            'SUB4' => \App\Person::find(3),
-            'SUB5' => \App\Person::find(1),
-
-            'tactics' => 70,
-        ],
-        [
-            'GK' => \App\Person::find(1),
-
-            'LD' => \App\Person::find(2),
-            'CLD' => \App\Person::find(2),
-            'CD' => \App\Person::find(3),
-            'CRD' => \App\Person::find(1),
-            'RD' => \App\Person::find(1),
-
-            'LM' => \App\Person::find(3),
-            'CLM' => \App\Person::find(3),
-            'CRM' => \App\Person::find(2),
-            'RM' => \App\Person::find(2),
-
-            'CF' => \App\Person::find(1),
-
-            'SUB1' => \App\Person::find(3),
-            'SUB2' => \App\Person::find(1),
-            'SUB3' => \App\Person::find(2),
-            'SUB4' => \App\Person::find(3),
-            'SUB5' => \App\Person::find(1),
-
-            'tactics' => 30,
-        ]*/
-        );
-
-        echo $engine->renderEvents();
+        $game = \App\TournamentGame::find($id);
+        $chances = rand(10, 26);
+        for ($i = 0; $i < $chances; $i++) {
+            new \App\Engines\MatchEngine($game);
+        }
+        //dd($game->hometeam->name . ' ' . $game->hometeam_score . ' - ' . $game->awayteam_score . ' ' . $game->awayteam->name);
     });
 });
