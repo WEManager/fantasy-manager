@@ -9,7 +9,7 @@
                     <div class="card-header">{{ __('Create A Tournament') }}</div>
 
                     <div class="card-body">
-                        <CreateTournamentComponent clubs="{{ $clubs }}" action="{{ route('store_tournament') }}" token="{{ csrf_token() }}" />
+                        <CreateTournamentComponent clubs="{{ $clubs }}" action="{{ link_route('store_tournament') }}" token="{{ csrf_token() }}" />
                     </div>
                 </div>
             </div>

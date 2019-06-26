@@ -12,7 +12,7 @@
 
                         @include('flash.success')
 
-                        <form method="POST" action="{{ route('update_player', ['user' => $player]) }}">
+                        <form method="POST" action="{{ link_route('update_player', ['user' => $player]) }}">
                             {{ method_field('PUT') }}
                             @csrf
 

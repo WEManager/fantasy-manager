@@ -82,6 +82,11 @@ return [
 
     'locale' => 'sv',
 
+    'available_locales' => [
+        'sv',
+        'en',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale

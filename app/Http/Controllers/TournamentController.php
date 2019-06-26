@@ -51,7 +51,7 @@ class TournamentController extends Controller
         return redirect('show_tournament')->with(['createdTournament' => $createdTournament]);
     }
 
-    public function show(Tournament $tournament)
+    public function show($locale, Tournament $tournament)
     {
         //$groups = TournamentGroup::where('tournament_id', $tournament->id)->get();
 

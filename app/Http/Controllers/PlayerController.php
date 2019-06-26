@@ -27,12 +27,12 @@ class PlayerController extends Controller
         return view('users.create');
     }
 
-    public function edit(User $user)
+    public function edit($locale, User $user)
     {
         return view('users.edit', ['player' => $user]);
     }
 
-    public function show(Person $person)
+    public function show($locale, Person $person)
     {
         return view('players.show')->with(compact('person'));
     }
@@ -58,7 +58,7 @@ class PlayerController extends Controller
         return redirect()->back();
     }
 
-    public function update(User $user, StorePlayerUser $player)
+    public function update($locale, User $user, StorePlayerUser $player)
     {
         $user->name = $player->name;
         $user->email = $player->email;

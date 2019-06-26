@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class SquadController extends Controller
 {
-    public function show(Club $club, $squad)
+    public function show($locale, Club $club, $squad)
     {
         $type = getContractType($squad);
 

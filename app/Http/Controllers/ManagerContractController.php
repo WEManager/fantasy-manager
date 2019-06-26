@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ManagerContractController extends Controller
 {
-    public function create(Club $club)
+    public function create($locale, Club $club)
     {
         if (auth()->check() && auth()->user()->level === 0) {
             return view('manager-contracts.low_level')->with(compact('club'));

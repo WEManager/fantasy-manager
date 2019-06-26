@@ -23,10 +23,10 @@
                     @foreach($players as $player)
                         <tr>
                             <td>
-                                <a href="{{ route('show_player', ['person' => $player->person_id]) }}">{{ $player->firstname }}</a>
+                                <a href="{{ link_route('show_player', ['person' => $player->person_id]) }}">{{ $player->firstname }}</a>
                             </td>
                             <td>
-                                <a href="{{ route('show_player', ['person' => $player->person_id]) }}">{{ $player->lastname }}</a>
+                                <a href="{{ link_route('show_player', ['person' => $player->person_id]) }}">{{ $player->lastname }}</a>
                             </td>
                             <td>{{ $player->age }}</td>
                             <td><span class="flag-icon flag-icon-{{ strtolower($player->nationality) }}"></span></td>

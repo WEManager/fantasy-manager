@@ -17,7 +17,7 @@
             <div class="col-md-8">
 
                 <lineup-component
-                        action="{{ route('update_lineup', ['lineup' => $lineup]) }}"
+                        action="{{ link_route('update_lineup', ['lineup' => $lineup]) }}"
                         players="{{ $players }}"
                         positions="{{ json_encode(getPositionsExceptGoalkeeper()) }}"
                         token="{{ csrf_token() }}"
