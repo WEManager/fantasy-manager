@@ -90,6 +90,14 @@ return [
         'sv' => 'se',
     ],
 
+    'available_locale_names' => [
+        'en' => 'English',
+        'de' => 'Deutsch',
+        'es' => 'Español',
+        'it' => 'Italiano',
+        'sv' => 'Svenska',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
