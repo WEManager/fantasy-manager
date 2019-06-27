@@ -38,7 +38,7 @@
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{{ link_route(\Illuminate\Support\Facades\Route::currentRouteName(), $params) }}"
-                               @if (app()->getLocale() == $locale) style="font-weight: bold; text-decoration: underline" @endif>{{ strtoupper($locale) }}</a>
+                               @if (app()->getLocale() == $locale) style="font-weight: bold; text-decoration: underline" @endif><span class="flag-icon flag-icon-{{ strtolower($locale) }}"></span></a>
                         </li>
                     @endforeach
                 </ul>
