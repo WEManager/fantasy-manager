@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', $tournament->name . ' - ')
 
 @section('header')
     <div class="container py-4">

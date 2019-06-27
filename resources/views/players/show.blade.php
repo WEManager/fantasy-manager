@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __(':Name playing for :Club', ['Name' => $person->firstname . ' ' . $person->lastname, 'Club' => $person->club->name]) . ' - ')
+
 @section('header')
     <div class="club--header" style="background-color: {{ $person->club->club_colors[0] }}">
 

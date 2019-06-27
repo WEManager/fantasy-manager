@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', __(':Squad squad in :Club', ['Squad' => $squad, 'Club' => $club->name]) . ' - ')
+
 @section('header')
     @include('clubs.partials.header')
 @endsection

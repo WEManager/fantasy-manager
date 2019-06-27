@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $club->name)
+@section('title', $club->name . ' - ')
 
 @section('header')
     @include('clubs.partials.header')
