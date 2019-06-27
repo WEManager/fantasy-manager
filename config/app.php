@@ -83,8 +83,8 @@ return [
     'locale' => 'sv',
 
     'available_locales' => [
-        'sv',
-        'en',
+        'sv' => 'se',
+        'en' => 'gb',
     ],
 
     /*
