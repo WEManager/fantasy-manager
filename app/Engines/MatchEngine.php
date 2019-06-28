@@ -46,12 +46,6 @@ class MatchEngine
             $this->endGame();
         }
 
-        // If game should end
-        if ($this->game->status == '1' && time() >= strtotime($this->game->start_time . ' + 105 minutes')) {
-            $this->endGame();
-        }
-
-
         if (time() >= strtotime($this->game->start_time)) {
             $this->winningChances();
         }

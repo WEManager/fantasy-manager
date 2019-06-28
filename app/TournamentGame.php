@@ -74,6 +74,11 @@ class TournamentGame extends Model
             ->where('start_time', '>=', ago('60 minutes'));
     }
 
+    public function scopeAboutToEnd(Builder $builder) {
+        return $builder->where('status', '=', '1')
+            ->where('start_time', '<=', ago('105 minutes'));
+    }
+
     /**
      * Relationships
      */

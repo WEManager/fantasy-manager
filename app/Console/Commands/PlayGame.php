@@ -45,11 +45,6 @@ class PlayGame extends Command
             new MatchEngine($game);
         }
 
-        $games = TournamentGame::TimeForHalftime()->get();
-        foreach ($games as $game) {
-            new MatchEngine($game);
-        }
-
         // We need to get the entire event objects since we cannot delete them otherwise
         $events = GameEvent::current()->get();
         foreach ($events as $event) {
@@ -58,5 +53,15 @@ class PlayGame extends Command
         // Delete all events that has been played at once
         $ids = $events->pluck('id')->toArray();
         GameEvent::whereIn('id', $ids)->delete();
+
+        $games = TournamentGame::TimeForHalftime()->get();
+        foreach ($games as $game) {
+            new MatchEngine($game);
+        }
+
+        $games = TournamentGame::AboutToEnd()->get();
+        foreach ($games as $game) {
+            new MatchEngine($game);
+        }
     }
 }
