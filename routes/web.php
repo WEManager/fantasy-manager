@@ -55,10 +55,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('/test-game/{id}', function ($locale, $id) {
 
         $game = \App\TournamentGame::find($id);
-        $chances = rand(10, 26);
-        for ($i = 0; $i < $chances; $i++) {
-            new \App\Engines\MatchEngine($game);
-        }
+        new \App\Engines\MatchEngine($game);
         //dd($game->hometeam->name . ' ' . $game->hometeam_score . ' - ' . $game->awayteam_score . ' ' . $game->awayteam->name);
     });
 });

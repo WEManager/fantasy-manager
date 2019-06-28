@@ -17,7 +17,9 @@
                     <tr>
                         <td>{{ __('Competition') }}</td>
                         <td>{{ __('Date') }}</td>
+                        <td>{{ __('Status') }}</td>
                         <td>{{ __('Hometeam') }}</td>
+                        <td></td>
                         <td>{{ __('Awayteam') }}</td>
                     </tr>
                     @foreach($games as $game)
@@ -28,9 +30,15 @@
                             <td>
                                 {{ date('j/n H:i', strtotime($game->start_time)) }}
                             </td>
+                            <td>{{ $game->gameStatus }}</td>
                             <td>
                                 @include('clubs.partials.clubname', ['club' => $game->hometeam])
                             </td>
+                            @if ($game->status > 0)
+                                <td>{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</td>
+                            @else
+                                <td>-</td>
+                            @endif
                             <td>
                                 @include('clubs.partials.clubname', ['club' => $game->awayteam])
                             </td>

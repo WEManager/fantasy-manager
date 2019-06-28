@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Engines\MatchEngine;
+use App\GameEvent;
 use App\TournamentGame;
 use Illuminate\Console\Command;
 
@@ -13,14 +14,14 @@ class PlayGame extends Command
      *
      * @var string
      */
-    protected $signature = 'game:play {id}';
+    protected $signature = 'games:play';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Play game by id';
+    protected $description = 'Play games';
 
     /**
      * Create a new command instance.
@@ -39,7 +40,23 @@ class PlayGame extends Command
      */
     public function handle()
     {
-        $game = TournamentGame::find($this->argument('id'));
-        new MatchEngine($game);
+        $games = TournamentGame::AboutToStart()->get();
+        foreach ($games as $game) {
+            new MatchEngine($game);
+        }
+
+        $games = TournamentGame::TimeForHalftime()->get();
+        foreach ($games as $game) {
+            new MatchEngine($game);
+        }
+
+        // We need to get the entire event objects since we cannot delete them otherwise
+        $events = GameEvent::current()->get();
+        foreach ($events as $event) {
+            $event->play();
+        }
+        // Delete all events that has been played at once
+        $ids = $events->pluck('id')->toArray();
+        GameEvent::whereIn('id', $ids)->delete();
     }
 }

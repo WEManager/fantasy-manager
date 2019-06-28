@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * Get datetime from history
+ */
+function ago($string) {
+    return date('Y-m-d H:i:s', strtotime($string . ' ago'));
+}
+
 function link_route($name, $parameters = [], $absolute = true)
 {
     if (!is_array($parameters)) {

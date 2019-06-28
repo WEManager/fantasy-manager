@@ -54,7 +54,8 @@
                         <h3>{{ __('Schedule') }}</h3>
                         <table class="table table-responsive">
                             <tr>
-                                <td>ID</td>
+                                <td>{{ __('Date') }}</td>
+                                <td>{{ __('Status') }}</td>
                                 <td>{{ __('Hometeam') }}</td>
                                 <td></td>
                                 <td>{{ __('Awayteam') }}</td>
@@ -62,8 +63,13 @@
                             @foreach ($group->upcomingGames->take('8') as $game)
                                 <tr>
                                     <td>{{ date('j/n H:i', strtotime($game->start_time)) }}</td>
+                                    <td>{{ $game->gameStatus }}</td>
                                     <td>@include('clubs.partials.clubname', ['club' => $game->hometeam])</td>
-                                    <td>-</td>
+                                    @if ($game->status > 0)
+                                        <td>{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</td>
+                                    @else
+                                        <td>-</td>
+                                    @endif
                                     <td>@include('clubs.partials.clubname', ['club' => $game->awayteam])</td>
                                 </tr>
                             @endforeach

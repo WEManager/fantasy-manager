@@ -29,27 +29,58 @@ class MatchEngine
         $this->awayteamLineup = Lineup::where('club_id', $this->game->awayteam_id)->where('team', $this->game->awayteam_squad)->first();
 
         // If game has not started yet
-        if ($this->game->status == 0 && time() >= strtotime($this->game->start_time)) {
-            if (is_null($this->game->hometeam_score)) $this->game->hometeam_score = 0;
-            if (is_null($this->game->awayteam_score)) $this->game->awayteam_score = 0;
-            $this->game->status = 1;
-            $this->game->save();
-
-            // Generate 10 to 26 chances in a game
-            $chances = rand(10, 26);
-            for ($i = 0; $i < $chances; $i++) {
-                $minute = rand(1, 90);
-                GameEvent::create([
-                    'game_id' => $game->id,
-                    'event_time' => date('Y-m-d H:i:s', strtotime($this->game->start_time . ' + ' . $minute . ' minutes')),
-                ]);
-            }
-
+        if ($this->game->isAboutToStart) {
+            $this->startGame();
+            $this->generateChances();
         }
+
+        if ($this->game->isTimeForHalftime) {
+            $this->halftime();
+        }
+
+        if ($this->game->isTimeForSecondHalf) {
+            $this->startSecondHalf();
+        }
+
+        if ($this->game->isAboutToEnd) {
+            $this->endGame();
+        }
+
+        // If game should end
+        if ($this->game->status == '1' && time() >= strtotime($this->game->start_time . ' + 105 minutes')) {
+            $this->endGame();
+        }
+
 
         if (time() >= strtotime($this->game->start_time)) {
             $this->winningChances();
         }
+    }
+
+    private function startGame()
+    {
+        if (is_null($this->game->hometeam_score)) $this->game->hometeam_score = 0;
+        if (is_null($this->game->awayteam_score)) $this->game->awayteam_score = 0;
+        $this->game->status = '1';
+        $this->game->save();
+    }
+
+    private function halftime()
+    {
+        $this->game->status = '3';
+        $this->game->save();
+    }
+
+    private function startSecondHalf()
+    {
+        $this->game->status = '1';
+        $this->game->save();
+    }
+
+    private function endGame()
+    {
+        $this->game->status = '2';
+        $this->game->save();
     }
 
     private function winningChances()
@@ -185,5 +216,19 @@ class MatchEngine
         }
 
         return $totalValue;
+    }
+
+    protected function generateChances(): void
+    {
+        // Generate 10 to 26 chances in a game
+        $chances = rand(10, 26);
+        for ($i = 0; $i < $chances; $i++) {
+            $minute = rand(1, 90);
+            if ($minute > 45) $minute = $minute + 15;
+            GameEvent::create([
+                'game_id' => $this->game->id,
+                'event_time' => date('Y-m-d H:i:s', strtotime($this->game->start_time . ' + ' . $minute . ' minutes')),
+            ]);
+        }
     }
 }
