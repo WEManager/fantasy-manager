@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'sv',
+    'locale' => 'en',
 
     'available_locales' => [
         'en' => 'gb',
@@ -88,6 +88,14 @@ return [
         'es' => 'es',
         'it' => 'it',
         'sv' => 'se',
+    ],
+
+    'available_locale_names' => [
+        'en' => 'English',
+        'de' => 'Deutsch',
+        'es' => 'Español',
+        'it' => 'Italiano',
+        'sv' => 'Svenska',
     ],
 
     /*
