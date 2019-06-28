@@ -3,8 +3,11 @@
 /*
  * Get datetime from history
  */
-function ago($string) {
-    return date('Y-m-d H:i:s', strtotime($string . ' ago'));
+function ago($string, $precision = null) {
+    if ($precision == null) $format = 'Y-m-d H:i:s';
+    if ($precision == 'date') $format = 'Y-m-d';
+
+    return date($format, strtotime($string . ' ago'));
 }
 
 function link_route($name, $parameters = [], $absolute = true)
