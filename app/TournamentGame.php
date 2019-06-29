@@ -33,7 +33,7 @@ class TournamentGame extends Model
 
     public function getIsAboutToEndAttribute()
     {
-        return $this->status == '1' && $this->start_time <= ago('105 minutes');
+        return $this->status == '1' && $this->start_time <= ago('106 minutes');
     }
 
     public function getGameStatusAttribute()
@@ -81,7 +81,7 @@ class TournamentGame extends Model
 
     public function scopeAboutToEnd(Builder $builder) {
         return $builder->where('status', '=', '1')
-            ->where('start_time', '<=', ago('105 minutes'));
+            ->where('start_time', '<=', ago('106 minutes'));
     }
 
     /**
