@@ -33,6 +33,7 @@
                                 <td>{{ __('Won') }}</td>
                                 <td>{{ __('Ties') }}</td>
                                 <td>{{ __('Lost') }}</td>
+                                <td>{{ __('+/-') }}</td>
                                 <td>{{ __('Points') }}</td>
                             </tr>
                             @foreach ($group->standings as $standing)
@@ -43,6 +44,7 @@
                                     <td align="center">{{ $standing->won }}</td>
                                     <td align="center">{{ $standing->tie }}</td>
                                     <td align="center">{{ $standing->lost }}</td>
+                                    <td align="center">{{ $standing->GoalDifference }}</td>
                                     <td align="right">{{ $standing->points }}</td>
                                 </tr>
                             @endforeach
