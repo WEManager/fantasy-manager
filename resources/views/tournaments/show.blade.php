@@ -40,10 +40,10 @@
                                     <td>
                                         @include('clubs.partials.clubname', ['club' => $standing->club])
                                     </td>
-                                    <td>{{ $standing->won }}</td>
-                                    <td>{{ $standing->tie }}</td>
-                                    <td>{{ $standing->lost }}</td>
-                                    <td>{{ $standing->points }}</td>
+                                    <td align="center">{{ $standing->won }}</td>
+                                    <td align="center">{{ $standing->tie }}</td>
+                                    <td align="center">{{ $standing->lost }}</td>
+                                    <td align="right">{{ $standing->points }}</td>
                                 </tr>
                             @endforeach
                         </table>

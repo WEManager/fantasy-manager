@@ -13,6 +13,7 @@ use App\GameEvent;
 use App\Lineup;
 use App\Person;
 use App\TournamentGame;
+use App\TournamentStanding;
 use Illuminate\Support\Facades\Cache;
 
 class MatchEngine
@@ -73,8 +74,53 @@ class MatchEngine
 
     private function endGame()
     {
-        $this->game->status = '2';
-        $this->game->save();
+        if ($this->game->isAboutToEnd) {
+
+            $this->game->status = '2';
+            $this->game->save();
+
+            $hometeamRow = TournamentStanding::where('club_id', $this->game->hometeam_id)
+                ->where('group_id', $this->game->group_id)
+                ->first();
+
+            $awayteamRow = TournamentStanding::where('club_id', $this->game->awayteam_id)
+                ->where('group_id', $this->game->group_id)
+                ->first();
+
+            // Hometeam win
+            if ($this->game->hometeam_score > $this->game->awayteam_score) {
+                $hometeamRow->won += 1;
+                $hometeamRow->points += 3;
+
+                $awayteamRow->lost += 1;
+            } // Awayteam win
+            else if ($this->game->hometeam_score < $this->game->awayteam_score) {
+                $awayteamRow->won += 1;
+                $awayteamRow->points += 3;
+
+                $hometeamRow->lost += 1;
+            } // Tie
+            else if ($this->game->hometeam_score == $this->game->awayteam_score) {
+                $hometeamRow->tie += 1;
+                $awayteamRow->tie += 1;
+                $hometeamRow->points += 1;
+                $awayteamRow->points += 1;
+            }
+
+            dump($this->game->hometeam->name .
+                ' ' . $this->game->hometeam_score .
+                '-' . $this->game->awayteam_score .
+                ' ' . $this->game->awayteam->name
+            );
+
+            $hometeamRow->scored += $this->game->hometeam_score;
+            $hometeamRow->conceded += $this->game->awayteam_score;
+            $awayteamRow->scored += $this->game->awayteam_score;
+            $awayteamRow->conceded += $this->game->hometeam_score;
+
+            $hometeamRow->save();
+            $awayteamRow->save();
+        }
     }
 
     private function winningChances()

@@ -56,7 +56,7 @@ class TournamentController extends Controller
         //$groups = TournamentGroup::where('tournament_id', $tournament->id)->get();
 
         //$groupIds = $groups->pluck('id')->toArray();
-        $standings = TournamentStanding::whereIn('group_id', $tournament->tournamentGroups->pluck('id'))->get();
+        $standings = TournamentStanding::whereIn('group_id', $tournament->tournamentGroups->pluck('id'))->orderBy('points', 'desc')->orderByRaw('(scored - conceded) desc')->get();
 
         foreach ($tournament->tournamentGroups as $group) {
             $table = [];

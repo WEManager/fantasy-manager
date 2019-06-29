@@ -22,11 +22,11 @@ class TournamentGroup extends Model
 
     public function games()
     {
-        return $this->hasMany(TournamentGame::class, 'group_id');
+        return $this->hasMany(TournamentGame::class, 'group_id')->orderBy('start_time');
     }
 
     public function upcomingGames()
     {
-        return $this->hasMany(TournamentGame::class, 'group_id')->whereDate('start_time', '>=', ago('12 hours', 'date'));
+        return $this->hasMany(TournamentGame::class, 'group_id')->whereDate('start_time', '>=', ago('12 hours', 'date'))->orderBy('start_time');
     }
 }
