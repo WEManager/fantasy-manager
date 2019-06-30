@@ -40,26 +40,16 @@ class PlayGame extends Command
      */
     public function handle()
     {
-        $games = TournamentGame::AboutToStart()->get();
-        foreach ($games as $game) {
-            new MatchEngine($game);
-        }
-
         // We need to get the entire event objects since we cannot delete them otherwise
         $events = GameEvent::current()->get();
+        $ids = $events->pluck('id')->toArray();
         foreach ($events as $event) {
             $event->play();
         }
         // Delete all events that has been played at once
-        $ids = $events->pluck('id')->toArray();
         GameEvent::whereIn('id', $ids)->delete();
 
-        $games = TournamentGame::TimeForHalftime()->get();
-        foreach ($games as $game) {
-            new MatchEngine($game);
-        }
-
-        $games = TournamentGame::AboutToEnd()->get();
+        $games = TournamentGame::where('start_time', '<=', now())->where('status', '0')->get();
         foreach ($games as $game) {
             new MatchEngine($game);
         }
