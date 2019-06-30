@@ -3,6 +3,43 @@
 @section('content')
     <div class="container">
 
+        @if ($ongoing->count())
+            <h1>{{ __('Ongoing games') }}</h1>
+            <div class="row">
+                <div class="col-xs-6">
+                    <table class="table">
+                        @foreach ($ongoing->take(5) as $game)
+                            <tr>
+                                <td>{!! $game->GameStatus  !!}</td>
+                                <td>
+                                    @include('clubs.partials.clubname', ['club' => $game->hometeam])
+                                </td>
+                                <td>{{ $game->hometeam_score }}-{{ $game->awayteam_score }}</td>
+                                <td>
+                                    @include('clubs.partials.clubname', ['club' => $game->awayteam])
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <div class="col-xs-4">
+                    <table class="table">
+                        @foreach ($ongoing->slice(5)->take(5) as $game)
+                            <tr>
+                                <td>
+                                    @include('clubs.partials.clubname', ['club' => $game->hometeam])
+                                </td>
+                                <td>{{ $game->hometeam_score }}-{{ $game->awayteam_score }}</td>
+                                <td>
+                                    @include('clubs.partials.clubname', ['club' => $game->awayteam])
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        @endif
+
         <h1>{{ __('List of available clubs') }}</h1>
         <div class="row">
             <div class="col-xs-4">

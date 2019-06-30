@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -40,9 +41,17 @@ class TournamentGame extends Model
     {
         switch ($this->status) {
             case '0':
-                return __('Not started');
+                if (date('Y-m-d') == date('Y-m-d', strtotime($this->start_time))) {
+                    return Carbon::createFromTime(
+                        date('H', strtotime($this->start_time)),
+                        date('m', strtotime($this->start_time)),
+                        date('s', strtotime($this->start_time))
+                    )->diffForHumans();
+                } else {
+                    return date('j/n H:i', strtotime($this->start_time));
+                }
             case '1':
-                return __('Ongoing');
+                return '<i class="material-icons">timelapse</i> ' . round((strtotime(now()) - strtotime($this->start_time)) / 60) . '\'';
             case '2':
                 return __('Ended');
             case '3':
@@ -79,7 +88,8 @@ class TournamentGame extends Model
             ->where('start_time', '>=', ago('60 minutes'));
     }
 
-    public function scopeAboutToEnd(Builder $builder) {
+    public function scopeAboutToEnd(Builder $builder)
+    {
         return $builder->where('status', '=', '1')
             ->where('start_time', '<=', ago('106 minutes'));
     }
