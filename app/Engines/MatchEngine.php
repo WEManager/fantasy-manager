@@ -44,7 +44,7 @@ class MatchEngine
             $this->startSecondHalf();
         }
 
-        if (time() >= strtotime($this->game->start_time)) {
+        if (time() >= strtotime($this->game->start_time) && !$this->game->isAboutToEnd) {
             $this->winningChances();
         }
 
@@ -73,7 +73,7 @@ class MatchEngine
         $this->game->save();
     }
 
-    private function endGame()
+    public function endGame()
     {
         if ($this->game->isAboutToEnd) {
 

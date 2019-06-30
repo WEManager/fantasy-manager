@@ -49,7 +49,8 @@ class PlayGame extends Command
         // Delete all events that has been played at once
         GameEvent::whereIn('id', $ids)->delete();
 
-        $games = TournamentGame::where('start_time', '<=', now())->where('status', '0')->get();
+        $games = TournamentGame::where('start_time', '<=', now())->where('status', '0')
+            ->orWhere('status', '1')->where('start_time', '<=', ago('106 minutes'))->get();
         foreach ($games as $game) {
             new MatchEngine($game);
         }
