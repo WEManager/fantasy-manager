@@ -51,7 +51,16 @@ class TournamentGame extends Model
                     return date('j/n H:i', strtotime($this->start_time));
                 }
             case '1':
-                return '<i class="material-icons">timelapse</i> ' . round((strtotime(now()) - strtotime($this->start_time)) / 60) . '\'';
+                $minutes = round((strtotime(now()) - strtotime($this->start_time)) / 60);
+                $returnString = $minutes . '\'';
+                if ($minutes > 45 && $minutes < 60) {
+                    $returnString = __('Waiting for second half');
+                }
+                if ($minutes > 60) {
+                    $returnString = ($minutes - 15) . '\'';
+                }
+
+                return '<i class="material-icons">timelapse</i> ' . $returnString;
             case '2':
                 return __('Ended');
             case '3':
