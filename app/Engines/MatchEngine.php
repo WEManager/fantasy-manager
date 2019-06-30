@@ -43,12 +43,12 @@ class MatchEngine
             $this->startSecondHalf();
         }
 
-        if ($this->game->isAboutToEnd && GameEvent::where('game_id', $this->game->id)->count() == 0) {
-            $this->endGame();
-        }
-
         if (time() >= strtotime($this->game->start_time)) {
             $this->winningChances();
+        }
+
+        if ($this->game->isAboutToEnd) {
+            $this->endGame();
         }
     }
 

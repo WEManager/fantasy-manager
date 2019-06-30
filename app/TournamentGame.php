@@ -34,7 +34,7 @@ class TournamentGame extends Model
 
     public function getIsAboutToEndAttribute()
     {
-        return $this->status == '1' && $this->start_time <= ago('106 minutes');
+        return $this->status == '1' && $this->start_time <= ago('106 minutes') && $this->gameEvents->count() == 0;
     }
 
     public function getGameStatusAttribute()
