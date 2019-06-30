@@ -16,6 +16,7 @@ class CreateClubsTable extends Migration
         Schema::create('clubs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->string('slug');
             $table->json('colors');
             $table->string('locale');
             $table->integer('reputation')->default(0);

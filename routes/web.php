@@ -19,6 +19,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/', 'HomeController@index')->name('home');
 
+    Route::get('/{slug}', 'PageController@show')->name('page');
 
     Route::get('/players/create', 'PlayerController@create')->name('create_player');
     Route::get('/players/{user}/edit', 'PlayerController@edit')->name('edit_player');
@@ -28,13 +29,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('/players', 'PlayerController@index')->name('list_players');
 
     Route::get('/tournaments/create', 'TournamentController@create')->name('create_tournament');
-    Route::get('/tournaments/{tournament}', 'TournamentController@show')->name('show_tournament');
+    Route::get('/{tournament}', 'TournamentController@show')->name('show_tournament');
     Route::post('/tournaments', 'TournamentController@store')->name('store_tournament');
     Route::get('/tournaments', 'TournamentController@index')->name('list_tournaments');
 
     Route::get('/clubs', 'ClubController@index')->name('list_clubs');
-    Route::get('/clubs/{club}', 'ClubController@show')->name('show_club');
-    Route::get('/clubs/{club}/{squad}', 'SquadController@show')->name('show_club_squad');
+    Route::get('{club}', 'ClubController@show')->name('show_club');
+    Route::get('{club}/{squad}', 'SquadController@show')->name('show_club_squad');
     Route::get('/clubs/{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
     Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
 
