@@ -27,7 +27,7 @@
                         @foreach ($ongoing->slice(5)->take(5) as $game)
                             <tr>
                                 <td>
-                                    @include('tournaments.partials.tournamentname', ['tournament' => $game->tournament])
+                                    @include('tournaments.partials.tournamentname', ['group' => $game->group])
                                 </td>
                                 <td>
                                     @include('clubs.partials.clubname', ['club' => $game->hometeam])
