@@ -10,6 +10,9 @@
                     <table class="table">
                         @foreach ($ongoing->take(5) as $game)
                             <tr>
+                                <td>
+                                    @include('tournaments.partials.tournamentname', ['group' => $game->group])
+                                </td>
                                 <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->GameStatus  !!}</a></td>
                                 <td>
                                     @include('clubs.partials.clubname', ['club' => $game->hometeam])
@@ -29,10 +32,11 @@
                                 <td>
                                     @include('tournaments.partials.tournamentname', ['group' => $game->group])
                                 </td>
+                                <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->GameStatus  !!}</a></td>
                                 <td>
                                     @include('clubs.partials.clubname', ['club' => $game->hometeam])
                                 </td>
-                                <td>{{ $game->hometeam_score }}-{{ $game->awayteam_score }}</td>
+                                <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{{ $game->hometeam_score }}-{{ $game->awayteam_score }}</a></td>
                                 <td>
                                     @include('clubs.partials.clubname', ['club' => $game->awayteam])
                                 </td>
