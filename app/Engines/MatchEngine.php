@@ -159,7 +159,13 @@ class MatchEngine
         }
 
         if (isset($string)) {
+            $minute = (time() - strtotime($this->game->start_time)) / 60;
+            if ($minute > 45) {
+                $minute = $minute - 15;
+            }
+
             TournamentGameEvent::create([
+                'minute' => $minute,
                 'tournament_game_id' => $this->game->id,
                 'event_description_string' => $string,
             ]);

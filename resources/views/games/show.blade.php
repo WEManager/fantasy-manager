@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 text-center">
-                {{ $game->gameStatus }} <br>
+                {!! $game->gameStatus !!} <br>
                 @include('tournaments.partials.tournamentname', ['group' => $game->group])
             </div>
         </div>
@@ -31,8 +31,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
-                             aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width: {{ $game->CurrentMinute / 90 * 100  }}%"
+                             aria-valuenow="{{ $game->CurrentMinute / 90 * 100  }}"
+                             aria-valuemin="0" aria-valuemax="90"></div>
                     </div>
                 </div>
             </div>
@@ -52,9 +55,11 @@
                 </table>
             </div>
             <div class="col-6">
-                @foreach($game->gameHappenings as $happening)
-                    {{ $happening->id }}
+                <ul>
+                @foreach($game->messages as $message)
+                    <li>{{ $message['minute'] }}: {{ $message['message'] }}</li>
                 @endforeach
+                </ul>
             </div>
             <div class="col-3">
                 <table>

@@ -17,6 +17,16 @@ class TournamentGame extends Model
 
     protected $hidden = ['group_id', 'hometeam_id', 'awayteam_id', 'created_at', 'updated_at'];
 
+    public function getCurrentMinuteAttribute()
+    {
+        $minutes = round((strtotime(now()) - strtotime($this->start_time)) / 60);
+        if ($minutes > 60) {
+            $minutes = $minutes - 15;
+        }
+
+        return $minutes;
+    }
+
     public function getIsAboutToStartAttribute()
     {
         return $this->status == '0' && $this->start_time <= now();
@@ -37,6 +47,22 @@ class TournamentGame extends Model
         return $this->status == '1' && $this->start_time <= ago('106 minutes') && $this->gameEvents->count() == 0;
     }
 
+    public function getMessagesAttribute()
+    {
+        $messages = [];
+        foreach ($this->gameHappenings as $happening) {
+            $messages[] = [
+                'minute' => $happening->minute,
+                'message' => str_replace(
+                    ['hometeam', 'awayteam'],
+                    [$this->hometeam->name, $this->awayteam->name],
+                    $happening->event_description_string
+                )
+            ];
+        }
+        return $messages;
+    }
+
     public function getGameStatusAttribute()
     {
         switch ($this->status) {
@@ -48,7 +74,7 @@ class TournamentGame extends Model
                         date('s', strtotime($this->start_time)),
                         config('app.timezone')
                     )->diffForHumans());
-                } elseif(date('Y') != date('Y', strtotime($this->start_time))) {
+                } elseif (date('Y') != date('Y', strtotime($this->start_time))) {
                     return date('j/n H:i Y', strtotime($this->start_time));
                 } else {
                     return date('j/n H:i', strtotime($this->start_time));

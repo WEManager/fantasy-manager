@@ -17,6 +17,7 @@ class CreateTournamentGameEventsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('tournament_game_id');
             $table->string('event_description_string');
+            $table->integer('minute');
             $table->json('involved_persons')->nullable();
             $table->timestamps();
         });
