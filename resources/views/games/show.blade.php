@@ -2,12 +2,18 @@
 
 @section('content')
 
+    asd
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Game #{{ $game->id }} - A game of {{ $game->group->name }}
-                        in {{ $game->group->tournament->name }}</div>
+                    <div class="card-header">Game #{{ $game->id }}
+                        @if ($game->group->name != $game->group->tournament->name)
+                            - A game of {{ $game->group->name }}
+                        @endif
+                        in {{ $game->group->tournament->name }}
+                    </div>
 
                     <div class="card-body">
                         <div class="row">

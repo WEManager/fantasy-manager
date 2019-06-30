@@ -128,6 +128,11 @@ class TournamentGame extends Model
         return $this->hasMany(GameEvent::class, 'game_id');
     }
 
+    public function gameHappenings()
+    {
+        return $this->hasMany(TournamentGameEvent::class);
+    }
+
     public function hometeamEvents()
     {
         return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->hometeam_id);

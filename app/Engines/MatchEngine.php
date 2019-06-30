@@ -13,6 +13,7 @@ use App\GameEvent;
 use App\Lineup;
 use App\Person;
 use App\TournamentGame;
+use App\TournamentGameEvent;
 use App\TournamentStanding;
 use Illuminate\Support\Facades\Cache;
 
@@ -150,11 +151,18 @@ class MatchEngine
         $totalMidfield = $attackingMidfield + $defendingMidfield;
 
         if (rand(0, $totalMidfield) <= $attackingMidfield) {
-            echo $creators . ' går till attack';
-            $this->scoringChance($creators, $defenders);
+            $string = $creators . ':GOES_TO_ATTACK:';
+            $string .= $this->scoringChance($creators, $defenders);
         } elseif (!$isCounter) {
-            echo $defenders . ' bryter på mittfältet';
-            $this->counterAttack($defenders, $creators);
+            $string = $defenders . ':BREAKS_IN_MIDFIELD:';
+            $string .= $this->counterAttack($defenders, $creators);
+        }
+
+        if (isset($string)) {
+            TournamentGameEvent::create([
+                'tournament_game_id' => $this->game->id,
+                'event_description_string' => $string,
+            ]);
         }
     }
 
@@ -166,13 +174,16 @@ class MatchEngine
         $totalSkills = $attackingForwards + $defendingBacks;
 
         if (rand(0, $totalSkills) <= $attackingForwards) {
-            echo $creators . ' gör mål!';
+
+            $returnString = $creators . ':SCORES:';
             $this->game->{$creators . '_score'} = is_null($this->game->{$creators . '_score'}) ? 1 : $this->game->{$creators . '_score'} + 1;
             $this->game->{$defenders . '_score'} = is_null($this->game->{$defenders . '_score'}) ? 0 : $this->game->{$defenders . '_score'};
             $this->game->save();
         } else {
-            echo $defenders . ' lyckas försvara sig.';
+            $returnString = $defenders . ':DEFENDS_SUCCESSFULLY:';
         }
+
+        return $returnString;
     }
 
     private function counterAttack($creators, $defenders)

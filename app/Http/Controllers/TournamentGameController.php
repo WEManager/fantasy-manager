@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class TournamentGameController extends Controller
 {
-    public function show(TournamentGame $game)
+    public function show($locale, TournamentGame $game)
     {
         if (\request()->wantsJson()) {
             $game->playerOneEvents;
