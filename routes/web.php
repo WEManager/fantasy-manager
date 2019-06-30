@@ -35,7 +35,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/clubs', 'ClubController@index')->name('list_clubs');
     Route::get('{club}', 'ClubController@show')->name('show_club');
-    Route::get('/clubs/{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
+    Route::get('{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
     Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
 
     Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->middleware('auth')->name('apply_for_job');
