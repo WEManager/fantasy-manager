@@ -44,8 +44,9 @@ class TournamentGame extends Model
                 if (date('Y-m-d') == date('Y-m-d', strtotime($this->start_time))) {
                     return Carbon::createFromTime(
                         date('H', strtotime($this->start_time)),
-                        date('m', strtotime($this->start_time)),
-                        date('s', strtotime($this->start_time))
+                        date('i', strtotime($this->start_time)),
+                        date('s', strtotime($this->start_time)),
+                        config('app.timezone')
                     )->diffForHumans();
                 } else {
                     return date('j/n H:i', strtotime($this->start_time));
