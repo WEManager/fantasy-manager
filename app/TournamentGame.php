@@ -158,7 +158,7 @@ class TournamentGame extends Model
 
     public function gameHappenings()
     {
-        return $this->hasMany(TournamentGameEvent::class);
+        return $this->hasMany(TournamentGameEvent::class)->orderBy('minute');
     }
 
     public function hometeamEvents()
