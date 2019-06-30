@@ -65,7 +65,7 @@
                             @foreach ($group->upcomingGames->take('8') as $game)
                                 <tr>
                                     <td>{{ date('j/n H:i', strtotime($game->start_time)) }}</td>
-                                    <td>{!! $game->gameStatus !!}</td>
+                                    <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a></td>
                                     <td>@include('clubs.partials.clubname', ['club' => $game->hometeam])</td>
                                     @if ($game->status > 0)
                                         <td>{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</td>

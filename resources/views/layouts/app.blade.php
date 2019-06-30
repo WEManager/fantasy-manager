@@ -10,7 +10,7 @@
     <title>@yield('title') {{ __('Football Manager Game') }} - {{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -49,7 +49,8 @@
                                 <a class="dropdown-item"
                                    href="{{ link_route(\Illuminate\Support\Facades\Route::currentRouteName(), $params) }}"
                                    @if (app()->getLocale() == $locale) style="font-weight: bold;" @endif>
-                                    <span class="flag-icon flag-icon-{{ strtolower($flag) }}"></span> {{ config('app.available_locale_names.'.$locale) }}
+                                    <span
+                                        class="flag-icon flag-icon-{{ strtolower($flag) }}"></span> {{ config('app.available_locale_names.'.$locale) }}
                                 </a>
                             @endforeach
                         </div>
@@ -107,5 +108,6 @@
         @yield('content')
     </main>
 </div>
+
 </body>
 </html>

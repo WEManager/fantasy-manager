@@ -26,14 +26,14 @@
                             <td>
                                 @include('tournaments.partials.tournamentname', ['group' => $game->group])
                             </td>
-                            <td>{!! $game->gameStatus !!}</td>
+                            <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a></td>
                             <td>
                                 @include('clubs.partials.clubname', ['club' => $game->hometeam])
                             </td>
                             @if ($game->status > 0)
-                                <td>{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</td>
+                                <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</a></td>
                             @else
-                                <td>-</td>
+                                <td><a href="{{ link_route('show_game', ['game' => $game]) }}">-</a></td>
                             @endif
                             <td>
                                 @include('clubs.partials.clubname', ['club' => $game->awayteam])
