@@ -16,7 +16,6 @@
                 <table class="table">
                     <tr>
                         <td>{{ __('Competition') }}</td>
-                        <td>{{ __('Date') }}</td>
                         <td>{{ __('Status') }}</td>
                         <td>{{ __('Hometeam') }}</td>
                         <td></td>
@@ -27,10 +26,7 @@
                             <td>
                                 @include('tournaments.partials.tournamentname', ['group' => $game->group])
                             </td>
-                            <td>
-                                {{ date('j/n H:i', strtotime($game->start_time)) }}
-                            </td>
-                            <td>{{ $game->gameStatus }}</td>
+                            <td>{!! $game->gameStatus !!}</td>
                             <td>
                                 @include('clubs.partials.clubname', ['club' => $game->hometeam])
                             </td>
