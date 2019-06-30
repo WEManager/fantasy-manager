@@ -17,6 +17,7 @@ class CreateTournamentsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('season');
+            $table->string('slug');
             $table->integer('recurring_every_of_year')->nullable();
             $table->integer('participants');
             $table->enum('type', ['league', 'groups', 'playoffs'])->default('league');
