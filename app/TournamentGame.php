@@ -54,7 +54,7 @@ class TournamentGame extends Model
                 $minutes = round((strtotime(now()) - strtotime($this->start_time)) / 60);
                 $returnString = $minutes . '\'';
                 if ($minutes > 45 && $minutes < 60) {
-                    $returnString = __('Waiting for second half');
+                    $returnString = __('Halftime');
                 }
                 if ($minutes > 60) {
                     $returnString = ($minutes - 15) . '\'';
