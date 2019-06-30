@@ -28,7 +28,7 @@ class ManagerContractController extends Controller
         return view('manager-contracts.create')->with(compact('club'));
     }
 
-    public function store()
+    public function store($locale)
     {
         $club = Club::find(\request('club_id'));
 
