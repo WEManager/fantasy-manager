@@ -30,6 +30,7 @@
                         <table class="table table-responsive">
                             <tr>
                                 <td>{{ __('Club') }}</td>
+                                <td>{{ __('Games') }}</td>
                                 <td>{{ __('Won') }}</td>
                                 <td>{{ __('Ties') }}</td>
                                 <td>{{ __('Lost') }}</td>
@@ -41,6 +42,7 @@
                                     <td>
                                         @include('clubs.partials.clubname', ['club' => $standing->club])
                                     </td>
+                                    <td align="center">{{ $standing->won + $standing->tie + $standing->lost }}</td>
                                     <td align="center">{{ $standing->won }}</td>
                                     <td align="center">{{ $standing->tie }}</td>
                                     <td align="center">{{ $standing->lost }}</td>
