@@ -30,7 +30,7 @@ class LineupPolicy
      */
     public function view(User $user, Lineup $lineup)
     {
-        dd(['user' => $user, 'lineup' => $lineup]);
+        dd(['user' => $user->club, 'lineup' => $lineup]);
         return optional($user->club)->id === $lineup->club_id;
     }
 
