@@ -54,7 +54,7 @@ class ManagerContractController extends Controller
                 'status' => 'approved',
             ]);
 
-            return redirect(route('show_club', ['club' => $club]));
+            return redirect(link_route('show_club', ['club' => $club]));
         } else {
             JobApplication::create([
                 'user_id' => auth()->id(),

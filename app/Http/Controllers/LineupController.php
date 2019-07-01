@@ -10,7 +10,6 @@ class LineupController extends Controller
 {
     public function edit($locale, Club $club, $squad)
     {
-        dd($locale);
         if (!$lineup = Lineup::where('club_id', $club->id)->where('team', $squad)->first()) {
             $lineup = Lineup::create([
                 'club_id' => $club->id,
