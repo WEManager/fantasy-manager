@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class LineupPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * Determine whether the user can view any lineups.
      *
@@ -30,6 +30,7 @@ class LineupPolicy
      */
     public function view(User $user, Lineup $lineup)
     {
+        dd(['user' => $user, 'lineup' => $lineup);
         return optional($user->club)->id === $lineup->club_id;
     }
 
