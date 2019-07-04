@@ -2,13 +2,16 @@
 
 namespace App\Console\Commands;
 
+use App\Arena;
 use App\Club;
-use App\Generators\Player;
 use App\Lineup;
 use App\Person;
 use App\PlayerContract;
+use App\Generators\Player;
 use Illuminate\Console\Command;
 use App\Generators\Club as ClubGenerator;
+use App\Generators\Arena as ArenaGenerator;
+use Illuminate\Support\Facades\DB;
 
 class GenerateClub extends Command
 {
@@ -48,6 +51,10 @@ class GenerateClub extends Command
             $name = $clubGenerator->name($this->argument('locale'));
             $colors = $clubGenerator->colors();
 
+            $arenaGenerator = new ArenaGenerator();
+            $arenaName = $arenaGenerator->name($this->argument('locale'), $clubGenerator->town);
+
+            $arena = Arena::create(['name' => $arenaName, 'town' => $clubGenerator->town]);
             $club = Club::create(['name' => $name, 'colors' => $colors, 'locale' => nationalityBasedOnLocale($this->argument('locale'))]);
 
             // Let us create a U19 team
@@ -61,6 +68,25 @@ class GenerateClub extends Command
             // Let us create am A-team
             $players = $this->createPlayers($club, 'regular');
             Lineup::create($this->setupLineup($players, $club, 'senior'));
+
+            $arenaData = [
+                [
+                    'club_id' => $club->id,
+                    'arena_id' => $arena->id,
+                    'team' => 'u19',
+                ],
+                [
+                    'club_id' => $club->id,
+                    'arena_id' => $arena->id,
+                    'team' => 'u21',
+                ],
+                [
+                    'club_id' => $club->id,
+                    'arena_id' => $arena->id,
+                    'team' => 'senior',
+                ],
+            ];
+            DB::table('club_arenas')->insert($arenaData);
         }
     }
 

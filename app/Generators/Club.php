@@ -4,7 +4,9 @@ namespace App\Generators;
 
 class Club
 {
-    public static function name($locale)
+    public $town;
+
+    public function name($locale)
     {
         $prefixes = include resource_path('club_prefix/' . $locale . '.php');
         $suffixes = include resource_path('club_suffix/' . $locale . '.php');
@@ -17,6 +19,8 @@ class Club
         $names = include resource_path('city/' . $locale . '.php');
         shuffle($names);
 
+        $this->town = $names[0];
+
         // Give the club a prefix
         if ($preOrSuffixRandomizer <= count($prefixes)) {
             $clubName = $prefixes[0] . ' ' . $names[0];
@@ -26,13 +30,13 @@ class Club
         }
 
         if (\App\Club::where('name', $clubName)->first()) {
-            return Club::name($locale);
+            return $this->name($locale);
         }
 
         return $clubName;
     }
 
-    public static function colors()
+    public function colors()
     {
         $colors = include resource_path('club_colors/index.php');
         shuffle($colors);
