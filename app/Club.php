@@ -58,6 +58,11 @@ class Club extends Model
             ->where('season', $season->id);
     }
 
+    public function arenas()
+    {
+        return $this->hasMany(Arena::class);
+    }
+
     public function players($type = [])
     {
         $players = $this->belongsToMany(Person::class, 'player_contracts', 'club_id', 'person_id')
