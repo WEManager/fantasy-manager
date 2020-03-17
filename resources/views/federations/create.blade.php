@@ -2,6 +2,6 @@
 
 @section('content')
 
-    <div id="createTournament"></div>
+    <div id="createFederation"></div>
 
 @endsection

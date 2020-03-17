@@ -28,6 +28,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::put('/players/{user}', 'PlayerController@update')->name('update_player');
     Route::get('/players', 'PlayerController@index')->name('list_players');
 
+    Route::get('/federations/create', 'FederationController@create')->name('create_federation');
+
     Route::get('/tournaments/create', 'TournamentController@create')->name('create_tournament');
     Route::get('/{tournament}', 'TournamentController@show')->name('show_tournament');
     Route::post('/tournaments', 'TournamentController@store')->name('store_tournament');

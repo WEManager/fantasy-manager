@@ -7,4 +7,72 @@ Most important things:
     - Goals
     - Yellow / Red cards
     - Freekicks / Penalties
-    -
+
+
+How a competition works:
+1. Select teams from last seasons qualifications
+--
+2. Play regular league
+3. Select teams for qualifications from the league places
+4. Play the qualifications
+
+Example Allsvenskan: 16 teams
+1.  Select team 1-13 from last season regular league of Allsvenskan (13)
+    Select winner from qualifications to Allsvenskan (1)
+    Select team 1-2 from last season regular league of Superettan (2)
+    (Total of 16 teams)
+2.  Play the regular league
+3.  Crown team 1 as Champions!
+4.  Select team 14 from regular league, and team 3 from Superettan regular league for a qualification to Allsvenskan
+5.  Play the qualifications
+
+Example Superettan: 16 teams
+1.  Select loser from last season qualifications to Allsvenskan (1)
+    Select team 15-16 from last season regular league of Allsvenskan (2)
+    Select team 4-12 from last season regular league of Superettan (9)
+    Select 2 winners from qualifications to Superettan (2)
+    Select the 2 winners from last season regular leagues of Ettan (2)
+    (Total of 16 teams)
+2.  Play the regular league
+3.  Select team 13 to meet worst ranked 2nd place from Ettan, and team 14 to meet best ranked 2nd place from Ettan
+4.  Play the qualifications
+
+Example Ettan (2 leagues): 32 teams
+1.  Select 2 losers from last season qualifications to Superettan (2)
+    Select team 15-16 from last season regular league of Superettan (2)
+    Select team 3-12 from last season regular leagues of Ettan (10+10 = 20)
+    Select 6 winners from last season regular leagues of Tvåan (6)
+    Select 2 winners from qualifications to Ettan (2)
+    (Total of 32 teams)
+    Sort teams into north and south leagues by coordinates, 16 teams in each.
+2.  Play the regular leagues
+3.  Select team 13 to meet winners from play off group north and south in Tvåan
+4.  Play the qualifications
+
+Example Tvåan (6 leagues): 84 teams
+1.  Select 2 losers from last season qualifications to Ettan (2)
+    Select 14-16 from last season Ettan (6)
+    Select 2-3 from last season play off groups north and south (4)
+    Select 3-11 from last season Tvåan (54)
+    Select 12 winners from last season regular leagues of Trean (12)
+    Select 6 winner from qualifications to Tvåan (6)
+    (Total of 84 teams)
+2.  Play the regular leagues
+3.  Select team 2 and create 2 play off groups, north and south
+4.  Play the play off groups
+5.  Select team 12 to meet winner from play off games in Trean
+6.  Play the qualifications
+
+Example Trean (12 leagues): 144 teams
+1.  Select 6 losers from qualifications to Tvåan (6)
+    Select 13-14 from last season Tvåan (12)
+    Select loser from last season play off to Tvåan (6)
+    Select 3-12 from last season Trean (120)
+2.  Play the regular leagues
+3.  Select team 2 and create 6 play off games, best vs worst ranked
+4.  Play the play off games
+
+
+We need to build league systems from the bottom and up.
+
+1. Name the league system

@@ -93,6 +93,10 @@
             <div class="row">
 
                 <div class="col-sm-6">
+                    <a href="{{ link_route('create_federation') }}" class="btn btn-primary">{{ __('New Federation') }}</a>
+                </div>
+
+                <div class="col-sm-6">
                     <a href="{{ link_route('create_tournament') }}" class="btn btn-primary">{{ __('New Tournament') }}</a>
                 </div>
 
