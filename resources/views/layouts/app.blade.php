@@ -70,6 +70,10 @@
                             </li>
                         @endif
                     @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://discord.gg/tzFVp2y" target="_blank">Join us on Discord</a>
+                        </li>
+
                         @if (Auth::user()->club)
                             <li class="nav-item">
                                 <a class="nav-link {{ is_current('show_club', ['club' => Auth::user()->club]) ? 'active' : '' }}"
