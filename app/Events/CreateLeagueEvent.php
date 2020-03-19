@@ -113,22 +113,23 @@ class CreateLeagueEvent
         $rounds = ($amountOfParticipants - 1) * $meetings;
 
         // Count playing days
-        $season = Season::find($group->tournament->season);
+        $season = getCurrentSeason();
 
-        $restingDaysBeforeStart = 7;
-        $restingDaysAfterSeason = 5;
+        $restingDaysBeforeStart = 1;
+        $restingDaysAfterSeason = 7;
 
         $startDate = strtotime($season->start_time . ' +' . $restingDaysBeforeStart . ' days');
         $endDate = strtotime($season->end_time . ' -' . $restingDaysAfterSeason . ' days');
 
         $daysBetween = (int)round(($endDate - $startDate) / 86400);
+        //$daysBetween = 47;
 
-        $oneRoundEvery = round($daysBetween / $rounds);
+        $oneRoundEvery = $daysBetween / $rounds;
 
         // Loop the rounds...
         for ($r = 1; $r <= $rounds; $r++) {
 
-            $daysAfterStart = ($r - 1) * $oneRoundEvery;
+            $daysAfterStart = round(($r - 1) * $oneRoundEvery);
             $roundDate = date('Y-m-d 19:00:00', strtotime(date('Y-m-d', $startDate) . ' +' . $daysAfterStart . ' days'));
 
             // If it is weekend, set other time

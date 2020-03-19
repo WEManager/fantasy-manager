@@ -16,7 +16,6 @@ class CreateTournamentsTable extends Migration
         Schema::create('tournaments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('season');
             $table->string('slug');
             $table->integer('recurring_every_of_year')->nullable();
             $table->integer('participants');
@@ -27,6 +26,7 @@ class CreateTournamentsTable extends Migration
             $table->integer('proceeding_to_playoffs')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**

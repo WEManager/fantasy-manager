@@ -13301,6 +13301,26 @@ h6 {
   padding-bottom: 100%;
 }
 
+.champions {
+  background-color: gold;
+}
+
+.promoted {
+  background-color: #2fa360;
+}
+
+.qualify_up {
+  background-color: #b3e8ca;
+}
+
+.qualify_down {
+  background-color: #f7b8c1;
+}
+
+.relegated {
+  background-color: #f07a8b;
+}
+
 .step {
   padding: 15px;
   background: #aaa;

@@ -38,4 +38,10 @@ class Tournament extends Model
     {
         return $this->hasMany(TournamentGroup::class);
     }
+
+    public function qualifications()
+    {
+        return $this->hasMany(TournamentQualification::class);
+    }
+
 }

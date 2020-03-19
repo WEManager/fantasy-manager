@@ -60,6 +60,12 @@ function nationalityBasedOnLocale($locale)
     return strtoupper($locale);
 }
 
+function getCurrentSeason()
+{
+    $date = date('Y-m-d H:i:s');
+    return \App\Season::whereDate('start_time', '<=', $date)->whereDate('end_time', '>=', $date)->first();
+}
+
 function getContractType($squad)
 {
     $type = [];

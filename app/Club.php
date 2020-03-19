@@ -50,12 +50,11 @@ class Club extends Model
 
     public function tournament()
     {
-        $season = Season::whereDate('start_time', '<=', date('Y-m-d'))
+        /*$season = Season::whereDate('start_time', '<=', date('Y-m-d'))
             ->whereDate('end_time', '>=', date('Y-m-d'))
             ->first();
-
-        return $this->hasOneThrough(Tournament::class, TournamentParticipant::class, 'club_id', 'id', 'id', 'tournament_id')
-            ->where('season', $season->id);
+*/
+        return $this->hasOneThrough(Tournament::class, TournamentParticipant::class, 'club_id', 'id', 'id', 'tournament_id');
     }
 
     public function arenas()

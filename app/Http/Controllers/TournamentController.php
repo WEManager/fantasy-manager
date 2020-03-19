@@ -68,6 +68,6 @@ class TournamentController extends Controller
             $group->standings = $table;
         }
 
-        return view('tournaments.show')->with(['tournament' => $tournament]);
+        return view('tournaments.show')->with(['tournament' => $tournament, 'position_status' => $tournament->qualifications()->pluck('status')]);
     }
 }

@@ -12,4 +12,7 @@ return [
     'Arena [town]',
     '[town] Arena',
     '[town] Stadium',
+    '[town] Center',
+    'Stadium [town]',
+    'Center [town]',
 ];

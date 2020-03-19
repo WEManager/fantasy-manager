@@ -29,6 +29,7 @@
                         <h3 id="{{ slugify($group->name) }}">{{ $group->name }}</h3>
                         <table class="table table-responsive">
                             <tr>
+                                <td>{{ __('Pos.') }}</td>
                                 <td>{{ __('Club') }}</td>
                                 <td>{{ __('Games') }}</td>
                                 <td>{{ __('Won') }}</td>
@@ -37,8 +38,10 @@
                                 <td>{{ __('+/-') }}</td>
                                 <td>{{ __('Points') }}</td>
                             </tr>
+                            <?php $i = 1; ?>
                             @foreach ($group->standings as $standing)
-                                <tr>
+                                <tr class="{{ $position_status[$i-1] }}" title="{{ $position_status[$i-1] }}">
+                                    <td>{{ $i }}</td>
                                     <td>
                                         @include('clubs.partials.clubname', ['club' => $standing->club])
                                     </td>
@@ -49,6 +52,7 @@
                                     <td align="center">{{ $standing->GoalDifference }}</td>
                                     <td align="right">{{ $standing->points }}</td>
                                 </tr>
+                                <?php $i++; ?>
                             @endforeach
                         </table>
 
@@ -65,7 +69,9 @@
                             </tr>
                             @foreach ($group->upcomingGames->take('8') as $game)
                                 <tr>
-                                    <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a></td>
+                                    <td>
+                                        <a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a>
+                                    </td>
                                     <td>@include('clubs.partials.clubname', ['club' => $game->hometeam])</td>
                                     @if ($game->status > 0)
                                         <td>{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</td>
