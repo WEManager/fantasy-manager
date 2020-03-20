@@ -6,10 +6,10 @@
     <div class="container py-4">
         <div class="row">
             <div class="col-12">
-                <h1>{{ $tournament->name }}</h1>
+                <h1>{{ __($tournament->name) }}</h1>
 
                 @if (count($tournament->tournamentGroups) > 1)
-                    <small>{{ __(':Tournament has :Amount groups', ['Tournament' => $tournament->name,'Amount' => count($tournament->tournamentGroups)]) }}</small>
+                    <small>{{ __(':Tournament has :Amount groups', ['Tournament' => __($tournament->name),'Amount' => count($tournament->tournamentGroups)]) }}</small>
                 @endif
             </div>
         </div>
@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-sm">
 
-                        <h3 id="{{ slugify($group->name) }}">{{ $group->name }}</h3>
+                        <h3 id="{{ slugify($group->name) }}">{{ __($group->name) }}</h3>
                         <table class="table table-responsive">
                             <tr>
                                 <td>{{ __('Pos.') }}</td>
