@@ -56,8 +56,13 @@
         @endif
 
         @if (count($tournaments) > 0)
-            @foreach($tournaments as $tournament)
-                <a href="{{ link_route('show_tournament', ['tournament' => $tournament->slug]) }}">{{ __($tournament->name) }}</a>
+            @foreach($tournaments as $nationality => $leagues)
+                <h2>{{ $nationality }}</h2>
+                <ul>
+                    @foreach($leagues as $league)
+                        <li>{{ $league->name }}</li>
+                    @endforeach
+                </ul>
             @endforeach
         @endif
 

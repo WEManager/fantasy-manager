@@ -34,6 +34,7 @@ class Tournament
 
         $tournament = \App\Tournament::create([
             'name' => $props['name'],
+            'nationality' => nationalityBasedOnLocale($props['locale']),
             'type' => $props['type'],
             'participants' => $props['teams'], // amount of teams
             'recurring_every_of_year' => 1,

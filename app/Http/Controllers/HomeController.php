@@ -27,7 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tournaments = Tournament::get(['id', 'slug', 'name']);
+        $tnmts = Tournament::orderBy('nationality')->get(['id', 'slug', 'name', 'nationality']);
+
+        $tournaments = [];
+        foreach ($tnmts as $tnmt) {
+            $tournaments[$tnmt->nationality][] = $tnmt;
+        }
 
         $ongoing = TournamentGame::where('status', '1')->get();
 
