@@ -56,14 +56,20 @@
         @endif
 
         @if (count($tournaments) > 0)
-            @foreach($tournaments as $nationality => $leagues)
-                <h2>{{ $nationality }}</h2>
-                <ul>
-                    @foreach($leagues as $league)
-                        <li>{{ $league->name }}</li>
-                    @endforeach
-                </ul>
-            @endforeach
+            <div class="row">
+                @foreach($tournaments as $nationality => $leagues)
+                    <div class="col-sm">
+                        <span class="flag-icon flag-icon-{{ strtolower($nationality) }}"></span>
+                        <ul style="list-style: none; padding: 0">
+                            @foreach($leagues as $league)
+                                <li>
+                                    <a href="{{ link_route('show_tournament', ['tournament' => $league->slug]) }}">{{ __($league->name) }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            </div>
         @endif
 
         @auth
