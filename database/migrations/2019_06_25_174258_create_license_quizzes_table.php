@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,8 +17,16 @@ class CreateLicenseQuizzesTable extends Migration
         Schema::create('license_quizzes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
+            $table->integer('level');
             $table->timestamps();
         });
+
+        DB::table('license_quizzes')->insert([
+            'name' => 'Fundamentals',
+            'level' => 1,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 
     /**

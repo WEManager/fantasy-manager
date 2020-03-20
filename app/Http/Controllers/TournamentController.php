@@ -10,11 +10,13 @@ use App\TournamentParticipant;
 use App\TournamentStanding;
 use App\User;
 use App\Http\Requests\StoreTournament;
+use Illuminate\Support\Facades\Cache;
 
 class TournamentController extends Controller
 {
     public function index()
     {
+        dd(Tournament::all());
         return view('tournaments.index', ['tournaments' => Tournament::all()]);
     }
 
@@ -55,19 +57,33 @@ class TournamentController extends Controller
     {
         //$groups = TournamentGroup::where('tournament_id', $tournament->id)->get();
 
-        //$groupIds = $groups->pluck('id')->toArray();
-        $standings = TournamentStanding::whereIn('group_id', $tournament->tournamentGroups->pluck('id'))->orderBy('points', 'desc')->orderByRaw('(scored - conceded) desc')->get();
-
-        foreach ($tournament->tournamentGroups as $group) {
-            $table = [];
-            foreach ($standings as $standing) {
-                if ($group->id === $standing->group_id) {
-                    $table[] = $standing;
-                }
+        if (!Cache::has('standings-' . $tournament->id)) {
+            $groupIds = [];
+            foreach ($tournament->tournamentGroups as $group) {
+                $groupIds[] = $group->id;
             }
-            $group->standings = $table;
+
+            $participatingClubs = [];
+            $standings = TournamentStanding::whereIn('group_id', $groupIds)->orderBy('points', 'desc')->orderByRaw('(scored - conceded) desc')->get();
+
+            foreach ($tournament->tournamentGroups as $group) {
+                $table = [];
+                foreach ($standings as $standing) {
+                    if ($group->id === $standing->group_id) {
+                        $table[] = $standing;
+                        $participatingClubs[$standing->club->id] = $standing->club;
+                    }
+                }
+                $group->standings = $table;
+            }
+
+            $view = ['tournament' => $tournament, 'participating_clubs' => $participatingClubs, 'position_status' => $tournament->qualifications->pluck('status')];
+
+            Cache::put('standings-' . $tournament->id, $view);
+        } else {
+            $view = Cache::get('standings-' . $tournament->id);
         }
 
-        return view('tournaments.show')->with(['tournament' => $tournament, 'position_status' => $tournament->qualifications()->pluck('status')]);
+        return view('tournaments.show')->with($view);
     }
 }

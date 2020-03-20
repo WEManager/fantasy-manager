@@ -8,6 +8,8 @@ class TournamentStanding extends Model
 {
     protected $guarded = [];
 
+    protected $with = ['club'];
+
     protected $casts = [
         'group_id' => 'int',
         'won' => 'int',

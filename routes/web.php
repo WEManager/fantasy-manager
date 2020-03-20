@@ -44,6 +44,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::post('/apply-for-job', 'ManagerContractController@store')->name('send_job_application');
 
     Route::get('/license-test/{licenseQuiz}', 'LicenseQuizController@show')->middleware('level0')->name('license_test');
+    Route::post('/license-test/{licenseQuiz}/submit', 'LicenseQuizController@submission')->middleware('level0')->name('license_test_validation');
 
 //Route::get('/match/{game}', '')
 

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Collection;
 use Spatie\Sluggable\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\SlugOptions;
@@ -11,8 +13,6 @@ class Club extends Model
     use HasSlug;
 
     protected $fillable = ['name', 'colors', 'locale'];
-
-    protected $with = ['tournament'];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -41,6 +41,16 @@ class Club extends Model
         }
 
         return $colors;
+    }
+
+    public function homegames()
+    {
+        return $this->hasMany(TournamentGame::class, 'hometeam_id', 'id');
+    }
+
+    public function awaygames()
+    {
+        return $this->hasMany(TournamentGame::class, 'awayteam_id', 'id');
     }
 
     public function manager()

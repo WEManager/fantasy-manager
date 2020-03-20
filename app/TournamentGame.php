@@ -151,6 +151,16 @@ class TournamentGame extends Model
         return $this->belongsTo(Club::class, 'awayteam_id');
     }
 
+    public function getHometeamNameAttribute()
+    {
+        return Club::find($this->hometeam_id)->get('id', 'name');
+    }
+
+    public function getAwayteamNameAttribute()
+    {
+        return Club::find($this->hometeam_id)->get('id', 'name');
+    }
+
     public function gameEvents()
     {
         return $this->hasMany(GameEvent::class, 'game_id');

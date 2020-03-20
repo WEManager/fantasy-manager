@@ -17,8 +17,6 @@ class ClubController extends Controller
 
     public function show($locale, Club $club)
     {
-        $games = TournamentGame::where('hometeam_id', $club->id)->orWhere('awayteam_id', $club->id)->paginate();
-
-        return view('clubs.show')->with(['club' => $club, 'games' => $games]);
+        return view('clubs.show')->with(['club' => $club]);
     }
 }

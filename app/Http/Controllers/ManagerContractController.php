@@ -11,7 +11,12 @@ class ManagerContractController extends Controller
 {
     public function create($locale, Club $club)
     {
+        if (auth()->check() && auth()->user()->club) {
+            return redirect()->back();
+        }
+
         if (auth()->check() && auth()->user()->level === 0) {
+            session(['apply_for_job_club' => $club]);
             return view('manager-contracts.low_level')->with(compact('club'));
         }
 
@@ -54,7 +59,7 @@ class ManagerContractController extends Controller
                 'status' => 'approved',
             ]);
 
-            return redirect(link_route('show_club', ['club' => $club]));
+            return redirect(link_route('show_club', ['club' => $club]))->with('message', __('You got the job as manager for :club!', ['club' => $club->name]));
         } else {
             JobApplication::create([
                 'user_id' => auth()->id(),

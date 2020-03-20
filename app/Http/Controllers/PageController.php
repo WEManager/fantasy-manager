@@ -13,7 +13,7 @@ class PageController extends Controller
         if ($tournament = Tournament::where('slug', $slug)->first()) {
             $tournamentController = new TournamentController();
             return $tournamentController->show($locale, $tournament);
-        } elseif ($club = Club::where('slug', $slug)->first()) {
+        } elseif ($club = Club::with(['homegames', 'awaygames'])->where('slug', $slug)->first()) {
             $clubController = new ClubController();
             return $clubController->show($locale, $club);
         }

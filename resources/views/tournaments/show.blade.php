@@ -21,7 +21,6 @@
     <div class="container">
         <div class="col-xs-12">
 
-
             @foreach($tournament->tournamentGroups as $group)
                 <div class="row">
                     <div class="col-sm">
@@ -67,18 +66,18 @@
                                 <td></td>
                                 <td>{{ __('Awayteam') }}</td>
                             </tr>
-                            @foreach ($group->upcomingGames->take('8') as $game)
+                            @foreach ($group->upcomingGames as $game)
                                 <tr>
                                     <td>
                                         <a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a>
                                     </td>
-                                    <td>@include('clubs.partials.clubname', ['club' => $game->hometeam])</td>
+                                    <td>@include('clubs.partials.clubname', ['club' => $participating_clubs[$game->hometeam_id]])</td>
                                     @if ($game->status > 0)
                                         <td>{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</td>
                                     @else
                                         <td>-</td>
                                     @endif
-                                    <td>@include('clubs.partials.clubname', ['club' => $game->awayteam])</td>
+                                    <td>@include('clubs.partials.clubname', ['club' => $participating_clubs[$game->awayteam_id]])</td>
                                 </tr>
                             @endforeach
                         </table>

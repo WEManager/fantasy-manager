@@ -11,7 +11,7 @@ class TournamentGroup extends Model
         'tournament_id',
     ];
 
-    protected $with = ['games'];
+    protected $with = ['games', 'upcomingGames'];
 
     protected $hidden = ['tournament_id', 'created_at', 'updated_at'];
 
@@ -27,6 +27,6 @@ class TournamentGroup extends Model
 
     public function upcomingGames()
     {
-        return $this->hasMany(TournamentGame::class, 'group_id')->whereDate('start_time', '>=', ago('12 hours', 'date'))->orderBy('start_time');
+        return $this->hasMany(TournamentGame::class, 'group_id')->whereDate('start_time', '>=', ago('12 hours', 'date'))->orderBy('start_time')->take(10);
     }
 }
