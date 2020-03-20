@@ -27,6 +27,6 @@ class TournamentGroup extends Model
 
     public function upcomingGames()
     {
-        return $this->hasMany(TournamentGame::class, 'group_id')->whereDate('start_time', '>=', ago('12 hours', 'date'))->orderBy('start_time')->take(10);
+        return $this->hasMany(TournamentGame::class, 'group_id')->whereDate('start_time', '>=', ago('12 hours', 'date'))->whereDate('start_time', '<', date('Y-m-d', strtotime('+1 day')))->orderBy('start_time');
     }
 }
