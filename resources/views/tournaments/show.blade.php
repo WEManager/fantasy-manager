@@ -90,12 +90,12 @@
                                 <tr>
                                     <td>{{ __('Pos.') }}</td>
                                     <td>{{ __('Club') }}</td>
-                                    <td>{{ __('Games') }}</td>
-                                    <td>{{ __('Won') }}</td>
-                                    <td>{{ __('Ties') }}</td>
-                                    <td>{{ __('Lost') }}</td>
-                                    <td>{{ __('+/-') }}</td>
-                                    <td>{{ __('Points') }}</td>
+                                    <td align="center">{{ __('Games') }}</td>
+                                    <td align="center">{{ __('Won') }}</td>
+                                    <td align="center">{{ __('Ties') }}</td>
+                                    <td align="center">{{ __('Lost') }}</td>
+                                    <td align="center">{{ __('+/-') }}</td>
+                                    <td align="right">{{ __('Points') }}</td>
                                 </tr>
                                 <?php $i = 1; ?>
                                 @foreach ($group->standings as $standing)
