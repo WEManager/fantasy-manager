@@ -21,7 +21,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ link_route('show_game', ['game' => $game]) }}">{{ $game->hometeam_score }}
-                                        -{{ $game->awayteam_score }}</a></td>
+                                        - {{ $game->awayteam_score }}</a></td>
                                 <td>
                                     @include('clubs.partials.clubname', ['club' => $game->awayteam])
                                 </td>
