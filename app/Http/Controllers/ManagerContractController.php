@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Club;
 use App\JobApplication;
 use App\ManagerContract;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ManagerContractController extends Controller
@@ -71,5 +72,39 @@ class ManagerContractController extends Controller
                 __(':Club did not accept your application.', ['Club' => $club->name])
             ]);
         }
+    }
+
+    public function quitJob($locale, Club $club)
+    {
+        // TODO: Accept to leave if club is not satisfied.
+        // TODO: Accept to leave by paying your part of contract to the club.
+        // TODO: Do not accept you to leave at all.
+
+        /*$acceptOrDenyRand = rand(0,1);
+
+
+        if ($acceptOrDenyRand > 0) {
+            $boardMessage = __('The board is upset about your request to leave the club. :Club has terminated your contract with immediate effect.', ['Club' => $club->name]);
+        } else {
+            $boardMessage = __('The board does not want you to leave your job as manager of :Club, but to fulfill your contract. The contract is valid until :Date.', ['Club' => $club->name, 'Date' => date('j/n Y', strtotime($contract->until))]);
+        }*/
+
+        $contract = ManagerContract::where('club_id', $club->id)->where('user_id', auth()->id())->where('status', 'ongoing')->whereDate('until', '>', date('Y-m-d'))->first();
+
+        $now = Carbon::now();
+        $signed = Carbon::parse($contract->from);
+        if ($signed->diffInDays($now) < 14) {
+
+            $boardMessage = __('You cannot resign within 14 days of signing your contract.');
+
+            return view('manager-contracts.quit', ['club' => $club, 'boardMessage' => $boardMessage]);
+        }
+
+        $contract->status = 'manager_resigned';
+        $contract->save();
+
+        $boardMessage = __('The board is upset about your request to leave the club. :Club has accepted your request and terminated your contract with immediate effect.', ['Club' => $club->name]);
+
+        return view('manager-contracts.quit', ['club' => $club, 'boardMessage' => $boardMessage]);
     }
 }

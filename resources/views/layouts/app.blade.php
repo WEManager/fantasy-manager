@@ -71,13 +71,22 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="https://discord.gg/tzFVp2y" target="_blank">{{ __('Join us on Discord') }}</a>
+                            <a class="nav-link" href="https://discord.gg/tzFVp2y"
+                               target="_blank">{{ __('Join us on Discord') }}</a>
                         </li>
 
                         @if (Auth::user()->club)
-                            <li class="nav-item">
-                                <a class="nav-link {{ is_current('show_club', ['club' => Auth::user()->club]) ? 'active' : '' }}"
-                                   href="{{ link_route('show_club', ['club' => Auth::user()->club]) }}">{{ Auth::user()->club->name }}</a>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->club->name }} <span class="caret"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item {{ is_current('show_club', ['club' => Auth::user()->club]) ? 'active' : '' }}"
+                                       href="{{ link_route('show_club', ['club' => Auth::user()->club]) }}">{{ __('Clubhouse') }}</a>
+                                    <a class="dropdown-item" href="{{ link_route('quit_job', ['club' => Auth::user()->club]) }}">{{ __('Quit Job') }}</a>
+                                </div>
                             </li>
                         @endif
                         <li class="nav-item dropdown">

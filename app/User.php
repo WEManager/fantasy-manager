@@ -49,6 +49,6 @@ class User extends Authenticatable
 
     public function club()
     {
-        return $this->hasOneThrough(Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id');
+        return $this->hasOneThrough(Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id')->where('manager_contracts.status', 'ongoing');
     }
 }
