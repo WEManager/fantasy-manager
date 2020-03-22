@@ -79,7 +79,7 @@ class TournamentController extends Controller
 
             $view = ['tournament' => $tournament, 'participating_clubs' => $participatingClubs, 'position_status' => $tournament->qualifications->pluck('status')];
 
-            Cache::put('standings-' . $tournament->id, $view);
+            Cache::put('standings-' . $tournament->id, $view, 120);
         } else {
             $view = Cache::get('standings-' . $tournament->id);
         }
