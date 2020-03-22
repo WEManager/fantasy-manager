@@ -85,7 +85,7 @@ class TournamentGame extends Model
                 if ($minutes > 45 && $minutes < 60) {
                     $returnString = __('Halftime');
                 }
-                if ($minutes > 60) {
+                if ($minutes >= 60) {
                     $returnString = ($minutes - 15) . '\'';
                 }
 
