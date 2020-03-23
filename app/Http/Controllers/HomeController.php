@@ -27,15 +27,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $tnmts = Tournament::orderBy('nationality')->get(['id', 'slug', 'name', 'nationality']);
-
-        $tournaments = [];
-        foreach ($tnmts as $tnmt) {
-            $tournaments[$tnmt->nationality][] = $tnmt;
-        }
-
-        $ongoing = TournamentGame::where('status', '1')->get();
-
         $clubs = [];
         if (auth()->check() && !auth()->user()->club) {
             if (!Cache::has('available-clubs')) {
@@ -46,6 +37,6 @@ class HomeController extends Controller
             }
         }
 
-        return view('home')->with(['clubs' => $clubs, 'ongoing' => $ongoing, 'tournaments' => $tournaments]);
+        return view('home')->with(['clubs' => $clubs]);
     }
 }

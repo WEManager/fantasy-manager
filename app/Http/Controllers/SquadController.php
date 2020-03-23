@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 
 class SquadController extends Controller
 {
-    public function show($locale, Club $club, $squad)
+    public function show($locale, Club $club)
     {
+        $squad = 'senior';
+
         $type = getContractType($squad);
 
         $players = $club->players($type)

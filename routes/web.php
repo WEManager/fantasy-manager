@@ -52,7 +52,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
 
-    Route::get('{club}/{squad}', 'SquadController@show')->name('show_club_squad');
+    Route::get('{club}/players', 'SquadController@show')->name('show_club_squad');
 
     Route::get('/test-heading', function () {
         $player = \App\Person::find(1);

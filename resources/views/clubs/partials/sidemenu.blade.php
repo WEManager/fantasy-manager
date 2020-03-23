@@ -1,9 +1,7 @@
 <h3>{{ __('Squads') }}</h3>
 <ul class="submenu">
     <li class="{{ is_current('show_club', ['club' => $club]) ? 'active' : '' }}"><a href="{{ link_route('show_club', ['club' => $club]) }}">{{ __('Club') }}</a></li>
-    <li class="{{ is_current('show_club', ['club' => $club], '/senior') ? 'active' : '' }}"><a href="{{ link_route('show_club', ['club' => $club]) }}/senior">{{ __('A-Team') }}</a></li>
-    <li class="{{ is_current('show_club', ['club' => $club], '/u21') ? 'active' : '' }}"><a href="{{ link_route('show_club', ['club' => $club]) }}/u21">{{ __('Reserve / U21') }}</a></li>
-    <li class="{{ is_current('show_club', ['club' => $club], '/u19') ? 'active' : '' }}"><a href="{{ link_route('show_club', ['club' => $club]) }}/u19">{{ __('U19') }}</a></li>
+    <li class="{{ is_current('show_club', ['club' => $club], '/players') ? 'active' : '' }}"><a href="{{ link_route('show_club', ['club' => $club]) }}/players">{{ __('Players') }}</a></li>
 </ul>
 @can('update', $club)
     <h3>{{ __('Lineups') }}</h3>
