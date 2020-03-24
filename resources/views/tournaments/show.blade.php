@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.livewire')
 
 @section('title', $tournament->name . ' - ')
 
@@ -27,6 +27,7 @@
                         <h3 id="{{ slugify($group->name) }}">{{ __($group->name) }}</h3>
                     </div>
                 </div>
+                <livewire:fixtures-by-date :groupId="$group->id"/>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="table-responsive">
