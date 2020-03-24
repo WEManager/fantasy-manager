@@ -29,62 +29,6 @@
                 </div>
                 <livewire:fixtures-by-date :groupId="$group->id"/>
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tr>
-                                    <td>{{ __('Status') }}</td>
-                                    <td>{{ __('Hometeam') }}</td>
-                                    <td></td>
-                                    <td>{{ __('Awayteam') }}</td>
-                                </tr>
-                                @for($i = 0; $i<count($group->upcomingGames)/2; $i++)
-                                    <tr>
-                                        <td>
-                                            <a href="{{ link_route('show_game', ['game' => $group->upcomingGames[$i]]) }}">{!! $group->upcomingGames[$i]->gameStatus !!}</a>
-                                        </td>
-                                        <td>@include('clubs.partials.clubname', ['club' => $participating_clubs[$group->upcomingGames[$i]->hometeam_id]])</td>
-                                        @if ($group->upcomingGames[$i]->status > 0)
-                                            <td>{{ $group->upcomingGames[$i]->hometeam_score }} - {{ $group->upcomingGames[$i]->awayteam_score }}</td>
-                                        @else
-                                            <td>-</td>
-                                        @endif
-                                        <td>@include('clubs.partials.clubname', ['club' => $participating_clubs[$group->upcomingGames[$i]->awayteam_id]])</td>
-                                    </tr>
-                                @endfor
-
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tr>
-                                    <td>{{ __('Status') }}</td>
-                                    <td>{{ __('Hometeam') }}</td>
-                                    <td></td>
-                                    <td>{{ __('Awayteam') }}</td>
-                                </tr>
-                                @for($i; $i<count($group->upcomingGames); $i++)
-                                    <tr>
-                                        <td>
-                                            <a href="{{ link_route('show_game', ['game' => $group->upcomingGames[$i]]) }}">{!! $group->upcomingGames[$i]->gameStatus !!}</a>
-                                        </td>
-                                        <td>@include('clubs.partials.clubname', ['club' => $participating_clubs[$group->upcomingGames[$i]->hometeam_id]])</td>
-                                        @if ($group->upcomingGames[$i]->status > 0)
-                                            <td>{{ $group->upcomingGames[$i]->hometeam_score }} - {{ $group->upcomingGames[$i]->awayteam_score }}</td>
-                                        @else
-                                            <td>-</td>
-                                        @endif
-                                        <td>@include('clubs.partials.clubname', ['club' => $participating_clubs[$group->upcomingGames[$i]->awayteam_id]])</td>
-                                    </tr>
-                                @endfor
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-12">
                         <div class="table-responsive">
                             <table class="table">
