@@ -60,6 +60,15 @@ function nationalityBasedOnLocale($locale)
     return strtoupper($locale);
 }
 
+function localeBasedOnNationality($nationality)
+{
+    if ($nationality == 'SE') {
+        return 'sv';
+    }
+
+    return strtolower($nationality);
+}
+
 function getCurrentSeason()
 {
     $date = date('Y-m-d H:i:s');

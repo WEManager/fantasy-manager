@@ -35,14 +35,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::post('/tournaments', 'TournamentController@store')->name('store_tournament');
     Route::get('/tournaments', 'TournamentController@index')->name('list_tournaments');
 
-    Route::get('/clubs', 'ClubController@index')->name('list_clubs');
+    Route::get('/clubs/list', 'ClubController@index')->name('list_clubs');
     Route::get('{club}', 'ClubController@show')->name('show_club');
     Route::get('{club}/players', 'SquadController@show')->name('show_club_players');
     Route::get('{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
     Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
 
     Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->middleware('auth')->name('apply_for_job');
-    Route::post('/apply-for-job', 'ManagerContractController@store')->name('send_job_application');
+    Route::post('/apply-for-job', 'ManagerContractController@store')->middleware('auth')->name('send_job_application');
     Route::get('/quit-my-job/{club}', 'ManagerContractController@quitJob')->middleware('auth')->name('quit_job');
 
 

@@ -35,9 +35,11 @@ class LicenseQuizController extends Controller
             $user->level = 1; // Give the manager a new level
             $user->save();
 
-            $club = session()->get('apply_for_job_club');
+            if ($club = session()->get('apply_for_job_club')) {
+                return redirect(link_route('apply_for_job', ['club' => $club]))->with('message', __('You passed the exam!'));
+            }
 
-            return redirect(link_route('apply_for_job', ['club' => $club]))->with('message', __('You passed the exam!'));
+            return redirect(link_route('home'));
         }
 
         return redirect()->back()->withInput()->withErrors($errors);
