@@ -53,7 +53,7 @@ class FixturesByDate extends Component
 
         foreach ($fixtures as $fixture) {
             $fixture->hometeam = $this->participants[$fixture->hometeam_id];
-            $fixture->awayteam = $this->participants[$fixture->hometeam_id];
+            $fixture->awayteam = $this->participants[$fixture->awayteam_id];
         }
 
         return $fixtures;
