@@ -2,6 +2,14 @@
     <div class="row">
         <div class="col-sm-12">
             <h2>{{ __('Games on :date', ['date' => $date]) }}</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <button wire:click="goToPreviousDay">{{ $before }}</button>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <button wire:click="goToNextDay">{{ $after }}</button>
+                </div>
+            </div>
             @if ($fixtures->count())
                 <div class="table-responsive">
                     <table class="table">
@@ -31,14 +39,6 @@
             @else
                 <p>{{ __('No games on :date', ['date' => $date]) }}</p>
             @endif
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <button wire:click="goToPreviousDay">{{ $before }}</button>
-        </div>
-        <div class="col-sm-6 text-right">
-            <button wire:click="goToNextDay">{{ $after }}</button>
         </div>
     </div>
 </div>

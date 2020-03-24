@@ -2,11 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use Livewire\Component;
 use App\TournamentGame;
 use App\TournamentStanding;
-use Illuminate\Filesystem\Cache;
-use Illuminate\Support\Facades\Log;
-use Livewire\Component;
+use Illuminate\Support\Facades\Cache;
 
 class FixturesByDate extends Component
 {
@@ -15,7 +14,6 @@ class FixturesByDate extends Component
     public $after;
     public $fixtures = [];
     public $participants = [];
-    public $sqlQuery;
     public $groupId;
 
     protected $updatesQueryString = ['date'];
@@ -63,17 +61,19 @@ class FixturesByDate extends Component
 
     public function getParticipatingClubs() : array
     {
-        /*$cacheKey = 'participants_group_' . $this->groupId;
+        $cacheKey = 'participants_group_' . $this->groupId;
 
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);
-        }*/
+        }
 
         $participatingClubs = [];
         $participants = TournamentStanding::where('group_id', $this->groupId)->with('club')->get();
         foreach ($participants as $participant) {
             $participatingClubs[$participant->club->id] = $participant->club;
         }
+
+        Cache::put($cacheKey, $participatingClubs);
 
         return $participatingClubs;
     }
