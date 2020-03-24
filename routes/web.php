@@ -37,6 +37,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/clubs', 'ClubController@index')->name('list_clubs');
     Route::get('{club}', 'ClubController@show')->name('show_club');
+    Route::get('{club}/players', 'SquadController@show')->name('show_club_players');
     Route::get('{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
     Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
 
@@ -52,7 +53,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
 
-    Route::get('{club}/players', 'SquadController@show')->name('show_club_squad');
 
     Route::get('/test-heading', function () {
         $player = \App\Person::find(1);

@@ -15,12 +15,15 @@ class Squad extends Component
 
     public $players = [];
 
-    public function mount($locale, $club, $squad)
+    protected $updatesQueryString = ['squad'];
+
+    public function mount($locale, $club)
     {
         $this->locale = $locale;
         $this->club = $club;
+        $this->squad = request()->query('squad', $this->squad);
 
-        $this->updateSquad($squad);
+        $this->updateSquad($this->squad);
     }
 
     public function updateSquad($squad)

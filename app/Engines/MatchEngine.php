@@ -185,6 +185,9 @@ class MatchEngine
             $this->game->{$creators . '_score'} = is_null($this->game->{$creators . '_score'}) ? 1 : $this->game->{$creators . '_score'} + 1;
             $this->game->{$defenders . '_score'} = is_null($this->game->{$defenders . '_score'}) ? 0 : $this->game->{$defenders . '_score'};
             $this->game->save();
+
+            // Notify both teams about a goal
+
         } else {
             $returnString = $defenders . ':DEFENDS_SUCCESSFULLY:';
         }
