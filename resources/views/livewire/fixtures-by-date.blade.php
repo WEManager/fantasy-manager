@@ -3,13 +3,13 @@
         <div class="col-sm-12">
             <h2>{{ __('Games on :date', ['date' => $date]) }}</h2>
             <div class="row" style="margin-bottom: 15px">
-                <div class="col-sm-6">
+                <div class="col-6">
                     <button class="btn btn-primary" wire:click="goToPreviousDay"><svg class="bi bi-chevron-double-left" width=".8em" height=".8em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 010 .708L2.707 8l5.647 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.708 0z" clip-rule="evenodd"/>
                             <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 010 .708L6.707 8l5.647 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.708 0z" clip-rule="evenodd"/>
                         </svg> {{ $before }}</button>
                 </div>
-                <div class="col-sm-6 text-right">
+                <div class="col-6 text-right">
                     <button class="btn btn-primary" wire:click="goToNextDay">{{ $after }} <svg class="bi bi-chevron-double-right" width=".8em" height=".8em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L9.293 8 3.646 2.354a.5.5 0 010-.708z" clip-rule="evenodd"/>
                             <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 01.708 0l6 6a.5.5 0 010 .708l-6 6a.5.5 0 01-.708-.708L13.293 8 7.646 2.354a.5.5 0 010-.708z" clip-rule="evenodd"/>
