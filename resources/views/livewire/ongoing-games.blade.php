@@ -5,17 +5,6 @@
                 <div class="card">
                     <div class="card-header">
                         {{ __('Ongoing games') }}
-
-                        <!--<form class="form-inline">
-                            <div class="input-group mb-2 mr-sm-2">
-                                <label for="limit">{{ __('Per Page') }}: </label>
-                                <select wire:model="limit" class="form-control" name="limit" id="limit">
-                                    @for ($i=1;$i<=25;$i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                        </form>-->
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
