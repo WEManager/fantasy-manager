@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.livewire')
 
 @section('header')
     <div class="container py-4">
