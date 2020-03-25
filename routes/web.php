@@ -32,8 +32,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/tournaments/create', 'TournamentController@create')->name('create_tournament');
     Route::get('/{tournament}', 'TournamentController@show')->name('show_tournament');
-    Route::post('/tournaments', 'TournamentController@store')->name('store_tournament');
-    Route::get('/tournaments', 'TournamentController@index')->name('list_tournaments');
+    Route::post('/tournaments', 'TournamentController@store')->middleware('auth')->name('store_tournament');
+    Route::get('/tournaments/list', 'TournamentController@index')->name('list_tournaments');
 
     Route::get('/clubs/list', 'ClubController@index')->name('list_clubs');
     Route::get('{club}', 'ClubController@show')->name('show_club');

@@ -21,9 +21,10 @@ $factory->define(Tournament::class, function (Faker $faker) {
         'name' => $faker->country . ' ' . $faker->name,
         'nationality' => $nations[0],
         'recurring_every_of_year' => 1,
-        'participants' => rand(8, 20),
+        'participants' => 8,
         'type' => $type[0],
         'groups' => $groups,
         'playoffs' => 0,
+        'team' => 'senior',
     ];
 });

@@ -3,7 +3,8 @@
 /*
  * Get datetime from history
  */
-function ago($string, $precision = null) {
+function ago($string, $precision = null)
+{
     if ($precision == null) $format = 'Y-m-d H:i:s';
     if ($precision == 'date') $format = 'Y-m-d';
 
@@ -89,11 +90,23 @@ function getContractType($squad)
     return $type;
 }
 
-function getPositionsExceptGoalkeeper()
+function getPositions()
 {
     return [
+        'GK',
         'LD', 'CLD', 'CD', 'CRD', 'RD',
         'LM', 'CLM', 'CM', 'CRM', 'RM',
         'LF', 'CLF', 'CF', 'CRF', 'RF',
     ];
+}
+
+function getPositionsExceptGoalkeeper()
+{
+    $positions = getPositions();
+
+    foreach ($positions as $key => $position) {
+        if ($position === 'GK') unset($positions[$key]);
+    }
+
+    return $positions;
 }
