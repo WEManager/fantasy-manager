@@ -15,11 +15,14 @@ class FixturesByDate extends Component
     public $fixtures = [];
     public $participants = [];
     public $groupId;
+    public $locale;
 
     protected $updatesQueryString = ['date'];
 
     public function mount($groupId)
     {
+        $this->locale = app()->getLocale();
+
         $date = request()->query('date', date('Y-m-d'));
         $this->date = $date;
         $this->before = date('Y-m-d', strtotime($date . ' - 1 day'));
@@ -31,6 +34,8 @@ class FixturesByDate extends Component
 
     public function goToPreviousDay()
     {
+        app()->setLocale($this->locale);
+
         $this->date = date('Y-m-d', strtotime($this->date . ' - 1 day'));
         $this->before = date('Y-m-d', strtotime($this->date . ' - 1 day'));
         $this->after = date('Y-m-d', strtotime($this->date . ' + 1 day'));
@@ -39,6 +44,8 @@ class FixturesByDate extends Component
 
     public function goToNextDay()
     {
+        app()->setLocale($this->locale);
+
         $this->date = date('Y-m-d', strtotime($this->date . ' + 1 day'));
         $this->before = date('Y-m-d', strtotime($this->date . ' - 1 day'));
         $this->after = date('Y-m-d', strtotime($this->date . ' + 1 day'));
