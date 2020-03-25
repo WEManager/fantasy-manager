@@ -16,7 +16,7 @@ class Level0
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check() && Auth::user()->level === 0) {
+        if (Auth::guard($guard)->check() && Auth::user()->level < 1) {
             return $next($request);
         }
 

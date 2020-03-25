@@ -36,7 +36,29 @@ class ManagerContractController extends Controller
 
     public function store($locale)
     {
+        if (auth()->user()->club !== null) {
+            return redirect()->back();
+        }
+
+        if (auth()->user()->level === 0) {
+            return redirect()->to(link_route('license_test', ['licenseQuiz' => 1]))->withErrors([
+                __('You have to pass the exam for level 1 manager first.')
+            ]);
+        }
+
         $club = Club::find(\request('club_id'));
+
+        $earlierApplications = JobApplication::where([
+            'user_id' => auth()->user()->id,
+            'club_id' => \request('club_id'),
+            'status' => 'rejected',
+        ])->count();
+
+        if ($earlierApplications > 0) {
+            return redirect()->back()->withErrors([
+                __(':Club has already rejected your application.', ['Club' => $club->name])
+            ]);
+        }
 
         if ($club->manager != null) {
             return redirect()->back()->withErrors([

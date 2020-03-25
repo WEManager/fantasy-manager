@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class ClubController extends Controller
 {
-    public function index()
+    public function index($locale)
     {
         $clubs = Club::paginate();
 
-        return view('clubs.index')->with(compact('clubs'));
+        return view('clubs.index')->with(['clubs' => $clubs]);
     }
 
     public function show($locale, Club $club)

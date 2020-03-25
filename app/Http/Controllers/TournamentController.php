@@ -16,7 +16,6 @@ class TournamentController extends Controller
 {
     public function index()
     {
-        dd(Tournament::all());
         return view('tournaments.index', ['tournaments' => Tournament::all()]);
     }
 
@@ -32,7 +31,6 @@ class TournamentController extends Controller
         $createdTournament = Tournament::create([
             'name' => $tournament->name,
             'team' => $tournament->team,
-            'season' => $tournament->season,
             'type' => $tournament->competitionType,
             'groups' => $tournament->groups,
             'playoffs' => $tournament->playOffs,
@@ -45,18 +43,17 @@ class TournamentController extends Controller
             TournamentParticipant::create([
                 'club_id' => $club,
                 'tournament_id' => $createdTournament->id,
+                'season_id' => $tournament->season,
             ]);
         }
 
         event(new CreateLeagueEvent($createdTournament));
 
-        return redirect('show_tournament')->with(['createdTournament' => $createdTournament]);
+        return redirect('show_tournament')->with(['tournament' => $createdTournament->slug]);
     }
 
     public function show($locale, Tournament $tournament)
     {
-        //$groups = TournamentGroup::where('tournament_id', $tournament->id)->get();
-
         if (!Cache::has('standings-' . $tournament->id)) {
             $groupIds = [];
             foreach ($tournament->tournamentGroups as $group) {

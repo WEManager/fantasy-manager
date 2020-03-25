@@ -58,6 +58,19 @@ class MakeTournament extends Command
         $qualify_down = $this->argument('qualify_down');
         $relegated = $this->argument('relegated');
 
-        $tournamentId = \App\Generators\Tournament::create($name, $type, $teams, $team, $groups, $champions, $promoted, $qualify_up, $qualify_down, $relegated, $this->argument('generate_teams'), $locale);
+        $tournamentId = \App\Generators\Tournament::create([
+            'name' => $name,
+            'type' => $type,
+            'teams' => $teams,
+            'team' => $team,
+            'groups' => $groups,
+            'champions' => $champions,
+            'promoted' => $promoted,
+            'qualify_up' => $qualify_up,
+            'qualify_down' => $qualify_down,
+            'relegated' => $relegated,
+            'generate_teams' => $this->argument('generate_teams'),
+            'locale' => localeBasedOnNationality($locale),
+        ]);
     }
 }
