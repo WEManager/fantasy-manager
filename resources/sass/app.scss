@@ -6,76 +6,76 @@
 @import '~bootstrap/scss/bootstrap';
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $font-family-serif;
+    font-family: $font-family-serif;
 }
 
-  // Flags
+// Flags
 @import '~flag-icon-css/sass/flag-icon';
 
 @import "~material-design-icons/iconfont/material-icons.css";
 
 
 .navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .navbar-light .navbar-nav .nav-link {
-  color: $blue;
-  opacity: .65;
-  font-weight: bold;
-  text-transform: uppercase;
+    color: $blue;
+    opacity: .65;
+    font-weight: bold;
+    text-transform: uppercase;
 
-  &.active, &:hover {
-    opacity: 1;
-    text-decoration: underline;
-  }
+    &.active, &:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
 }
 
 .submenu {
-  padding: 0;
-  list-style: none;
-  text-transform: uppercase;
+    padding: 0;
+    list-style: none;
+    text-transform: uppercase;
 
-  li {
-    &.active:before {
-      width: 3px;
-      content: '';
-      float: left;
-      height: 1.5em;
-      margin-right: 3px;
-      display: inline-block;
-      background-color: $red;
+    li {
+        &.active:before {
+            width: 3px;
+            content: '';
+            float: left;
+            height: 1.5em;
+            margin-right: 3px;
+            display: inline-block;
+            background-color: $red;
+        }
+
+        a {
+            opacity: .65;
+            font-weight: bold;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
     }
-
-    a {
-      opacity: .65;
-      font-weight: bold;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
 }
 
 .main-header {
-  background-color: $blue;
-  color: #fff;
+    background-color: $blue;
+    color: #fff;
 
-  h1 {
-    font-weight: bold;
-    color: $gold;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-
-    li {
-      padding: 0;
+    h1 {
+        font-weight: bold;
+        color: $gold;
     }
-  }
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            padding: 0;
+        }
+    }
 }
 
 .club--header {
@@ -99,15 +99,19 @@ h1, h2, h3, h4, h5, h6 {
 .champions {
     background-color: gold;
 }
+
 .promoted {
     background-color: #2fa360;
 }
+
 .qualify_up {
     background-color: #b3e8ca;
 }
+
 .qualify_down {
     background-color: #f7b8c1;
 }
+
 .relegated {
     background-color: #f07a8b;
 }
@@ -116,4 +120,96 @@ h1, h2, h3, h4, h5, h6 {
     padding: 15px;
     background: #aaa;
     margin-bottom: 15px;
+}
+
+
+.pitch {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    background-color: green;
+
+    .player {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        position: absolute;
+        text-align: center;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .name {
+            position: absolute;
+            bottom: -25px;
+            display: inline-block;
+            white-space: nowrap;
+            width: auto;
+            color: white;
+        }
+
+        &.gk {
+            bottom: 15%;
+            left: 50%;
+            margin-left: -12.5px;
+        }
+
+        &.ld, &.cld, &.cd, &.crd, &.rd {
+            bottom: 35%;
+        }
+
+        &.lm, &.clm, &.cm, &.crm, &.rm {
+            bottom: 60%;
+        }
+
+        &.lf, &.clf, &.cf, &.crf, &.rf {
+            bottom: 85%;
+        }
+
+        &.ld, &.lm, &.lf {
+            left: 10%;
+        }
+
+        &.cld, &.clm, &.clf {
+            left: 30%;
+        }
+
+        &.cd, &.cm, &.cf {
+            left: 50%;
+            margin-left: -12.5px;
+        }
+
+        &.crd, &.crm, &.crf {
+            right: 30%;
+        }
+
+        &.rd, &.rm, &.rf {
+            right: 10%;
+        }
+    }
+}
+
+.bench {
+    padding: 0 8%;
+
+    .player {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        text-align: center;
+        background-color: yellow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .name {
+            position: relative;
+            bottom: -25px;
+            display: inline-block;
+            white-space: nowrap;
+            width: auto;
+            color: black;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.livewire')
 
 @section('header')
     <div class="container py-4">
@@ -14,20 +14,10 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
 
-                <lineup-component
-                        action="{{ link_route('update_lineup', ['lineup' => $lineup]) }}"
-                        players="{{ $players }}"
-                        positions="{{ json_encode(getPositionsExceptGoalkeeper()) }}"
-                        token="{{ csrf_token() }}"
+                <livewire:edit-lineup :players="$players" :lineup="$lineup" />
 
-                        lineup="{{ $lineup }}"
-                />
-
-            </div>
-            <div class="col-md-4">
-                @include('clubs.partials.sidemenu')
             </div>
         </div>
     </div>

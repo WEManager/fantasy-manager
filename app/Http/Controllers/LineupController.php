@@ -25,6 +25,22 @@ class LineupController extends Controller
 
         $players = $club->players($type)->get();
 
+        for ($i = 1; $i <= 17; $i++) {
+            foreach ($players as $player) {
+                if ($i < 12) {
+                    if ($player->id === $lineup->{"player_$i"}) {
+                        $player->selected_position = $lineup->{"position_$i"};
+                        break;
+                    }
+                } else {
+                    $sub = $i-11;
+                    if ($player->id === $lineup->{"substitute_$sub"}) {
+                        $player->selected_position = "SUB_$sub";
+                    }
+                }
+            }
+        }
+
         return view('lineups.edit')->with(['club' => $club, 'lineup' => $lineup, 'players' => $players, 'squad' => $squad]);
     }
 
