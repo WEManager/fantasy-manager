@@ -13419,3 +13419,30 @@ h6 {
   right: 10%;
 }
 
+.bench {
+  padding: 0 8%;
+}
+
+.bench .player {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  text-align: center;
+  background-color: yellow;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.bench .player .name {
+  position: relative;
+  bottom: -25px;
+  display: inline-block;
+  white-space: nowrap;
+  width: auto;
+  color: black;
+}
+

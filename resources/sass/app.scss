@@ -189,3 +189,27 @@ h1, h2, h3, h4, h5, h6 {
         }
     }
 }
+
+.bench {
+    padding: 0 8%;
+
+    .player {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        text-align: center;
+        background-color: yellow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .name {
+            position: relative;
+            bottom: -25px;
+            display: inline-block;
+            white-space: nowrap;
+            width: auto;
+            color: black;
+        }
+    }
+}

@@ -8,8 +8,6 @@ use Livewire\Component;
 
 class EditLineup extends Component
 {
-    public $title;
-
     public $lineup;
 
     public array $players = [];
@@ -49,52 +47,117 @@ class EditLineup extends Component
 
     public function mount(Collection $players, Lineup $lineup)
     {
-        $this->title = 'Loaded';
-
         $this->lineup = $lineup;
-
-        for ($i = 1; $i < 12; $i++) {
-            $this->{"position_$i"} = $lineup->{"position_$i"};
-            $this->{"player_$i"} = $lineup->{"player_$i"};
-        }
-
-        for ($i = 1; $i < 7; $i++) {
-            $this->{"substitute_$i"} = $lineup->{"substitute_$i"};
-        }
 
         $playersArray = [];
         foreach ($players as $player) {
             $playersArray[$player->id] = $player->toArray();
         }
         $this->players = $playersArray;
+        //$this->updatePlayersArray();
+
+
+        $this->savedLineup();
+    }
+
+    private function savedLineup()
+    {
+        for ($i = 1; $i < 12; $i++) {
+            $this->{"position_$i"} = $this->lineup->{"position_$i"};
+            $this->{"player_$i"} = $this->lineup->{"player_$i"};
+        }
+
+        for ($i = 1; $i < 7; $i++) {
+            $this->{"substitute_$i"} = $this->lineup->{"substitute_$i"};
+        }
+    }
+
+    public function resetLineup()
+    {
+        $this->savedLineup();
+    }
+
+    public function saveLineup()
+    {
+        for ($i = 1; $i < 12; $i++) {
+            $this->lineup->{"player_$i"} = $this->{"player_$i"};
+            $this->lineup->{"position_$i"} = $this->{"position_$i"};
+        }
+
+        for ($i = 1; $i < 7; $i++) {
+            $this->lineup->{"substitute_$i"} = $this->{"substitute_$i"};
+        }
+
+        $this->lineup->save();
     }
 
     public function positionChange($position, $playerId)
     {
-        $found = $this->findCurrentPlayer($position, $playerId);
+        $this->resetErrorBag();
 
-        if (!$found) {
+        $this->unsetCurrentPlayerOldPosition($playerId);
 
-            // Check if available position
+        // if the new position is as substitute
+        if (strpos($position, 'substitute_') !== false) {
+
+            $playerAlreadyOnNewPosition = $this->{$position};
+
+            // check if we find player in any position on the pitch
+            $playerPositionKeys = $this->getPlayerPositionKeys($playerId);
+
+            $this->putPlayersInNewPositions($position, $playerId, $playerPositionKeys, $playerAlreadyOnNewPosition);
+
+            return;
+        } else if (in_array($position, getPositions())) {
+
             for ($i = 1; $i < 12; $i++) {
-                if ($this->{"player_$i"} < 1) {
-                    $this->{"player_$i"} = $playerId;
-                    $this->{"position_$i"} = $position;
+                if ($this->{"position_$i"} == $position) {
+                    $playerKey = "player_$i";
+                    $playerAlreadyOnNewPosition = $this->{"player_$i"};
 
-                    $this->setPlayerPosition($playerId, $position);
-
-                    return;
+                    $this->{"player_$i"} = null;
                 }
             }
 
-            $players = [];
-            foreach ($this->players as $player) {
-                $players[$player['id']] = $player;
-            }
-            $this->players = $players;
+            if (!isset($playerAlreadyOnNewPosition)) {
+                $availablePlayerPositionKeys = $this->getEmptyPlayerPositionKeys();
 
-            $this->addError('too_many_players', __('You can only have 11 players'));
+                if (count($availablePlayerPositionKeys)) {
+                    $this->{$availablePlayerPositionKeys[0]} = $playerId;
+                    $this->{$availablePlayerPositionKeys[1]} = $position;
+                } else {
+                    $this->addError('too_many_players', __('You can only have 11 players'));
+                }
+
+                $this->updatePlayersArray();
+
+                return;
+            }
+
+
+            // check if we find player in any position on the pitch
+            $playerPositionKeys = $this->getPlayerPositionKeys($playerId);
+
+            $this->putPlayersInNewPositions($position, $playerId, $playerPositionKeys, $playerAlreadyOnNewPosition, $playerKey);
+
+            $this->updatePlayersArray();
+
+            return;
+        } // If player is just put off pitch
+        else {
+            for ($i = 1; $i < 12; $i++) {
+                if ($this->{"player_$i"} == $playerId) {
+                    $this->{"player_$i"} = null;
+                }
+            }
+            for ($i = 1; $i < 7; $i++) {
+                if ($this->{"substitute_$i"} == $playerId) {
+                    $this->{"substitute_$i"} = null;
+                }
+            }
         }
+
+        return;
     }
 
     public function setPlayerPosition($playerId, $position)
@@ -111,55 +174,97 @@ class EditLineup extends Component
         $this->players = $players;
     }
 
+    public function updatePlayersArray()
+    {
+        $playersArray = [];
+        foreach ($this->players as $player) {
+            $positionKey = $this->getPlayerPositionKeys($player['id']);
+            if (count($positionKey)) {
+                $player['selected_position'] = $this->{$positionKey[1]};
+            } else {
+                unset($player['selected_position']);
+            }
+            $playersArray[$player['id']] = $player;
+        }
+
+        $this->players = $playersArray;
+    }
+
     public function render()
     {
-        return view('livewire.edit-lineup')->with(['title' => $this->title, 'players' => $this->players, 'lineup' => $this->lineup]);
+        return view('livewire.edit-lineup')->with(['players' => $this->players, 'lineup' => $this->lineup]);
+    }
+
+    private function getPlayerSubstituteKey($playerId): string
+    {
+        for ($i = 1; $i < 7; $i++) {
+            if ($this->{"substitute_$i"} == $playerId) {
+                return "substitute_$i";
+            }
+        }
+
+        return "";
+    }
+
+    private function getPlayerPositionKeys($playerId): array
+    {
+        for ($i = 1; $i < 12; $i++) {
+            if ($this->{"player_$i"} == $playerId) {
+                return ["player_$i", "position_$i"];
+            }
+        }
+
+        return [];
     }
 
     /**
-     * @param $newPosition
+     * @param $position
      * @param $playerId
-     * @return bool
+     * @param array $playerPositionKeys
+     * @param $playerAlreadyOnNewPosition
      */
-    private function findCurrentPlayer($newPosition, $playerId): bool
+    private function putPlayersInNewPositions($position, $playerId, array $playerPositionKeys, $playerAlreadyOnNewPosition, $playerKey = null): void
     {
-        $found = false;
+        if (count($playerPositionKeys)) {
+            $this->{$playerPositionKeys[0]} = $playerAlreadyOnNewPosition;
+            $this->setPlayerPosition($playerAlreadyOnNewPosition, $this->{$playerPositionKeys[1]});
 
-        for ($i = 1; $i < 12; $i++) {
-            // If this is the same player
-            if ($this->{"player_$i"} == $playerId) {
+        } else {
 
-                // If selecting no position for player
-                if ($newPosition == '') {
-                    $this->{"player_$i"} = null;
-                    return true;
-                }
-
-                $currentPlayer = $this->{"player_$i"};
-                $oldPosition = $this->{"position_$i"};
-
-                for ($x = 1; $x < 12; $x++) {
-                    // Then check if this position is already used
-                    if ($this->{"position_$x"} == $newPosition) {
-                        // If so, set the other players position to this players old position
-                        $playerOnTheNewPosition = $this->{"player_$x"};
-                        $this->{"position_$x"} = $oldPosition;
-                    }
-                }
-
-
-                $this->setPlayerPosition($currentPlayer, $newPosition);
-                if (isset($playerOnTheNewPosition)) {
-                    $this->setPlayerPosition($playerOnTheNewPosition, $oldPosition);
-                }
-
-                // This player is awarded a new position
-                $this->{"position_$i"} = $newPosition;
-                $found = true;
-
-                break;
+            // if not, check if we find the player on the bench
+            $substituteKey = $this->getPlayerSubstituteKey($playerId);
+            if (strlen($substituteKey)) {
+                $this->{$substituteKey} = $playerAlreadyOnNewPosition;
+                $this->setPlayerPosition($playerAlreadyOnNewPosition, $substituteKey);
             }
         }
-        return $found;
+
+        if ($playerKey !== null) {
+            $this->{$playerKey} = $playerId;
+        } else {
+            $this->{$position} = $playerId;
+        }
+
+        $this->setPlayerPosition($playerId, $position);
+    }
+
+    private function getEmptyPlayerPositionKeys(): array
+    {
+        for ($i = 1; $i < 12; $i++) {
+            if ($this->{"player_$i"} == null) {
+                return ["player_$i", "position_$i"];
+            }
+        }
+
+        return [];
+    }
+
+    private function unsetCurrentPlayerOldPosition($playerId): void
+    {
+        for ($i = 1; $i < 12; $i++) {
+            if ($this->{"player_$i"} == $playerId) {
+                $this->{"player_$i"} = null;
+            }
+        }
     }
 }
