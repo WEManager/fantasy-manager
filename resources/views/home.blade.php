@@ -14,7 +14,7 @@
                 @include('clubs.partials.available-list')
             @endif
 
-            @if (auth()->user()->isAdmin())
+            @if (auth()->user()->isAdmin)
                 <div class="row">
 
                     <div class="col-sm-6">

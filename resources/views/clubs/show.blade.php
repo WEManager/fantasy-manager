@@ -25,9 +25,12 @@
                             <td>
                                 @include('tournaments.partials.tournamentname', ['group' => $game->group])
                             </td>
-                            <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a></td>
+                            <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a>
+                            </td>
                             @if ($game->status > 0)
-                                <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</a></td>
+                                <td>
+                                    <a href="{{ link_route('show_game', ['game' => $game]) }}">{{ $game->hometeam_score }}
+                                        - {{ $game->awayteam_score }}</a></td>
                             @else
                                 <td><a href="{{ link_route('show_game', ['game' => $game]) }}">-</a></td>
                             @endif
@@ -51,9 +54,12 @@
                             <td>
                                 @include('tournaments.partials.tournamentname', ['group' => $game->group])
                             </td>
-                            <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a></td>
+                            <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{!! $game->gameStatus !!}</a>
+                            </td>
                             @if ($game->status > 0)
-                                <td><a href="{{ link_route('show_game', ['game' => $game]) }}">{{ $game->hometeam_score }} - {{ $game->awayteam_score }}</a></td>
+                                <td>
+                                    <a href="{{ link_route('show_game', ['game' => $game]) }}">{{ $game->hometeam_score }}
+                                        - {{ $game->awayteam_score }}</a></td>
                             @else
                                 <td><a href="{{ link_route('show_game', ['game' => $game]) }}">-</a></td>
                             @endif
@@ -66,6 +72,9 @@
 
             </div>
             <div class="col-md-4">
+                @if (auth()->user()->isAdmin)
+                    <a href="{{ link_route('edit_club', ['club' => $club]) }}">Edit Club</a>
+                @endif
                 @include('clubs.partials.sidemenu')
             </div>
         </div>

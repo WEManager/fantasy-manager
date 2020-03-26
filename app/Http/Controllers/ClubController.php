@@ -19,4 +19,14 @@ class ClubController extends Controller
     {
         return view('clubs.show')->with(['club' => $club]);
     }
+
+    public function edit($locale, Club $club)
+    {
+        return view('clubs.edit')->with(['club' => $club]);
+    }
+
+    public function store()
+    {
+        return redirect()->back();
+    }
 }

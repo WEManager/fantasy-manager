@@ -16,7 +16,8 @@
         "laravel/ui": "^2.0",
         "livewire/livewire": "^1.0",
         "spatie/laravel-permission": "^3.11",
-        "spatie/laravel-sluggable": "^2.2"
+        "spatie/laravel-sluggable": "^2.2",
+        "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

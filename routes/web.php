@@ -40,6 +40,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/clubs/list', 'ClubController@index')->name('list_clubs');
     Route::get('{club}', 'ClubController@show')->name('show_club');
+    Route::get('{club}/edit', 'ClubController@edit')->middleware('admin')->name('edit_club');
+    Route::post('{club}', 'ClubController@store')->middleware('admin')->name('store_club');
     Route::get('{club}/players', 'SquadController@show')->name('show_club_players');
     Route::get('{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
     Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');

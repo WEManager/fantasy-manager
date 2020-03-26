@@ -2,8 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Collection;
+use App\Casts\Colors;
 use Spatie\Sluggable\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\SlugOptions;
@@ -13,6 +12,10 @@ class Club extends Model
     use HasSlug;
 
     protected $fillable = ['name', 'colors', 'locale'];
+
+    protected $casts = [
+        'colors' => Colors::class,
+    ];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -34,6 +37,7 @@ class Club extends Model
 
     public function getClubColorsAttribute()
     {
+        return $this->colors;
         $colors = json_decode($this->colors);
 
         if (!isset($colors[2])) {
