@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\Level0;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -65,6 +66,7 @@ class Kernel extends HttpKernel
 
         'setlocale' => SetLocale::class,
         'level0' => Level0::class,
+        'admin' => IsAdmin::class,
     ];
 
     /**

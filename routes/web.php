@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return redirect(app()->getLocale());
 });
@@ -21,16 +24,16 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/{slug}', 'PageController@show')->name('page');
 
-    Route::get('/players/create', 'PlayerController@create')->name('create_player');
-    Route::get('/players/{user}/edit', 'PlayerController@edit')->name('edit_player');
+    Route::get('/players/create', 'PlayerController@create')->middleware('admin')->name('create_player');
+    Route::get('/players/{user}/edit', 'PlayerController@edit')->middleware('admin')->name('edit_player');
     Route::get('/players/{person}', 'PlayerController@show')->name('show_player');
-    Route::post('/players', 'PlayerController@store')->name('store_player');
-    Route::put('/players/{user}', 'PlayerController@update')->name('update_player');
+    Route::post('/players', 'PlayerController@store')->middleware('admin')->name('store_player');
+    Route::put('/players/{user}', 'PlayerController@update')->middleware('admin')->name('update_player');
     Route::get('/players', 'PlayerController@index')->name('list_players');
 
     Route::get('/federations/create', 'FederationController@create')->name('create_federation');
 
-    Route::get('/tournaments/create', 'TournamentController@create')->name('create_tournament');
+    Route::get('/tournaments/create', 'TournamentController@create')->middleware('admin')->name('create_tournament');
     Route::get('/{tournament}', 'TournamentController@show')->name('show_tournament');
     Route::post('/tournaments', 'TournamentController@store')->middleware('auth')->name('store_tournament');
     Route::get('/tournaments/list', 'TournamentController@index')->name('list_tournaments');
