@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Season;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
@@ -38,23 +39,29 @@ class Setup extends Command
      */
     public function handle()
     {
-        $italianLeague = \App\Generators\Tournament::create([
-            'name' => 'Campionato italiano', 'teams' => 20, 'locale' => 'it',
-            'champions' => 1, 'relegated' => 3,
-        ]);
-        $italianLeague2 = \App\Generators\Tournament::create([
-            'name' => 'Seconda lega', 'teams' => 20, 'locale' => 'it',
-            'promoted' => 3, 'qualify_down' => 3, 'relegated' => 3,
-        ]);
-        $italianLeague3 = \App\Generators\Tournament::create([
-            'name' => 'Terza lega', 'teams' => 60, 'locale' => 'it', 'type' => 'groups', 'groups' => 3,
-            'promoted' => 1, 'qualify_up' => 1, 'qualify_down' => 3, 'relegated' => 3,
-        ]);
-        $italianLeague4 = \App\Generators\Tournament::create([
-            'name' => 'Quarta lega', 'teams' => 162, 'locale' => 'it', 'type' => 'groups', 'groups' => 9,
-            'promoted' => 1, 'qualify_up' => 1,
+        // Insert a season by default
+        $season = Season::create([
+            'start_time' => now(),
+            'end_time' => now()->addDays(14),
         ]);
 
+        $italianLeague = \App\Generators\Tournament::create([
+            'name' => 'Campionato italiano', 'teams' => 4, 'locale' => 'it',
+            'champions' => 1, 'relegated' => 1,
+        ]);
+        $italianLeague2 = \App\Generators\Tournament::create([
+            'name' => 'Seconda lega', 'teams' => 6, 'locale' => 'it',
+            'promoted' => 1, 'qualify_down' => 1, 'relegated' => 1,
+        ]);
+        $italianLeague3 = \App\Generators\Tournament::create([
+            'name' => 'Terza lega', 'teams' => 12, 'locale' => 'it', 'type' => 'groups', 'groups' => 2,
+            'promoted' => 1, 'qualify_up' => 1, 'qualify_down' => 1, 'relegated' => 1,
+        ]);
+        $italianLeague4 = \App\Generators\Tournament::create([
+            'name' => 'Quarta lega', 'teams' => 24, 'locale' => 'it', 'type' => 'groups', 'groups' => 4,
+            'promoted' => 1, 'qualify_up' => 1,
+        ]);
+/*
         $germanLeague = \App\Generators\Tournament::create([
             'name' => 'Deutsche Liga', 'teams' => 18, 'locale' => 'de',
             'champions' => 1, 'qualify_down' => 1, 'relegated' => 2,
@@ -170,5 +177,6 @@ class Setup extends Command
             'name' => 'Kval till Tredje divisionen 2', 'teams' => 4, 'locale' => 'sv',
             'promoted' => 2, 'relegated' => 2, 'promote_to' => $tredjeDivisionen, 'relegate_to' => $fjardeDivisionen, 'generate_teams' => false,
         ]);
+*/
     }
 }
