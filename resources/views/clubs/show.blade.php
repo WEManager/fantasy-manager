@@ -72,9 +72,11 @@
 
             </div>
             <div class="col-md-4">
-                @if (auth()->user()->isAdmin)
-                    <a href="{{ link_route('edit_club', ['club' => $club]) }}">Edit Club</a>
-                @endif
+                @auth()
+                    @if (auth()->user()->isAdmin)
+                        <a href="{{ link_route('edit_club', ['club' => $club]) }}">Edit Club</a>
+                    @endif
+                @endauth
                 @include('clubs.partials.sidemenu')
             </div>
         </div>
