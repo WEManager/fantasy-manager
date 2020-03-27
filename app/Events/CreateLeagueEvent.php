@@ -100,7 +100,7 @@ class CreateLeagueEvent
         }
     }
 
-    public function generateGameSchedule($players, $group, $meetings = 2)
+    private function generateGameSchedule($players, $group, $meetings = 2)
     {
         // Count the number of teams
         $amountOfParticipants = count($players);

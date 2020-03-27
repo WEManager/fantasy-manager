@@ -8,6 +8,9 @@
             <div class="col-12">
                 <h1>{{ __($tournament->name) }}</h1>
 
+                {{ $tournament->status }}
+                <h4>{{ __('Ongoing between :start and :end', ['start' => $tournament->start_date,'end' => $tournament->end_date]) }}</h4>
+
                 @if (count($tournament->tournamentGroups) > 1)
                     <small>{{ __(':Tournament has :Amount groups', ['Tournament' => __($tournament->name),'Amount' => count($tournament->tournamentGroups)]) }}</small>
                 @endif
