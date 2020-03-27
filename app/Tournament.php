@@ -35,20 +35,34 @@ class Tournament extends Model
     public function getStartDateAttribute()
     {
         $groupIds = $this->tournamentGroups()->pluck('id');
-        $firstGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'asc')->first('start_time');
+        try {
+            $firstGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'asc')->firstOrFail('start_time');
+        } catch (\Exception $exception) {
+            $firstGameDate = new TournamentGame();
+            $firstGameDate->start_time = now()->addCenturies(2);
+        }
+
         return Carbon::createFromTimeString($firstGameDate->start_time)->format('Y-m-d');
     }
 
     public function getEndDateAttribute()
     {
         $groupIds = $this->tournamentGroups()->pluck('id');
-        $lastGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'desc')->first('start_time');
+        try {
+            $lastGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'desc')->firstOrFail('start_time');
+        } catch (\Exception $exception) {
+            $firstGameDate = new TournamentGame();
+            $firstGameDate->start_time = now()->addCenturies(2);
+        }
+
         return Carbon::createFromTimeString($lastGameDate->start_time)->addMinutes(106)->format('Y-m-d');
     }
 
     public function getStatusAttribute()
     {
-        if ($this->start_date > now()) {
+        if ($this->start_date > now()->addCenturies(1)) {
+            return 'NOT_DECIDED';
+        } elseif ($this->start_date > now()) {
             return 'NOT_STARTED';
         } else if ($this->end_date < now()) {
             return 'ENDED';
