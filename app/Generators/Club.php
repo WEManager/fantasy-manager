@@ -29,7 +29,7 @@ class Club
             $clubName = $names[0] . ' ' . $suffixes[0];
         }
 
-        if (\App\Club::where('name', $clubName)->first()) {
+        if (\App\Models\Club::where('name', $clubName)->first()) {
             return $this->name($locale);
         }
 

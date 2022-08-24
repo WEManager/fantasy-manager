@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Arena;
-use App\Club;
-use App\Lineup;
-use App\Person;
-use App\PlayerContract;
+use App\Models\Arena;
+use App\Models\Club;
+use App\Models\Lineup;
+use App\Models\Person;
+use App\Models\PlayerContract;
 use App\Generators\Player;
 use Illuminate\Console\Command;
 use App\Generators\Club as ClubGenerator;

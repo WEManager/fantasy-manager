@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Club;
-use App\Tournament;
-use App\TournamentGame;
+use App\Models\Club;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -15,8 +14,7 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth')->except('index');
     }
 
@@ -25,18 +23,22 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
+    public function index() {
         $clubs = [];
-        if (auth()->check() && !auth()->user()->club) {
+
+        // if (auth()->check() && !auth()->user()->club) {
             if (!Cache::has('available-clubs')) {
-                $clubs = Club::doesntHave('manager')->has('tournament')->inRandomOrder()->take(100)->get();
+                $clubs = Club::doesntHave('manager')->inRandomOrder()->take(100)->get();
+                
                 Cache::put('available-clubs', $clubs, 5);
             } else {
                 $clubs = Cache::get('available-clubs');
             }
-        }
+        // }
 
-        return view('home')->with(['clubs' => $clubs]);
+        // dd($clubs);
+
+        return Inertia::render('Home', compact('clubs'));
+        // return view('home')->with(compact('clubs'));
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Club;
-use App\Tournament;
+use App\Models\Club;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
 
 class PageController extends Controller

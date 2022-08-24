@@ -23,11 +23,15 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         @foreach (config('app.available_locales') as $locale => $flag)
                             <?php $params = \Illuminate\Support\Facades\Route::current()->parameters(); $params['locale'] = $locale; ?>
-                            <a class="dropdown-item"
-                               href="{{ link_route(\Illuminate\Support\Facades\Route::currentRouteName(), $params) }}"
-                               @if (app()->getLocale() == $locale) style="font-weight: bold;" @endif>
-                                    <span
-                                        class="flag-icon flag-icon-{{ strtolower($flag) }}"></span> {{ config('app.available_locale_names.'.$locale) }}
+                            
+                            <a
+                                class="dropdown-item"
+                                href="{{ link_route(\Illuminate\Support\Facades\Route::currentRouteName(), $params) }}"
+                                @if (app()->getLocale() == $locale) style="font-weight: bold;" @endif
+                            >
+                                <span class="flag-icon flag-icon-{{ strtolower($flag) }}"></span>
+
+                                {{ config('app.available_locale_names.'.$locale) }}
                             </a>
                         @endforeach
                     </div>

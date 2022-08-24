@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Club::class, function (Faker $faker) {
+$factory->define(\App\Models\Club::class, function (Faker $faker) {
     $nations = ['SE', 'ES', 'GB', 'DE', 'IT'];
     shuffle($nations);
 

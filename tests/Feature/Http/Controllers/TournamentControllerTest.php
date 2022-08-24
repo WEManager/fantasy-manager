@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Club;
-use App\User;
+use App\Models\Club;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -43,7 +43,7 @@ class TournamentControllerTest extends TestCase
      */
     public function show_returns_an_ok_response()
     {
-        $tournament = factory(\App\Tournament::class)->create();
+        $tournament = factory(\App\Models\Tournament::class)->create();
 
         $response = $this->get(route('show_tournament', ['locale' => 'en', $tournament]));
 
@@ -56,7 +56,7 @@ class TournamentControllerTest extends TestCase
      */
     public function store_returns_an_ok_response()
     {
-        $tournament = factory(\App\Tournament::class)->make()->toArray();
+        $tournament = factory(\App\Models\Tournament::class)->make()->toArray();
 
         $response = $this->post(route('store_tournament', ['locale' => 'en']), $tournament);
         $response->assertRedirect('en/login');

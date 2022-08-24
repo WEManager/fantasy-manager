@@ -9,12 +9,12 @@
 namespace App\Engines;
 
 
-use App\GameEvent;
-use App\Lineup;
-use App\Person;
-use App\TournamentGame;
-use App\TournamentGameEvent;
-use App\TournamentStanding;
+use App\Models\GameEvent;
+use App\Models\Lineup;
+use App\Models\Person;
+use App\Models\TournamentGame;
+use App\Models\TournamentGameEvent;
+use App\Models\TournamentStanding;
 use Illuminate\Support\Facades\Cache;
 
 class MatchEngine
@@ -24,11 +24,17 @@ class MatchEngine
     private $hometeamLineup;
     private $awayteamLineup;
 
-    public function __construct(TournamentGame $game)
-    {
+    public function __construct(TournamentGame $game) {
         $this->game = $game;
-        $this->hometeamLineup = Lineup::where('club_id', $this->game->hometeam_id)->where('team', $this->game->hometeam_squad)->first();
-        $this->awayteamLineup = Lineup::where('club_id', $this->game->awayteam_id)->where('team', $this->game->awayteam_squad)->first();
+        $this->hometeamLineup = Lineup::where(
+            'club_id',
+            $this->game->hometeam_id
+        )->where('team', $this->game->hometeam_squad)->first();
+        
+        $this->awayteamLineup = Lineup::where(
+            'club_id',
+            $this->game->awayteam_id
+        )->where('team', $this->game->awayteam_squad)->first();
 
         // If game has not started yet
         if ($this->game->isAboutToStart) {
@@ -44,7 +50,11 @@ class MatchEngine
             $this->startSecondHalf();
         }
 
-        if (time() >= strtotime($this->game->start_time) && !$this->game->isAboutToEnd && !$this->game->isAboutToStart) {
+        if (
+            time() >= strtotime($this->game->start_time) &&
+            !$this->game->isAboutToEnd &&
+            !$this->game->isAboutToStart
+        ) {
             $this->winningChances();
         }
 
@@ -53,16 +63,21 @@ class MatchEngine
         }
     }
 
-    private function startGame()
-    {
-        if (is_null($this->game->hometeam_score)) $this->game->hometeam_score = 0;
-        if (is_null($this->game->awayteam_score)) $this->game->awayteam_score = 0;
+    private function startGame() {
+        if (is_null($this->game->hometeam_score))
+            $this->game->hometeam_score = 0;
+
+        if (is_null($this->game->awayteam_score))
+            $this->game->awayteam_score = 0;
+
         $this->game->status = '1';
+
         $this->game->save();
+
+        printf($this->game->id);
     }
 
-    private function halftime()
-    {
+    private function halftime() {
         $this->game->status = '3';
         $this->game->save();
     }
@@ -234,8 +249,7 @@ class MatchEngine
         return $totalValue;
     }
 
-    private function getMidfieldSkills($teamKey)
-    {
+    private function getMidfieldSkills($teamKey) {
         $totalValue = 0;
 
         foreach ($this->{$teamKey . 'Lineup'}->getAttributes() as $key => $value) {
@@ -278,16 +292,19 @@ class MatchEngine
         return $totalValue;
     }
 
-    protected function generateChances(): void
-    {
+    protected function generateChances(): void {
         // Generate 10 to 26 chances in a game
         $chances = rand(10, 26);
+
         for ($i = 0; $i < $chances; $i++) {
             $minute = rand(1, 90);
+
             if ($minute > 45) $minute = $minute + 15;
-            GameEvent::create([
+
+            $gameEvent = GameEvent::create([
                 'game_id' => $this->game->id,
-                'event_time' => date('Y-m-d H:i:s', strtotime($this->game->start_time . ' + ' . $minute . ' minutes')),
+                'event_time' =>
+                    date('Y-m-d H:i:s', strtotime($this->game->start_time . ' + ' . $minute . ' minutes')),
             ]);
         }
     }

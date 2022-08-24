@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\User;
-use App\Person;
+use App\Models\User;
+use App\Models\Person;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -32,7 +32,7 @@ class LineupControllerTest extends TestCase
     private function create_lineup()
     {
         $this->manager = factory(User::class)->create(['level' => 1]);
-        $this->club = factory(\App\Club::class)->create();
+        $this->club = factory(\App\Models\Club::class)->create();
         factory(\App\ManagerContract::class)->create([
             'user_id' => $this->manager->id, 'club_id' => $this->club->id,
         ]);
@@ -44,7 +44,7 @@ class LineupControllerTest extends TestCase
         $lineupData['club_id'] = $this->club->id;
         $lineupData['team'] = 'senior';
 
-        $this->lineup = factory(\App\Lineup::class)->create($lineupData);
+        $this->lineup = factory(\App\Models\Lineup::class)->create($lineupData);
     }
 
     /**

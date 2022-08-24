@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Http\Requests;
 
-use App\User;
+use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 

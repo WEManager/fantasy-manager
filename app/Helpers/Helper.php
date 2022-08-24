@@ -110,3 +110,11 @@ function getPositionsExceptGoalkeeper()
 
     return $positions;
 }
+
+function translations(String $jsonFile) {
+    if(!file_exists($jsonFile)) {
+        return [];
+    }
+
+    return json_decode(file_get_contents($jsonFile), true);
+}

@@ -2,12 +2,12 @@
 
 namespace App\Events;
 
-use App\Season;
-use App\Tournament;
-use App\TournamentGame;
-use App\TournamentGroup;
-use App\TournamentStanding;
-use App\TournamentParticipant;
+use App\Models\Season;
+use App\Models\Tournament;
+use App\Models\TournamentGame;
+use App\Models\TournamentGroup;
+use App\Models\TournamentStanding;
+use App\Models\TournamentParticipant;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;

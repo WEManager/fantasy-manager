@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\Person;
+use App\Models\Person;
 use App\Observers\PersonObserver;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,8 +14,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         //
     }
 
@@ -23,8 +23,15 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot() {
         Person::observe(PersonObserver::class);
+
+        Inertia::share([
+            'locale' => fn() => app()->getLocale(),
+
+            'language' => fn() => translations(
+                resource_path('lang/'. app()->getLocale() .'.json')
+            ),
+        ]);
     }
 }

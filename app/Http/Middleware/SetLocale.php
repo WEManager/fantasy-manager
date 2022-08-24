@@ -13,8 +13,7 @@ class SetLocale
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
+    public function handle($request, Closure $next) {
         app()->setLocale($request->segment(1));
 
         return $next($request);

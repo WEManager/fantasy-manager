@@ -2,9 +2,9 @@
 
 namespace App\Engines;
 
-use App\Lineup;
-use App\Person;
-use App\TournamentGame;
+use App\Models\Lineup;
+use App\Models\Person;
+use App\Models\TournamentGame;
 
 class GameEngine
 {
@@ -50,12 +50,12 @@ class GameEngine
         'LF', 'CLF', 'CF', 'CRF', 'RF',
     ];
 
-    public function __construct($gameId = null)
-    {
+    public function __construct($gameId = null) {
         $this->gameId = $gameId;
 
         if (!is_null($gameId)) {
             $game = TournamentGame::find($gameId);
+            
             $homeLineup = Lineup::where('club_id', $game->hometeam_id)->where('team', 'u21')->first();
             $awayLineup = Lineup::where('club_id', $game->awayteam_id)->where('team', 'u21')->first();
 

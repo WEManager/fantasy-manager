@@ -17,7 +17,7 @@ class SquadControllerTest extends TestCase
      */
     public function show_returns_an_ok_response()
     {
-        $club = factory(\App\Club::class)->create();
+        $club = factory(\App\Models\Club::class)->create();
 
         $response = $this->get(route('show_club_players', ['locale' => 'en', $club]));
 

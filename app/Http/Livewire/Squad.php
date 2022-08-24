@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Club;
+use App\Models\Club;
 use Livewire\Component;
 
 class Squad extends Component

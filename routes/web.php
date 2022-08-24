@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,15 +15,20 @@
 |
 */
 
-use Illuminate\Support\Facades\Route;
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 Route::get('/', function () {
     return redirect(app()->getLocale());
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
-    Auth::routes();
-
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::get('/{slug}', 'PageController@show')->name('page');
@@ -60,14 +69,20 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
 
     Route::get('/test-heading', function () {
-        $player = \App\Person::find(1);
-        $duelant = \App\Person::find(2);
+        $player = \App\Models\Person::find(1);
+        $duelant = \App\Models\Person::find(2);
         echo \App\Engines\GameDuelsEngine::headingDuelBetween($player, $duelant, true);
     });
     Route::get('/test-game/{id}', function ($locale, $id) {
 
-        $game = \App\TournamentGame::find($id);
+        $game = \App\Models\TournamentGame::find($id);
         new \App\Engines\MatchEngine($game);
         //dd($game->hometeam->name . ' ' . $game->hometeam_score . ' - ' . $game->awayteam_score . ' ' . $game->awayteam->name);
     });
 });
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+require __DIR__.'/auth.php';

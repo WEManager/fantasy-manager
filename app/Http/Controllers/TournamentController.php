@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Club;
+use App\Models\Club;
 use App\Events\CreateLeagueEvent;
-use App\Tournament;
-use App\TournamentGroup;
-use App\TournamentParticipant;
-use App\TournamentStanding;
-use App\User;
+use App\Models\Tournament;
+use App\Models\TournamentGroup;
+use App\Models\TournamentParticipant;
+use App\Models\TournamentStanding;
+use App\Models\User;
 use App\Http\Requests\StoreTournament;
 use Illuminate\Support\Facades\Cache;
 

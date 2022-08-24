@@ -2,12 +2,12 @@
 
 namespace App\Generators;
 
-use App\Club;
+use App\Models\Club;
 use App\Events\CreateLeagueEvent;
-use App\Season;
-use App\TournamentParticipant;
-use App\TournamentQualification;
-use App\TournamentSeason;
+use App\Models\Season;
+use App\Models\TournamentParticipant;
+use App\Models\TournamentQualification;
+use App\Models\TournamentSeason;
 use Illuminate\Support\Facades\Artisan;
 
 class Tournament
@@ -32,7 +32,7 @@ class Tournament
             $props[$key] = $value;
         }
 
-        $tournament = \App\Tournament::create([
+        $tournament = \App\Models\Tournament::create([
             'name' => $props['name'],
             'nationality' => nationalityBasedOnLocale($props['locale']),
             'type' => $props['type'],

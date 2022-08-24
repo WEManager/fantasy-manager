@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use Tests\TestCase;
-use App\TournamentGame;
+use App\Models\TournamentGame;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

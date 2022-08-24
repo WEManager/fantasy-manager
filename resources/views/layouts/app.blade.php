@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -18,29 +18,30 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @vite('resources/css/app.css')
 </head>
 <body>
+
 <div id="app">
     @include('layouts.navigation')
 
     <header class="main-header">
         @yield('header')
     </header>
+
     <main class="py-4">
         @if(session()->has('message'))
-            <div class="container">
-                <div class="col-xs-12">
-                    <div class="alert alert-success">
-                        {{ session()->get('message') }}
-                    </div>
+        <div class="container">
+            <div class="col-xs-12">
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
                 </div>
             </div>
+        </div>
         @endif
-
 
         @yield('content')
     </main>
 </div>
-
 </body>
 </html>

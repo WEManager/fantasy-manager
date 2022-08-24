@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Club;
+use App\Models\Club;
 use App\Events\CreateLeagueEvent;
 use App\Season;
-use App\Tournament;
-use App\TournamentParticipant;
-use App\TournamentQualification;
-use App\TournamentSeason;
+use App\Models\Tournament;
+use App\Models\TournamentParticipant;
+use App\Models\TournamentQualification;
+use App\Models\TournamentSeason;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 

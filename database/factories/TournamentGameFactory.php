@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\TournamentGame::class, function (Faker $faker) {
+$factory->define(\App\Models\TournamentGame::class, function (Faker $faker) {
     return [
         'group_id' => 1,
         'hometeam_id' => 1,

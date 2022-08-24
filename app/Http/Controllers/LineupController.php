@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Club;
-use App\Lineup;
+use App\Models\Club;
+use App\Models\Lineup;
 use Illuminate\Http\Request;
 
-class LineupController extends Controller
-{
-    public function edit($locale, Club $club, $squad)
-    {
+class LineupController extends Controller {
+    public function edit($locale, Club $club, $squad) {
         if (!$lineup = Lineup::where('club_id', $club->id)->where('team', $squad)->first()) {
             $lineup = Lineup::create([
                 'club_id' => $club->id,
@@ -17,7 +15,7 @@ class LineupController extends Controller
             ]);
         }
 
-        $this->authorize('view', $lineup);
+        // $this->authorize('view', $lineup);
 
         $type = getContractType($squad);
 
@@ -44,8 +42,7 @@ class LineupController extends Controller
         return view('lineups.edit')->with(['club' => $club, 'lineup' => $lineup, 'players' => $players, 'squad' => $squad]);
     }
 
-    public function update($locale, Lineup $lineup)
-    {
+    public function update($locale, Lineup $lineup) {
         $this->authorize('update', $lineup);
 
         if ($lineup->update(\request()->all())) {

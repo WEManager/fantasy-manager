@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Club;
-use App\Person;
+use App\Models\Club;
+use App\Models\Person;
 use Illuminate\Http\Request;
 
 class SquadController extends Controller

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Console\Commands;
 
-use App\Tournament;
+use App\Models\Tournament;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

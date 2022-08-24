@@ -3,8 +3,8 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\TournamentGame;
-use App\TournamentStanding;
+use App\Models\TournamentGame;
+use App\Models\TournamentStanding;
 use Illuminate\Support\Facades\Cache;
 
 class FixturesByDate extends Component

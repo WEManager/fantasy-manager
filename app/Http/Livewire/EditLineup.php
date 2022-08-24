@@ -6,11 +6,10 @@ use App\Lineup;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
-class EditLineup extends Component
-{
+class EditLineup extends Component {
     public $lineup;
 
-    public array $players = [];
+    public $players = [];
 
     public $position_1;
     public $position_2;
@@ -45,8 +44,7 @@ class EditLineup extends Component
 
     //public $errorBag = [];
 
-    public function mount(Collection $players, Lineup $lineup)
-    {
+    public function mount(Collection $players, Lineup $lineup) {
         $this->lineup = $lineup;
 
         $playersArray = [];
@@ -56,12 +54,10 @@ class EditLineup extends Component
         $this->players = $playersArray;
         //$this->updatePlayersArray();
 
-
         $this->savedLineup();
     }
 
-    private function savedLineup()
-    {
+    private function savedLineup() {
         for ($i = 1; $i < 12; $i++) {
             $this->{"position_$i"} = $this->lineup->{"position_$i"};
             $this->{"player_$i"} = $this->lineup->{"player_$i"};
@@ -72,13 +68,11 @@ class EditLineup extends Component
         }
     }
 
-    public function resetLineup()
-    {
+    public function resetLineup() {
         $this->savedLineup();
     }
 
-    public function saveLineup()
-    {
+    public function saveLineup() {
         for ($i = 1; $i < 12; $i++) {
             $this->lineup->{"player_$i"} = $this->{"player_$i"};
             $this->lineup->{"position_$i"} = $this->{"position_$i"};
@@ -91,8 +85,7 @@ class EditLineup extends Component
         $this->lineup->save();
     }
 
-    public function positionChange($position, $playerId)
-    {
+    public function positionChange($position, $playerId) {
         $this->resetErrorBag();
 
         $this->unsetCurrentPlayerOldPosition($playerId);
@@ -160,8 +153,7 @@ class EditLineup extends Component
         return;
     }
 
-    public function setPlayerPosition($playerId, $position)
-    {
+    public function setPlayerPosition($playerId, $position) {
         $players = [];
         foreach ($this->players as $player) {
             if ($player['id'] == $playerId) {
@@ -174,8 +166,7 @@ class EditLineup extends Component
         $this->players = $players;
     }
 
-    public function updatePlayersArray()
-    {
+    public function updatePlayersArray() {
         $playersArray = [];
         foreach ($this->players as $player) {
             $positionKey = $this->getPlayerPositionKeys($player['id']);
@@ -190,13 +181,14 @@ class EditLineup extends Component
         $this->players = $playersArray;
     }
 
-    public function render()
-    {
-        return view('livewire.edit-lineup')->with(['players' => $this->players, 'lineup' => $this->lineup]);
+    public function render() {
+        $players = $this->players;
+        $lineup = $this->lineup;
+
+        return view('livewire.edit-lineup')->with(compact('players', 'lineup'));
     }
 
-    private function getPlayerSubstituteKey($playerId): string
-    {
+    private function getPlayerSubstituteKey($playerId): string {
         for ($i = 1; $i < 7; $i++) {
             if ($this->{"substitute_$i"} == $playerId) {
                 return "substitute_$i";
@@ -206,8 +198,7 @@ class EditLineup extends Component
         return "";
     }
 
-    private function getPlayerPositionKeys($playerId): array
-    {
+    private function getPlayerPositionKeys($playerId): array {
         for ($i = 1; $i < 12; $i++) {
             if ($this->{"player_$i"} == $playerId) {
                 return ["player_$i", "position_$i"];
@@ -223,8 +214,7 @@ class EditLineup extends Component
      * @param array $playerPositionKeys
      * @param $playerAlreadyOnNewPosition
      */
-    private function putPlayersInNewPositions($position, $playerId, array $playerPositionKeys, $playerAlreadyOnNewPosition, $playerKey = null): void
-    {
+    private function putPlayersInNewPositions($position, $playerId, array $playerPositionKeys, $playerAlreadyOnNewPosition, $playerKey = null): void {
         if (count($playerPositionKeys)) {
             $this->{$playerPositionKeys[0]} = $playerAlreadyOnNewPosition;
             $this->setPlayerPosition($playerAlreadyOnNewPosition, $this->{$playerPositionKeys[1]});
@@ -248,8 +238,7 @@ class EditLineup extends Component
         $this->setPlayerPosition($playerId, $position);
     }
 
-    private function getEmptyPlayerPositionKeys(): array
-    {
+    private function getEmptyPlayerPositionKeys(): array {
         for ($i = 1; $i < 12; $i++) {
             if ($this->{"player_$i"} == null) {
                 return ["player_$i", "position_$i"];
@@ -259,8 +248,7 @@ class EditLineup extends Component
         return [];
     }
 
-    private function unsetCurrentPlayerOldPosition($playerId): void
-    {
+    private function unsetCurrentPlayerOldPosition($playerId): void {
         for ($i = 1; $i < 12; $i++) {
             if ($this->{"player_$i"} == $playerId) {
                 $this->{"player_$i"} = null;

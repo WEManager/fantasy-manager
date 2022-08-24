@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Club;
-use App\TournamentGame;
+use App\Models\Club;
+use App\Models\TournamentGame;
 use Illuminate\Http\Request;
 
 class ClubController extends Controller

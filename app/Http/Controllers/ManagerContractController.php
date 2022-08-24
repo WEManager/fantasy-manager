@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Club;
-use App\JobApplication;
-use App\ManagerContract;
+use App\Models\Club;
+use App\Models\JobApplication;
+use App\Models\ManagerContract;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
