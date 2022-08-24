@@ -8,19 +8,19 @@ use Illuminate\Http\Request;
 
 class ClubController extends Controller
 {
-    public function index($locale)
+    public function index()
     {
         $clubs = Club::paginate();
 
         return view('clubs.index')->with(['clubs' => $clubs]);
     }
 
-    public function show($locale, Club $club)
+    public function show(Club $club)
     {
         return view('clubs.show')->with(['club' => $club]);
     }
 
-    public function edit($locale, Club $club)
+    public function edit(Club $club)
     {
         return view('clubs.edit')->with(['club' => $club]);
     }

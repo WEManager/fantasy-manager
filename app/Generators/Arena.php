@@ -12,7 +12,7 @@ class Arena {
         foreach ($arenaNames as $arenaName) {
             $name = str_replace('[town]', $town, $arenaName);
 
-            if (!\App\Arena::where('name', $name)->first()) {
+            if (!\App\Models\Arena::where('name', $name)->first()) {
                 return $name;
             }
         }

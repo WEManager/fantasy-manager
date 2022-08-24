@@ -34,7 +34,6 @@ class FixturesByDate extends Component
 
     public function goToPreviousDay()
     {
-        app()->setLocale($this->locale);
 
         $this->date = date('Y-m-d', strtotime($this->date . ' - 1 day'));
         $this->before = date('Y-m-d', strtotime($this->date . ' - 1 day'));
@@ -44,7 +43,6 @@ class FixturesByDate extends Component
 
     public function goToNextDay()
     {
-        app()->setLocale($this->locale);
 
         $this->date = date('Y-m-d', strtotime($this->date . ' + 1 day'));
         $this->before = date('Y-m-d', strtotime($this->date . ' - 1 day'));

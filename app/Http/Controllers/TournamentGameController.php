@@ -8,7 +8,7 @@ use App\Models\TournamentGame;
 use Illuminate\Http\Request;
 
 class TournamentGameController extends Controller {
-    public function show($locale, TournamentGame $game) {
+    public function show(TournamentGame $game) {
         $homeTeamLineup = Lineup::where('club_id', $game->hometeam_id)
             ->where('team', $game->hometeam_squad)
             ->first();

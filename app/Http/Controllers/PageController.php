@@ -8,14 +8,16 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function show($locale, $slug)
+    public function show($slug)
     {
         if ($tournament = Tournament::where('slug', $slug)->first()) {
             $tournamentController = new TournamentController();
-            return $tournamentController->show($locale, $tournament);
+
+            return $tournamentController->show($tournament);
         } elseif ($club = Club::with(['homegames', 'awaygames'])->where('slug', $slug)->first()) {
             $clubController = new ClubController();
-            return $clubController->show($locale, $club);
+
+            return $clubController->show($club);
         }
     }
 }

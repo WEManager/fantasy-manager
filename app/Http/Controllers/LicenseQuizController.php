@@ -9,12 +9,12 @@ use Illuminate\Support\Str;
 
 class LicenseQuizController extends Controller
 {
-    public function show($locale, LicenseQuiz $licenseQuiz)
+    public function show(LicenseQuiz $licenseQuiz)
     {
         return view('license-quizzes.show')->with(['quiz' => $licenseQuiz]);
     }
 
-    public function submission($locale, LicenseQuiz $licenseQuiz)
+    public function submission(LicenseQuiz $licenseQuiz)
     {
         $answers = \request()->all();
         unset($answers['_token']);

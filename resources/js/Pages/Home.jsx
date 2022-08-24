@@ -1,9 +1,7 @@
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from "@inertiajs/inertia-react";
 
-export default function Home({ auth, errors, clubs, locale }) {
-  console.log("🚀 ~ file: Home.jsx ~ line 5 ~ Home ~ auth", auth)
-  console.log("🚀 ~ file: Home.jsx ~ line 5 ~ Home ~ clubs", clubs)
+export default function Home({ auth, errors, clubs }) {
   return (
     <>
     {/* // <Authenticated
@@ -34,10 +32,10 @@ export default function Home({ auth, errors, clubs, locale }) {
                       src={`/images/vendor/flag-icon-css/flags/4x3/${club.locale.toLowerCase()}.svg`}
                       title={club.locale}/>
 
-                    <Link href={route('show_club', [locale, club])}>{club.name}</Link>
+                    <Link href={route('show_club', [club])}>{club.name}</Link>
 
                     {(auth.user && !auth.user.club) ? (
-                        <Link href={route('apply_for_job', [locale, club])} className="text-gray-500 ml-auto underline text-sm">Apply for job</Link>
+                        <Link href={route('apply_for_job', [club])} className="text-gray-500 ml-auto underline text-sm">Apply for job</Link>
                     ) : (
                         <span className="ml-auto">No manager</span>
                     )}

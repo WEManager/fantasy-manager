@@ -28,7 +28,6 @@ class Squad extends Component
 
     public function updateSquad($squad)
     {
-        app()->setLocale($this->locale);
 
         $this->squad = $squad;
 

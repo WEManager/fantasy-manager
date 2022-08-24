@@ -52,7 +52,7 @@ class TournamentController extends Controller
         return redirect('show_tournament')->with(['tournament' => $createdTournament->slug]);
     }
 
-    public function show($locale, Tournament $tournament)
+    public function show(Tournament $tournament)
     {
         if (!Cache::has('standings-' . $tournament->id)) {
             $groupIds = [];

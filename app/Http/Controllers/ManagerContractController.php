@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ManagerContractController extends Controller
 {
-    public function create($locale, Club $club)
+    public function create(Club $club)
     {
         if (auth()->check() && auth()->user()->club) {
             return redirect()->back();
@@ -34,7 +34,7 @@ class ManagerContractController extends Controller
         return view('manager-contracts.create')->with(compact('club'));
     }
 
-    public function store($locale)
+    public function store()
     {
         if (auth()->user()->club !== null) {
             return redirect()->back();
@@ -96,7 +96,7 @@ class ManagerContractController extends Controller
         }
     }
 
-    public function quitJob($locale, Club $club)
+    public function quitJob(Club $club)
     {
         // TODO: Accept to leave if club is not satisfied.
         // TODO: Accept to leave by paying your part of contract to the club.
