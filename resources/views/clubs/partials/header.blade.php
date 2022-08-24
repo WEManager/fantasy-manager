@@ -1,4 +1,4 @@
-<div class="club--header" style="background-color: {{ $club->colors[0] }}">
+{{-- <div class="club--header" style="background-color: {{ $club->colors[0] }}">
     <div class="container py-4">
         <div class="row">
             <div class="col-12">
@@ -23,4 +23,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

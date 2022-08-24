@@ -1,7 +1,7 @@
 <h3>{{ __('Squads') }}</h3>
 <ul class="submenu">
-    <li class="{{ is_current('show_club', ['club' => $club]) ? 'active' : '' }}">
-        <a href="{{ link_route('show_club', ['club' => $club]) }}">{{ __('Club') }}</a>
+    <li class="{{ is_current('club.show', ['club' => $club]) ? 'active' : '' }}">
+        <a href="{{ link_route('club.show', ['club' => $club]) }}">{{ __('Club') }}</a>
     </li>
 </ul>
 

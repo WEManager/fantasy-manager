@@ -41,7 +41,7 @@
                                                   clip-rule="evenodd"/>
                                         </svg>
                                     @endif
-                                    <a href="{{ link_route('show_tournament', ['tournament' => $league->slug]) }}">{{ __($league->name) }}</a>
+                                    <a href="{{ link_route('tournament.show', ['t' => $league->slug]) }}">{{ __($league->name) }}</a>
                                 </li>
                             @endif
                         @endforeach

@@ -19,7 +19,7 @@ class SquadControllerTest extends TestCase
     {
         $club = factory(\App\Models\Club::class)->create();
 
-        $response = $this->get(route('show_club_players', ['locale' => 'en', $club]));
+        $response = $this->get(route('show_club_players', [$club]));
 
         $response->assertOk();
         $response->assertSee($club->name);

@@ -32,7 +32,7 @@ export default function Home({ auth, errors, clubs }) {
                       src={`/images/vendor/flag-icon-css/flags/4x3/${club.locale.toLowerCase()}.svg`}
                       title={club.locale}/>
 
-                    <Link href={route('show_club', [club])}>{club.name}</Link>
+                    <a href={route('club.show', [club])}>{club.name}</a>
 
                     {(auth.user && !auth.user.club) ? (
                         <Link href={route('apply_for_job', [club])} className="text-gray-500 ml-auto underline text-sm">Apply for job</Link>

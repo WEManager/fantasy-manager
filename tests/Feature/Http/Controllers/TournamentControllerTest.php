@@ -45,7 +45,7 @@ class TournamentControllerTest extends TestCase
     {
         $tournament = factory(\App\Models\Tournament::class)->create();
 
-        $response = $this->get(route('show_tournament', ['locale' => 'en', $tournament]));
+        $response = $this->get(route('tournament.show', [$tournament]));
 
         $response->assertOk();
         $response->assertViewIs('tournaments.show');

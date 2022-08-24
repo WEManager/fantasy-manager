@@ -17,10 +17,10 @@
                             @foreach ($tournaments as $tournament)
                                 <tr>
                                     <td>
-                                        <a href="{{ link_route('show_tournament', ['tournament' => $tournament->id]) }}">{{ $tournament->id }}</a>
+                                        <a href="{{ link_route('tournament.show', ['tournament' => $tournament->id]) }}">{{ $tournament->id }}</a>
                                     </td>
                                     <td>
-                                        <a href="{{ link_route('show_tournament', ['tournament' => $tournament->id]) }}">{{ $tournament->name }}</a>
+                                        <a href="{{ link_route('tournament.show', ['tournament' => $tournament->id]) }}">{{ $tournament->name }}</a>
                                     </td>
                                 </tr>
                             @endforeach

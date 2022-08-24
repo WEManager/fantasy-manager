@@ -49,7 +49,7 @@ class TournamentController extends Controller
 
         event(new CreateLeagueEvent($createdTournament));
 
-        return redirect('show_tournament')->with(['tournament' => $createdTournament->slug]);
+        return redirect('tournament.show')->with(['t' => $createdTournament->slug]);
     }
 
     public function show(Tournament $tournament)

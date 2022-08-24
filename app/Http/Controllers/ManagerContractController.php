@@ -82,7 +82,7 @@ class ManagerContractController extends Controller
                 'status' => 'approved',
             ]);
 
-            return redirect(link_route('show_club', ['club' => $club]))->with('message', __('You got the job as manager for :club!', ['club' => $club->name]));
+            return redirect(link_route('club.chow', ['club' => $club]))->with('message', __('You got the job as manager for :club!', ['club' => $club->name]));
         } else {
             JobApplication::create([
                 'user_id' => auth()->id(),

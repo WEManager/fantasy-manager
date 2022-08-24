@@ -21,7 +21,7 @@ class ClubControllerTest extends TestCase
 
         $club = factory(\App\Models\Club::class)->create();
 
-        $this->get(route('list_clubs', ['locale' => 'en']))
+        $this->get(route('list_clubs'))
             ->assertSee($club->name);
     }
 
@@ -34,7 +34,7 @@ class ClubControllerTest extends TestCase
 
         $this->assertDatabaseHas('clubs', ['name' => $club->name]);
 
-        $this->get(route('show_club', ['locale' => 'en', 'club' => $club]))
+        $this->get(route('club.show', ['club' => $club]))
             ->assertOk()
             ->assertSee($club->name);
 

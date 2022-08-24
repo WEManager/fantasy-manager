@@ -37,8 +37,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                <a class="dropdown-item {{ is_current('show_club', ['club' => Auth::user()->club]) ? 'active' : '' }}"
-                                   href="{{ link_route('show_club', ['club' => Auth::user()->club]) }}">{{ __('Clubhouse') }}</a>
+                                <a class="dropdown-item {{ is_current('club.show', ['club' => Auth::user()->club]) ? 'active' : '' }}"
+                                   href="{{ link_route('club.show', ['club' => Auth::user()->club]) }}">{{ __('Clubhouse') }}</a>
 
                                 <a class="dropdown-item {{ is_current('show_club_players', ['club' => Auth::user()->club]) ? 'active' : '' }}"
                                    href="{{ link_route('show_club_players', ['club' => Auth::user()->club]) }}">{{ __('Players') }}</a>

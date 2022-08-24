@@ -6,10 +6,8 @@ use App\Models\Club;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 
-class PageController extends Controller
-{
-    public function show($slug)
-    {
+class PageController extends Controller {
+    public function show($slug) {
         if ($tournament = Tournament::where('slug', $slug)->first()) {
             $tournamentController = new TournamentController();
 

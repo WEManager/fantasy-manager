@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-5 text-left">
                 <h2>
-                    <a href="{{ link_route('show_club', ['club' => $game->hometeam]) }}">{{ $game->hometeam->name }}</a>
+                    <a href="{{ link_route('club.show', ['club' => $game->hometeam]) }}">{{ $game->hometeam->name }}</a>
                 </h2>
             </div>
             <div class="col-2 text-center">
@@ -22,7 +22,7 @@
             </div>
             <div class="col-5 text-right">
                 <h2>
-                    <a href="{{ link_route('show_club', ['club' => $game->awayteam]) }}">{{ $game->awayteam->name }}</a>
+                    <a href="{{ link_route('club.show', ['club' => $game->awayteam]) }}">{{ $game->awayteam->name }}</a>
                 </h2>
             </div>
         </div>
