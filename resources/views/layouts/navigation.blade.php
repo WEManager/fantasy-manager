@@ -11,33 +11,6 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        <i class="material-icons">
-                            translate
-                        </i> <span class="caret"></span>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        @foreach (config('app.available_locales') as $locale => $flag)
-                            <?php $params = \Illuminate\Support\Facades\Route::current()->parameters(); $params['locale'] = $locale; ?>
-                            
-                            <a
-                                class="dropdown-item"
-                                href="{{ link_route(\Illuminate\Support\Facades\Route::currentRouteName(), $params) }}"
-                                @if (app()->getLocale() == $locale) style="font-weight: bold;" @endif
-                            >
-                                <span class="flag-icon flag-icon-{{ strtolower($flag) }}"></span>
-
-                                {{ config('app.available_locale_names.'.$locale) }}
-                            </a>
-                        @endforeach
-                    </div>
-                </li>
-            </ul>
-
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
