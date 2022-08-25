@@ -1,14 +1,20 @@
-import Authenticated from "@/Layouts/Authenticated";
-import DefaultLayout from "@/Layouts/Default";
-import { Head, Link } from "@inertiajs/inertia-react";
+import DefaultLayout from '@/Layouts/Default'
+import { Head, Link } from '@inertiajs/inertia-react'
 
-export default function Home({ auth, errors, clubs }) {
+type HomeProps = {
+  clubs: any
+}
+
+export default function Home({ auth, clubs }: HomeProps) {
   return (
     <DefaultLayout
-      auth={auth}
-      errors={errors}
-      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Home</h2>}
-    >
+      // auth={auth}
+      // errors={errors}
+      header={
+        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+          Home
+        </h2>
+      }>
       <Head title="Home" />
 
       <div className="py-12">
@@ -18,26 +24,33 @@ export default function Home({ auth, errors, clubs }) {
               <h2 className="text-lg mb-4">List of available clubs</h2>
 
               <div className="grid grid-cols-4 gap-4">
-                {clubs.map(club => (
+                {clubs.map((club) => (
                   <div className="flex gap-1 items-center" key={club.id}>
                     <div
                       className="w-5 aspect-square rounded-full border-solid border-2"
                       style={{
                         backgroundColor: club.colors?.[0],
-                        borderColor: club.colors?.[1]
-                      }} />
-                    
+                        borderColor: club.colors?.[1],
+                      }}
+                    />
+
                     <img
                       className="w-3"
                       src={`/images/vendor/flag-icon-css/flags/4x3/${club.locale.toLowerCase()}.svg`}
-                      title={club.locale}/>
+                      title={club.locale}
+                      alt={`${club.locale} flag`}
+                    />
 
                     <a href={route('club.show', [club])}>{club.name}</a>
 
-                    {(auth.user && !auth.user.club) ? (
-                        <Link href={route('apply_for_job', [club])} className="text-gray-500 ml-auto underline text-sm">Apply for job</Link>
+                    {auth.user && !auth.user.club ? (
+                      <Link
+                        href={route('apply_for_job', [club])}
+                        className="text-gray-500 ml-auto underline text-sm">
+                        Apply for job
+                      </Link>
                     ) : (
-                        <span className="ml-auto">No manager</span>
+                      <span className="ml-auto">No manager</span>
                     )}
                   </div>
                 ))}

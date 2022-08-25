@@ -1,3 +1,4 @@
+import React from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import { Avatar, Button, Navbar, Dropdown } from "flowbite-react"
 import { Link } from '@inertiajs/inertia-react'
