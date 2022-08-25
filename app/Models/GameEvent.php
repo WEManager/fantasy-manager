@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Engines\MatchEngine;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GameEvent extends Model
 {
@@ -16,8 +17,7 @@ class GameEvent extends Model
      * Scopes
      */
 
-    public function scopeCurrent(Builder $builder)
-    {
+    public function scopeCurrent(Builder $builder) {
         $builder->where('event_time', '<=', now());
     }
 
@@ -25,8 +25,7 @@ class GameEvent extends Model
      * Relationships
      */
 
-    public function game()
-    {
+    public function game(): BelongsTo {
         return $this->belongsTo(TournamentGame::class, 'game_id', 'id');
     }
 
@@ -34,8 +33,7 @@ class GameEvent extends Model
     /**
      * Play this event in game
      */
-    public function play()
-    {
+    public function play(): void {
         new MatchEngine($this->game);
     }
 }

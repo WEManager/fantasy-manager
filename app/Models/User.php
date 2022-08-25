@@ -5,6 +5,7 @@ namespace App\Models;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
@@ -45,8 +46,9 @@ class User extends Authenticatable
         return $this->admin;
     }
 
-    public function club()
-    {
-        return $this->hasOneThrough(Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id')->where('manager_contracts.status', 'ongoing');
+    public function club(): HasOneThrough {
+        return $this->hasOneThrough(
+            Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id'
+        )->where('manager_contracts.status', 'ongoing');
     }
 }

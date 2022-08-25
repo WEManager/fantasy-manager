@@ -13,8 +13,6 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/{slug}', [PageController::class, 'show'])->name('page');
-
 Route::resource('c', ClubController::class)
     ->only([ 'index', 'show', 'edit', 'update' ])
     ->parameters(['c' => 'club'])
@@ -40,6 +38,23 @@ Route::resource('g', TournamentGameController::class)
     ->only([ 'index', 'show' ])
     ->parameters(['g' => 'game'])
     ->names('game');
+
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
+
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+Route::get('/{slug}', [PageController::class, 'show'])->name('page');
 
 Route::get('/players/create', 'PlayerController@create')->middleware('admin')->name('create_player');
 Route::put('/players/{user}', 'PlayerController@update')->middleware('admin')->name('update_player');
@@ -86,18 +101,3 @@ Route::get('/test-game/{id}', function ($id) {
 
     new \App\Engines\MatchEngine($game);
 });
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-require __DIR__.'/auth.php';

@@ -7,23 +7,12 @@ use App\Observers\PersonObserver;
 use Illuminate\Support\ServiceProvider;
 // use Inertia\Inertia;
 
-class AppServiceProvider extends ServiceProvider
-{
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register() {
+class AppServiceProvider extends ServiceProvider {
+    public function register(): void {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot() {
+    public function boot(): void {
         Person::observe(PersonObserver::class);
 
         // Inertia::share([

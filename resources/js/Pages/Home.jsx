@@ -1,14 +1,14 @@
 import Authenticated from "@/Layouts/Authenticated";
+import DefaultLayout from "@/Layouts/Default";
 import { Head, Link } from "@inertiajs/inertia-react";
 
 export default function Home({ auth, errors, clubs }) {
   return (
-    <>
-    {/* // <Authenticated
-    //   auth={auth}
-    //   errors={errors}
-    //   header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Home</h2>}
-    // > */}
+    <DefaultLayout
+      auth={auth}
+      errors={errors}
+      header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Home</h2>}
+    >
       <Head title="Home" />
 
       <div className="py-12">
@@ -46,7 +46,6 @@ export default function Home({ auth, errors, clubs }) {
           </div>
         </div>
       </div>
-    {/* // </Authenticated> */}
-    </>
+    </DefaultLayout>
   )
 }

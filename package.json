@@ -16,6 +16,7 @@
         "axios": "^0.27",
         "eslint": "^8.22.0",
         "eslint-config-prettier": "^8.5.0",
+        "eslint-import-resolver-typescript": "^3.5.0",
         "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-jsx-a11y": "^6.6.1",
         "eslint-plugin-prettier": "^4.2.1",
@@ -33,7 +34,7 @@
         "vite": "^3.0.0"
     },
     "dependencies": {
-        "eslint-import-resolver-typescript": "^3.5.0",
-        "lang.js": "^1.1.14"
+        "flowbite": "^1.5.2",
+        "flowbite-react": "^0.1.10"
     }
 }

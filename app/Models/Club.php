@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Sluggable\HasSlug;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Spatie\Sluggable\SlugOptions;
 
 class Club extends Model {
@@ -34,31 +37,27 @@ class Club extends Model {
         );
     }
 
-    public function homeGames() {
+    public function homeGames(): HasMany {
         return $this->hasMany(TournamentGame::class, 'hometeam_id', 'id');
     }
 
-    public function awayGames() {
+    public function awayGames(): HasMany {
         return $this->hasMany(TournamentGame::class, 'awayteam_id', 'id');
     }
 
-    public function manager() {
+    public function manager(): HasOneThrough {
         return $this->hasOneThrough(User::class, ManagerContract::class, 'club_id', 'id', 'id', 'user_id');
     }
 
-    public function tournament() {
-        /*$season = Season::whereDate('start_time', '<=', date('Y-m-d'))
-            ->whereDate('end_time', '>=', date('Y-m-d'))
-            ->first();
-*/
+    public function tournament(): HasOneThrough {
         return $this->hasOneThrough(Tournament::class, TournamentParticipant::class, 'club_id', 'id', 'id', 'tournament_id');
     }
 
-    public function arenas() {
+    public function arenas(): HasMany {
         return $this->hasMany(Arena::class);
     }
 
-    public function players($type = []) {
+    public function players($type = []): BelongsToMany {
         $players = $this->belongsToMany(Person::class, 'player_contracts', 'club_id', 'person_id')
             // Only get contracts that are currently valid
             ->whereDate('from', '<', date('Y-m-d'))
