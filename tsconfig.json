@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
         "@/*": ["resources/js/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "include": ["resources/js", "vite.config.ts"],
   "exclude": ["node_modules", "public"],

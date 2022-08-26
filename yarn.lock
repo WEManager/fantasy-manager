@@ -523,6 +523,11 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.3.tgz#472eaab5f15c1ffdd7f8628bd4c4f753995ec79e"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
+"@types/history@^4.7.11":
+  version "4.7.11"
+  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.11.tgz#56588b17ae8f50c53983a524fc3cc47437969d64"
+  integrity sha512-qjDJRrmvBMiTx+jyLxvLfJU7UznFuokDv4f3WRuriHKERccVpFU+8XMQUAbDzoiJCsmexxRExQeMwwCdamSKDA==
+
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
@@ -568,6 +573,13 @@
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
+
+"@types/ziggy-js@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@types/ziggy-js/-/ziggy-js-1.3.2.tgz#ef98a63b082a0aaf85b3daa493ea536104004ee5"
+  integrity sha512-hwnsR3tEy3jyW+akw5kwfyZ9+/MZ+jN659G6LoGKBL9LvOUv07fiMsZL3vaK8IfTo2OXVMa4elsX8r/nU/x9hw==
+  dependencies:
+    "@types/history" "^4.7.11"
 
 "@typescript-eslint/eslint-plugin@^5.35.1":
   version "5.35.1"
@@ -3049,6 +3061,11 @@ qs@^6.9.0:
   dependencies:
     side-channel "^1.0.4"
 
+qs@~6.9.7:
+  version "6.9.7"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.7.tgz#4610846871485e1e048f44ae3b94033f0e675afe"
+  integrity sha512-IhMFgUmuNpyRfxA90umL7ByLlgRXu6tIfKPpF5TmcfRLlLCckfP/g3IQmju6jjpu+Hh8rA+2p6A27ZSPOOHdKw==
+
 queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
@@ -3801,3 +3818,10 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+ziggy-js@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/ziggy-js/-/ziggy-js-1.4.6.tgz#1b4bd0a9813fd833e7f14e0c354c40af8cd3ab8a"
+  integrity sha512-7bnzm+I9bDnlh98km8d43X8r99YXTfSbcIVWRRWZFBw+vtck3bhvUDmuvNoC/G7smblb0CFEFwwxZ+H0hLa1DA==
+  dependencies:
+    qs "~6.9.7"

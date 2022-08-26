@@ -1,20 +1,19 @@
-import DefaultLayout from '@/Layouts/Default'
 import { Head, Link } from '@inertiajs/inertia-react'
+import route from 'ziggy-js'
+import DefaultLayout from '@/Layouts/Default'
 
 type HomeProps = {
-  clubs: any
+  clubs: any[]
+  auth: any
 }
 
 export default function Home({ auth, clubs }: HomeProps) {
   return (
     <DefaultLayout
-      // auth={auth}
-      // errors={errors}
-      header={
-        <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-          Home
-        </h2>
-      }>
+    // auth={auth}
+    // errors={errors}
+    // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Home</h2>}
+    >
       <Head title="Home" />
 
       <div className="py-12">
@@ -44,9 +43,7 @@ export default function Home({ auth, clubs }: HomeProps) {
                     <a href={route('club.show', [club])}>{club.name}</a>
 
                     {auth.user && !auth.user.club ? (
-                      <Link
-                        href={route('apply_for_job', [club])}
-                        className="text-gray-500 ml-auto underline text-sm">
+                      <Link href={route('apply_for_job', [club])} className="text-gray-500 ml-auto underline text-sm">
                         Apply for job
                       </Link>
                     ) : (

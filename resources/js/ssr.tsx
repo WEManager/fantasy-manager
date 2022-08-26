@@ -1,26 +1,27 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import { createInertiaApp } from '@inertiajs/inertia-react';
-import createServer from '@inertiajs/server';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import route from '../../vendor/tightenco/ziggy/dist/index.m';
+import { renderToString } from 'react-dom/server'
+import { createInertiaApp, ReactComponent } from '@inertiajs/inertia-react'
+import createServer from '@inertiajs/server'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+// import route, { RouteParam, RouteParamsWithQueryOverload } from 'ziggy-js'
+// import route from '../../vendor/tightenco/ziggy/dist/index.m'
 
-const appName = 'Laravel';
+const appName = 'WEManager Fantazy Manager'
 
 createServer((page) =>
-    createInertiaApp({
-        page,
-        render: ReactDOMServer.renderToString,
-        title: (title) => `${title} - ${appName}`,
-        resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.tsx')),
-        setup: ({ App, props }) => {
-            global.route = (name, params, absolute) =>
-                route(name, params, absolute, {
-                    ...page.props.ziggy,
-                    location: new URL(page.props.ziggy.location),
-                });
+  createInertiaApp({
+    page,
+    render: renderToString,
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) =>
+      resolvePageComponent<ReactComponent>(`./Pages/${name}.jsx`, import.meta.glob<ReactComponent>('./Pages/**/*.tsx')),
+    setup: ({ App, props }) => {
+      // global.route = (name: string, params?: RouteParamsWithQueryOverload | RouteParam, absolute?: boolean) =>
+      //   route(name, params, absolute, {
+      //     ...(page.props.ziggy as any),
+      //     location: new URL(page.props.ziggy.location),
+      //   })
 
-            return <App {...props} />;
-        },
-    })
-);
+      return <App {...props} />
+    },
+  })
+)
