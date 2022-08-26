@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -35,14 +35,19 @@ return new class extends Migration
                 'injury_proneness',
                 'versatility'
             ]);
-
-            $table->string('full_name');
-            $table->string('know_as');
-            $table->enum('preferred_foot', ['right', 'left']);
-            $table->string('fifa_player_id');
-            $table->integer('weak_foot');
-            $table->integer('skill_moves');
         });
+
+        Schema::table('people', function (Blueprint $table) {
+            $table->enum('preferred_foot', ['right', 'left'])->after('id');
+            $table->integer('image_url')->after('id');
+            $table->integer('skill_moves')->after('id');
+            $table->integer('weak_foot')->after('id');
+            $table->string('fifa_player_id')->after('id');
+            $table->string('know_as')->after('id');
+            $table->string('full_name')->after('id');
+        });
+
+        Schema::rename('people', 'player');
     }
 
     /**
@@ -51,17 +56,19 @@ return new class extends Migration
      * @return void
      */
     public function down() {
-        Schema::table('people', function (Blueprint $table) {
+        Schema::table('player', function (Blueprint $table) {
             // REMOW NEWS
             $table->dropColumn([
                 'full_name',
                 'know_as',
-                'preferred_foot',
                 'fifa_player_id',
                 'weak_foot',
-                'skill_moves'
+                'skill_moves',
+                'image_url'
             ]);
+        });
 
+        Schema::table('player', function (Blueprint $table) {
             $table->string('firstname');
             $table->string('lastname');
 
@@ -90,5 +97,7 @@ return new class extends Migration
              */
             $table->enum('preferred_foot', ['only_right', 'right', 'left', 'only_left']);
         });
+
+        Schema::rename('player', 'people');
     }
 };
