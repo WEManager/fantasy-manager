@@ -1,6 +1,6 @@
-import DefaultLayout from '@/Layouts/Default'
 import { Head, Link } from '@inertiajs/inertia-react'
 import { Button } from 'flowbite-react'
+import DefaultLayout from '@/Layouts/Default'
 
 type ClubIndex = {
   clubs: any
