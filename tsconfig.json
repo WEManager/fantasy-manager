@@ -17,7 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-        "@/*": ["resources/js/*"]
+        "@/*": ["resources/js/*"],
+        "@/Components/*": ["resources/js/components/*"]
     },
     "types": ["vite/client"]
   },
