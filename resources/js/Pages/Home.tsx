@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
-import DefaultLayout from '@/Layouts/Default'
+import Layout from '@/Layouts/Layout'
 
 type HomeProps = {
   clubs: any[]
@@ -9,7 +9,8 @@ type HomeProps = {
 
 export default function Home({ auth, clubs }: HomeProps) {
   return (
-    <DefaultLayout
+    <Layout
+
     // auth={auth}
     // errors={errors}
     // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Home</h2>}
@@ -56,6 +57,6 @@ export default function Home({ auth, clubs }: HomeProps) {
           </div>
         </div>
       </div>
-    </DefaultLayout>
+    </Layout>
   )
 }
