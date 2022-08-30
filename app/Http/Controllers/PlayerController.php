@@ -3,21 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePlayerUser;
-use App\Models\Person;
+use App\Models\Player;
 use App\Models\PlayerContract;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
-class PlayerController extends Controller
-{
-    public function index()
-    {
-        // Todo: Only list users with role player
+class PlayerController extends Controller {
+    public function index() {
+        $response = Player::paginate();
 
-        $players = User::all();
-
-        return view('users.index', ['players' => $players]);
+        return Inertia::render('Player/Index', compact('response'));
     }
 
     public function create()
@@ -32,9 +29,8 @@ class PlayerController extends Controller
         return view('users.edit', ['player' => $user]);
     }
 
-    public function show(Person $person)
-    {
-        return view('players.show')->with(compact('person'));
+    public function show(Player $player) {
+        return Inertia::render('Player/Show', compact('player'));
     }
 
     public function store(StorePlayerUser $user)
