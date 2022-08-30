@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Season;
 use App\Models\Tournament;
 use App\Models\TournamentGame;
 use App\Models\TournamentGroup;
@@ -13,8 +12,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
-class CreateLeagueEvent
-{
+class CreateLeagueEvent {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -22,8 +20,7 @@ class CreateLeagueEvent
      *
      * @param Tournament $tournament
      */
-    public function __construct(Tournament $tournament)
-    {
+    public function __construct(Tournament $tournament) {
         switch ($tournament->type) {
             case 'league':
 
@@ -34,10 +31,12 @@ class CreateLeagueEvent
                 ]);
 
                 // shuffle competitors
-                $clubs = TournamentParticipant::where('tournament_id', $tournament->id)->pluck('club_id')->toArray();
+                $clubs = TournamentParticipant::where('tournament_id', $tournament->id)
+                    ->pluck('club_id')
+                    ->toArray();
+
                 shuffle($clubs);
 
-                // set competitors into league table
                 foreach ($clubs as $club) {
                     TournamentStanding::create([
                         'club_id' => $club,
@@ -45,10 +44,7 @@ class CreateLeagueEvent
                     ]);
                 }
 
-
-                // create games schedule
                 $this->generateGameSchedule($clubs, $group);
-
 
                 break;
             case 'groups':
@@ -100,15 +96,17 @@ class CreateLeagueEvent
         }
     }
 
-    private function generateGameSchedule($players, $group, $meetings = 2)
-    {
+    private function generateGameSchedule($players, $group, $meetings = 2) {
         // Count the number of teams
         $amountOfParticipants = count($players);
+
         // If number of team is odd, add a ghost-team...
         if ($amountOfParticipants % 2 != 0) {
             $amountOfParticipants++;
+            
             $ghost = $amountOfParticipants;
         }
+
         // Number of rounds
         $rounds = ($amountOfParticipants - 1) * $meetings;
 
@@ -155,8 +153,8 @@ class CreateLeagueEvent
                         'group_id' => $group->id,
                         'hometeam_id' => $players[($hometeam - 1)],
                         'awayteam_id' => $players[($awayteam - 1)],
-                        'hometeam_squad' => $group->tournament->team,
-                        'awayteam_squad' => $group->tournament->team,
+                        // 'hometeam_squad' => $group->tournament->team,
+                        // 'awayteam_squad' => $group->tournament->team,
                         'type' => '1', // 90min only
                         'status' => '0', // Not started
                         'start_time' => $roundDate,
@@ -171,8 +169,7 @@ class CreateLeagueEvent
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
-    {
+    public function broadcastOn() {
         return new PrivateChannel('channel-name');
     }
 }

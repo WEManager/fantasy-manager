@@ -5,19 +5,17 @@ namespace App\Generators;
 use App\Models\Club;
 use App\Events\CreateLeagueEvent;
 use App\Models\Season;
+use App\Models\Tournament as ModelsTournament;
 use App\Models\TournamentParticipant;
 use App\Models\TournamentQualification;
 use App\Models\TournamentSeason;
 use Illuminate\Support\Facades\Artisan;
 
-class Tournament
-{
-    public static function create(array $input)
-    {
+class Tournament {
+    public static function create(array $input) {
         $props = [
             'type' => 'league',
             'teams' => 16,
-            'team' => 'senior',
             'groups' => 1,
             'champions' => 0,
             'promoted' => 0,
@@ -25,36 +23,28 @@ class Tournament
             'qualify_down' => 0,
             'relegated' => 0,
             'generate_teams' => true,
-            'locale' => 'sv',
         ];
 
         foreach ($input as $key => $value) {
             $props[$key] = $value;
         }
 
-        $tournament = \App\Models\Tournament::create([
+        $tournament = ModelsTournament::create([
             'name' => $props['name'],
-            'nationality' => nationalityBasedOnLocale($props['locale']),
             'type' => $props['type'],
-            'participants' => $props['teams'], // amount of teams
-            'recurring_every_of_year' => 1,
-            'team' => $props['team'], // senior, u21 or u19
-            'groups' => $props['groups'], // amount of groups
+            'participants' => $props['teams'],
+            // 'recurring_every_of_year' => 1,
+            'groups' => $props['groups'],
         ]);
 
         $season = Season::whereDate('start_time', '<=', date('Y-m-d'))->first();
+        $season->tournaments()->attach($tournament->id);
 
-        $tournamentSeason = TournamentSeason::create([
-            'tournament_id' => $tournament->id,
-            'season_id' => $season->id,
-        ]);
-
-        $qualification_date = date('Y-m-d H:i:s', strtotime($season->end_time . ' - 13 days'));
+        $qualification_date = date('Y-m-d H:i:s', strtotime($season->start_time));
 
         $teamsInGroup = $props['teams'] / $props['groups'];
 
         for ($i = 1; $i <= $teamsInGroup; $i++) {
-
             $status = 'ended';
             $seasonEnded = true;
 
@@ -85,9 +75,10 @@ class Tournament
 
         // Only generate teams and schedule if set
         if ($props['generate_teams']) {
-            Artisan::call('club:generate', ['amount' => $props['teams'], 'locale' => $props['locale']]);
+            
+            Artisan::call('club:generate', ['amount' => $props['teams']]);
 
-            $clubs = Club::where('locale', nationalityBasedOnLocale($props['locale']))->orderBy('id', 'desc')->take($props['teams'])->pluck('id');
+            $clubs = Club::orderBy('id', 'desc')->take($props['teams'])->pluck('id');
 
             foreach ($clubs as $club) {
                 TournamentParticipant::create([

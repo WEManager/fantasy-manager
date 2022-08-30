@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Club;
-use App\Events\CreateLeagueEvent;
 use App\Models\Tournament;
-use App\Models\TournamentGroup;
-use App\Models\TournamentParticipant;
 use App\Models\TournamentStanding;
-use App\Models\User;
-use App\Http\Requests\StoreTournament;
 use Illuminate\Support\Facades\Cache;
+use Inertia\Inertia;
+
+use function Sodium\compare;
 
 class TournamentController extends Controller
 {
@@ -26,34 +24,33 @@ class TournamentController extends Controller
         return view('tournaments.create', ['clubs' => $clubs]);
     }
 
-    public function store(StoreTournament $tournament)
-    {
-        $createdTournament = Tournament::create([
-            'name' => $tournament->name,
-            'team' => $tournament->team,
-            'type' => $tournament->competitionType,
-            'groups' => $tournament->groups,
-            'playoffs' => $tournament->playOffs,
-            'participants' => count($tournament->selectedClubs),
-            'recurring_every_of_year' => $tournament->recurringEveryOfYear,
-            'proceeding_to_playoffs' => $tournament->proceedingToPlayoffs,
-        ]);
+    // public function store(StoreTournament $tournament)
+    // {
+    //     $createdTournament = Tournament::create([
+    //         'name' => $tournament->name,
+    //         'team' => $tournament->team,
+    //         'type' => $tournament->competitionType,
+    //         'groups' => $tournament->groups,
+    //         'playoffs' => $tournament->playOffs,
+    //         'participants' => count($tournament->selectedClubs),
+    //         'recurring_every_of_year' => $tournament->recurringEveryOfYear,
+    //         'proceeding_to_playoffs' => $tournament->proceedingToPlayoffs,
+    //     ]);
 
-        foreach ($tournament->selectedClubs as $club) {
-            TournamentParticipant::create([
-                'club_id' => $club,
-                'tournament_id' => $createdTournament->id,
-                'season_id' => $tournament->season,
-            ]);
-        }
+    //     foreach ($tournament->selectedClubs as $club) {
+    //         TournamentParticipant::create([
+    //             'club_id' => $club,
+    //             'tournament_id' => $createdTournament->id,
+    //             'season_id' => $tournament->season,
+    //         ]);
+    //     }
 
-        event(new CreateLeagueEvent($createdTournament));
+    //     event(new CreateLeagueEvent($createdTournament));
 
-        return redirect('tournament.show')->with(['t' => $createdTournament->slug]);
-    }
+    //     return redirect('tournament.show')->with(['t' => $createdTournament->slug]);
+    // }
 
-    public function show(Tournament $tournament)
-    {
+    public function showOld(Tournament $tournament) {        
         if (!Cache::has('standings-' . $tournament->id)) {
             $groupIds = [];
             foreach ($tournament->tournamentGroups as $group) {
@@ -82,5 +79,12 @@ class TournamentController extends Controller
         }
 
         return view('tournaments.show')->with($view);
+    }
+
+    public function show(Tournament $tournament) {
+        $tournament->load('qualifications');
+        $tournament->load('participants');
+
+        return Inertia::render('Tournament/Show', compact('tournament'));
     }
 }

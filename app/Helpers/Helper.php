@@ -3,6 +3,9 @@
 /*
  * Get datetime from history
  */
+
+use App\Models\Season;
+
 function ago($string, $precision = null)
 {
     if ($precision == null) $format = 'Y-m-d H:i:s';
@@ -73,7 +76,7 @@ function localeBasedOnNationality($nationality)
 function getCurrentSeason()
 {
     $date = date('Y-m-d H:i:s');
-    return \App\Season::whereDate('start_time', '<=', $date)->whereDate('end_time', '>=', $date)->first();
+    return Season::whereDate('start_time', '<=', $date)->whereDate('end_time', '>=', $date)->first();
 }
 
 function getContractType($squad)

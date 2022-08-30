@@ -5,6 +5,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TournamentGame extends Model
 {
@@ -136,18 +138,15 @@ class TournamentGame extends Model
      * Relationships
      */
 
-    public function group()
-    {
+    public function group(): BelongsTo {
         return $this->belongsTo(TournamentGroup::class, 'group_id');
     }
 
-    public function hometeam()
-    {
+    public function hometeam(): BelongsTo {
         return $this->belongsTo(Club::class, 'hometeam_id');
     }
 
-    public function awayteam()
-    {
+    public function awayteam(): BelongsTo {
         return $this->belongsTo(Club::class, 'awayteam_id');
     }
 
@@ -161,8 +160,7 @@ class TournamentGame extends Model
         return Club::find($this->hometeam_id)->get('id', 'name');
     }
 
-    public function gameEvents()
-    {
+    public function gameEvents(): HasMany {
         return $this->hasMany(GameEvent::class, 'game_id');
     }
 

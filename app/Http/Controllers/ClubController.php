@@ -8,10 +8,9 @@ use Inertia\Inertia;
 
 class ClubController extends Controller {
     public function index() {
-        $clubs = Club::paginate();
+        $response = Club::paginate();
 
-        return Inertia::render('Club/Index', compact('clubs'));
-        // return view('clubs.index')->with(compact('clubs'));
+        return Inertia::render('Club/Index', compact('response'));
     }
 
     public function show(Club $club) {

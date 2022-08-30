@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TournamentStanding extends Model
-{
+class TournamentStanding extends Model {
     protected $guarded = [];
 
     protected $with = ['club'];
@@ -20,13 +20,11 @@ class TournamentStanding extends Model
         'points' => 'int',
     ];
 
-    public function getGoalDifferenceAttribute()
-    {
+    public function getGoalDifferenceAttribute() {
         return (int) $this->scored - $this->conceded;
     }
 
-    public function club()
-    {
+    public function club(): BelongsTo {
         return $this->belongsTo(Club::class);
     }
 }

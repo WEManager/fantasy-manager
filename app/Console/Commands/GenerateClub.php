@@ -44,8 +44,7 @@ class GenerateClub extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
         for ($i = 0; $i < $this->argument('amount'); $i++) {
             $clubGenerator = new ClubGenerator();
             $name = $clubGenerator->name($this->argument('locale'));
@@ -57,17 +56,9 @@ class GenerateClub extends Command
             $arena = Arena::create(['name' => $arenaName, 'town' => $clubGenerator->town]);
             $club = Club::create(['name' => $name, 'colors' => $colors, 'locale' => nationalityBasedOnLocale($this->argument('locale'))]);
 
-            // Let us create a U19 team
-            $players = $this->createPlayers($club, 'U19');
-            Lineup::create($this->setupLineup($players, $club, 'u19'));
-
-            // Let us create a U21 team
-            $players = $this->createPlayers($club, 'U21');
-            Lineup::create($this->setupLineup($players, $club, 'u21'));
-
             // Let us create am A-team
-            $players = $this->createPlayers($club, 'regular');
-            Lineup::create($this->setupLineup($players, $club, 'senior'));
+            // $players = $this->createPlayers($club, 'regular');
+            // Lineup::create($this->setupLineup($players, $club, 'senior'));
 
             $arenaData = [
                 [
@@ -86,6 +77,7 @@ class GenerateClub extends Command
                     'team' => 'senior',
                 ],
             ];
+            
             DB::table('club_arenas')->insert($arenaData);
         }
     }
