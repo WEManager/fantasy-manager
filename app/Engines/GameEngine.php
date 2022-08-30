@@ -3,7 +3,7 @@
 namespace App\Engines;
 
 use App\Models\Lineup;
-use App\Models\Person;
+use App\Models\Player;
 use App\Models\TournamentGame;
 
 class GameEngine
@@ -243,17 +243,17 @@ class GameEngine
 
     private function setLineup($team, Lineup $lineup)
     {
-        $this->{$team . 'Lineup'}[$lineup->position_1] = Person::find($lineup->player_1);
-        $this->{$team . 'Lineup'}[$lineup->position_2] = Person::find($lineup->player_2);
-        $this->{$team . 'Lineup'}[$lineup->position_3] = Person::find($lineup->player_3);
-        $this->{$team . 'Lineup'}[$lineup->position_4] = Person::find($lineup->player_4);
-        $this->{$team . 'Lineup'}[$lineup->position_5] = Person::find($lineup->player_5);
-        $this->{$team . 'Lineup'}[$lineup->position_6] = Person::find($lineup->player_6);
-        $this->{$team . 'Lineup'}[$lineup->position_7] = Person::find($lineup->player_7);
-        $this->{$team . 'Lineup'}[$lineup->position_8] = Person::find($lineup->player_8);
-        $this->{$team . 'Lineup'}[$lineup->position_9] = Person::find($lineup->player_9);
-        $this->{$team . 'Lineup'}[$lineup->position_10] = Person::find($lineup->player_10);
-        $this->{$team . 'Lineup'}[$lineup->position_11] = Person::find($lineup->player_11);
+        $this->{$team . 'Lineup'}[$lineup->position_1] = Player::find($lineup->player_1);
+        $this->{$team . 'Lineup'}[$lineup->position_2] = Player::find($lineup->player_2);
+        $this->{$team . 'Lineup'}[$lineup->position_3] = Player::find($lineup->player_3);
+        $this->{$team . 'Lineup'}[$lineup->position_4] = Player::find($lineup->player_4);
+        $this->{$team . 'Lineup'}[$lineup->position_5] = Player::find($lineup->player_5);
+        $this->{$team . 'Lineup'}[$lineup->position_6] = Player::find($lineup->player_6);
+        $this->{$team . 'Lineup'}[$lineup->position_7] = Player::find($lineup->player_7);
+        $this->{$team . 'Lineup'}[$lineup->position_8] = Player::find($lineup->player_8);
+        $this->{$team . 'Lineup'}[$lineup->position_9] = Player::find($lineup->player_9);
+        $this->{$team . 'Lineup'}[$lineup->position_10] = Player::find($lineup->player_10);
+        $this->{$team . 'Lineup'}[$lineup->position_11] = Player::find($lineup->player_11);
         $this->{$team . 'Lineup'}['tactics'] = 70;
 
         $this->tactics[$team] = $this->{$team . 'Lineup'}['tactics'];
@@ -713,7 +713,7 @@ class GameEngine
      *
      * @return Person | null
      */
-    public function getNearbyPlayer($position, $team): ?Person
+    public function getNearbyPlayer($position, $team): ?Player
     {
         // If pos is CD, nearby is CRD and CLD
         // If pos is CRD, nearby is CD and RD

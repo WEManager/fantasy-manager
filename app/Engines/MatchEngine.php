@@ -11,7 +11,7 @@ namespace App\Engines;
 
 use App\Models\GameEvent;
 use App\Models\Lineup;
-use App\Models\Person;
+use App\Models\Player;
 use App\Models\TournamentGame;
 use App\Models\TournamentGameEvent;
 use App\Models\TournamentStanding;
@@ -142,8 +142,8 @@ class MatchEngine
     private function winningChances()
     {
         for ($i = 1; $i < 12; $i++) {
-            $this->hometeamLineup->{'player_' . $i} = Person::find($this->hometeamLineup->{'player_' . $i});
-            $this->awayteamLineup->{'player_' . $i} = Person::find($this->awayteamLineup->{'player_' . $i});
+            $this->hometeamLineup->{'player_' . $i} = Player::find($this->hometeamLineup->{'player_' . $i});
+            $this->awayteamLineup->{'player_' . $i} = Player::find($this->awayteamLineup->{'player_' . $i});
         }
 
         $hometeamSkills = $this->teamStrength('hometeam');

@@ -13,7 +13,13 @@ return new class extends Migration {
      */
     public function up() {
         Schema::table('people', function (Blueprint $table) {
-            $table->dropColumn(['firstname', 'lastname', 'preferred_foot']);
+            $table->dropColumn([
+                'firstname',
+                'lastname',
+                'preferred_foot',
+                'nationality',
+                'birthday'
+            ]);
 
             // Personality
             $table->dropColumn([
@@ -39,7 +45,7 @@ return new class extends Migration {
 
         Schema::table('people', function (Blueprint $table) {
             $table->enum('preferred_foot', ['right', 'left'])->after('id');
-            $table->integer('image_url')->after('id');
+            $table->string('image_url')->after('id');
             $table->integer('skill_moves')->after('id');
             $table->integer('weak_foot')->after('id');
             $table->string('fifa_player_id')->after('id');
@@ -47,7 +53,7 @@ return new class extends Migration {
             $table->string('full_name')->after('id');
         });
 
-        Schema::rename('people', 'player');
+        Schema::rename('people', 'players');
     }
 
     /**
@@ -56,7 +62,7 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('player', function (Blueprint $table) {
+        Schema::table('players', function (Blueprint $table) {
             // REMOW NEWS
             $table->dropColumn([
                 'full_name',
@@ -68,7 +74,7 @@ return new class extends Migration {
             ]);
         });
 
-        Schema::table('player', function (Blueprint $table) {
+        Schema::table('players', function (Blueprint $table) {
             $table->string('firstname');
             $table->string('lastname');
 
@@ -98,6 +104,6 @@ return new class extends Migration {
             $table->enum('preferred_foot', ['only_right', 'right', 'left', 'only_left']);
         });
 
-        Schema::rename('player', 'people');
+        Schema::rename('players', 'people');
     }
 };

@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Generators\Player;
-use App\Person;
+use App\Generators\Player as PlayerGenerator;
+use App\Models\Player;
 use Illuminate\Console\Command;
 
 class GeneratePlayer extends Command
@@ -39,11 +39,11 @@ class GeneratePlayer extends Command
      */
     public function handle()
     {
-        Person::create([
-            'firstname' => Player::firstname($this->argument('locale')),
-            'lastname' => Player::lastname($this->argument('locale')),
-            'nationality' => Player::nationality($this->argument('locale')),
-            'age' => Player::age($this->argument('type')),
+        Player::create([
+            'firstname' => PlayerGenerator::firstname($this->argument('locale')),
+            'lastname' => PlayerGenerator::lastname($this->argument('locale')),
+            'nationality' => PlayerGenerator::nationality($this->argument('locale')),
+            'age' => PlayerGenerator::age($this->argument('type')),
         ]);
 
     }

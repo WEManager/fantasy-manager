@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Person;
+use App\Models\Player;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -37,7 +37,7 @@ class LineupControllerTest extends TestCase
             'user_id' => $this->manager->id, 'club_id' => $this->club->id,
         ]);
 
-        $this->players = factory(Person::class)->times(17)->create();
+        $this->players = factory(Player::class)->times(17)->create();
 
         $lineupData = $this->setLineup();
 

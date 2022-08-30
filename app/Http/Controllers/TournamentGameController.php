@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lineup;
-use App\Models\Person;
+use App\Models\Player;
 use App\Models\TournamentGame;
 use Illuminate\Http\Request;
 
@@ -18,12 +18,12 @@ class TournamentGameController extends Controller {
 
         $hometeam = [];
         for($i=1;$i<12;$i++) {
-            $hometeam[$homeTeamLineup->{'position_' . $i}] = Person::find($homeTeamLineup->{'player_' . $i});
+            $hometeam[$homeTeamLineup->{'position_' . $i}] = Player::find($homeTeamLineup->{'player_' . $i});
         }
 
         $awayteam = [];
         for($i=1;$i<12;$i++) {
-            $awayteam[$awayTeamLineup->{'position_' . $i}] = Person::find($awayTeamLineup->{'player_' . $i});
+            $awayteam[$awayTeamLineup->{'position_' . $i}] = Player::find($awayTeamLineup->{'player_' . $i});
         }
 
         return view('games.show')->with(compact('game', 'hometeam', 'awayteam'));

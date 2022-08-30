@@ -5,9 +5,9 @@ namespace App\Console\Commands;
 use App\Models\Arena;
 use App\Models\Club;
 use App\Models\Lineup;
-use App\Models\Person;
+use App\Models\Player;
 use App\Models\PlayerContract;
-use App\Generators\Player;
+use App\Generators\Player as PlayerGenerator;
 use Illuminate\Console\Command;
 use App\Generators\Club as ClubGenerator;
 use App\Generators\Arena as ArenaGenerator;
@@ -137,11 +137,11 @@ class GenerateClub extends Command
         $players = [];
         for ($i = 0; $i < 20; $i++) {
 
-            $person = Person::create([
-                'firstname' => Player::firstname($this->argument('locale')),
-                'lastname' => Player::lastname($this->argument('locale')),
-                'nationality' => Player::nationality($this->argument('locale')),
-                'age' => Player::age($type),
+            $person = Player::create([
+                'firstname' => PlayerGenerator::firstname($this->argument('locale')),
+                'lastname' => PlayerGenerator::lastname($this->argument('locale')),
+                'nationality' => PlayerGenerator::nationality($this->argument('locale')),
+                'age' => PlayerGenerator::age($type),
             ]);
             $players[] = $person->id;
 

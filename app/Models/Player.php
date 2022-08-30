@@ -3,27 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Person extends Model
-{
-    protected $fillable = [
-        'age',
-        'lastname',
-        'firstname',
-        'nationality',
-    ];
+class Player extends Model {
+    protected $guarded = [];
 
-    protected $hidden = [
-        'dirtiness',
-        'consistency',
-        'versatility',
-        'adaptability',
-        'injury_proneness',
-        'important_matches',
-    ];
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['nation'];
 
-    public function club()
-    {
+    public function nation(): HasOne {
+        return $this->hasOne(Nation::class, 'fifa_id', 'nation_fifa_id');
+    }
+
+    public function club() {
         return $this->hasOneThrough(Club::class, PlayerContract::class, 'person_id', 'id', 'id', 'club_id');
 
         /*return $this->hasOneThrough(Club::class, )
@@ -33,8 +29,7 @@ class Person extends Model
             ->whereDate('until', '>', date('Y-m-d'));*/
     }
 
-    public function contract()
-    {
+    public function contract() {
         return $this->hasOne(PlayerContract::class, 'person_id')
             ->whereDate('from', '<', date('Y-m-d'))
             ->whereDate('until', '>', date('Y-m-d'));
@@ -74,11 +69,6 @@ class Person extends Model
         ksort($physical);
 
         return $physical;
-    }
-
-    public function getFullNameAttribute()
-    {
-        return $this->firstname . ' ' . $this->lastname;
     }
 
     private function getMentalValues()

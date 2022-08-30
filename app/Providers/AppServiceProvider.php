@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Person;
-use App\Observers\PersonObserver;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Player;
+use App\Observers\PlayerObserver;
 // use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider {
@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider {
     }
 
     public function boot(): void {
-        Person::observe(PersonObserver::class);
+        Player::observe(PlayerObserver::class);
 
         // Inertia::share([
         //     'locale' => fn() => app()->getLocale(),

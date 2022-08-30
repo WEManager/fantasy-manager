@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Club;
-use App\Models\Person;
 use Illuminate\Http\Request;
 
 class SquadController extends Controller
