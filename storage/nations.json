@@ -1,0 +1,1014 @@
+[
+  {
+    "name": "Albania",
+    "fifa_id": 1
+  },
+  {
+    "name": "Andorra",
+    "fifa_id": 2
+  },
+  {
+    "name": "Armenia",
+    "fifa_id": 3
+  },
+  {
+    "name": "Austria",
+    "fifa_id": 4
+  },
+  {
+    "name": "Azerbaijan",
+    "fifa_id": 5
+  },
+  {
+    "name": "Belarus",
+    "fifa_id": 6
+  },
+  {
+    "name": "Belgium",
+    "fifa_id": 7
+  },
+  {
+    "name": "Bosnia and Herzegovina",
+    "fifa_id": 8
+  },
+  {
+    "name": "Bulgaria",
+    "fifa_id": 9
+  },
+  {
+    "name": "Croatia",
+    "fifa_id": 10
+  },
+  {
+    "name": "Cyprus",
+    "fifa_id": 11
+  },
+  {
+    "name": "Czech Republic",
+    "fifa_id": 12
+  },
+  {
+    "name": "Denmark",
+    "fifa_id": 13
+  },
+  {
+    "name": "England",
+    "fifa_id": 14
+  },
+  {
+    "name": "Estonia",
+    "fifa_id": 15
+  },
+  {
+    "name": "Faroe Islands",
+    "fifa_id": 16
+  },
+  {
+    "name": "Finland",
+    "fifa_id": 17
+  },
+  {
+    "name": "France",
+    "fifa_id": 18
+  },
+  {
+    "name": "Georgia",
+    "fifa_id": 19
+  },
+  {
+    "name": "Germany",
+    "fifa_id": 20
+  },
+  {
+    "name": "Gibraltar",
+    "fifa_id": 21
+  },
+  {
+    "name": "Greece",
+    "fifa_id": 22
+  },
+  {
+    "name": "Guernsey",
+    "fifa_id": 23
+  },
+  {
+    "name": "Holy See",
+    "fifa_id": 24
+  },
+  {
+    "name": "Hungary",
+    "fifa_id": 25
+  },
+  {
+    "name": "Iceland",
+    "fifa_id": 26
+  },
+  {
+    "name": "Isle of Man",
+    "fifa_id": 27
+  },
+  {
+    "name": "Italy",
+    "fifa_id": 28
+  },
+  {
+    "name": "Jersey",
+    "fifa_id": 29
+  },
+  {
+    "name": "Kazakhstan",
+    "fifa_id": 30
+  },
+  {
+    "name": "Kosovo",
+    "fifa_id": 31
+  },
+  {
+    "name": "Latvia",
+    "fifa_id": 32
+  },
+  {
+    "name": "Liechtenstein",
+    "fifa_id": 33
+  },
+  {
+    "name": "Lithuania",
+    "fifa_id": 34
+  },
+  {
+    "name": "Luxembourg",
+    "fifa_id": 35
+  },
+  {
+    "name": "Malta",
+    "fifa_id": 36
+  },
+  {
+    "name": "Moldova",
+    "fifa_id": 37
+  },
+  {
+    "name": "Monaco",
+    "fifa_id": 38
+  },
+  {
+    "name": "Montenegro",
+    "fifa_id": 39
+  },
+  {
+    "name": "Netherlands",
+    "fifa_id": 40
+  },
+  {
+    "name": "North Macedonia",
+    "fifa_id": 41
+  },
+  {
+    "name": "Northern Ireland",
+    "fifa_id": 42
+  },
+  {
+    "name": "Norway",
+    "fifa_id": 43
+  },
+  {
+    "name": "Poland",
+    "fifa_id": 44
+  },
+  {
+    "name": "Portugal",
+    "fifa_id": 45
+  },
+  {
+    "name": "Republic of Ireland",
+    "fifa_id": 46
+  },
+  {
+    "name": "Romania",
+    "fifa_id": 47
+  },
+  {
+    "name": "Russia",
+    "fifa_id": 48
+  },
+  {
+    "name": "San Marino",
+    "fifa_id": 49
+  },
+  {
+    "name": "Scotland",
+    "fifa_id": 50
+  },
+  {
+    "name": "Serbia",
+    "fifa_id": 51
+  },
+  {
+    "name": "Slovakia",
+    "fifa_id": 52
+  },
+  {
+    "name": "Slovenia",
+    "fifa_id": 53
+  },
+  {
+    "name": "Spain",
+    "fifa_id": 54
+  },
+  {
+    "name": "Svalbard and Jan Mayen",
+    "fifa_id": 55
+  },
+  {
+    "name": "Sweden",
+    "fifa_id": 56
+  },
+  {
+    "name": "Switzerland",
+    "fifa_id": 57
+  },
+  {
+    "name": "Turkey",
+    "fifa_id": 58
+  },
+  {
+    "name": "Ukraine",
+    "fifa_id": 59
+  },
+  {
+    "name": "Wales",
+    "fifa_id": 60
+  },
+  {
+    "name": "Åland Islands",
+    "fifa_id": 61
+  },
+  {
+    "name": "Afghanistan",
+    "fifa_id": 62
+  },
+  {
+    "name": "Bahrain",
+    "fifa_id": 63
+  },
+  {
+    "name": "Bangladesh",
+    "fifa_id": 64
+  },
+  {
+    "name": "Bhutan",
+    "fifa_id": 65
+  },
+  {
+    "name": "British Indian Ocean Territory",
+    "fifa_id": 66
+  },
+  {
+    "name": "Brunei Darussalam",
+    "fifa_id": 67
+  },
+  {
+    "name": "Cambodia",
+    "fifa_id": 68
+  },
+  {
+    "name": "China PR",
+    "fifa_id": 69
+  },
+  {
+    "name": "Chinese Taipei",
+    "fifa_id": 70
+  },
+  {
+    "name": "Christmas Island",
+    "fifa_id": 71
+  },
+  {
+    "name": "Cocos (Keeling) Islands",
+    "fifa_id": 72
+  },
+  {
+    "name": "Hong Kong",
+    "fifa_id": 73
+  },
+  {
+    "name": "India",
+    "fifa_id": 74
+  },
+  {
+    "name": "Indonesia",
+    "fifa_id": 75
+  },
+  {
+    "name": "Iran",
+    "fifa_id": 76
+  },
+  {
+    "name": "Iraq",
+    "fifa_id": 77
+  },
+  {
+    "name": "Israel",
+    "fifa_id": 78
+  },
+  {
+    "name": "Japan",
+    "fifa_id": 79
+  },
+  {
+    "name": "Jordan",
+    "fifa_id": 80
+  },
+  {
+    "name": "Korea DPR",
+    "fifa_id": 81
+  },
+  {
+    "name": "Korea Republic",
+    "fifa_id": 82
+  },
+  {
+    "name": "Kuwait",
+    "fifa_id": 83
+  },
+  {
+    "name": "Kyrgyzstan",
+    "fifa_id": 84
+  },
+  {
+    "name": "Laos",
+    "fifa_id": 85
+  },
+  {
+    "name": "Lebanon",
+    "fifa_id": 86
+  },
+  {
+    "name": "Macau",
+    "fifa_id": 87
+  },
+  {
+    "name": "Malaysia",
+    "fifa_id": 88
+  },
+  {
+    "name": "Maldives",
+    "fifa_id": 89
+  },
+  {
+    "name": "Mongolia",
+    "fifa_id": 90
+  },
+  {
+    "name": "Myanmar",
+    "fifa_id": 91
+  },
+  {
+    "name": "Nepal",
+    "fifa_id": 92
+  },
+  {
+    "name": "Oman",
+    "fifa_id": 93
+  },
+  {
+    "name": "Pakistan",
+    "fifa_id": 94
+  },
+  {
+    "name": "Palestine",
+    "fifa_id": 95
+  },
+  {
+    "name": "Philippines",
+    "fifa_id": 96
+  },
+  {
+    "name": "Qatar",
+    "fifa_id": 97
+  },
+  {
+    "name": "Saudi Arabia",
+    "fifa_id": 98
+  },
+  {
+    "name": "Singapore",
+    "fifa_id": 99
+  },
+  {
+    "name": "Sri Lanka",
+    "fifa_id": 100
+  },
+  {
+    "name": "Syria",
+    "fifa_id": 101
+  },
+  {
+    "name": "Tajikistan",
+    "fifa_id": 102
+  },
+  {
+    "name": "Thailand",
+    "fifa_id": 103
+  },
+  {
+    "name": "Timor-Leste",
+    "fifa_id": 104
+  },
+  {
+    "name": "Turkmenistan",
+    "fifa_id": 105
+  },
+  {
+    "name": "United Arab Emirates",
+    "fifa_id": 106
+  },
+  {
+    "name": "Uzbekistan",
+    "fifa_id": 107
+  },
+  {
+    "name": "Vietnam",
+    "fifa_id": 108
+  },
+  {
+    "name": "Yemen",
+    "fifa_id": 109
+  },
+  {
+    "name": "Argentina",
+    "fifa_id": 110
+  },
+  {
+    "name": "Bolivia",
+    "fifa_id": 111
+  },
+  {
+    "name": "Brazil",
+    "fifa_id": 112
+  },
+  {
+    "name": "Chile",
+    "fifa_id": 113
+  },
+  {
+    "name": "Colombia",
+    "fifa_id": 114
+  },
+  {
+    "name": "Ecuador",
+    "fifa_id": 115
+  },
+  {
+    "name": "Falkland Islands (Malvinas)",
+    "fifa_id": 116
+  },
+  {
+    "name": "French Guiana",
+    "fifa_id": 117
+  },
+  {
+    "name": "Guyana",
+    "fifa_id": 118
+  },
+  {
+    "name": "Paraguay",
+    "fifa_id": 119
+  },
+  {
+    "name": "Peru",
+    "fifa_id": 120
+  },
+  {
+    "name": "Suriname",
+    "fifa_id": 121
+  },
+  {
+    "name": "Uruguay",
+    "fifa_id": 122
+  },
+  {
+    "name": "Venezuela",
+    "fifa_id": 123
+  },
+  {
+    "name": "Anguilla",
+    "fifa_id": 124
+  },
+  {
+    "name": "Antigua and Barbuda",
+    "fifa_id": 125
+  },
+  {
+    "name": "Aruba",
+    "fifa_id": 126
+  },
+  {
+    "name": "Bahamas",
+    "fifa_id": 127
+  },
+  {
+    "name": "Barbados",
+    "fifa_id": 128
+  },
+  {
+    "name": "Belize",
+    "fifa_id": 129
+  },
+  {
+    "name": "Bermuda",
+    "fifa_id": 130
+  },
+  {
+    "name": "Bonaire",
+    "fifa_id": 131
+  },
+  {
+    "name": "Canada",
+    "fifa_id": 132
+  },
+  {
+    "name": "Cayman Islands",
+    "fifa_id": 133
+  },
+  {
+    "name": "Costa Rica",
+    "fifa_id": 134
+  },
+  {
+    "name": "Cuba",
+    "fifa_id": 135
+  },
+  {
+    "name": "Curacao",
+    "fifa_id": 136
+  },
+  {
+    "name": "Dominica",
+    "fifa_id": 137
+  },
+  {
+    "name": "Dominican Republic",
+    "fifa_id": 138
+  },
+  {
+    "name": "El Salvador",
+    "fifa_id": 139
+  },
+  {
+    "name": "Greenland",
+    "fifa_id": 140
+  },
+  {
+    "name": "Grenada",
+    "fifa_id": 141
+  },
+  {
+    "name": "Guadeloupe",
+    "fifa_id": 142
+  },
+  {
+    "name": "Guatemala",
+    "fifa_id": 143
+  },
+  {
+    "name": "Haiti",
+    "fifa_id": 144
+  },
+  {
+    "name": "Honduras",
+    "fifa_id": 145
+  },
+  {
+    "name": "Jamaica",
+    "fifa_id": 146
+  },
+  {
+    "name": "Martinique",
+    "fifa_id": 147
+  },
+  {
+    "name": "Mexico",
+    "fifa_id": 148
+  },
+  {
+    "name": "Montserrat",
+    "fifa_id": 149
+  },
+  {
+    "name": "Nicaragua",
+    "fifa_id": 150
+  },
+  {
+    "name": "Panama",
+    "fifa_id": 151
+  },
+  {
+    "name": "Puerto Rico",
+    "fifa_id": 152
+  },
+  {
+    "name": "Saint Barthélemy",
+    "fifa_id": 153
+  },
+  {
+    "name": "Saint Kitts and Nevis",
+    "fifa_id": 154
+  },
+  {
+    "name": "Saint Lucia",
+    "fifa_id": 155
+  },
+  {
+    "name": "Saint Martin (French part)",
+    "fifa_id": 156
+  },
+  {
+    "name": "Saint Pierre and Miquelon",
+    "fifa_id": 157
+  },
+  {
+    "name": "Saint Vincent and the Grenadines",
+    "fifa_id": 158
+  },
+  {
+    "name": "Sint Maarten (Dutch part)",
+    "fifa_id": 159
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "fifa_id": 160
+  },
+  {
+    "name": "Turks and Caicos Islands",
+    "fifa_id": 161
+  },
+  {
+    "name": "United States",
+    "fifa_id": 162
+  },
+  {
+    "name": "Virgin Islands (British)",
+    "fifa_id": 163
+  },
+  {
+    "name": "Virgin Islands (U.S.)",
+    "fifa_id": 164
+  },
+  {
+    "name": "Algeria",
+    "fifa_id": 165
+  },
+  {
+    "name": "Angola",
+    "fifa_id": 166
+  },
+  {
+    "name": "Benin",
+    "fifa_id": 167
+  },
+  {
+    "name": "Botswana",
+    "fifa_id": 168
+  },
+  {
+    "name": "Burkina Faso",
+    "fifa_id": 169
+  },
+  {
+    "name": "Burundi",
+    "fifa_id": 170
+  },
+  {
+    "name": "Cameroon",
+    "fifa_id": 171
+  },
+  {
+    "name": "Cape Verde Islands",
+    "fifa_id": 172
+  },
+  {
+    "name": "Central African Republic",
+    "fifa_id": 173
+  },
+  {
+    "name": "Chad",
+    "fifa_id": 174
+  },
+  {
+    "name": "Comoros",
+    "fifa_id": 175
+  },
+  {
+    "name": "Congo",
+    "fifa_id": 176
+  },
+  {
+    "name": "Congo DR",
+    "fifa_id": 177
+  },
+  {
+    "name": "Côte d'Ivoire",
+    "fifa_id": 178
+  },
+  {
+    "name": "Djibouti",
+    "fifa_id": 179
+  },
+  {
+    "name": "Egypt",
+    "fifa_id": 180
+  },
+  {
+    "name": "Equatorial Guinea",
+    "fifa_id": 181
+  },
+  {
+    "name": "Eritrea",
+    "fifa_id": 182
+  },
+  {
+    "name": "Ethiopia",
+    "fifa_id": 183
+  },
+  {
+    "name": "Gabon",
+    "fifa_id": 184
+  },
+  {
+    "name": "Gambia",
+    "fifa_id": 185
+  },
+  {
+    "name": "Ghana",
+    "fifa_id": 186
+  },
+  {
+    "name": "Guinea",
+    "fifa_id": 187
+  },
+  {
+    "name": "Guinea Bissau",
+    "fifa_id": 188
+  },
+  {
+    "name": "Kenya",
+    "fifa_id": 189
+  },
+  {
+    "name": "Lesotho",
+    "fifa_id": 190
+  },
+  {
+    "name": "Liberia",
+    "fifa_id": 191
+  },
+  {
+    "name": "Libya",
+    "fifa_id": 192
+  },
+  {
+    "name": "Madagascar",
+    "fifa_id": 193
+  },
+  {
+    "name": "Malawi",
+    "fifa_id": 194
+  },
+  {
+    "name": "Mali",
+    "fifa_id": 195
+  },
+  {
+    "name": "Mauritania",
+    "fifa_id": 196
+  },
+  {
+    "name": "Mauritius",
+    "fifa_id": 197
+  },
+  {
+    "name": "Mayotte",
+    "fifa_id": 198
+  },
+  {
+    "name": "Morocco",
+    "fifa_id": 199
+  },
+  {
+    "name": "Mozambique",
+    "fifa_id": 200
+  },
+  {
+    "name": "Namibia",
+    "fifa_id": 201
+  },
+  {
+    "name": "Niger",
+    "fifa_id": 202
+  },
+  {
+    "name": "Nigeria",
+    "fifa_id": 203
+  },
+  {
+    "name": "Rwanda",
+    "fifa_id": 204
+  },
+  {
+    "name": "Réunion",
+    "fifa_id": 205
+  },
+  {
+    "name": "Saint Helena, Ascension and Tristan da Cunha",
+    "fifa_id": 206
+  },
+  {
+    "name": "Senegal",
+    "fifa_id": 207
+  },
+  {
+    "name": "Seychelles",
+    "fifa_id": 208
+  },
+  {
+    "name": "Sierra Leone",
+    "fifa_id": 209
+  },
+  {
+    "name": "Somalia",
+    "fifa_id": 210
+  },
+  {
+    "name": "South Africa",
+    "fifa_id": 211
+  },
+  {
+    "name": "South Sudan",
+    "fifa_id": 212
+  },
+  {
+    "name": "Sudan",
+    "fifa_id": 213
+  },
+  {
+    "name": "Swaziland",
+    "fifa_id": 214
+  },
+  {
+    "name": "São Tomé e Príncipe",
+    "fifa_id": 215
+  },
+  {
+    "name": "Tanzania",
+    "fifa_id": 216
+  },
+  {
+    "name": "Togo",
+    "fifa_id": 217
+  },
+  {
+    "name": "Tunisia",
+    "fifa_id": 218
+  },
+  {
+    "name": "Uganda",
+    "fifa_id": 219
+  },
+  {
+    "name": "Western Sahara",
+    "fifa_id": 220
+  },
+  {
+    "name": "Zambia",
+    "fifa_id": 221
+  },
+  {
+    "name": "Zimbabwe",
+    "fifa_id": 222
+  },
+  {
+    "name": "American Samoa",
+    "fifa_id": 223
+  },
+  {
+    "name": "Australia",
+    "fifa_id": 224
+  },
+  {
+    "name": "Cook Islands",
+    "fifa_id": 225
+  },
+  {
+    "name": "Federated States of Micronesia",
+    "fifa_id": 226
+  },
+  {
+    "name": "Fiji",
+    "fifa_id": 227
+  },
+  {
+    "name": "French Polynesia",
+    "fifa_id": 228
+  },
+  {
+    "name": "Guam",
+    "fifa_id": 229
+  },
+  {
+    "name": "Kiribati",
+    "fifa_id": 230
+  },
+  {
+    "name": "Marshall Islands",
+    "fifa_id": 231
+  },
+  {
+    "name": "Nauru",
+    "fifa_id": 232
+  },
+  {
+    "name": "New Caledonia",
+    "fifa_id": 233
+  },
+  {
+    "name": "New Zealand",
+    "fifa_id": 234
+  },
+  {
+    "name": "Niue",
+    "fifa_id": 235
+  },
+  {
+    "name": "Norfolk Island",
+    "fifa_id": 236
+  },
+  {
+    "name": "Northern Mariana Islands",
+    "fifa_id": 237
+  },
+  {
+    "name": "Palau",
+    "fifa_id": 238
+  },
+  {
+    "name": "Papua New Guinea",
+    "fifa_id": 239
+  },
+  {
+    "name": "Pitcairn",
+    "fifa_id": 240
+  },
+  {
+    "name": "Samoa",
+    "fifa_id": 241
+  },
+  {
+    "name": "Solomon Islands",
+    "fifa_id": 242
+  },
+  {
+    "name": "Tokelau",
+    "fifa_id": 243
+  },
+  {
+    "name": "Tonga",
+    "fifa_id": 244
+  },
+  {
+    "name": "Tuvalu",
+    "fifa_id": 245
+  },
+  {
+    "name": "United States Minor Outlying Islands",
+    "fifa_id": 246
+  },
+  {
+    "name": "Vanuatu",
+    "fifa_id": 247
+  },
+  {
+    "name": "Wallis and Futuna",
+    "fifa_id": 248
+  },
+  {
+    "name": "Antarctica",
+    "fifa_id": 249
+  },
+  {
+    "name": "Bouvet Island",
+    "fifa_id": 250
+  },
+  {
+    "name": "French Southern Territories",
+    "fifa_id": 251
+  },
+  {
+    "name": "Heard Island and McDonald Islands",
+    "fifa_id": 252
+  },
+  {
+    "name": "South Georgia and the South Sandwich Islands",
+    "fifa_id": 253
+  }
+]
