@@ -63,7 +63,6 @@ Route::post('/players', 'PlayerController@store')->middleware('admin')->name('st
 // Route::get('/players/{person}', 'PlayerController@show')->name('show_player');
 // Route::get('/players', 'PlayerController@index')->name('list_players');
 
-Route::get('/federations/create', 'FederationController@create')->name('create_federation');
 
 Route::get('/tournaments/create', 'TournamentController@create')->middleware('admin')->name('create_tournament');
 Route::post('/tournaments', 'TournamentController@store')->middleware('auth')->name('store_tournament');
