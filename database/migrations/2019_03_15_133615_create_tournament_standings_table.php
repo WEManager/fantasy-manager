@@ -14,9 +14,9 @@ class CreateTournamentStandingsTable extends Migration
     public function up()
     {
         Schema::create('tournament_standings', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('club_id');
-            $table->integer('group_id');
+            $table->id('id');
+            $table->foreignId('club_id')->constrained();
+            $table->foreignId('group_id')->constrained('tournament_groups');
             $table->integer('won')->default(0);
             $table->integer('tie')->default(0);
             $table->integer('lost')->default(0);

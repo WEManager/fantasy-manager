@@ -14,12 +14,10 @@ class CreateTournamentGamesTable extends Migration
     public function up()
     {
         Schema::create('tournament_games', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('group_id');
-            $table->integer('hometeam_id');
-            $table->integer('awayteam_id');
-            $table->string('hometeam_squad')->default('senior');
-            $table->string('awayteam_squad')->default('senior');
+            $table->id('id');
+            $table->foreignId('group_id')->constrained('tournament_groups');
+            $table->foreignId('hometeam_id')->constrained('clubs');
+            $table->foreignId('awayteam_id')->constrained('clubs');
             $table->integer('hometeam_score')->nullable();
             $table->integer('awayteam_score')->nullable();
             $table->dateTime('start_time');

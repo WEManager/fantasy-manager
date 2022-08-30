@@ -14,8 +14,8 @@ class CreateGameEventsTable extends Migration
     public function up()
     {
         Schema::create('game_events', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('game_id');
+            $table->id('id');
+            $table->foreignId('game_id')->constrained('tournament_games');
             $table->dateTime('event_time');
             $table->timestamps();
         });

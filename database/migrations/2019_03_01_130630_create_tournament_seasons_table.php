@@ -1,24 +1,21 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTournamentParticipantsTable extends Migration
+class CreateTournamentSeasonsTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('tournament_participants', function (Blueprint $table) {
-            $table->id('id');
-            $table->foreignId('club_id')->constrained();
+    public function up() {
+        Schema::create('tournament_season', function (Blueprint $table) {
             $table->foreignId('season_id')->constrained();
             $table->foreignId('tournament_id')->constrained();
-            $table->timestamps();
         });
     }
 
@@ -27,8 +24,7 @@ class CreateTournamentParticipantsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('tournament_participants');
+    public function down() {
+        Schema::dropIfExists('tournament_seasons');
     }
 }
