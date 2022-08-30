@@ -63,7 +63,7 @@
                             @endfor
                         </select>
                     </td>
-                    <td><a href="{{ link_route('show_player', ['person' => $player['id']]) }}">{{ $player['firstname'] }} {{ $player['lastname'] }}</a></td>
+                    <td><a href="{{ link_route('player.show', ['person' => $player['id']]) }}">{{ $player['firstname'] }} {{ $player['lastname'] }}</a></td>
                     <td>{{ $player['age'] }}</td>
                 </tr>
             @endforeach

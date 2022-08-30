@@ -17,7 +17,7 @@
                         <tr>
                             <td>{{ $player->name }}</td>
                             <td><a href="{{ link_route('edit_player', ['user' => $player]) }}">{{ __('Edit') }}</a></td>
-                            <td><a href="{{ link_route('show_player', ['user' => $player]) }}">{{ __('Show') }}</a></td>
+                            <td><a href="{{ link_route('player.show', ['user' => $player]) }}">{{ __('Show') }}</a></td>
                         </tr>
                     @endforeach
                     </tbody>

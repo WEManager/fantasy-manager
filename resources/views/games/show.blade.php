@@ -48,7 +48,7 @@
                         <tr>
                             <td>{{ $key }}</td>
                             <td>
-                                <a href="{{ link_route('show_player', ['person' => $value]) }}">{{ $value['firstname'] . ' ' . $value['lastname'] }}</a>
+                                <a href="{{ link_route('player.show', ['player' => $value]) }}">{{ $value['firstname'] . ' ' . $value['lastname'] }}</a>
                             </td>
                         </tr>
                     @endforeach
@@ -67,7 +67,7 @@
                         <tr>
                             <td>{{ $key }}</td>
                             <td>
-                                <a href="{{ link_route('show_player', ['person' => $value]) }}">{{ $value['firstname'] . ' ' . $value['lastname'] }}</a>
+                                <a href="{{ link_route('player.show', ['player' => $value]) }}">{{ $value['firstname'] . ' ' . $value['lastname'] }}</a>
                             </td>
                         </tr>
                     @endforeach
