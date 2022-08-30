@@ -5,6 +5,7 @@ use App\Http\Controllers\ClubPlayerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TournamentGameController;
 use Illuminate\Foundation\Application;
@@ -29,15 +30,26 @@ Route::resource('p', PlayerController::class)
     ->parameters(['p' => 'player'])
     ->names('player');
 
-Route::resource('t', TournamentController::class)
-    ->only([ 'index', 'show' ])
-    ->parameters(['t' => 'tournament'])
-    ->names('tournament');
-
 Route::resource('g', TournamentGameController::class)
     ->only([ 'index', 'show' ])
     ->parameters(['g' => 'game'])
     ->names('game');
+
+Route::resource('s', SeasonController::class)
+    ->only(['index', 'show'])
+    ->parameters(['s' => 'season'])
+    ->names('season');
+
+Route::resource('s.t', SeasonTournamentController::class)
+    ->only(['index'])
+    ->parameters(['s' => 'season'])
+    ->names('season.tournament')
+    ->shallow();
+
+Route::resource('t', TournamentController::class)
+    ->only(['show'])
+    ->parameters(['t' => 'tournament'])
+    ->names('tournament');
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -54,7 +66,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/{slug}', [PageController::class, 'show'])->name('page');
+// Route::get('/{slug}', [PageController::class, 'show'])->name('page');
 
 Route::get('/players/create', 'PlayerController@create')->middleware('admin')->name('create_player');
 Route::put('/players/{user}', 'PlayerController@update')->middleware('admin')->name('update_player');
@@ -66,7 +78,7 @@ Route::post('/players', 'PlayerController@store')->middleware('admin')->name('st
 
 Route::get('/tournaments/create', 'TournamentController@create')->middleware('admin')->name('create_tournament');
 Route::post('/tournaments', 'TournamentController@store')->middleware('auth')->name('store_tournament');
-// Route::get('/{tournament}', 'TournamentController@show')->name('show_tournament');
+Route::get('/{tournament}', 'TournamentController@showOld')->name('show_tournament');
 // Route::get('/tournaments/list', 'TournamentController@index')->name('list_tournaments');
 
 // Route::get('/clubs/list', 'ClubController@index')->name('list_clubs');
