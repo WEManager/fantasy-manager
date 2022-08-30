@@ -1,28 +1,34 @@
 import { Head, Link } from '@inertiajs/inertia-react'
 import { Button } from 'flowbite-react'
-import DefaultLayout from '@/Layouts/Default'
+import route from 'ziggy-js'
+import Layout from '@/Layouts/Layout'
+import { Paginate } from '@/interfaces/Paginate'
+import { Club } from '@/interfaces/Club'
 
-type ClubIndex = {
-  clubs: any
+type ClubIndexProps = {
+  response: Paginate<Club>
 }
 
-export default function ClubIndex({ clubs }: ClubIndex) {
+export default function ClubIndex({ response }: ClubIndexProps) {
+  const { data: clubs, links } = response
+
   return (
-    <DefaultLayout>
+    <Layout>
       <Head title="Clubes" />
-      {clubs.data.map((club) => (
+
+      {clubs.map((club) => (
         <div key={club.id}>
           <Link href={route('club.show', club)}>{club.name}</Link>
         </div>
       ))}
 
       <div className="flex gap-2 mt-4">
-        {clubs.links.map((link) => (
+        {links.map((link) => (
           <Link href={link.url} key={link.label}>
             <Button>{link.label}</Button>
           </Link>
         ))}
       </div>
-    </DefaultLayout>
+    </Layout>
   )
 }
