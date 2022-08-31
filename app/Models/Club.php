@@ -7,6 +7,7 @@ use Spatie\Sluggable\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Spatie\Sluggable\SlugOptions;
 
@@ -32,7 +33,7 @@ class Club extends Model {
 
     public function colors(): Attribute {
         return new Attribute(
-            set: fn($value) => json_encode($value),
+            set: fn($value) => json_encode($value, JSON_UNESCAPED_SLASHES),
             get: fn($value) => json_decode($value)
         );
     }
@@ -57,16 +58,9 @@ class Club extends Model {
         return $this->hasMany(Arena::class);
     }
 
-    public function players($type = []): BelongsToMany {
-        $players = $this->belongsToMany(Person::class, 'player_contracts', 'club_id', 'person_id')
-            // Only get contracts that are currently valid
+    public function players(): HasManyThrough {
+        return $this->hasManyThrough(Player::class, PlayerContract::class, 'person_id', 'club_id')
             ->whereDate('from', '<', date('Y-m-d'))
             ->whereDate('until', '>', date('Y-m-d'));
-
-        if (count($type) > 0) {
-            $players->whereIn('type', $type);
-        }
-
-        return $players;
     }
 }

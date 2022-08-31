@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 class ClubController extends Controller {
     public function index() {
-        $response = Club::paginate();
+        $response = Club::paginate(40);
 
         return Inertia::render('Club/Index', compact('response'));
     }

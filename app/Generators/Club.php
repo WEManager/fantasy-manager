@@ -2,12 +2,10 @@
 
 namespace App\Generators;
 
-class Club
-{
+class Club {
     public $town;
 
-    public function name($locale)
-    {
+    public function name($locale) {
         $prefixes = include resource_path('club_prefix/' . $locale . '.php');
         $suffixes = include resource_path('club_suffix/' . $locale . '.php');
         shuffle($prefixes);
@@ -36,11 +34,9 @@ class Club
         return $clubName;
     }
 
-    public function colors()
-    {
+    public static function colors() {
         $colors = include resource_path('club_colors/index.php');
-        shuffle($colors);
 
-        return json_encode($colors[0]);
+        return $colors[array_rand($colors)];
     }
 }
