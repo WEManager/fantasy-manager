@@ -2,7 +2,7 @@ export interface Club {
   id: number
   name: string
   slug: string
-  colors: string
+  colors: string[]
   locale: string
   reputation: number
   created_at: string
