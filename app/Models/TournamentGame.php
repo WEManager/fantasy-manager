@@ -75,7 +75,7 @@ class TournamentGame extends Model {
         'minute' => $happening->minute,
         'message' => str_replace(
           ['hometeam', 'awayteam', ':SCORES:'],
-          [$this->hometeam->name, $this->awayteam->name, _('GOAL')],
+          [$this->hometeam->name, $this->awayteam->name, __(' GOAL')],
           $happening->event_description_string
         )
       ];
