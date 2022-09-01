@@ -4,11 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lineup extends Model
-{
-    protected $guarded = [];
-
-    protected $casts = [
-        'club_id' => 'int',
-    ];
+class Lineup extends Model {
+  protected $guarded = [];
 }

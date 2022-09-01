@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class TournamentGame extends Model {
   protected $guarded = [];
@@ -20,12 +19,26 @@ class TournamentGame extends Model {
 
   protected $hidden = ['group_id', 'hometeam_id', 'awayteam_id', 'created_at', 'updated_at'];
 
+  protected $appends = ['game_status', 'messages'];
+
   public function homeLineup(): HasOne {
     return $this->hasOne(Lineup::class, 'club_id', 'hometeam_id');
   }
 
   public function awayLineup(): HasOne {
     return $this->hasOne(Lineup::class, 'club_id', 'awayteam_id');
+  }
+
+  public function homeTeam(): BelongsTo {
+    return $this->belongsTo(Club::class, 'hometeam_id');
+  }
+
+  public function awayTeam(): BelongsTo {
+    return $this->belongsTo(Club::class, 'awayteam_id');
+  }
+
+  public function group(): BelongsTo {
+    return $this->belongsTo(TournamentGroup::class, 'group_id');
   }
 
   public function getCurrentMinuteAttribute() {
@@ -98,7 +111,7 @@ class TournamentGame extends Model {
           $returnString = ($minutes - 15) . '\'';
         }
 
-        return '<i class="material-icons">timelapse</i> ' . $returnString;
+        return $returnString;
       case '2':
         return __('Ended');
       case '3':
@@ -118,71 +131,35 @@ class TournamentGame extends Model {
     }
   }
 
-    /**
-     * Scopes
-     */
+  public function scopeAboutToStart(Builder $builder) {
+    return $builder->where('status', '0')
+      ->where('start_time', '<=', now());
+  }
 
-    public function scopeAboutToStart(Builder $builder)
-    {
-        return $builder->where('status', '0')
-            ->where('start_time', '<=', now());
-    }
+  public function scopeTimeForHalftime(Builder $builder) {
+    return $builder->where('status', '1')
+      ->where('start_time', '<=', ago('45 minutes'))
+      ->where('start_time', '>=', ago('60 minutes'));
+  }
 
-    public function scopeTimeForHalftime(Builder $builder)
-    {
-        return $builder->where('status', '1')
-            ->where('start_time', '<=', ago('45 minutes'))
-            ->where('start_time', '>=', ago('60 minutes'));
-    }
+  public function scopeAboutToEnd(Builder $builder) {
+    return $builder->where('status', '=', '1')
+      ->where('start_time', '<=', ago('106 minutes'));
+  }
 
-    public function scopeAboutToEnd(Builder $builder)
-    {
-        return $builder->where('status', '=', '1')
-            ->where('start_time', '<=', ago('106 minutes'));
-    }
+  public function gameEvents(): HasMany {
+    return $this->hasMany(GameEvent::class, 'game_id');
+  }
 
-    /**
-     * Relationships
-     */
+  public function gameHappenings(): HasMany {
+    return $this->hasMany(TournamentGameEvent::class)->orderBy('minute');
+  }
 
-    public function group(): BelongsTo {
-        return $this->belongsTo(TournamentGroup::class, 'group_id');
-    }
+  public function hometeamEvents(): HasMany {
+    return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->hometeam_id);
+  }
 
-    public function hometeam(): BelongsTo {
-        return $this->belongsTo(Club::class, 'hometeam_id');
-    }
-
-    public function awayteam(): BelongsTo {
-        return $this->belongsTo(Club::class, 'awayteam_id');
-    }
-
-    public function getHometeamNameAttribute()
-    {
-        return Club::find($this->hometeam_id)->get('id', 'name');
-    }
-
-    public function getAwayteamNameAttribute()
-    {
-        return Club::find($this->hometeam_id)->get('id', 'name');
-    }
-
-    public function gameEvents(): HasMany {
-        return $this->hasMany(GameEvent::class, 'game_id');
-    }
-
-    public function gameHappenings()
-    {
-        return $this->hasMany(TournamentGameEvent::class)->orderBy('minute');
-    }
-
-    public function hometeamEvents()
-    {
-        return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->hometeam_id);
-    }
-
-    public function awayteamEvents()
-    {
-        return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->awayteam_id);
-    }
+  public function awayteamEvents(): HasMany {
+    return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->awayteam_id);
+  }
 }

@@ -65,7 +65,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/{slug}', [PageController::class, 'show'])->name('page');
+// Route::get('/{slug}', [PageController::class, 'show'])->name('page');
 
 // Route::get('/players/create', 'PlayerController@create')->middleware('admin')->name('create_player');
 // Route::put('/players/{user}', 'PlayerController@update')->middleware('admin')->name('update_player');
@@ -97,17 +97,4 @@ Route::get('/quit-my-job/{club}', 'ManagerContractController@quitJob')->middlewa
 Route::get('/license-test/{licenseQuiz}', 'LicenseQuizController@show')->middleware('level0')->name('license_test');
 Route::post('/license-test/{licenseQuiz}/submit', 'LicenseQuizController@submission')->middleware('level0')->name('license_test_validation');
 
-Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
-
-Route::get('/test-heading', function () {
-    $player = \App\Models\Person::find(1);
-    $duelant = \App\Models\Person::find(2);
-
-    echo \App\Engines\GameDuelsEngine::headingDuelBetween($player, $duelant, true);
-});
-
-Route::get('/test-game/{id}', function ($id) {
-    $game = \App\Models\TournamentGame::find($id);
-
-    new \App\Engines\MatchEngine($game);
-});
+Route::get('/games/{game}', 'TournamentGameController@showOld')->name('show_game');
