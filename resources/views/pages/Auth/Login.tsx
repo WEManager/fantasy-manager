@@ -1,12 +1,12 @@
 import { ChangeEvent, FormEvent, useEffect } from 'react'
 import { Head, Link, useForm } from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
-import Button from '@/components/Button'
-import Checkbox from '@/components/Checkbox'
+import Button from '@/Components/Button'
+import Checkbox from '@/Components/Checkbox'
 import Guest from '@/Layouts/Guest'
-import Input from '@/components/Input'
-import InputError from '@/components/InputError'
-import Label from '@/components/Label'
+import Input from '@/Components/Input'
+import InputError from '@/Components/InputError'
+import Label from '@/Components/Label'
 
 export default function Login({ status, canResetPassword }: any) {
   const { data, setData, post, processing, errors, reset } = useForm({

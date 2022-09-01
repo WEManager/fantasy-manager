@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect } from 'react'
 import { Head, useForm } from '@inertiajs/inertia-react'
 import route from 'ziggy-js'
-import Button from '@/components/Button'
+import Button from '@/Components/Button'
 import Guest from '@/Layouts/Guest'
 import Input from '@/Components/Input'
-import InputError from '@/components/InputError'
+import InputError from '@/Components/InputError'
 import Label from '@/Components/Label'
 
 type ResetPasswordProps = {
