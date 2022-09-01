@@ -1,13 +1,12 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 import react from '@vitejs/plugin-react'
-import path from 'path'
 
 export default defineConfig({
   plugins: [
     laravel({
-      input: 'resources/js/app.tsx',
-      ssr: 'resources/js/ssr.tsx',
+      input: 'resources/scripts/app.tsx',
+      ssr: 'resources/scripts/ssr.tsx',
       refresh: true,
     }),
     react(),
@@ -17,8 +16,9 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@/Components': '/resources/js/components',
-      '@/': '/resources/js',
+      '@/': '/resources/scripts',
+      '@/Components': '/resources/views/components',
+      '@/Layouts': '/resources/views/layouts',
     },
   },
 })

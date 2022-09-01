@@ -17,12 +17,13 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-        "@/*": ["resources/js/*"],
-        "@/Components/*": ["resources/js/components/*"]
+      "@/*": ["resources/scripts/*"],
+      "@/Components/*": ["resources/views/components/*"],
+      "@/Layouts/*": ["resources/views/layouts/*"]
     },
-    "types": ["vite/client"]
+    "types": ["vite/client", "node"]
   },
-  "include": ["resources/js", "vite.config.ts"],
+  "include": ["vite.config.ts", "resources/**/*.{ts, tsx}",],
   "exclude": ["node_modules", "public"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

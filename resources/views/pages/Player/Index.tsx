@@ -1,10 +1,10 @@
 import { Head, Link } from '@inertiajs/inertia-react'
-import { Button, Pagination, Table } from 'flowbite-react'
+import { Pagination, Table } from 'flowbite-react'
 import route from 'ziggy-js'
 import { Inertia } from '@inertiajs/inertia'
-import Layout from '@/Layouts/Layout'
 import { Paginate } from '@/interfaces/Paginate'
 import { Player } from '@/interfaces/Player'
+import Layout from '@/Layouts/Layout'
 
 type PlayerIndexProps = {
   response: Paginate<Player>

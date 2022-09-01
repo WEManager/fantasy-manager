@@ -1,5 +1,4 @@
-import { Head, Link } from '@inertiajs/inertia-react'
-import route from 'ziggy-js'
+import { Head } from '@inertiajs/inertia-react'
 import Layout from '@/Layouts/Layout'
 import { Player } from '@/interfaces/Player'
 

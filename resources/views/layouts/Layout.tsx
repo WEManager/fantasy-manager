@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import { Nav } from '@/components'
+import { Nav } from '../components'
 
 type LayoutProps = PropsWithChildren & {
   header?: JSX.Element
