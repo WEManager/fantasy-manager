@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Lineup;
+use App\Models\Lineup;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 

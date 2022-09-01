@@ -1,10 +1,9 @@
 <?php
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
+use App\Models\Club;
 use Faker\Generator as Faker;
 
-$factory->define(\App\Models\Club::class, function (Faker $faker) {
+$factory->define(Club::class, function (Faker $faker) {
     $nations = ['SE', 'ES', 'GB', 'DE', 'IT'];
     
     shuffle($nations);

@@ -2,21 +2,21 @@
 
 namespace App\Generators;
 
+use App\Models\Arena as ModelsArena;
+
 class Arena {
+  public function name($locale, $town) {
+    $arenaNames = include resource_path('arena/' . $locale . '.php');
+    shuffle($arenaNames);
 
-    public function name($locale, $town)
-    {
-        $arenaNames = include resource_path('arena/' . $locale . '.php');
-        shuffle($arenaNames);
+    foreach ($arenaNames as $arenaName) {
+      $name = str_replace('[town]', $town, $arenaName);
 
-        foreach ($arenaNames as $arenaName) {
-            $name = str_replace('[town]', $town, $arenaName);
-
-            if (!\App\Models\Arena::where('name', $name)->first()) {
-                return $name;
-            }
-        }
-
-        throw new \Exception('No available arena names for town ' . $town);
+      if (!ModelsArena::where('name', $name)->first()) {
+        return $name;
+      }
     }
+
+    throw new \Exception('No available arena names for town ' . $town);
+  }
 }

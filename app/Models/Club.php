@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Spatie\Sluggable\SlugOptions;
 
@@ -54,12 +55,13 @@ class Club extends Model {
         return $this->hasOneThrough(Tournament::class, TournamentParticipant::class, 'club_id', 'id', 'id', 'tournament_id');
     }
 
-    public function arenas(): HasMany {
-        return $this->hasMany(Arena::class);
+    public function arena(): HasOne {
+        return $this->hasOne(Arena::class);
     }
 
     public function players(): HasManyThrough {
-        return $this->hasManyThrough(Player::class, PlayerContract::class, 'person_id', 'club_id')
+        return $this
+            ->hasManyThrough(Player::class, Contract::class, 'club_id', 'id', 'id', 'player_id')
             ->whereDate('from', '<', date('Y-m-d'))
             ->whereDate('until', '>', date('Y-m-d'));
     }

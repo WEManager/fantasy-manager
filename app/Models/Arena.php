@@ -4,27 +4,25 @@ namespace App\Models;
 
 use Spatie\Sluggable\HasSlug;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Sluggable\SlugOptions;
 
-class Arena extends Model
-{
-    use HasSlug;
-    protected $guarded = [];
+class Arena extends Model {
+  use HasSlug;
 
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
-    }
+  protected $guarded = [];
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
+  public function getSlugOptions(): SlugOptions {
+    return SlugOptions::create()
+      ->generateSlugsFrom('name')
+      ->saveSlugsTo('slug');
+  }
+
+  public function getRouteKeyName() {
+    return 'slug';
+  }
+
+  public function club(): BelongsTo {
+    return $this->belongsTo(Club::class);
+  }
 }

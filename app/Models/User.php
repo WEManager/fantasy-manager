@@ -41,14 +41,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getIsAdminAttribute()
-    {
+    public function getIsAdminAttribute() {
         return $this->admin;
     }
 
     public function club(): HasOneThrough {
-        return $this->hasOneThrough(
-            Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id'
-        )->where('manager_contracts.status', 'ongoing');
+        return $this
+            ->hasOneThrough(Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id')
+            ->where('manager_contracts.status', 'ongoing');
     }
 }

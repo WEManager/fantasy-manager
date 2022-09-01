@@ -14,6 +14,8 @@ class ClubController extends Controller {
     }
 
     public function show(Club $club) {
+        $club->load('players');
+
         return view('clubs.show')->with(['club' => $club]);
     }
 

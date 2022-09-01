@@ -1,5 +1,6 @@
-import { Head } from '@inertiajs/inertia-react'
+import { Head, Link } from '@inertiajs/inertia-react'
 import { Table } from 'flowbite-react'
+import route from 'ziggy-js'
 import { Tournament } from '@/interfaces/Tournament'
 import Layout from '@/Layouts/Layout'
 
@@ -9,11 +10,11 @@ type TournamentShowProps = {
 
 export default function TournamentShow({ tournament }: TournamentShowProps) {
   return (
-    <Layout>
+    <Layout header={<h2 className="font-semibold text-xl text-white leading-tight">{tournament.name}</h2>}>
       <Head title={tournament.name} />
 
       <section className="container mx-auto">
-        <div>
+        <div className="mt-4">
           {tournament?.groups?.map((group) => (
             <Table key={group.id}>
               <Table.Head>
@@ -43,7 +44,7 @@ export default function TournamentShow({ tournament }: TournamentShowProps) {
                     <Table.Cell>{++index}</Table.Cell>
 
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {standing.club.name}
+                      <Link href={route('club.show', standing.club)}>{standing.club.name}</Link>
                     </Table.Cell>
 
                     <Table.Cell>{standing.won + standing.tie + standing.lost}</Table.Cell>

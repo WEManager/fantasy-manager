@@ -2,162 +2,94 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Arena;
 use App\Models\Club;
-use App\Models\Lineup;
-use App\Models\Player;
-use App\Models\PlayerContract;
-use App\Generators\Player as PlayerGenerator;
 use Illuminate\Console\Command;
 use App\Generators\Club as ClubGenerator;
 use App\Generators\Arena as ArenaGenerator;
-use Illuminate\Support\Facades\DB;
+use App\Models\Contract;
+use App\Models\Lineup;
+use App\Models\Player;
 
-class GenerateClub extends Command
-{
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'club:generate {amount=1} {locale=sv}';
+class GenerateClub extends Command {
+  protected $signature = 'club:generate {amount=1} {locale=sv}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generate a new club';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
+  protected $description = 'Generate a new club';
+    
+  public function handle() {    
+    for ($i = 0; $i < $this->argument('amount'); $i++) {      
+      $this->createClub($this->argument('locale'));
     }
+  }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle() {
-        for ($i = 0; $i < $this->argument('amount'); $i++) {
-            $clubGenerator = new ClubGenerator();
-            $name = $clubGenerator->name($this->argument('locale'));
-            $colors = $clubGenerator->colors();
+  public function createClub(string $locale) {
+    $clubGenerator = new ClubGenerator();
+      
+    $name = $clubGenerator->name($locale);
+    $colors = ClubGenerator::colors();
 
-            $arenaGenerator = new ArenaGenerator();
-            $arenaName = $arenaGenerator->name($this->argument('locale'), $clubGenerator->town);
+    $club = Club::create([
+      'name' => $name,
+      'colors' => $colors,
+      'locale' => nationalityBasedOnLocale($locale)
+    ]);
 
-            $arena = Arena::create(['name' => $arenaName, 'town' => $clubGenerator->town]);
-            $club = Club::create(['name' => $name, 'colors' => $colors, 'locale' => nationalityBasedOnLocale($this->argument('locale'))]);
-
-            // Let us create am A-team
-            // $players = $this->createPlayers($club, 'regular');
-            // Lineup::create($this->setupLineup($players, $club, 'senior'));
-
-            $arenaData = [
-                [
-                    'club_id' => $club->id,
-                    'arena_id' => $arena->id,
-                    'team' => 'u19',
-                ],
-                [
-                    'club_id' => $club->id,
-                    'arena_id' => $arena->id,
-                    'team' => 'u21',
-                ],
-                [
-                    'club_id' => $club->id,
-                    'arena_id' => $arena->id,
-                    'team' => 'senior',
-                ],
-            ];
-            
-            DB::table('club_arenas')->insert($arenaData);
-        }
+    $players = Player::all()->random(17)->pluck('id');
+    for ($i=0; $i < 17; $i++) { 
+      $this->makeContract($players[$i], $club);
     }
+    
+    Lineup::create($this->setupLineup($players, $club));
 
-    protected function setupLineup($players, $club, $team)
-    {
-        $lineup = [
-            'club_id' => $club->id,
-            'team' => $team,
-            'position_1' => 'GK',
-            'player_1' => $players[0],
-            'position_2' => 'LD',
-            'player_2' => $players[1],
-            'position_3' => 'CLD',
-            'player_3' => $players[2],
-            'position_4' => 'CRD',
-            'player_4' => $players[3],
-            'position_5' => 'RD',
-            'player_5' => $players[4],
-            'position_6' => 'LM',
-            'player_6' => $players[5],
-            'position_7' => 'CLM',
-            'player_7' => $players[6],
-            'position_8' => 'CRM',
-            'player_8' => $players[7],
-            'position_9' => 'RM',
-            'player_9' => $players[8],
-            'position_10' => 'CLF',
-            'player_10' => $players[9],
-            'position_11' => 'CRF',
-            'player_11' => $players[10],
+    $arenaGenerator = new ArenaGenerator();
+    $arenaName = $arenaGenerator->name($locale, $clubGenerator->town);
 
-            'substitute_1' => $players[11],
-            'substitute_2' => $players[12],
-            'substitute_3' => $players[13],
-            'substitute_4' => $players[14],
-            'substitute_5' => $players[15],
-            'substitute_6' => $players[16],
-        ];
+    $club->arena()->create(['name' => $arenaName, 'town' => $clubGenerator->town]);
+  }
 
-        return $lineup;
-    }
+  protected function setupLineup($players, Club $club) {
+    return [
+      'club_id' => $club->id,
+      'position_1' => 'GK',
+      'player_1' => $players[0],
+      'position_2' => 'LD',
+      'player_2' => $players[1],
+      'position_3' => 'CLD',
+      'player_3' => $players[2],
+      'position_4' => 'CRD',
+      'player_4' => $players[3],
+      'position_5' => 'RD',
+      'player_5' => $players[4],
+      'position_6' => 'LM',
+      'player_6' => $players[5],
+      'position_7' => 'CLM',
+      'player_7' => $players[6],
+      'position_8' => 'CRM',
+      'player_8' => $players[7],
+      'position_9' => 'RM',
+      'player_9' => $players[8],
+      'position_10' => 'CLF',
+      'player_10' => $players[9],
+      'position_11' => 'CRF',
+      'player_11' => $players[10],
 
-    /**
-     * @param $club
-     */
-    protected function createPlayers($club, $type): array
-    {
-        $players = [];
-        for ($i = 0; $i < 20; $i++) {
+      'substitute_1' => $players[11],
+      'substitute_2' => $players[12],
+      'substitute_3' => $players[13],
+      'substitute_4' => $players[14],
+      'substitute_5' => $players[15],
+      'substitute_6' => $players[16],
+    ];
+  }
 
-            $person = Player::create([
-                'firstname' => PlayerGenerator::firstname($this->argument('locale')),
-                'lastname' => PlayerGenerator::lastname($this->argument('locale')),
-                'nationality' => PlayerGenerator::nationality($this->argument('locale')),
-                'age' => PlayerGenerator::age($type),
-            ]);
-            $players[] = $person->id;
+  private function makeContract(Int $player, Club $club) {
+    $contractLengths = [3, 6, 9];
 
-            if ($type == 'U19') {
-                $contractType = 'youth';
-            } elseif ($type == 'U21') {
-                $contractType = 'reserve';
-            } else {
-                $contractType = 'regular';
-            }
-
-            $contractLength = [3, 6, 9];
-            shuffle($contractLength);
-
-            PlayerContract::create([
-                'club_id' => $club->id,
-                'person_id' => $person->id,
-                'wage' => rand(100, 999),
-                'type' => $contractType,
-                'from' => date('Y-m-d H:i:s', strtotime('-1 day')),
-                'until' => date('Y-m-d H:i:s', strtotime('+' . $contractLength[0] . ' months')),
-            ]);
-        }
-
-        return $players;
-    }
+    Contract::create([
+      'club_id' => $club->id,
+      'player_id' => $player,
+      'wage' => rand(100, 999),
+      'from' => date('Y-m-d H:i:s', strtotime('-1 day')),
+      'until' => date('Y-m-d H:i:s', strtotime('+' . $contractLengths[array_rand($contractLengths)] . ' months')),
+    ]);
+  }
 }

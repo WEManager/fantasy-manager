@@ -86,7 +86,7 @@ class Tournament extends Model {
         return $this->hasManyThrough(TournamentStanding::class, TournamentGroup::class, 'tournament_id', 'group_id');
     }
 
-    public function participants(): BelongsToMany {
+    public function clubsParticipants(): BelongsToMany {
         return $this->belongsToMany(Club::class, 'tournament_participants');
     }
 }

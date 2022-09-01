@@ -44,11 +44,11 @@
         <div class="row">
             <div class="col-3">
                 <table>
-                    @foreach ($hometeam as $key => $value)
+                    @foreach ($hometeam as $key => $player)
                         <tr>
                             <td>{{ $key }}</td>
                             <td>
-                                <a href="{{ link_route('player.show', ['player' => $value]) }}">{{ $value['firstname'] . ' ' . $value['lastname'] }}</a>
+                                <a href="{{ link_route('player.show', ['player' => $player]) }}">{{ $player->know_as }}<</a>
                             </td>
                         </tr>
                     @endforeach
@@ -63,11 +63,11 @@
             </div>
             <div class="col-3">
                 <table>
-                    @foreach ($awayteam as $key => $value)
+                    @foreach ($awayteam as $key => $player)
                         <tr>
                             <td>{{ $key }}</td>
                             <td>
-                                <a href="{{ link_route('player.show', ['player' => $value]) }}">{{ $value['firstname'] . ' ' . $value['lastname'] }}</a>
+                                <a href="{{ link_route('player.show', ['player' => $player]) }}">{{ $player->know_as }}</a>
                             </td>
                         </tr>
                     @endforeach

@@ -14,7 +14,7 @@
                 @if (isset($players[${"player_$i"}]))
                     <div class="player {{ strtolower(${"position_$i"}) }}">
                         <div class="name">
-                            {{ $players[${"player_$i"}]['firstname'] }} {{ $players[${"player_$i"}]['lastname'] }}
+                            {{ $players[${"player_$i"}]['know_as'] }}
                         </div>
                     </div>
                 @endif
@@ -27,7 +27,7 @@
                 @if (isset($players[${"substitute_$i"}]) && $players[${"substitute_$i"}] != null)
                     <div class="player">
                         <div class="name">
-                            {{ $players[${"substitute_$i"}]['firstname'] }} {{ $players[${"substitute_$i"}]['lastname'] }}
+                            {{ $players[${"substitute_$i"}]['know_as'] }}
                         </div>
                     </div>
                 @endif
@@ -63,7 +63,7 @@
                             @endfor
                         </select>
                     </td>
-                    <td><a href="{{ link_route('player.show', ['person' => $player['id']]) }}">{{ $player['firstname'] }} {{ $player['lastname'] }}</a></td>
+                    <td><a href="{{ link_route('player.show', ['player' => $player['id']]) }}">{{ $player['know_as'] }}</a></td>
                     <td>{{ $player['age'] }}</td>
                 </tr>
             @endforeach

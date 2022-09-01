@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Player;
-use App\Models\PlayerContract;
 
 class PlayerObserver {
     private $person;

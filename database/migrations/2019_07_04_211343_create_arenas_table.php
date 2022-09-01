@@ -4,17 +4,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArenasTable extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+class CreateArenasTable extends Migration {
+    public function up() {
         Schema::create('arenas', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id('id');
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('town');
@@ -23,26 +16,12 @@ class CreateArenasTable extends Migration
             $table->integer('seats_no_roof')->default(0);
             $table->integer('seats_roof')->default(0);
             $table->integer('loges')->default(0);
+            $table->foreignId('club_id')->constrained();
             $table->timestamps();
-        });
-
-        Schema::create('club_arenas', function (Blueprint $table) {
-            $table->integer('club_id');
-            $table->integer('arena_id');
-            $table->string('team');
-
-            $table->unique(['club_id', 'team']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('arenas');
-        Schema::dropIfExists('club_arenas');
     }
 }
