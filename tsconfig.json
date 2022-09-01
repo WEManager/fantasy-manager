@@ -23,7 +23,7 @@
     },
     "types": ["vite/client", "node"]
   },
-  "include": ["vite.config.ts", "resources/**/*.{ts, tsx}",],
+  "include": ["vite.config.ts", "resources/**/*.tsx", "resources/**/*.ts"],
   "exclude": ["node_modules", "public"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
