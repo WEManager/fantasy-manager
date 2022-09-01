@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vite build --ssr"
+        "build": "vite build && vite build --ssr",
+        "postinstall": "yarn build"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
