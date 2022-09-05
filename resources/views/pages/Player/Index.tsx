@@ -41,11 +41,7 @@ export default function PlayerIndex({ response }: PlayerIndexProps) {
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                         <Link href={route('player.show', player)}>
                           <div className="flex items-center gap-2">
-                            <img
-                              src={player.image_url.replace('22_60', '22_240')}
-                              alt={player.know_as}
-                              className="w-14"
-                            />
+                            <img src={player.image_url} alt={player.know_as} className="w-14" />
                             {player.know_as}
                           </div>
                         </Link>

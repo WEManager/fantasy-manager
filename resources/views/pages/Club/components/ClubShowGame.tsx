@@ -13,6 +13,13 @@ type ClubShowGameProps = {
 export default function ClubShowGame({ game }: ClubShowGameProps) {
   const { club } = usePage<Page<ClubShowProps>>().props
 
+  const canShowScoreboard =
+    Number(game.status) === 1 ??
+    Number(game.status) === 2 ??
+    Number(game.status) === 3 ??
+    Number(game.status) === 4 ??
+    Number(game.status) === 5
+
   return (
     <Table.Row>
       <Table.Cell>{game.group.name}</Table.Cell>
@@ -33,10 +40,19 @@ export default function ClubShowGame({ game }: ClubShowGameProps) {
             </Link>
           </div>
 
-          <div className="flex-1 flex justify-center gap-1 text-center">
-            {Number(game.status) === 1 && <span>{game.hometeam_score}</span>}X
-            {Number(game.status) === 1 && <span>{game.hometeam_score}</span>}
-          </div>
+          <Tooltip content={moment(game.start_time).format('dddd, Do \\d\\e\\ MMMM YYYY, H:mm A')} trigger="hover">
+            <Link href={route('game.show', game)}>
+              <div className="flex-1 flex justify-center gap-1 text-center">
+                {canShowScoreboard ? (
+                  <>
+                    <span>{game.hometeam_score}</span> <span>vs</span> <span>{game.hometeam_score}</span>
+                  </>
+                ) : (
+                  <span>vs</span>
+                )}
+              </div>
+            </Link>
+          </Tooltip>
 
           <div className="flex-1 flex justify-end ml-auto">
             <Link

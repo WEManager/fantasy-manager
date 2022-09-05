@@ -7,10 +7,10 @@ import type { ClubShowProps } from '../Show'
 
 export default function ClubShowGames() {
   const { club } = usePage<Page<ClubShowProps>>().props
-  console.log('🚀 ~ file: ClubShowGames.tsx ~ line 10 ~ ClubShowGames ~ club', club)
 
   return (
     <div>
+      <h3 className="mb-2 text-xl">Partidas</h3>
       <Table>
         <Table.Head>
           <Table.HeadCell>Competição</Table.HeadCell>

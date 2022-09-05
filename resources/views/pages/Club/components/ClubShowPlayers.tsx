@@ -11,12 +11,16 @@ export default function ClubShowPlayers() {
 
   return (
     <div>
-      <h3>Total de jogadores: {club.players.length}</h3>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <h3 className="mb-2 text-xl">Total de jogadores: {club.players.length}</h3>
+
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {club?.players.map((player) => (
           <Link href={route('player.show', player)} key={player.id}>
             <Card>
-              <p className="font-normal text-gray-700 dark:text-gray-400">{player.know_as}</p>
+              <div className="flex items-center gap-4">
+                <img src={player.image_url} alt={player.know_as} className="w-10" />
+                <span className="font-bold">{player.know_as}</span>
+              </div>
             </Card>
           </Link>
         ))}

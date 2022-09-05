@@ -47,14 +47,6 @@ export default function PlayerShow({ player }: PlayerShowProps) {
               <img src={player.image_url.replace('22_60', '22_240')} alt={player.know_as} />
             </div>
 
-            {/* {player.club && (
-              <Link href={route('club.show')}>
-                <span>
-                  <img src="" alt="" />
-                </span>
-              </Link>
-            )} */}
-
             <div className="pt-2 pb-28 pl-16">
               <div className="text-6xl">-</div>
 
