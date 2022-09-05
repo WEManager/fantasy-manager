@@ -14,10 +14,10 @@ export default function ClubShowGame({ game }: ClubShowGameProps) {
   const { club } = usePage<Page<ClubShowProps>>().props
 
   const canShowScoreboard =
-    Number(game.status) === 1 ??
-    Number(game.status) === 2 ??
-    Number(game.status) === 3 ??
-    Number(game.status) === 4 ??
+    Number(game.status) === 1 ||
+    Number(game.status) === 2 ||
+    Number(game.status) === 3 ||
+    Number(game.status) === 4 ||
     Number(game.status) === 5
 
   return (
