@@ -1,12 +1,13 @@
-import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { createInertiaApp, ReactComponent } from '@inertiajs/inertia-react'
 import { InertiaProgress } from '@inertiajs/progress'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import { locale } from 'moment'
+import 'moment/dist/locale/pt-br'
 
 import '../css/app.css'
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
+const appName = 'WEManager Fantazy Manager'
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
@@ -15,7 +16,11 @@ createInertiaApp({
       `../views/pages/${name}.tsx`,
       import.meta.glob<ReactComponent>('../views/pages/**/*.tsx')
     ),
-  setup: ({ el, App, props }) => render(<App {...props} />, el),
+  setup: ({ el, App, props }) => {
+    locale('pt-br')
+
+    return createRoot(el).render(<App {...props} />)
+  },
 })
 
 InertiaProgress.init({

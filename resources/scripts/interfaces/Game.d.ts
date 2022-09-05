@@ -1,5 +1,6 @@
 import { Club } from './Club'
 import { Lineup } from './Lineup'
+import { Group } from './Tournament'
 
 interface GameMessage {
   minute: number
@@ -19,4 +20,5 @@ export interface Game {
   group: any
   game_status: string
   messages: GameMessage[]
+  group: Group
 }

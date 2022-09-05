@@ -2,7 +2,7 @@ import { usePage, Link } from '@inertiajs/inertia-react'
 import { Avatar, Button, Navbar, Dropdown } from 'flowbite-react'
 import route from 'ziggy-js'
 
-const Nav = () => {
+export default function Nav() {
   const {
     props: { auth },
   } = usePage()
@@ -10,8 +10,10 @@ const Nav = () => {
   return (
     <Navbar>
       <Navbar.Brand>
-        <img src="https://flowbite.com/docs/images/logo.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">WEManager</span>
+        <Link href={route('home')} className="flex">
+          <img src="https://flowbite.com/docs/images/logo.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">WEManager</span>
+        </Link>
       </Navbar.Brand>
 
       <div className="flex md:order-2">
@@ -56,20 +58,18 @@ const Nav = () => {
       </div>
 
       <Navbar.Collapse>
-        <Navbar.Link href="/navbars" active={true}>
-          Home
-        </Navbar.Link>
+        <Link href={route('home')}>
+          <Navbar.Link>Home</Navbar.Link>
+        </Link>
 
-        <Navbar.Link href="/navbars">About</Navbar.Link>
+        <Link href={route('player.index')}>
+          <Navbar.Link>Jogadores</Navbar.Link>
+        </Link>
 
-        <Navbar.Link href="/navbars">Services</Navbar.Link>
-
-        <Navbar.Link href="/navbars">Pricing</Navbar.Link>
-
-        <Navbar.Link href="/navbars">Contact</Navbar.Link>
+        <Link href={route('club.index')}>
+          <Navbar.Link>Clubes</Navbar.Link>
+        </Link>
       </Navbar.Collapse>
     </Navbar>
   )
 }
-
-export default Nav

@@ -15,7 +15,7 @@ class Tournament extends Model {
 
     protected $guarded = [];
 
-    protected $with = ['groups', 'qualifications'];
+    // protected $with = ['groups', 'qualifications'];
 
     public function getSlugOptions(): SlugOptions {
         return SlugOptions::create()

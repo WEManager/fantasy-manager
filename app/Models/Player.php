@@ -26,11 +26,13 @@ class Player extends Model {
     }
 
     public function club(): HasOneThrough {
-        return $this->hasOneThrough(Club::class, Contract::class, 'person_id', 'id', 'id', 'club_id');
+        return $this->hasOneThrough(Club::class, Contract::class, 'player_id', 'id', 'id', 'club_id')
+            ->whereDate('from', '<', date('Y-m-d'))
+            ->whereDate('until', '>', date('Y-m-d'));
     }
 
     public function contract() {
-        return $this->hasOne(Contract::class, 'person_id')
+        return $this->hasOne(Contract::class, 'player_id')
             ->whereDate('from', '<', date('Y-m-d'))
             ->whereDate('until', '>', date('Y-m-d'));
     }

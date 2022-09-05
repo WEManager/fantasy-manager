@@ -11,7 +11,7 @@ use Inertia\Inertia;
 
 class PlayerController extends Controller {
     public function index() {
-        $response = Player::paginate();
+        $response = Player::with('club')->paginate();
 
         return Inertia::render('Player/Index', compact('response'));
     }

@@ -9,6 +9,7 @@ type TournamentShowProps = {
 }
 
 export default function TournamentShow({ tournament }: TournamentShowProps) {
+  console.log('🚀 ~ file: Show.tsx ~ line 12 ~ TournamentShow ~ tournament', tournament)
   return (
     <Layout header={<h2 className="font-semibold text-xl text-white leading-tight">{tournament.name}</h2>}>
       <Head title={tournament.name} />

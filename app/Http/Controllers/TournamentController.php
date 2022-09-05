@@ -82,7 +82,7 @@ class TournamentController extends Controller
     }
 
     public function show(Tournament $tournament) {
-        $tournament->load('clubsParticipants');
+        $tournament->load(['clubsParticipants', 'groups.standings', 'qualifications']);
 
         return Inertia::render('Tournament/Show', compact('tournament'));
     }

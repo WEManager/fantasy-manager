@@ -1,3 +1,5 @@
+import { Club } from './Club'
+import { Contract } from './Contratc'
 import { Nation } from './Nation'
 
 export interface Player {
@@ -63,4 +65,6 @@ export interface Player {
   created_at: string
   updated_at: string
   nation: Maybe<Nation>
+  contract: Maybe<Contract>
+  club: Mayve<Club>
 }

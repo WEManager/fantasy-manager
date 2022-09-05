@@ -17,7 +17,7 @@ interface Standing {
   club: Club
 }
 
-interface Group {
+export interface Group {
   id: number
   name: string
   upcoming_games: any[]

@@ -15,7 +15,7 @@ class PageController extends Controller {
         } elseif ($club = Club::with(['homegames', 'awaygames'])->where('slug', $slug)->first()) {
             $clubController = new ClubController();
 
-            return $clubController->show($club);
+            return $clubController->showOld($club);
         }
     }
 }

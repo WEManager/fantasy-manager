@@ -10,16 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TournamentGame extends Model {
+
   protected $guarded = [];
 
-  protected $casts = [
-    'hometeam_score' => 'int',
-    'awayteam_score' => 'int',
-  ];
-
-  protected $hidden = ['group_id', 'hometeam_id', 'awayteam_id', 'created_at', 'updated_at'];
+  protected $hidden = ['created_at', 'updated_at'];
 
   protected $appends = ['game_status', 'messages'];
+
+  // protected $with = ['homeTeam', 'awayTeam'];
 
   public function homeLineup(): HasOne {
     return $this->hasOne(Lineup::class, 'club_id', 'hometeam_id');
