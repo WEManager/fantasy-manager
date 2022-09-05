@@ -1,10 +1,13 @@
 import { Link, usePage } from '@inertiajs/inertia-react'
 import { Card } from 'flowbite-react'
 import route from 'ziggy-js'
-import { Club } from '@/interfaces/Club'
+import { Page } from '@inertiajs/inertia'
+import { ClubShowProps } from '../Show'
 
 export default function ClubShowPlayers() {
-  const { club } = usePage().props as { club: Club }
+  const { club } = usePage<Page<ClubShowProps>>().props
+
+  if (!club.players) return null
 
   return (
     <div>

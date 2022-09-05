@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import { createInertiaApp, ReactComponent } from '@inertiajs/inertia-react'
 import { InertiaProgress } from '@inertiajs/progress'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-import { locale } from 'moment'
+import moment from 'moment'
 import 'moment/dist/locale/pt-br'
 
 import '../css/app.css'
@@ -17,7 +17,7 @@ createInertiaApp({
       import.meta.glob<ReactComponent>('../views/pages/**/*.tsx')
     ),
   setup: ({ el, App, props }) => {
-    locale('pt-br')
+    moment.locale('pt-br')
 
     return createRoot(el).render(<App {...props} />)
   },
