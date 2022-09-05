@@ -45,7 +45,7 @@ export default function ClubShowGame({ game }: ClubShowGameProps) {
               <div className="flex-1 flex justify-center gap-1 text-center">
                 {canShowScoreboard ? (
                   <>
-                    <span>{game.hometeam_score}</span> <span>vs</span> <span>{game.hometeam_score}</span>
+                    <span>{game.hometeam_score}</span> <span>vs</span> <span>{game.awayteam_score}</span>
                   </>
                 ) : (
                   <span>vs</span>
