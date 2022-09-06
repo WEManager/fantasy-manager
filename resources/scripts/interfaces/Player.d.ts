@@ -2,30 +2,7 @@ import { Club } from './Club'
 import { Contract } from './Contratc'
 import { Nation } from './Nation'
 
-export interface Player {
-  id: number
-  full_name: string
-  know_as: string
-  fifa_player_id: string
-  weak_foot: number
-  skill_moves: number
-  image_url: string
-  preferred_foot: string
-  age: number
-  form: number
-  length: number
-  weight: number
-  aerial_reach: number
-  command_of_area: number
-  communication: number
-  eccentricity: number
-  handling: number
-  kicking: number
-  one_on_ones: number
-  reflexes: number
-  rushing_out: number
-  tendency_to_punch: number
-  throwing: number
+export interface Technical {
   corners: number
   crossing: number
   dribbling: number
@@ -40,6 +17,9 @@ export interface Player {
   penalty_taking: number
   tackling: number
   technique: number
+}
+
+export interface Mental {
   aggression: number
   anticipation: number
   bravery: number
@@ -54,6 +34,9 @@ export interface Player {
   teamwork: number
   vision: number
   work_rate: number
+}
+
+export interface Physical {
   acceleration: number
   agility: number
   balance: number
@@ -62,9 +45,41 @@ export interface Player {
   pace: number
   stamina: number
   strength: number
+}
+
+export interface Goalkeeping {
+  aerial_reach: number
+  command_of_area: number
+  communication: number
+  eccentricity: number
+  handling: number
+  kicking: number
+  one_on_ones: number
+  reflexes: number
+  rushing_out: number
+  tendency_to_punch: number
+  throwing: number
+}
+export interface Player extends Goalkeeping, Physical, Mental {
+  id: number
+  full_name: string
+  know_as: string
+  fifa_player_id: string
+  weak_foot: number
+  skill_moves: number
+  image_url: string
+  preferred_foot: string
+  age: number
+  form: number
+  length: number
+  weight: number
   created_at: string
   updated_at: string
-  nation: Maybe<Nation>
-  contract: Maybe<Contract>
-  club: Mayve<Club>
+  nation?: Nation
+  contract?: Contract
+  club?: Club
+  technical?: Technical
+  mental?: Mental
+  physical?: Physical
+  goalkeeping?: Goalkeeping
 }

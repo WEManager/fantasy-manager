@@ -31,7 +31,7 @@ trait PlayerOveralls {
     return $skills;
   }
 
-  public function getGoalkeepingAttribute() {
+  public function getGoalkeepingSkillsAttribute() {
     $goalkeeping = [
       'goalkeeping' => $this->getGoalkeepingValues(),
       'mental' => $this->getMentalValues(),

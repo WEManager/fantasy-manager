@@ -1,22 +1,28 @@
 import { Head } from '@inertiajs/inertia-react'
+import { useState } from 'react'
 import Layout from '@/Layouts/Layout'
 import { Player } from '@/interfaces/Player'
+import PlayerShowStats from './components/PlayerShowStats'
 
-type PlayerShowProps = {
+export type PlayerShowProps = {
   player: Player
 }
 
 export default function PlayerShow({ player }: PlayerShowProps) {
-  console.log('🚀 ~ file: Show.tsx ~ line 5 ~ PlayerShow ~ player', player)
+  const [tab, setTab] = useState('overview')
+
+  const handleChangeTab = (tab: string) => {
+    setTab(tab)
+  }
 
   return (
     <Layout>
       <Head title={player.know_as} />
 
-      <section style={{ background: 'linear-gradient(90deg,#ebff00,#ff6900)' }} className="relative">
+      <section style={{ background: 'linear-gradient(90deg,#28395c,#111827)' }} className="relative">
         <div className="absolute overflow-hidden w-full bottom-0 left-0 top-0">
           <svg
-            style={{ fill: '#ebff00' }}
+            style={{ fill: '#28395c' }}
             className="hidden md:block absolute w-full overflow-hidden bottom-0"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1496 270">
@@ -58,10 +64,19 @@ export default function PlayerShow({ player }: PlayerShowProps) {
       </section>
 
       <div className="relative">
-        <nav className="absolute -top-20" style={{ left: '37rem' }}>
-          <ul>
-            <li className="inline-block">Ovewview</li>
-            <li className="inline-block">Stats</li>
+        <nav className="absolute -top-12 left-96">
+          <ul className="flex gap-2">
+            <li className="inline-block" onClick={() => handleChangeTab('overview')} aria-hidden="true">
+              <button
+                className={`rounded-t py-1 px-3 leading-10 ${tab === 'overview' ? 'bg-gray-800' : 'bg-gray-500'}`}>
+                Ovewview
+              </button>
+            </li>
+            <li className="inline-block rounded" onClick={() => handleChangeTab('stats')} aria-hidden="true">
+              <button className={`rounded-t py-1 px-3 leading-10 ${tab === 'stats' ? 'bg-gray-800' : 'bg-gray-500'}`}>
+                Stats
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
@@ -75,14 +90,14 @@ export default function PlayerShow({ player }: PlayerShowProps) {
 
           <div className="w-full pl-7 relative">
             <div className="w-full">
-              <div className="relative -mt-12 pl-10 pt-12 rounded-tl-md bg-white">
-                <div>
+              <div className="relative pl-10 pt-12 rounded-tl-md">
+                <div className={`${tab === 'overview' ? 'block' : 'hidden'}`}>
                   <h3 className="text-2xl font-bold mb-2">Detalhes do Jogador</h3>
 
                   <div className="rounded flex justify-between border border-gray-200 p-2 mt-6">
                     <div className="flex justify-between py-3 px-2 w-1/3 border-r border-gray-200 items-center">
                       <span className="font-light text-xs">Nacionalidade</span>
-                      <div className="font-bold">{player.nation.name}</div>
+                      <div className="font-bold">{player.nation?.name}</div>
                     </div>
 
                     <div className="flex justify-between py-3 px-2 w-1/3 border-r border-gray-200 items-center">
@@ -95,6 +110,10 @@ export default function PlayerShow({ player }: PlayerShowProps) {
                       <div className="font-bold">{player.length}cm</div>
                     </div>
                   </div>
+                </div>
+
+                <div className={`${tab === 'stats' ? 'block' : 'hidden'}`}>
+                  <PlayerShowStats />
                 </div>
               </div>
             </div>

@@ -83,4 +83,8 @@ trait PlayerTraitStats {
   public function getPhysicalAttribute() {
     return $this->getPhysicalValues();
   }
+
+  public function getGoalkeepingAttribute() {
+    return $this->getGoalkeepingValues();
+  }
 }
