@@ -53,35 +53,38 @@ export default function PlayerShow({ player }: PlayerShowProps) {
               <img src={player.image_url.replace('22_60', '22_240')} alt={player.know_as} />
             </div>
 
-            <div className="pt-2 pb-28 pl-16">
-              <div className="text-6xl">-</div>
+            <div>
+              <div className="pt-2 pb-28 pl-16">
+                <div className="text-6xl">-</div>
 
-              <h1 className="font-bold text-4xl">{player.know_as}</h1>
-              <h2 className="font-bold text-xl">{player.full_name}</h2>
+                <h1 className="font-bold text-4xl">{player.know_as}</h1>
+                <h2 className="font-bold text-xl">{player.full_name}</h2>
+              </div>
+
+              <div className="relative">
+                <nav className="absolute -top-12">
+                  <ul className="flex gap-2">
+                    <li className="inline-block" onClick={() => handleChangeTab('overview')} aria-hidden="true">
+                      <button
+                        className={`rounded-t py-1 px-3 leading-10 ${
+                          tab === 'overview' ? 'bg-gray-800' : 'bg-gray-500'
+                        }`}>
+                        Ovewview
+                      </button>
+                    </li>
+                    <li className="inline-block rounded" onClick={() => handleChangeTab('stats')} aria-hidden="true">
+                      <button
+                        className={`rounded-t py-1 px-3 leading-10 ${tab === 'stats' ? 'bg-gray-800' : 'bg-gray-500'}`}>
+                        Stats
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      <div className="relative">
-        <nav className="absolute -top-12 left-96">
-          <ul className="flex gap-2">
-            <li className="inline-block" onClick={() => handleChangeTab('overview')} aria-hidden="true">
-              <button
-                className={`rounded-t py-1 px-3 leading-10 ${tab === 'overview' ? 'bg-gray-800' : 'bg-gray-500'}`}>
-                Ovewview
-              </button>
-            </li>
-            <li className="inline-block rounded" onClick={() => handleChangeTab('stats')} aria-hidden="true">
-              <button className={`rounded-t py-1 px-3 leading-10 ${tab === 'stats' ? 'bg-gray-800' : 'bg-gray-500'}`}>
-                Stats
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <div></div>
 
       <div className="container mx-auto">
         <div className="flex">
