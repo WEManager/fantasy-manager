@@ -19,18 +19,4 @@ class ClubController extends Controller {
 
     return Inertia::render('Club/Show', compact('club'));
   }
-
-  public function showOld(Club $club) {
-    $club->load('players');
-
-    return view('clubs.show')->with(['club' => $club]);
-  }
-
-  public function edit(Club $club) {
-    return view('clubs.edit')->with(['club' => $club]);
-  }
-
-  public function store() {
-    return redirect()->back();
-  }
 }
