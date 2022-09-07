@@ -14,7 +14,7 @@ createServer((page) =>
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
       resolvePageComponent<ReactComponent>(
-        `../views/pages/${name}.jsx`,
+        `../views/pages/${name}.tsx`,
         import.meta.glob<ReactComponent>('../views/pages/**/*.tsx')
       ),
     setup: ({ App, props }) => {
