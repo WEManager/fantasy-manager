@@ -47,7 +47,7 @@ export default function PlayerIndex({ response }: PlayerIndexProps) {
                         </Link>
                       </Table.Cell>
 
-                      <Table.Cell>{player?.nation.name}</Table.Cell>
+                      <Table.Cell>{player.nation?.name}</Table.Cell>
 
                       <Table.Cell>
                         {player?.club ? (
