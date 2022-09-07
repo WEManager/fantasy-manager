@@ -53,7 +53,6 @@ require __DIR__.'/auth.php';
 
 // Route::get('/{slug}', [PageController::class, 'show'])->name('page');
 
-// Route::get('{club}', 'ClubController@showOld')->name('show_club');
 Route::post('{club}', 'ClubController@store')->middleware('admin')->name('store_club');
 Route::get('{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
 Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
@@ -64,9 +63,9 @@ Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->middlew
 Route::post('/apply-for-job', 'ManagerContractController@store')->middleware('auth')->name('send_job_application');
 Route::get('/quit-my-job/{club}', 'ManagerContractController@quitJob')->middleware('auth')->name('quit_job');
 
-Route::get('/license-test/{licenseQuiz}', 'LicenseQuizController@show')->middleware('level0')->name('license_test');
-Route::post('/license-test/{licenseQuiz}/submit', 'LicenseQuizController@submission')->middleware('level0')->name('license_test_validation');
-
+// Route::get('{club}', 'ClubController@showOld')->name('show_club');
+// Route::get('/license-test/{licenseQuiz}', 'LicenseQuizController@show')->middleware('level0')->name('license_test');
+// Route::post('/license-test/{licenseQuiz}/submit', 'LicenseQuizController@submission')->middleware('level0')->name('license_test_validation');
 // Route::get('/players/create', 'PlayerController@create')->middleware('admin')->name('create_player');
 // Route::put('/players/{user}', 'PlayerController@update')->middleware('admin')->name('update_player');
 // Route::get('/players/{user}/edit', 'PlayerController@edit')->middleware('admin')->name('edit_player');
