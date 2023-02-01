@@ -1,0 +1,7 @@
+"use strict";
+exports.__esModule = true;
+function Checkbox(_a) {
+    var name = _a.name, value = _a.value, handleChange = _a.handleChange;
+    return (React.createElement("input", { type: "checkbox", name: name, value: value, className: "rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50", onChange: function (e) { return handleChange(e); } }));
+}
+exports["default"] = Checkbox;
