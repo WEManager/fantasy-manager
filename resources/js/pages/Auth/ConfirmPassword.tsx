@@ -1,10 +1,10 @@
-import { Head, useForm } from '@inertiajs/react'
 import { type ChangeEvent, type FormEvent, useEffect } from 'react'
+import { Head, useForm } from '@inertiajs/react'
 import { route } from 'ziggy-js'
 
 import Input from '~/Components/Input'
-import InputError from '~/components/InputError'
 import Label from '~/Components/Label'
+import InputError from '~/components/InputError'
 import { Button } from '~/components/ui/button'
 import Guest from '~/Layouts/Guest'
 

@@ -1,5 +1,5 @@
-import { Head, Link, useForm } from '@inertiajs/react'
 import { type ChangeEvent, type FormEvent, useEffect } from 'react'
+import { Head, Link, useForm } from '@inertiajs/react'
 import { route } from 'ziggy-js'
 
 import Input from '~/components/Input'
