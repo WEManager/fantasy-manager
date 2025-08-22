@@ -1,18 +1,18 @@
-import { Link } from '@inertiajs/inertia-react'
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import { cn } from '@/lib/utils'
+import { Link } from '@inertiajs/react'
+import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
 import { Icons } from '../Icons'
+import { buttonVariants } from '../ui/Button'
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+    navigationMenuTriggerStyle,
 } from '../ui/NavigationMenu'
 import { Separator } from '../ui/Separator'
-import { buttonVariants } from '../ui/Button'
 
 export function MainNav() {
   return (
@@ -32,7 +32,7 @@ export function MainNav() {
                 <li className="row-span-3">
                   <Link href="/">
                     <NavigationMenuLink
-                      className="flex h-full w-full select-none 
+                      className="flex h-full w-full select-none
                     flex-col justify-end space-y-2 rounded-md bg-gradient-to-b from-rose-500 to-indigo-700 p-6 no-underline outline-none focus:shadow-md">
                       <div className="text-lg font-medium text-white">WEManager</div>
                       <p className="text-sm leading-snug t  ext-white/90">FantasyManager</p>

@@ -1,10 +1,10 @@
-import { Link } from '@inertiajs/inertia-react'
+import { Link } from '@inertiajs/react'
 
+import { Icons } from '../Icons'
+import { buttonVariants } from '../ui/Button'
 import { MainNav } from './MainNav'
 import { MobileNav } from './MobileMenu'
 import { ThemeToggle } from './ThemeToggle'
-import { buttonVariants } from '../ui/Button'
-import { Icons } from '../Icons'
 
 export function Header() {
   return (

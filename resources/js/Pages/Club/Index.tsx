@@ -1,10 +1,9 @@
-import { Head, Link } from '@inertiajs/inertia-react'
-import { Pagination } from 'flowbite-react'
-import route from 'ziggy-js'
-import { Inertia } from '@inertiajs/inertia'
 import Layout from '@/Layouts/Layout'
-import { Paginate } from '@/interfaces/Paginate'
 import { Club } from '@/interfaces/Club'
+import { Paginate } from '@/interfaces/Paginate'
+import { Head, Link } from '@inertiajs/react'
+import { Pagination } from 'flowbite-react'
+import { route } from 'ziggy-js'
 
 type ClubIndexProps = {
   response: Paginate<Club>
@@ -14,7 +13,7 @@ export default function ClubIndex({ response }: ClubIndexProps) {
   const { data: clubs } = response
 
   const handlePageChange = (pageNumber: number) => {
-    Inertia.get('/c', { page: pageNumber }, { replace: true })
+    router.get('/c', { page: pageNumber }, { replace: true })
   }
 
   return (

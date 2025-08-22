@@ -1,11 +1,11 @@
-import { ChangeEvent, FormEvent, useEffect } from 'react'
-import { Head, Link, useForm } from '@inertiajs/inertia-react'
-import route from 'ziggy-js'
-import Button from '@/components/Button'
-import Guest from '@/Layouts/Guest'
 import Input from '@/Components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/Components/Label'
+import { Button } from '@/components/ui/Button'
+import Guest from '@/Layouts/Guest'
+import { Head, Link, useForm } from '@inertiajs/react'
+import { ChangeEvent, FormEvent, useEffect } from 'react'
+import { route } from 'ziggy-js'
 
 export default function Register() {
   const { data, setData, post, processing, errors, reset } = useForm({

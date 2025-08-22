@@ -1,7 +1,7 @@
-import { renderToString } from 'react-dom/server'
-import { createInertiaApp, ReactComponent } from '@inertiajs/inertia-react'
-import createServer from '@inertiajs/server'
+import { createInertiaApp } from '@inertiajs/react'
+import createServer from '@inertiajs/react/server'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import { renderToString } from 'react-dom/server'
 // import route, { RouteParam, RouteParamsWithQueryOverload } from 'ziggy-js'
 // import route from '../../vendor/tightenco/ziggy/dist/index.m'
 
@@ -13,7 +13,7 @@ createServer((page) =>
     render: renderToString,
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
-      resolvePageComponent<ReactComponent>(`./Pages/${name}.jsx`, import.meta.glob<ReactComponent>('./Pages/**/*.tsx')),
+      resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./Pages/**/*.tsx')),
     setup: ({ App, props }) => {
       // global.route = (name: string, params?: RouteParamsWithQueryOverload | RouteParam, absolute?: boolean) =>
       //   route(name, params, absolute, {

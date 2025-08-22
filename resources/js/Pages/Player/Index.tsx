@@ -1,10 +1,9 @@
-import { Head, Link } from '@inertiajs/inertia-react'
-import { Button, Pagination, Table } from 'flowbite-react'
-import route from 'ziggy-js'
-import { Inertia } from '@inertiajs/inertia'
 import Layout from '@/Layouts/Layout'
 import { Paginate } from '@/interfaces/Paginate'
 import { Player } from '@/interfaces/Player'
+import { Head, Link } from '@inertiajs/react'
+import { Pagination, Table } from 'flowbite-react'
+import { route } from 'ziggy-js'
 
 type PlayerIndexProps = {
   response: Paginate<Player>
@@ -15,7 +14,7 @@ export default function PlayerIndex({ response }: PlayerIndexProps) {
   const { data: players } = response
 
   const handlePageChange = (pageNumber: number) => {
-    Inertia.get('/p', { page: pageNumber }, { replace: true })
+    router.get('/p', { page: pageNumber }, { replace: true })
   }
 
   return (

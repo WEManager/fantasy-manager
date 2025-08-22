@@ -1,8 +1,8 @@
-import { Head, Link, useForm } from '@inertiajs/inertia-react'
-import { FormEvent } from 'react'
-import route from 'ziggy-js'
-import Button from '@/components/Button'
+import { Button } from '@/components/ui/Button'
 import Guest from '@/Layouts/Guest'
+import { Head, Link, useForm } from '@inertiajs/react'
+import { FormEvent } from 'react'
+import { route } from 'ziggy-js'
 
 type VerifyEmailProps = {
   status: any

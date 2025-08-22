@@ -1,13 +1,13 @@
-import { Link } from '@inertiajs/inertia-react'
+import { Link } from '@inertiajs/react'
 
 import { Icons } from '../Icons'
 import { Button } from '../ui/Button'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from '../ui/Dropdown'
 import { ScrollArea } from '../ui/ScrollArea'
 

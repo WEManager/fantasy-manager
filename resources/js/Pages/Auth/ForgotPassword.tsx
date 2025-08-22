@@ -1,10 +1,10 @@
-import { Head, useForm } from '@inertiajs/inertia-react'
-import route from 'ziggy-js'
-import { ChangeEvent, FormEvent } from 'react'
-import Button from '@/components/Button'
-import Guest from '@/Layouts/Guest'
 import Input from '@/Components/Input'
 import InputError from '@/components/InputError'
+import { Button } from '@/components/ui/Button'
+import Guest from '@/Layouts/Guest'
+import { Head, useForm } from '@inertiajs/react'
+import { ChangeEvent, FormEvent } from 'react'
+import { route } from 'ziggy-js'
 
 type ForgotPasswordProps = {
   status: any

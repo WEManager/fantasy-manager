@@ -1,8 +1,8 @@
-import { Head, Link } from '@inertiajs/inertia-react'
-import { Table } from 'flowbite-react'
-import route from 'ziggy-js'
 import { Tournament } from '@/interfaces/Tournament'
 import Layout from '@/Layouts/Layout'
+import { Head, Link } from '@inertiajs/react'
+import { Table } from 'flowbite-react'
+import { route } from 'ziggy-js'
 
 type TournamentShowProps = {
   tournament: Tournament

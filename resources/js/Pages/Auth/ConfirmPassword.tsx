@@ -1,11 +1,11 @@
-import { ChangeEvent, FormEvent, useEffect } from 'react'
-import { Head, useForm } from '@inertiajs/inertia-react'
-import route from 'ziggy-js'
-import Button from '@/components/Button'
-import Guest from '@/Layouts/Guest'
 import Input from '@/Components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/Components/Label'
+import { Button } from '@/components/ui/Button'
+import Guest from '@/Layouts/Guest'
+import { Head, useForm } from '@inertiajs/react'
+import { ChangeEvent, FormEvent, useEffect } from 'react'
+import { route } from 'ziggy-js'
 
 export default function ConfirmPassword() {
   const { data, setData, post, processing, errors, reset } = useForm({
