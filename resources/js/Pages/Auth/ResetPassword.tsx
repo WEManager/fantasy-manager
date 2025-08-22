@@ -1,11 +1,12 @@
+import { type ChangeEvent, type FormEvent, useEffect } from 'react'
+import { Head, useForm } from '@inertiajs/react'
+import { route } from 'ziggy-js'
+
 import Input from '@/Components/Input'
-import InputError from '@/components/InputError'
 import Label from '@/Components/Label'
+import InputError from '@/components/InputError'
 import { Button } from '@/components/ui/Button'
 import Guest from '@/Layouts/Guest'
-import { Head, useForm } from '@inertiajs/react'
-import { ChangeEvent, FormEvent, useEffect } from 'react'
-import { route } from 'ziggy-js'
 
 type ResetPasswordProps = {
   token: string
@@ -24,10 +25,13 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
     return () => {
       reset('password', 'password_confirmation')
     }
-  }, [])
+  }, [reset])
 
   const onHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setData(event.target.name as 'token' | 'email' | 'password' | 'password_confirmation', event.target.value)
+    setData(
+      event.target.name as 'token' | 'email' | 'password' | 'password_confirmation',
+      event.target.value,
+    )
   }
 
   const submit = (event: FormEvent) => {

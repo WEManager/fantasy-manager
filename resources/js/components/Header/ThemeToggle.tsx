@@ -1,7 +1,12 @@
-import { Icons } from '../Icons'
 import { useThemeContext } from '../contexts/ThemeContext'
+import { Icons } from '../Icons'
 import { Button } from '../ui/Button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/Dropdown'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/Dropdown'
 
 export function ThemeToggle() {
   const { setTheme } = useThemeContext()

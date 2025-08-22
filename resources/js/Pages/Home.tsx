@@ -1,6 +1,7 @@
-import Layout from '@/Layouts/Layout'
 import { Head, Link } from '@inertiajs/react'
 import { route } from 'ziggy-js'
+
+import Layout from '@/Layouts/Layout'
 
 type Club = {
   id: string
@@ -52,7 +53,10 @@ export default function Home({ auth, clubs }: HomeProps) {
                   </a>
 
                   {auth.user && !auth.user.club ? (
-                    <Link href={route('apply_for_job', [club])} className="text-gray-500 ml-auto underline text-sm">
+                    <Link
+                      href={route('apply_for_job', [club])}
+                      className="text-gray-500 ml-auto underline text-sm"
+                    >
                       Apply for job
                     </Link>
                   ) : (

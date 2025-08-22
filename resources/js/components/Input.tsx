@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef } from 'react'
+import { type ChangeEvent, useEffect, useRef } from 'react'
 
 type InputProps = {
   type: string
@@ -27,7 +27,7 @@ export default function Input({
     if (isFocused) {
       input.current?.focus()
     }
-  }, [])
+  }, [isFocused])
 
   return (
     <div className="flex flex-col items-start">

@@ -1,12 +1,13 @@
+import { type ChangeEvent, type FormEvent, useEffect } from 'react'
+import { Head, Link, useForm } from '@inertiajs/react'
+import { route } from 'ziggy-js'
+
 import Checkbox from '@/components/Checkbox'
 import Input from '@/components/Input'
 import InputError from '@/components/InputError'
 import Label from '@/components/Label'
 import { Button } from '@/components/ui/Button'
 import Guest from '@/Layouts/Guest'
-import { Head, Link, useForm } from '@inertiajs/react'
-import { ChangeEvent, FormEvent, useEffect } from 'react'
-import { route } from 'ziggy-js'
 
 export default function Login({ status, canResetPassword }: any) {
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -19,12 +20,12 @@ export default function Login({ status, canResetPassword }: any) {
     return () => {
       reset('password')
     }
-  }, [])
+  }, [reset])
 
   const onHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setData(
       event.target.name as 'email' | 'password' | 'remember',
-      event.target.type === 'checkbox' ? String(event.target.checked) : event.target.value
+      event.target.type === 'checkbox' ? String(event.target.checked) : event.target.value,
     )
   }
 
@@ -82,7 +83,10 @@ export default function Login({ status, canResetPassword }: any) {
 
         <div className="flex items-center justify-end mt-4">
           {canResetPassword && (
-            <Link href={route('password.request')} className="underline text-sm text-gray-600 hover:text-gray-900">
+            <Link
+              href={route('password.request')}
+              className="underline text-sm text-gray-600 hover:text-gray-900"
+            >
               Forgot your password?
             </Link>
           )}

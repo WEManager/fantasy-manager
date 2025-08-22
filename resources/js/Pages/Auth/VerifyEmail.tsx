@@ -1,8 +1,10 @@
+import type { FormEvent } from 'react'
+
+import { Head, Link, useForm } from '@inertiajs/react'
+import { route } from 'ziggy-js'
+
 import { Button } from '@/components/ui/Button'
 import Guest from '@/Layouts/Guest'
-import { Head, Link, useForm } from '@inertiajs/react'
-import { FormEvent } from 'react'
-import { route } from 'ziggy-js'
 
 type VerifyEmailProps = {
   status: any
@@ -22,13 +24,15 @@ export default function VerifyEmail({ status }: VerifyEmailProps) {
       <Head title="Email Verification" />
 
       <div className="mb-4 text-sm text-gray-600">
-        Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we
-        just emailed to you? If you didn&apos;t receive the email, we will gladly send you another.
+        Thanks for signing up! Before getting started, could you verify your email address by
+        clicking on the link we just emailed to you? If you didn&apos;t receive the email, we will
+        gladly send you another.
       </div>
 
       {status === 'verification-link-sent' && (
         <div className="mb-4 font-medium text-sm text-green-600">
-          A new verification link has been sent to the email address you provided during registration.
+          A new verification link has been sent to the email address you provided during
+          registration.
         </div>
       )}
 
@@ -40,7 +44,8 @@ export default function VerifyEmail({ status }: VerifyEmailProps) {
             href={route('logout')}
             method="post"
             as="button"
-            className="underline text-sm text-gray-600 hover:text-gray-900">
+            className="underline text-sm text-gray-600 hover:text-gray-900"
+          >
             Log Out
           </Link>
         </div>

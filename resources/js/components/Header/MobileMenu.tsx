@@ -3,11 +3,11 @@ import { Link } from '@inertiajs/react'
 import { Icons } from '../Icons'
 import { Button } from '../ui/Button'
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '../ui/Dropdown'
 import { ScrollArea } from '../ui/ScrollArea'
 
@@ -17,11 +17,17 @@ export function MobileNav() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="-ml-4 text-base hover:bg-transparent focus:ring-0  focus:ring-offset-0 md:hidden">
+          className="-ml-4 text-base hover:bg-transparent focus:ring-0  focus:ring-offset-0 md:hidden"
+        >
           <Icons.logo className="mr-2 h-4 w-4" /> <span className="font-bold">Menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" sideOffset={24} alignOffset={4} className="w-[300px] overflow-scroll">
+      <DropdownMenuContent
+        align="start"
+        sideOffset={24}
+        alignOffset={4}
+        className="w-[300px] overflow-scroll"
+      >
         <DropdownMenuItem asChild>
           <Link href="/" className="flex items-center">
             <Icons.logo className="mr-2 h-4 w-4" /> WEManager

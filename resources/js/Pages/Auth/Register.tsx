@@ -1,11 +1,12 @@
+import { type ChangeEvent, type FormEvent, useEffect } from 'react'
+import { Head, Link, useForm } from '@inertiajs/react'
+import { route } from 'ziggy-js'
+
 import Input from '@/Components/Input'
-import InputError from '@/components/InputError'
 import Label from '@/Components/Label'
+import InputError from '@/components/InputError'
 import { Button } from '@/components/ui/Button'
 import Guest from '@/Layouts/Guest'
-import { Head, Link, useForm } from '@inertiajs/react'
-import { ChangeEvent, FormEvent, useEffect } from 'react'
-import { route } from 'ziggy-js'
 
 export default function Register() {
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -19,10 +20,13 @@ export default function Register() {
     return () => {
       reset('password', 'password_confirmation')
     }
-  }, [])
+  }, [reset])
 
   const onHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setData(event.target.name as 'name' | 'email' | 'password' | 'password_confirmation', event.target.value)
+    setData(
+      event.target.name as 'name' | 'email' | 'password' | 'password_confirmation',
+      event.target.value,
+    )
   }
 
   const submit = (event: FormEvent) => {
@@ -101,7 +105,10 @@ export default function Register() {
         </div>
 
         <div className="flex items-center justify-end mt-4">
-          <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
+          <Link
+            href={route('login')}
+            className="underline text-sm text-gray-600 hover:text-gray-900"
+          >
             Already registered?
           </Link>
 

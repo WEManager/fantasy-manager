@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes, forwardRef } from 'react'
-import { type VariantProps, cva } from 'class-variance-authority'
+import { type ButtonHTMLAttributes, forwardRef } from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
@@ -10,8 +10,10 @@ export const buttonVariants = cva(
       variant: {
         default: 'bg-slate-900 text-white hover:bg-slate-700 dark:bg-slate-50 dark:text-slate-900',
         destructive: 'bg-red-500 text-white hover:bg-red-600 dark:hover:bg-red-600',
-        outline: 'bg-transparent border border-slate-200 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-100',
-        subtle: 'bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100',
+        outline:
+          'bg-transparent border border-slate-200 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-100',
+        subtle:
+          'bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100',
         ghost:
           'bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-100 dark:hover:text-slate-100 data-[state=open]:bg-transparent dark:data-[state=open]:bg-transparent',
         link: 'bg-transparent underline-offset-4 hover:underline text-slate-900 dark:text-slate-100 hover:bg-transparent dark:hover:bg-transparent',
@@ -26,14 +28,16 @@ export const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  }
+  },
 )
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & VariantProps<typeof buttonVariants>
 
-const Button = forwardRef<HTMLButtonElement, Props>(({ className, variant, size, ...props }, ref) => (
-  <button className={cn(buttonVariants({ variant, size, className }))} {...props} ref={ref} />
-))
+const Button = forwardRef<HTMLButtonElement, Props>(
+  ({ className, variant, size, ...props }, ref) => (
+    <button className={cn(buttonVariants({ variant, size, className }))} {...props} ref={ref} />
+  ),
+)
 
 Button.displayName = 'Button'
 

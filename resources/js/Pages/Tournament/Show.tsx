@@ -1,8 +1,10 @@
-import { Tournament } from '@/interfaces/Tournament'
-import Layout from '@/Layouts/Layout'
+import type { Tournament } from '@/interfaces/Tournament'
+
 import { Head, Link } from '@inertiajs/react'
 import { Table } from 'flowbite-react'
 import { route } from 'ziggy-js'
+
+import Layout from '@/Layouts/Layout'
 
 type TournamentShowProps = {
   tournament: Tournament
@@ -10,7 +12,9 @@ type TournamentShowProps = {
 
 export default function TournamentShow({ tournament }: TournamentShowProps) {
   return (
-    <Layout header={<h2 className="font-semibold text-xl text-white leading-tight">{tournament.name}</h2>}>
+    <Layout
+      header={<h2 className="font-semibold text-xl text-white leading-tight">{tournament.name}</h2>}
+    >
       <Head title={tournament.name} />
 
       <section className="container mx-auto">
@@ -40,7 +44,8 @@ export default function TournamentShow({ tournament }: TournamentShowProps) {
                           ? 'dark:bg-red-500'
                           : 'dark:bg-yellow-500'
                         : ''
-                    }`}>
+                    }`}
+                  >
                     <Table.Cell>{++index}</Table.Cell>
 
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">

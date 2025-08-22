@@ -1,9 +1,11 @@
-import Layout from '@/Layouts/Layout'
-import { Paginate } from '@/interfaces/Paginate'
-import { Player } from '@/interfaces/Player'
+import type { Paginate } from '@/interfaces/Paginate'
+import type { Player } from '@/interfaces/Player'
+
 import { Head, Link } from '@inertiajs/react'
 import { Pagination, Table } from 'flowbite-react'
 import { route } from 'ziggy-js'
+
+import Layout from '@/Layouts/Layout'
 
 type PlayerIndexProps = {
   response: Paginate<Player>
@@ -33,7 +35,10 @@ export default function PlayerIndex({ response }: PlayerIndexProps) {
 
               <Table.Body className="divide-y">
                 {players.map((player) => (
-                  <Table.Row key={player.id} className={`bg-white dark:border-gray-700 dark:bg-gray-800 `}>
+                  <Table.Row
+                    key={player.id}
+                    className={`bg-white dark:border-gray-700 dark:bg-gray-800 `}
+                  >
                     <Link href={route('player.show', player)}>{player.know_as}</Link>
                   </Table.Row>
                 ))}

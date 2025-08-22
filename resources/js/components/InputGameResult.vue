@@ -7,26 +7,26 @@
 </template>
 
 <script>
-    import axios from 'axios';
+import axios from 'axios'
 
-    export default {
-        props: ["gameid", "points"],
-        data() {
-            return {
-                roundPoints: 0,
-            }
-        },
-        methods: {
-            submitScore() {
-                axios.post('/api/games/' + this.gameid + '/points').then((data) => {
-                    console.log(data);
-                });
-            }
-        },
-        computed: {
-            pointsLeft() {
-                return this.points - this.roundPoints
-            }
-        }
+export default {
+  props: ['gameid', 'points'],
+  data() {
+    return {
+      roundPoints: 0,
     }
+  },
+  methods: {
+    submitScore() {
+      axios.post(`/api/games/${this.gameid}/points`).then((data) => {
+        console.log(data)
+      })
+    },
+  },
+  computed: {
+    pointsLeft() {
+      return this.points - this.roundPoints
+    },
+  },
+}
 </script>

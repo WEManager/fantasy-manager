@@ -1,4 +1,12 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 
 type Theme = 'dark' | 'light'
 
@@ -48,14 +56,15 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   useEffect(() => {
     setThemeOnPage()
-  }, [theme])
+  }, [setThemeOnPage])
 
   return (
     <ThemeContext.Provider
       value={{
         theme,
         setTheme,
-      }}>
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   )

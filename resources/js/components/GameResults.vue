@@ -22,19 +22,19 @@
 </template>
 
 <script>
-    import axios from 'axios';
+import axios from 'axios'
 
-    export default {
-        props: ['gameid', 'club', 'clubname'],
-        mounted() {
-            axios.get('/api/games/' + this.gameid).then(({data}) => {
-                this.events = data[this.club + '_events'];
-            });
-        },
-        data() {
-            return {
-                events: []
-            }
-        }
+export default {
+  props: ['gameid', 'club', 'clubname'],
+  mounted() {
+    axios.get(`/api/games/${this.gameid}`).then(({ data }) => {
+      this.events = data[`${this.club}_events`]
+    })
+  },
+  data() {
+    return {
+      events: [],
     }
+  },
+}
 </script>

@@ -1,25 +1,27 @@
-import { cn } from '@/lib/utils'
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react'
 import { Link } from '@inertiajs/react'
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+
 import { Icons } from '../Icons'
 import { buttonVariants } from '../ui/Button'
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle,
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from '../ui/NavigationMenu'
 import { Separator } from '../ui/Separator'
+import { cn } from '@/lib/utils'
 
 export function MainNav() {
   return (
     <div className="hidden md:flex">
       <Link
         href="/"
-        className="mr-6 flex items-center space-x-2 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100">
+        className="mr-6 flex items-center space-x-2 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+      >
         <Icons.logo className="h-6 w-6" />
         <span className="hidden font-bold sm:inline-block">WEManager</span>
       </Link>
@@ -33,7 +35,8 @@ export function MainNav() {
                   <Link href="/">
                     <NavigationMenuLink
                       className="flex h-full w-full select-none
-                    flex-col justify-end space-y-2 rounded-md bg-gradient-to-b from-rose-500 to-indigo-700 p-6 no-underline outline-none focus:shadow-md">
+                    flex-col justify-end space-y-2 rounded-md bg-gradient-to-b from-rose-500 to-indigo-700 p-6 no-underline outline-none focus:shadow-md"
+                    >
                       <div className="text-lg font-medium text-white">WEManager</div>
                       <p className="text-sm leading-snug t  ext-white/90">FantasyManager</p>
                     </NavigationMenuLink>
@@ -67,7 +70,11 @@ export function MainNav() {
                 <Separator className="mb-4" />
                 <Link href="/docs/primitives/accordion">
                   <NavigationMenuLink
-                    className={cn(buttonVariants({ variant: 'outline' }), 'w-full dark:hover:bg-slate-700')}>
+                    className={cn(
+                      buttonVariants({ variant: 'outline' }),
+                      'w-full dark:hover:bg-slate-700',
+                    )}
+                  >
                     Browse components
                   </NavigationMenuLink>
                 </Link>
@@ -76,7 +83,9 @@ export function MainNav() {
           </NavigationMenuItem>
           <NavigationMenuItem className="hidden lg:flex">
             <Link href="#">
-              <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'h-9')}>GitHub</NavigationMenuLink>
+              <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'h-9')}>
+                GitHub
+              </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -93,14 +102,17 @@ const ListItem = forwardRef<ElementRef<typeof Link>, ComponentPropsWithoutRef<ty
           <NavigationMenuLink
             className={cn(
               'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-100 focus:bg-slate-100 dark:hover:bg-slate-700 dark:focus:bg-slate-700',
-              className
-            )}>
+              className,
+            )}
+          >
             <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="text-sm leading-snug text-slate-500 line-clamp-2 dark:text-slate-400">{children}</p>
+            <p className="text-sm leading-snug text-slate-500 line-clamp-2 dark:text-slate-400">
+              {children}
+            </p>
           </NavigationMenuLink>
         </Link>
       </li>
     )
-  }
+  },
 )
 ListItem.displayName = 'ListItem'

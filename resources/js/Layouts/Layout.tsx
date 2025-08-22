@@ -1,4 +1,5 @@
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
+
 import { Header } from '@/components/Header'
 
 type LayoutProps = PropsWithChildren & {

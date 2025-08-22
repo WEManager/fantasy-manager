@@ -197,187 +197,178 @@
 </template>
 
 <script>
-    export default {
-        props: [
-            'players',
-            'positions',
-            'token',
-            'action',
-            'lineup',
-        ],
+export default {
+  props: ['players', 'positions', 'token', 'action', 'lineup'],
 
-        mounted() {
-            this.setPlayersFromLineup();
-        },
+  mounted() {
+    this.setPlayersFromLineup()
+  },
 
-        data() {
-            return {
-                selectedPlayers: [],
-                selectedPositions: [],
-                position_1: 'GK',
-                position_2: null,
-                position_3: null,
-                position_4: null,
-                position_5: null,
-                position_6: null,
-                position_7: null,
-                position_8: null,
-                position_9: null,
-                position_10: null,
-                position_11: null,
-                player_1: null,
-                player_2: null,
-                player_3: null,
-                player_4: null,
-                player_5: null,
-                player_6: null,
-                player_7: null,
-                player_8: null,
-                player_9: null,
-                player_10: null,
-                player_11: null,
-            }
-        },
-
-        methods: {
-
-            setPlayersFromLineup() {
-
-                if (this.lineup) {
-                    let lineup = JSON.parse(this.lineup);
-                    this.position_1 = lineup.position_1;
-                    this.position_2 = lineup.position_2;
-                    this.position_3 = lineup.position_3;
-                    this.position_4 = lineup.position_4;
-                    this.position_5 = lineup.position_5;
-                    this.position_6 = lineup.position_6;
-                    this.position_7 = lineup.position_7;
-                    this.position_8 = lineup.position_8;
-                    this.position_9 = lineup.position_9;
-                    this.position_10 = lineup.position_10;
-                    this.position_11 = lineup.position_11;
-
-                    this.player_1 = lineup.player_1;
-                    this.player_2 = lineup.player_2;
-                    this.player_3 = lineup.player_3;
-                    this.player_4 = lineup.player_4;
-                    this.player_5 = lineup.player_5;
-                    this.player_6 = lineup.player_6;
-                    this.player_7 = lineup.player_7;
-                    this.player_8 = lineup.player_8;
-                    this.player_9 = lineup.player_9;
-                    this.player_10 = lineup.player_10;
-                    this.player_11 = lineup.player_11;
-                }
-            },
-
-            submit() {
-                axios.post(this.action, {
-                    position_1: this.position_1,
-                    position_2: this.position_2,
-                    position_3: this.position_3,
-                    position_4: this.position_4,
-                    position_5: this.position_5,
-                    position_6: this.position_6,
-                    position_7: this.position_7,
-                    position_8: this.position_8,
-                    position_9: this.position_9,
-                    position_10: this.position_10,
-                    position_11: this.position_11,
-                    player_1: this.player_1,
-                    player_2: this.player_2,
-                    player_3: this.player_3,
-                    player_4: this.player_4,
-                    player_5: this.player_5,
-                    player_6: this.player_6,
-                    player_7: this.player_7,
-                    player_8: this.player_8,
-                    player_9: this.player_9,
-                    player_10: this.player_10,
-                    player_11: this.player_11,
-                })
-            }
-        },
-
-        watch: {
-            position_2: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_3: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_4: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_5: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_6: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_7: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_8: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_9: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_10: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-            position_11: function (val, old) {
-                this.selectedPositions = updateArray(val, old, this.selectedPositions);
-            },
-
-            player_1: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_2: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_3: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_4: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_5: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_6: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_7: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_8: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_9: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_10: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-            player_11: function (val, old) {
-                this.selectedPlayers = updateArray(val, old, this.selectedPlayers);
-            },
-        }
-
+  data() {
+    return {
+      selectedPlayers: [],
+      selectedPositions: [],
+      position_1: 'GK',
+      position_2: null,
+      position_3: null,
+      position_4: null,
+      position_5: null,
+      position_6: null,
+      position_7: null,
+      position_8: null,
+      position_9: null,
+      position_10: null,
+      position_11: null,
+      player_1: null,
+      player_2: null,
+      player_3: null,
+      player_4: null,
+      player_5: null,
+      player_6: null,
+      player_7: null,
+      player_8: null,
+      player_9: null,
+      player_10: null,
+      player_11: null,
     }
+  },
 
-    function updateArray(newValue, oldValue, arrayToUpdate) {
-        if (oldValue !== null) {
-            let deleteIndex = -1;
-            arrayToUpdate.map((item, index) => {
-                if (item === oldValue) deleteIndex = index;
-            });
-            arrayToUpdate.splice(deleteIndex, 1);
-        }
-        arrayToUpdate.push(newValue);
+  methods: {
+    setPlayersFromLineup() {
+      if (this.lineup) {
+        const lineup = JSON.parse(this.lineup)
+        this.position_1 = lineup.position_1
+        this.position_2 = lineup.position_2
+        this.position_3 = lineup.position_3
+        this.position_4 = lineup.position_4
+        this.position_5 = lineup.position_5
+        this.position_6 = lineup.position_6
+        this.position_7 = lineup.position_7
+        this.position_8 = lineup.position_8
+        this.position_9 = lineup.position_9
+        this.position_10 = lineup.position_10
+        this.position_11 = lineup.position_11
 
-        return arrayToUpdate;
-    }
+        this.player_1 = lineup.player_1
+        this.player_2 = lineup.player_2
+        this.player_3 = lineup.player_3
+        this.player_4 = lineup.player_4
+        this.player_5 = lineup.player_5
+        this.player_6 = lineup.player_6
+        this.player_7 = lineup.player_7
+        this.player_8 = lineup.player_8
+        this.player_9 = lineup.player_9
+        this.player_10 = lineup.player_10
+        this.player_11 = lineup.player_11
+      }
+    },
+
+    submit() {
+      axios.post(this.action, {
+        position_1: this.position_1,
+        position_2: this.position_2,
+        position_3: this.position_3,
+        position_4: this.position_4,
+        position_5: this.position_5,
+        position_6: this.position_6,
+        position_7: this.position_7,
+        position_8: this.position_8,
+        position_9: this.position_9,
+        position_10: this.position_10,
+        position_11: this.position_11,
+        player_1: this.player_1,
+        player_2: this.player_2,
+        player_3: this.player_3,
+        player_4: this.player_4,
+        player_5: this.player_5,
+        player_6: this.player_6,
+        player_7: this.player_7,
+        player_8: this.player_8,
+        player_9: this.player_9,
+        player_10: this.player_10,
+        player_11: this.player_11,
+      })
+    },
+  },
+
+  watch: {
+    position_2: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_3: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_4: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_5: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_6: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_7: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_8: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_9: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_10: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+    position_11: function (val, old) {
+      this.selectedPositions = updateArray(val, old, this.selectedPositions)
+    },
+
+    player_1: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_2: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_3: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_4: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_5: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_6: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_7: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_8: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_9: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_10: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+    player_11: function (val, old) {
+      this.selectedPlayers = updateArray(val, old, this.selectedPlayers)
+    },
+  },
+}
+
+function updateArray(newValue, oldValue, arrayToUpdate) {
+  if (oldValue !== null) {
+    let deleteIndex = -1
+    arrayToUpdate.map((item, index) => {
+      if (item === oldValue) deleteIndex = index
+    })
+    arrayToUpdate.splice(deleteIndex, 1)
+  }
+  arrayToUpdate.push(newValue)
+
+  return arrayToUpdate
+}
 </script>

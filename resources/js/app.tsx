@@ -1,6 +1,7 @@
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { createRoot } from 'react-dom/client'
+
 import { ThemeProvider } from './components/contexts/ThemeContext'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
@@ -16,7 +17,7 @@ createInertiaApp({
     root.render(
       <ThemeProvider>
         <App {...props} />
-      </ThemeProvider>
+      </ThemeProvider>,
     )
   },
   progress: {

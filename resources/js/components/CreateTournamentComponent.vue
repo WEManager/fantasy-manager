@@ -133,48 +133,50 @@
 </template>
 
 <script>
-    export default {
-        props: ['action', 'clubs', 'token'],
-        data() {
-            return {
-                name: null,
-                competitionType: null,
-                recurringEveryOfYear: 1,
-                groups: 2,
-                season: 1,
-                team: 'senior',
-                playOffs: false,
-                proceedingToPlayoffs: 2,
-                selectedClubs: [],
+export default {
+  props: ['action', 'clubs', 'token'],
+  data() {
+    return {
+      name: null,
+      competitionType: null,
+      recurringEveryOfYear: 1,
+      groups: 2,
+      season: 1,
+      team: 'senior',
+      playOffs: false,
+      proceedingToPlayoffs: 2,
+      selectedClubs: [],
 
-                currentStep: 1
-            }
-        },
-        methods: {
-            selectPlayer(id) {
-                if (this.selectedClubs.includes(id)) {
-                    this.selectedClubs = this.selectedClubs.filter(e => e !== id);
-                } else {
-                    this.selectedClubs.push(id)
-                }
-            },
-            createTournament() {
-                axios.post(this.action, {
-                    name: this.name,
-                    team: this.team,
-                    season: this.season,
-                    groups: this.groups,
-                    playOffs: this.playOffs,
-                    competitionType: this.competitionType,
-                    recurringEveryOfYear: this.recurringEveryOfYear,
-                    selectedClubs: this.selectedClubs,
-                    proceedingToPlayoffs: this.proceedingToPlayoffs,
-                }).then(response => {
-                    console.log(response);
-                });
-            }
-        }
+      currentStep: 1,
     }
+  },
+  methods: {
+    selectPlayer(id) {
+      if (this.selectedClubs.includes(id)) {
+        this.selectedClubs = this.selectedClubs.filter((e) => e !== id)
+      } else {
+        this.selectedClubs.push(id)
+      }
+    },
+    createTournament() {
+      axios
+        .post(this.action, {
+          name: this.name,
+          team: this.team,
+          season: this.season,
+          groups: this.groups,
+          playOffs: this.playOffs,
+          competitionType: this.competitionType,
+          recurringEveryOfYear: this.recurringEveryOfYear,
+          selectedClubs: this.selectedClubs,
+          proceedingToPlayoffs: this.proceedingToPlayoffs,
+        })
+        .then((response) => {
+          console.log(response)
+        })
+    },
+  },
+}
 </script>
 <style>
     .player.selected {
