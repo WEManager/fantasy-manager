@@ -5,7 +5,7 @@ import { route } from 'ziggy-js'
 
 import Input from '@/Components/Input'
 import InputError from '@/components/InputError'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 import Guest from '@/Layouts/Guest'
 
 type ForgotPasswordProps = {

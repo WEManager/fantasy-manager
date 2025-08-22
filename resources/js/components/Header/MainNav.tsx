@@ -1,8 +1,9 @@
-import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react'
 import { Link } from '@inertiajs/react'
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react'
 
+import { cn } from '@/lib/utils'
 import { Icons } from '../Icons'
-import { buttonVariants } from '../ui/Button'
+import { buttonVariants } from '../ui/button'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,7 +14,6 @@ import {
   navigationMenuTriggerStyle,
 } from '../ui/NavigationMenu'
 import { Separator } from '../ui/Separator'
-import { cn } from '@/lib/utils'
 
 export function MainNav() {
   return (

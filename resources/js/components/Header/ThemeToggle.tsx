@@ -1,6 +1,6 @@
 import { useThemeContext } from '../contexts/ThemeContext'
 import { Icons } from '../Icons'
-import { Button } from '../ui/Button'
+import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,

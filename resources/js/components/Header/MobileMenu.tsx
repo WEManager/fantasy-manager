@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react'
 
 import { Icons } from '../Icons'
-import { Button } from '../ui/Button'
+import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
