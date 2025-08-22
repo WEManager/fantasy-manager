@@ -9,14 +9,20 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
+        @vite('resources/css/app.css')
+
         <!-- Scripts -->
         @routes
         @viteReactRefresh
-        @vite('resources/js/app.tsx')
         @inertiaHead
+
+        @vite([
+        'resources/js/app.tsx',
+        "resources/js/pages/{$page['component']}.tsx"
+      ])
     </head>
-    
+
     <body class="min-h-screen bg-white text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50 font-sans">
-        @inertia
+      @inertia
     </body>
 </html>
