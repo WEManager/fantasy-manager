@@ -14,7 +14,7 @@ createServer((page) =>
     render: renderToString,
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
-      resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
+      resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup: ({ App, props }) => {
       // global.route = (name: string, params?: RouteParamsWithQueryOverload | RouteParam, absolute?: boolean) =>
       //   route(name, params, absolute, {

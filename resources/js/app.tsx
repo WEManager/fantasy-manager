@@ -9,7 +9,7 @@ const appName = window.document.getElementsByTagName('title')[0]?.innerText || '
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
   resolve: (name) =>
-    resolvePageComponent(`./Pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
+    resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
   setup: ({ el, App, props }) => {
     if (!el) throw new Error('App element not found')
 
