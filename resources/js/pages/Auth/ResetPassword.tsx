@@ -2,11 +2,11 @@ import { Head, useForm } from '@inertiajs/react'
 import { type ChangeEvent, type FormEvent, useEffect } from 'react'
 import { route } from 'ziggy-js'
 
-import Input from '@/Components/Input'
-import InputError from '@/components/InputError'
-import Label from '@/Components/Label'
-import { Button } from '@/components/ui/button'
-import Guest from '@/Layouts/Guest'
+import Input from '~/components/Input'
+import InputError from '~/components/InputError'
+import Label from '~/components/Label'
+import { Button } from '~/components/ui/button'
+import Guest from '~/Layouts/Guest'
 
 type ResetPasswordProps = {
   token: string

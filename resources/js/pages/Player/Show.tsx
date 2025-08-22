@@ -1,8 +1,8 @@
-import type { Player } from '@/interfaces/Player'
+import type { Player } from '~/interfaces/Player'
 
 import { Head } from '@inertiajs/react'
 
-import Layout from '@/Layouts/Layout'
+import Layout from '~/Layouts/Layout'
 
 type PlayerShowProps = {
   player: Player

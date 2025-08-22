@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react'
 import { route } from 'ziggy-js'
 
-import Layout from '@/Layouts/Layout'
+import Layout from '~/Layouts/Layout'
 
 type Club = {
   id: string

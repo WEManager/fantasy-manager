@@ -13,8 +13,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["resources/js/*"],
-      "@/Components/*": ["resources/js/components/*"]
+      "~/*": ["resources/js/*"]
     },
     "jsx": "react-jsx",
     "types": ["vite/client"]

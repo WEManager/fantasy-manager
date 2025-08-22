@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react'
 import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '~/lib/utils'
 import { Icons } from '../Icons'
 import { buttonVariants } from '../ui/button'
 import {
