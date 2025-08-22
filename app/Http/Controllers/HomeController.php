@@ -5,16 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Club;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Inertia\Inertia;
 
 class HomeController extends Controller
 {
   /**
-   * Show the application dashboard.
-   *
-   * @return \Illuminate\Contracts\Support\Renderable
+   * Handle the incoming request.
    */
-  public function index()
+  public function __invoke(Request $request)
   {
     $clubs = [];
 
@@ -27,6 +24,6 @@ class HomeController extends Controller
     }
 
 
-    return Inertia::render('Home', compact('clubs'));
+    return inertia('home/page', compact('clubs'));
   }
 }

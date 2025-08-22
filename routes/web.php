@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\ClubPlayerController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
@@ -10,8 +9,9 @@ use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TournamentGameController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', Controllers\HomeController::class)->name('home');
 
 Route::resource('c', ClubController::class)
     ->only([ 'index', 'show', 'edit', 'update' ])
@@ -49,15 +49,6 @@ Route::resource('t', TournamentController::class)
     ->only(['show'])
     ->parameters(['t' => 'tournament'])
     ->names('tournament');
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

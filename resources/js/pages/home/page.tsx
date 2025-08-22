@@ -17,12 +17,7 @@ type HomeProps = {
 
 export default function Home({ auth, clubs }: HomeProps) {
   return (
-    <Layout
-
-    // auth={auth}
-    // errors={errors}
-    // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Home</h2>}
-    >
+    <>
       <Head title="Home" />
 
       <div className="py-12">
@@ -68,6 +63,8 @@ export default function Home({ auth, clubs }: HomeProps) {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   )
 }
+
+Home.layout = (page: any) => <Layout>{page}</Layout>
