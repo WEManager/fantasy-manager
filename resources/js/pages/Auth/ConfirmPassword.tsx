@@ -5,8 +5,8 @@ import { route } from 'ziggy-js'
 import Input from '~/Components/Input'
 import Label from '~/Components/Label'
 import InputError from '~/components/InputError'
-import { Button } from '~/components/ui/button'
 import Guest from '~/Layouts/Guest'
+import { Button } from '~/modules/core/components/ui/button'
 
 export default function ConfirmPassword() {
   const { data, setData, post, processing, errors, reset } = useForm({

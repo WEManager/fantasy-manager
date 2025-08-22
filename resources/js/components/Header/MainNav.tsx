@@ -1,10 +1,10 @@
 import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react'
 import { Link } from '@inertiajs/react'
 
-import { cn } from '~/lib/utils'
+import { cn } from '~/modules/core/utils/class-value'
 
+import { buttonVariants } from '../../modules/core/components/ui/button'
 import { Icons } from '../Icons'
-import { buttonVariants } from '../ui/button'
 import {
   NavigationMenu,
   NavigationMenuContent,

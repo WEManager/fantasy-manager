@@ -5,8 +5,8 @@ import { route } from 'ziggy-js'
 import Input from '~/components/Input'
 import InputError from '~/components/InputError'
 import Label from '~/components/Label'
-import { Button } from '~/components/ui/button'
 import Guest from '~/Layouts/Guest'
+import { Button } from '~/modules/core/components/ui/button'
 
 export default function Register() {
   const { data, setData, post, processing, errors, reset } = useForm({

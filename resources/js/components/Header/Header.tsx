@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react'
 
+import { buttonVariants } from '../../modules/core/components/ui/button'
 import { Icons } from '../Icons'
-import { buttonVariants } from '../ui/button'
 import { MainNav } from './MainNav'
 import { MobileNav } from './MobileMenu'
 import { ThemeToggle } from './ThemeToggle'

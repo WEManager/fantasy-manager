@@ -1,7 +1,7 @@
 import { Theme, useSetTheme, useTheme } from '~/modules/core/contexts/theme-context'
 
+import { Button } from '../../modules/core/components/ui/button'
 import { Icons } from '../Icons'
-import { Button } from '../ui/button'
 
 export function ThemeToggle() {
   const theme = useTheme()

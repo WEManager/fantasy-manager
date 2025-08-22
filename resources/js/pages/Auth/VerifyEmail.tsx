@@ -3,8 +3,8 @@ import type { FormEvent } from 'react'
 import { Head, Link, useForm } from '@inertiajs/react'
 import { route } from 'ziggy-js'
 
-import { Button } from '~/components/ui/button'
 import Guest from '~/Layouts/Guest'
+import { Button } from '~/modules/core/components/ui/button'
 
 type VerifyEmailProps = {
   status: any

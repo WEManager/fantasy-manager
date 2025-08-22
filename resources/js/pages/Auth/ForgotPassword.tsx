@@ -5,8 +5,8 @@ import { route } from 'ziggy-js'
 
 import Input from '~/components/Input'
 import InputError from '~/components/InputError'
-import { Button } from '~/components/ui/button'
 import Guest from '~/Layouts/Guest'
+import { Button } from '~/modules/core/components/ui/button'
 
 type ForgotPasswordProps = {
   status: any
