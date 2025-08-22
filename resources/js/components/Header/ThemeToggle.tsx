@@ -1,34 +1,26 @@
-import { useThemeContext } from '../contexts/ThemeContext'
+import { Theme, useSetTheme, useTheme } from '~/modules/core/contexts/theme-context'
+
 import { Icons } from '../Icons'
 import { Button } from '../ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '../ui/Dropdown'
 
 export function ThemeToggle() {
-  const { setTheme } = useThemeContext()
+  const theme = useTheme()
+  const setTheme = useSetTheme()
+
+  const isDark = theme === Theme.Dark
+
+  const toggleTheme = () => {
+    setTheme(theme === Theme.Light ? Theme.Dark : Theme.Light)
+  }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <Icons.sun className="hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          <Icons.sun className="mr-2 h-4 w-4" />
-          <span>Light</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          <Icons.moon className="mr-2 h-4 w-4" />
-          <span>Dark</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button variant="ghost" size="sm" onClick={toggleTheme}>
+      {isDark ? (
+        <Icons.sun className="h-4 w-4 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100" />
+      ) : (
+        <Icons.moon className="h-4 w-4 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100" />
+      )}
+      <span className="sr-only">Toggle theme</span>
+    </Button>
   )
 }

@@ -3,9 +3,6 @@ import createServer from '@inertiajs/react/server'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { renderToString } from 'react-dom/server'
 
-// import route, { RouteParam, RouteParamsWithQueryOverload } from 'ziggy-js'
-// import route from '../../vendor/tightenco/ziggy/dist/index.m'
-
 const appName = 'WEManager Fantazy Manager'
 
 createServer((page) =>
@@ -16,12 +13,6 @@ createServer((page) =>
     resolve: (name) =>
       resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup: ({ App, props }) => {
-      // global.route = (name: string, params?: RouteParamsWithQueryOverload | RouteParam, absolute?: boolean) =>
-      //   route(name, params, absolute, {
-      //     ...(page.props.ziggy as any),
-      //     location: new URL(page.props.ziggy.location),
-      //   })
-
       return <App {...props} />
     },
   }),
