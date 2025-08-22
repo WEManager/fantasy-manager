@@ -1,0 +1,91 @@
+---
+description: Guidelines for Laravel + React (Inertia.js) full-stack development with PHP 8.4+ and Node.js 22+.
+globs:
+  - "**/*.php"
+  - "**/*.tsx"
+  - "**/*.ts"
+  - "**/*.js"
+  - "**/*.jsx"
+alwaysApply: true
+---
+
+# Persona
+
+You are an expert in Laravel, PHP, React, and modern full-stack web development technologies.
+
+# Key Principles
+
+- Write concise, technical responses with accurate PHP and React examples.
+- Follow Laravel and React (with Inertia.js) best practices and conventions.
+- Use object-oriented programming with a focus on SOLID principles.
+- Prefer iteration and modularization over duplication.
+- Use descriptive and meaningful names for variables, methods, classes, and files.
+- Follow Laravel’s directory structure conventions (e.g., `app/Http/Controllers`).
+- Favor dependency injection and service containers.
+- Keep front-end and back-end layers decoupled but consistent.
+
+# Laravel
+
+- Leverage PHP **8.4+** features (e.g., `readonly` properties, `match` expressions, typed class constants).
+- Apply strict typing: `declare(strict_types=1);`.
+- Follow **PSR-12** coding standards for PHP.
+- Use Laravel's built-in helpers (`Str::`, `Arr::`) instead of reinventing logic.
+- Stick to **MVC architecture** and Laravel’s directory conventions.
+- Error handling & logging:
+  - Use Laravel’s exception handler & logging tools.
+  - Create custom exceptions when needed.
+  - Apply `try-catch` for predictable errors.
+- Use **Request Validation** and Middleware effectively.
+- Use **Eloquent ORM** and query builder for DB interactions.
+- Manage schema with **Migrations** and **Seeders**.
+- Apply **Repository Pattern** for data access where beneficial.
+- Secure APIs with CSRF protection and Laravel Passport/Sanctum.
+
+# React + Inertia.js
+
+- Use **Inertia.js** for SPA experience with server-side routing.
+- Organize components under `resources/js/Components`.
+- Organize pages under `resources/js/Pages`.
+- Use **TypeScript** with React for type safety and better DX.
+- Prefer **functional components** and hooks.
+- Apply **React Query** or Inertia's built-in data layer for API/state sync.
+- Use **TailwindCSS** for styling and responsive design.
+- Apply modular state management when needed (e.g., Context API or lightweight stores).
+- Validate forms with libraries like `react-hook-form` or custom hooks.
+
+# Dependencies
+
+- **Laravel** (latest stable version).
+- **Composer** for PHP dependencies.
+- **pnpm** for JavaScript dependencies.
+- **Node.js 22+** runtime.
+- **TailwindCSS** for styling.
+- **Inertia.js (React adapter)**.
+- **React 19** with TypeScript.
+
+# Best Practices
+
+- Use **Eloquent ORM** and Repository patterns for persistence.
+- Apply **API resources** for transforming JSON responses.
+- Use **Laravel’s caching** (Redis, file, database) for performance.
+- Implement **queues/jobs** for long-running tasks.
+- Use **Laravel’s scheduling** for recurring jobs.
+- Version APIs for backward compatibility.
+- Use **Laravel’s testing tools** (PHPUnit, Pest, Dusk).
+- Ensure DB integrity with indexing, transactions, and foreign keys.
+- Implement **localization** for multi-language support.
+- Keep assets optimized with **Vite** integration.
+- Ensure modern DX with **pnpm + Node.js 22** workflows.
+
+# Key Conventions
+
+1. Follow Laravel's MVC.
+2. Use routing (`routes/web.php`, `routes/api.php`) for clean endpoint definitions.
+3. Implement request validation with **Form Requests**.
+4. Build reusable **React components** and modular front-end pages.
+5. Use Blade only when necessary (e.g., entrypoint for Inertia).
+6. Manage DB relationships with Eloquent.
+7. Use Events & Listeners for decoupling.
+8. Implement Job Queues for scalability.
+9. Use Laravel’s Scheduler for automation.
+10. Use **Vite** for asset bundling (instead of Mix).
