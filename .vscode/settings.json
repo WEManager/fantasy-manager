@@ -17,7 +17,10 @@
   },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
+    "source.organizeImports": "never",
     "source.organizeImports.biome": "explicit",
     "source.fixAll.biome": "explicit"
-  }
+  },
+
+  "eslint.codeActionsOnSave.rules": null
 }

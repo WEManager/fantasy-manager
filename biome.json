@@ -70,9 +70,13 @@
                 "type": true
               },
               ":BLANK_LINE:",
-              ":NODE:",
-              "react*",
+              [
+                ":NODE:",
+                "react*"
+              ],
               ":PACKAGE:",
+              ":BLANK_LINE:",
+              "~/**",
               ":BLANK_LINE:",
               [
                 "../**",
