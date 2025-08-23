@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react'
 
-import { Button, Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui'
+import { Button } from '~/modules/core/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui/card'
 import { AppLayout } from '~/modules/layouts/app'
 
 interface User {
@@ -23,10 +24,10 @@ interface PageProps {
 }
 
 export default function Home() {
-  const { auth, flash } = usePage<PageProps>().props
+  const { auth } = usePage<PageProps>().props
 
   return (
-    <AppLayout flash={flash}>
+    <AppLayout>
       <div className="container">
         {/* Tournaments and Ongoing Games components will be added here */}
         {/* <Tournaments /> */}
