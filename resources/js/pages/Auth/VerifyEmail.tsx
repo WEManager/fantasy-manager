@@ -1,7 +1,6 @@
 import type { FormEvent } from 'react'
 
 import { Head, Link, useForm } from '@inertiajs/react'
-import { route } from 'ziggy-js'
 
 import Guest from '~/Layouts/Guest'
 import { Button } from '~/modules/core/components/ui/button'

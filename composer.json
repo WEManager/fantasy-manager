@@ -21,7 +21,7 @@
     "mariuzzo/laravel-js-localization": "^2.0",
     "spatie/laravel-permission": "^6.0",
     "spatie/laravel-sluggable": "^3.4",
-    "tightenco/ziggy": "^1.0"
+    "tightenco/ziggy": "^2.5"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.8",

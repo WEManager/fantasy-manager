@@ -13,7 +13,8 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["resources/js/*"]
+      "~/*": ["resources/js/*"],
+      "ziggy-js": ["./vendor/tightenco/ziggy"]
     },
     "jsx": "react-jsx",
     "types": ["vite/client"]
@@ -22,5 +23,11 @@
     "resources/js/**/*.ts",
     "resources/js/**/*.d.ts",
     "resources/js/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "public",
+    "resources/js/routes/**/*.ts",
+    "resources/js/actions/**/*.tsx"
   ]
 }

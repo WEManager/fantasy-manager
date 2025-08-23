@@ -3,7 +3,6 @@ import type { Paginate } from '~/interfaces/Paginate'
 
 import { Head, Link } from '@inertiajs/react'
 import { Pagination } from 'flowbite-react'
-import { route } from 'ziggy-js'
 
 import Layout from '~/Layouts/Layout'
 

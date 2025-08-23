@@ -12,7 +12,6 @@
         @vite('resources/css/app.css')
 
         <!-- Scripts -->
-        @routes
         @viteReactRefresh
         @inertiaHead
 
@@ -22,7 +21,7 @@
       ])
     </head>
 
-    <body class="min-h-screen bg-white text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-50 font-sans">
+    <body class="font-sans antialiased">
       @inertia
     </body>
 </html>

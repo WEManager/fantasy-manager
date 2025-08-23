@@ -1,70 +1,79 @@
-import { Head, Link } from '@inertiajs/react'
-import { route } from 'ziggy-js'
+import { Link, usePage } from '@inertiajs/react'
 
-import Layout from '~/Layouts/Layout'
+import { Button, Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui'
+import { AppLayout } from '~/modules/layouts/app'
 
-type Club = {
-  id: string
+interface User {
+  id: number
   name: string
-  locale: string
-  colors: string[]
+  isAdmin: boolean
+  club?: {
+    id: number
+    name: string
+  }
 }
 
-type HomeProps = {
-  clubs: Club[]
-  auth: any
+interface PageProps {
+  auth: {
+    user: User | null
+  }
+  flash?: {
+    message?: string
+  }
 }
 
-export default function Home({ auth, clubs }: HomeProps) {
+export default function Home() {
+  const { auth, flash } = usePage<PageProps>().props
+
   return (
-    <>
-      <Head title="Home" />
+    <AppLayout flash={flash}>
+      <div className="container">
+        {/* Tournaments and Ongoing Games components will be added here */}
+        {/* <Tournaments /> */}
+        {/* <OngoingGames /> */}
 
-      <div className="py-12">
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="p-6 bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm sm:rounded-lg">
-            <h2 className="text-lg mb-4 dark:text-slate-100">List of available clubs</h2>
+        {auth.user && !auth.user.club && (
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Available Clubs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Available clubs list will be added here */}
+              <p>No clubs available at the moment.</p>
+            </CardContent>
+          </Card>
+        )}
 
-            <div className="grid grid-cols-4 gap-4">
-              {clubs.map((club) => (
-                <div className="flex gap-1 items-center" key={club.id}>
-                  <div
-                    className="w-5 h-5 aspect-square rounded-full border-solid border-2"
-                    style={{
-                      backgroundColor: club.colors?.[0],
-                      borderColor: club.colors?.[1],
-                    }}
-                  />
-
-                  <img
-                    className="w-3"
-                    src={`/images/vendor/flag-icon-css/flags/4x3/${club.locale.toLowerCase()}.svg`}
-                    title={club.locale}
-                    alt={`${club.locale} flag`}
-                  />
-
-                  <a href={route('club.show', [club])} className="dark:text-slate-100">
-                    {club.name}
-                  </a>
-
-                  {auth.user && !auth.user.club ? (
-                    <Link
-                      href={route('apply_for_job', [club])}
-                      className="text-gray-500 ml-auto underline text-sm"
-                    >
-                      Apply for job
-                    </Link>
-                  ) : (
-                    <span className="ml-auto">No manager</span>
-                  )}
-                </div>
-              ))}
+        {auth.user?.isAdmin && (
+          <>
+            <div className="row mb-4">
+              <div className="col-sm-6">
+                <Button asChild>
+                  <Link href="/players/create">New Manager</Link>
+                </Button>
+              </div>
+              <div className="col-sm-6">
+                <Button asChild variant="outline">
+                  <Link href="/players">Managers</Link>
+                </Button>
+              </div>
             </div>
-          </div>
-        </div>
+
+            <div className="row">
+              <div className="col-sm-6">
+                <Button asChild>
+                  <Link href="/tournaments/create">New Tournament</Link>
+                </Button>
+              </div>
+              <div className="col-sm-6">
+                <Button asChild variant="outline">
+                  <Link href="/tournaments">Tournaments</Link>
+                </Button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
-    </>
+    </AppLayout>
   )
 }
-
-Home.layout = (page: any) => <Layout>{page}</Layout>

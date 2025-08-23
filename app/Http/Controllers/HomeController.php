@@ -23,6 +23,8 @@ class HomeController extends Controller
       $clubs = Cache::get('available-clubs');
     }
 
+    session()->flash('type', 'success');
+    session()->flash('message', 'Welcome back!');
 
     return inertia('home/page', compact('clubs'));
   }

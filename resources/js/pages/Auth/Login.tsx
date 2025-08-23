@@ -1,6 +1,5 @@
 import { type ChangeEvent, type FormEvent, useEffect } from 'react'
 import { Head, Link, useForm } from '@inertiajs/react'
-import { route } from 'ziggy-js'
 
 import Checkbox from '~/components/Checkbox'
 import Input from '~/components/Input'

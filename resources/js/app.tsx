@@ -1,29 +1,33 @@
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
+import { useRoute } from 'ziggy-js'
+
+import { Ziggy } from '~/ziggy'
 
 import { AppProviders } from './modules/core/providers/app-providers'
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
 createInertiaApp({
-  title: (title) => `${title} - ${appName}`,
+  title: (title) => (title ? `${title} - ${appName}` : appName),
   resolve: (name) =>
     resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
   setup: ({ el, App, props }) => {
-    if (!el) throw new Error('App element not found')
+    window.route = useRoute(Ziggy)
 
-    const root = createRoot(el)
-    root.render(
+    const appElement = (
       <AppProviders>
         <App {...props} />
-      </AppProviders>,
+      </AppProviders>
     )
+
+    if (import.meta.env.SSR) {
+      hydrateRoot(el, appElement)
+      return
+    }
+
+    createRoot(el).render(appElement)
   },
-  progress: {
-    delay: 0,
-    color: 'orange',
-    includeCSS: true,
-    showSpinner: true,
-  },
+  progress: false,
 })

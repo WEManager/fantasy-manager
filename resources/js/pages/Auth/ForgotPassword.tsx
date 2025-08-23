@@ -1,7 +1,6 @@
 import type { ChangeEvent, FormEvent } from 'react'
 
 import { Head, useForm } from '@inertiajs/react'
-import { route } from 'ziggy-js'
 
 import Input from '~/components/Input'
 import InputError from '~/components/InputError'

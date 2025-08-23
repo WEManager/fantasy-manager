@@ -2,7 +2,6 @@ import type { Tournament } from '~/interfaces/Tournament'
 
 import { Head, Link } from '@inertiajs/react'
 import { Table } from 'flowbite-react'
-import { route } from 'ziggy-js'
 
 import Layout from '~/Layouts/Layout'
 

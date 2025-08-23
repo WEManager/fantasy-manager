@@ -2,17 +2,26 @@ import { createInertiaApp } from '@inertiajs/react'
 import createServer from '@inertiajs/react/server'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { renderToString } from 'react-dom/server'
+import { route } from 'ziggy-js'
 
-const appName = 'WEManager Fantazy Manager'
+import { Ziggy as ziggy } from '~/ziggy'
+
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
 createServer((page) =>
   createInertiaApp({
     page,
     render: renderToString,
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => (title ? `${title} / ${appName}` : appName),
     resolve: (name) =>
       resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup: ({ App, props }) => {
+      global.route = (name, params, absolute) =>
+        route(name, params, absolute, {
+          ...ziggy,
+          location: new URL(page.props.ziggy.location),
+        })
+
       return <App {...props} />
     },
   }),

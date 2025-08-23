@@ -3,7 +3,6 @@ import type { Player } from '~/interfaces/Player'
 
 import { Head, Link } from '@inertiajs/react'
 import { Pagination, Table } from 'flowbite-react'
-import { route } from 'ziggy-js'
 
 import Layout from '~/Layouts/Layout'
 
