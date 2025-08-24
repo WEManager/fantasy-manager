@@ -4,6 +4,8 @@ import { Button } from '~/modules/core/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui/card'
 import { AppLayout } from '~/modules/layouts/app'
 
+import { TournamentsSection } from './components/tournaments-section'
+
 interface User {
   id: number
   name: string
@@ -21,6 +23,7 @@ interface PageProps {
   flash?: {
     message?: string
   }
+  [key: string]: any
 }
 
 export default function Home() {
@@ -29,8 +32,7 @@ export default function Home() {
   return (
     <AppLayout>
       <div className="container">
-        {/* Tournaments and Ongoing Games components will be added here */}
-        {/* <Tournaments /> */}
+        <TournamentsSection />
         {/* <OngoingGames /> */}
 
         {auth.user && !auth.user.club && (
