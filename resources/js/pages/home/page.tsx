@@ -1,3 +1,5 @@
+import type { PageProps as InertiaPageProps } from '@inertiajs/core'
+
 import React from 'react'
 import { usePage } from '@inertiajs/react'
 
@@ -13,7 +15,7 @@ const AvailableClubsList = React.lazy(() =>
   })),
 )
 
-interface PageProps {
+interface PageProps extends InertiaPageProps {
   clubs?: Array<{
     id: number
     name: string
@@ -33,7 +35,7 @@ export default function Home() {
 
   return (
     <AppLayout>
-      <div className="container">
+      <div className="container mx-auto">
         <TournamentsSection />
         <OngoingGamesSection />
 
