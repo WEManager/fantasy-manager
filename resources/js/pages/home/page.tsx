@@ -1,34 +1,35 @@
-import { Link, usePage } from '@inertiajs/react'
+import React from 'react'
+import { usePage } from '@inertiajs/react'
 
-import { Button } from '~/modules/core/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui/card'
+import { useAuth } from '~/modules/core/hooks/useAuth'
 import { AppLayout } from '~/modules/layouts/app'
 
 import { OngoingGamesSection } from './components/ongoing-games-section'
 import { TournamentsSection } from './components/tournaments-section'
 
-interface User {
-  id: number
-  name: string
-  isAdmin: boolean
-  club?: {
-    id: number
-    name: string
-  }
-}
+const AvailableClubsList = React.lazy(() =>
+  import('~/modules/clubs/components/available-clubs-list').then(({ AvailableClubsList }) => ({
+    default: AvailableClubsList,
+  })),
+)
 
 interface PageProps {
-  auth: {
-    user: User | null
-  }
-  flash?: {
-    message?: string
-  }
-  [key: string]: any
+  clubs?: Array<{
+    id: number
+    name: string
+    slug: string
+    locale: string
+    colors: string[]
+    manager?: {
+      id: number
+      name: string
+    }
+  }>
 }
 
 export default function Home() {
-  const { auth } = usePage<PageProps>().props
+  const { clubs } = usePage<PageProps>().props
+  const { isAuthenticated, hasClub } = useAuth()
 
   return (
     <AppLayout>
@@ -36,47 +37,7 @@ export default function Home() {
         <TournamentsSection />
         <OngoingGamesSection />
 
-        {auth.user && !auth.user.club && (
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Available Clubs</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* Available clubs list will be added here */}
-              <p>No clubs available at the moment.</p>
-            </CardContent>
-          </Card>
-        )}
-
-        {auth.user?.isAdmin && (
-          <>
-            <div className="row mb-4">
-              <div className="col-sm-6">
-                <Button asChild>
-                  <Link href="/players/create">New Manager</Link>
-                </Button>
-              </div>
-              <div className="col-sm-6">
-                <Button asChild variant="outline">
-                  <Link href="/players">Managers</Link>
-                </Button>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-6">
-                <Button asChild>
-                  <Link href="/tournaments/create">New Tournament</Link>
-                </Button>
-              </div>
-              <div className="col-sm-6">
-                <Button asChild variant="outline">
-                  <Link href="/tournaments">Tournaments</Link>
-                </Button>
-              </div>
-            </div>
-          </>
-        )}
+        {isAuthenticated && !hasClub && <AvailableClubsList clubs={clubs || []} />}
       </div>
     </AppLayout>
   )
