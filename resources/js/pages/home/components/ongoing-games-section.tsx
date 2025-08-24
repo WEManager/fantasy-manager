@@ -1,4 +1,4 @@
-import { OngoingGamesList } from '~/modules/ongoing-games/components/OngoingGamesList'
+import { OngoingGamesList } from '~/modules/ongoing-games/components/ongoing-games-list'
 
 export function OngoingGamesSection() {
   return (

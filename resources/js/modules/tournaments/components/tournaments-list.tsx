@@ -2,9 +2,11 @@ import type { TournamentStatus } from '../types'
 
 import { Link } from '@inertiajs/react'
 
+import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui/card'
+
 import { useTournamentQuery } from '../hooks/useTournamentQuery'
-import { FlagIcon } from './FlagIcon'
-import { TournamentStatusIcon } from './TournamentStatusIcon'
+import { FlagIcon } from './flag-icon'
+import { TournamentStatusIcon } from './tournament-status-icon'
 
 interface Tournament {
   id: number
@@ -57,28 +59,32 @@ export function TournamentsList() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
       {Object.entries(tournamentsByNationality).map(([nationality, leagues]) => (
-        <div key={nationality} className="bg-white rounded-lg shadow-md p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <FlagIcon nationality={nationality.toLowerCase()} />
-            <h3 className="font-semibold text-gray-800">{nationality}</h3>
-          </div>
+        <Card key={nationality} className="transition-colors duration-200">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FlagIcon nationality={nationality.toLowerCase()} />
+              <span className="text-foreground">{nationality}</span>
+            </CardTitle>
+          </CardHeader>
 
-          <ul className="space-y-2">
-            {(leagues as Tournament[])
-              .filter((league: Tournament) => league.status !== 'NOT_DECIDED')
-              .map((league: Tournament) => (
-                <li key={league.id} className="flex items-center gap-2">
-                  <TournamentStatusIcon status={league.status} />
-                  <Link
-                    href={`/tournaments/${league.slug}`}
-                    className="text-blue-600 hover:text-blue-800 hover:underline text-sm"
-                  >
-                    {league.name}
-                  </Link>
-                </li>
-              ))}
-          </ul>
-        </div>
+          <CardContent>
+            <ul className="space-y-2">
+              {(leagues as Tournament[])
+                .filter((league: Tournament) => league.status !== 'NOT_DECIDED')
+                .map((league: Tournament) => (
+                  <li key={league.id} className="flex items-center gap-2">
+                    <TournamentStatusIcon status={league.status} />
+                    <Link
+                      href={`/tournaments/${league.slug}`}
+                      className="text-primary hover:text-primary/80 hover:underline text-sm transition-colors duration-200"
+                    >
+                      {league.name}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </CardContent>
+        </Card>
       ))}
     </div>
   )
