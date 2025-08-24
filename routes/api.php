@@ -20,5 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::resource('/tournaments', Controllers\TournamentController::class);
 Route::get('/tournaments', [Controllers\TournamentController::class, 'byNation'])->name('tournaments.by_nation');
+Route::get('/ongoing-games', [Controllers\TournamentController::class, 'ongoingGames'])->name('ongoing_games');
 Route::get('/games/{game}',  [Controllers\TournamentGameController::class, 'show'])->name('show_game');
 // Route::post('/games/{game}/points', 'GameEventController@store')->name('save_score');

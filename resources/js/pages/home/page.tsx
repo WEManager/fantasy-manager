@@ -4,6 +4,7 @@ import { Button } from '~/modules/core/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui/card'
 import { AppLayout } from '~/modules/layouts/app'
 
+import { OngoingGamesSection } from './components/ongoing-games-section'
 import { TournamentsSection } from './components/tournaments-section'
 
 interface User {
@@ -33,7 +34,7 @@ export default function Home() {
     <AppLayout>
       <div className="container">
         <TournamentsSection />
-        {/* <OngoingGames /> */}
+        <OngoingGamesSection />
 
         {auth.user && !auth.user.club && (
           <Card className="mb-6">

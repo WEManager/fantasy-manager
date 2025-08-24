@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use App\Models\Tournament;
+use App\Models\TournamentGame;
 use App\Models\TournamentStanding;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
@@ -110,6 +111,52 @@ class TournamentController extends Controller
         ->values();
 
       return response()->json(['tournaments' => $tournaments]);
+    } catch (\Exception $e) {
+      return response()->json(['error' => $e->getMessage()], 500);
+    }
+  }
+
+  public function ongoingGames()
+  {
+    try {
+      $games = TournamentGame::with(['group.tournament', 'hometeam', 'awayteam'])
+        ->where('status', '1')
+        ->limit(request('limit', 15))
+        ->get()
+        ->map(function ($game) {
+          return [
+            'id' => $game->id,
+            'hometeam' => [
+              'id' => $game->hometeam->id,
+              'name' => $game->hometeam->name,
+              'colors' => $game->hometeam->colors,
+              'slug' => $game->hometeam->slug,
+            ],
+            'awayteam' => [
+              'id' => $game->awayteam->id,
+              'name' => $game->awayteam->name,
+              'colors' => $game->awayteam->colors,
+              'slug' => $game->awayteam->slug,
+            ],
+            'hometeam_score' => $game->hometeam_score,
+            'awayteam_score' => $game->awayteam_score,
+            'start_time' => $game->start_time,
+            'status' => $game->status,
+            'group' => [
+              'id' => $game->group->id,
+              'name' => $game->group->name,
+              'tournament' => [
+                'id' => $game->group->tournament->id,
+                'name' => $game->group->tournament->name,
+                'slug' => $game->group->tournament->slug,
+                'nationality' => $game->group->tournament->clubsParticipants->first()?->locale ?? 'unknown',
+              ],
+            ],
+            'gameStatus' => $game->gameStatus,
+          ];
+        });
+
+      return response()->json(['games' => $games]);
     } catch (\Exception $e) {
       return response()->json(['error' => $e->getMessage()], 500);
     }

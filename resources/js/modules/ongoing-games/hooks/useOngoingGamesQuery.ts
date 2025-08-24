@@ -1,13 +1,19 @@
 import { useQuery } from '@tanstack/react-query'
 
-export function useTournamentQuery() {
+interface UseOngoingGamesQueryOptions {
+  limit?: number
+}
+
+export function useOngoingGamesQuery(options: UseOngoingGamesQueryOptions = {}) {
+  const { limit = 15 } = options
+
   const { data, isLoading, error } = useQuery({
-    queryKey: ['tournaments'],
+    queryKey: ['ongoing-games', limit],
     queryFn: async () => {
       try {
         // Usar URL absoluta para evitar problemas com a função route()
-        const url = route('tournaments.by_nation')
-        console.log('Fetching tournaments from:', url)
+        const url = route('ongoing_games', { limit })
+        console.log('Fetching ongoing games from:', url)
 
         // Obter o token CSRF do meta tag
         const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
@@ -29,7 +35,7 @@ export function useTournamentQuery() {
         }
 
         const result = await response.json()
-        console.log('Tournaments data:', result)
+        console.log('Ongoing games data:', result)
         return result
       } catch (err) {
         console.error('Fetch error:', err)
@@ -41,7 +47,7 @@ export function useTournamentQuery() {
   })
 
   return {
-    tournaments: data?.tournaments || [],
+    games: data?.games || [],
     isLoading,
     error,
   }
