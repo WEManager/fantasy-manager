@@ -1,7 +1,5 @@
-import type { PageProps as InertiaPageProps } from '@inertiajs/core'
-
 import React from 'react'
-import { usePage } from '@inertiajs/react'
+import { Deferred } from '@inertiajs/react'
 
 import { useAuth } from '~/modules/core/hooks/useAuth'
 import { AppLayout } from '~/modules/layouts/app'
@@ -9,28 +7,13 @@ import { AppLayout } from '~/modules/layouts/app'
 import { OngoingGamesSection } from './components/ongoing-games-section'
 import { TournamentsSection } from './components/tournaments-section'
 
-const AvailableClubsList = React.lazy(() =>
-  import('~/modules/clubs/components/available-clubs-list').then(({ AvailableClubsList }) => ({
-    default: AvailableClubsList,
+const AvailableClubsSection = React.lazy(() =>
+  import('./components/available-clubs-section').then(({ AvailableClubsSection }) => ({
+    default: AvailableClubsSection,
   })),
 )
 
-interface PageProps extends InertiaPageProps {
-  clubs?: Array<{
-    id: number
-    name: string
-    slug: string
-    locale: string
-    colors: string[]
-    manager?: {
-      id: number
-      name: string
-    }
-  }>
-}
-
 export default function Home() {
-  const { clubs } = usePage<PageProps>().props
   const { isAuthenticated, hasClub } = useAuth()
 
   return (
@@ -39,7 +22,11 @@ export default function Home() {
         <TournamentsSection />
         <OngoingGamesSection />
 
-        {isAuthenticated && !hasClub && <AvailableClubsList clubs={clubs || []} />}
+        {isAuthenticated && !hasClub && (
+          <Deferred data="clubs" fallback={<div>Loading...</div>}>
+            <AvailableClubsSection />
+          </Deferred>
+        )}
       </div>
     </AppLayout>
   )

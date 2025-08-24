@@ -4,7 +4,6 @@ import { Link } from '@inertiajs/react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui/card'
 
-import { useTournamentQuery } from '../hooks/useTournamentQuery'
 import { FlagIcon } from './flag-icon'
 import { TournamentStatusIcon } from './tournament-status-icon'
 
@@ -16,25 +15,11 @@ interface Tournament {
   status: TournamentStatus
 }
 
-export function TournamentsList() {
-  const { tournaments, isLoading, error } = useTournamentQuery()
+interface TournamentsListProps {
+  tournaments: Tournament[]
+}
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-8 text-red-600">
-        <p>Erro ao carregar torneios: {error.message}</p>
-      </div>
-    )
-  }
-
+export function TournamentsList({ tournaments }: TournamentsListProps) {
   if (!tournaments || tournaments.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
@@ -75,7 +60,7 @@ export function TournamentsList() {
                   <li key={league.id} className="flex items-center gap-2">
                     <TournamentStatusIcon status={league.status} />
                     <Link
-                      href={`/tournaments/${league.slug}`}
+                      href={route('tournament.show', { tournament: league.slug })}
                       className="text-primary hover:text-primary/80 hover:underline text-sm transition-colors duration-200"
                     >
                       {league.name}

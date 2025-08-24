@@ -4,30 +4,15 @@ import { Link } from '@inertiajs/react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui/card'
 
-import { useOngoingGamesQuery } from '../hooks/useOngoingGamesQuery'
 import { ClubName } from './club-name'
 import { GameStatus } from './game-status'
 import { TournamentName } from './tournament-name'
 
-export function OngoingGamesList() {
-  const { games, isLoading, error } = useOngoingGamesQuery()
+interface OngoingGamesListProps {
+  games: OngoingGame[]
+}
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-8 text-destructive">
-        <p>Erro ao carregar jogos: {error.message}</p>
-      </div>
-    )
-  }
-
+export function OngoingGamesList({ games }: OngoingGamesListProps) {
   if (!games || games.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
