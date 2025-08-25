@@ -1,8 +1,9 @@
 import type { Paginate } from '~/interfaces/Paginate'
 import type { Player } from '~/interfaces/Player'
 
-import { Head, Link } from '@inertiajs/react'
-import { Pagination, Table } from 'flowbite-react'
+import { Head } from '@inertiajs/react'
+
+// import { Pagination, Table } from 'flowbite-react'
 
 import Layout from '~/Layouts/Layout'
 
@@ -11,7 +12,6 @@ type PlayerIndexProps = {
 }
 
 export default function PlayerIndex({ response }: PlayerIndexProps) {
-  console.log('🚀 ~ file: Index.tsx ~ line 14 ~ PlayerIndex ~ response', response)
   const { data: players } = response
 
   const handlePageChange = (pageNumber: number) => {
@@ -27,7 +27,7 @@ export default function PlayerIndex({ response }: PlayerIndexProps) {
           <p>vazio</p>
         ) : (
           <>
-            <Table>
+            {/* <Table>
               <Table.Head>
                 <Table.HeadCell>Nome</Table.HeadCell>
               </Table.Head>
@@ -42,14 +42,14 @@ export default function PlayerIndex({ response }: PlayerIndexProps) {
                   </Table.Row>
                 ))}
               </Table.Body>
-            </Table>
+            </Table> */}
 
             <div className="flex items-center justify-center text-center">
-              <Pagination
+              {/* <Pagination
                 currentPage={response.current_page}
                 totalPages={response.last_page}
                 onPageChange={handlePageChange}
-              />
+              /> */}
             </div>
           </>
         )}

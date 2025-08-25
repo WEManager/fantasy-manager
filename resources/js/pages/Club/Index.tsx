@@ -2,7 +2,8 @@ import type { Club } from '~/interfaces/Club'
 import type { Paginate } from '~/interfaces/Paginate'
 
 import { Head, Link } from '@inertiajs/react'
-import { Pagination } from 'flowbite-react'
+
+// import { Pagination } from 'flowbite-react'
 
 import Layout from '~/Layouts/Layout'
 
@@ -38,11 +39,11 @@ export default function ClubIndex({ response }: ClubIndexProps) {
         </div>
 
         <div className="flex items-center justify-center text-center">
-          <Pagination
+          {/* <Pagination
             currentPage={response.current_page}
             totalPages={response.last_page}
             onPageChange={handlePageChange}
-          />
+          /> */}
         </div>
       </div>
     </Layout>
