@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers;
 
+require __DIR__ . '/auth.php';
+
 Route::get('/', Controllers\HomeController::class)->name('home');
 
 Route::resource('torneios', Controllers\TournamentController::class)
@@ -53,7 +55,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
 
 Route::get('/{slug}', [PageController::class, 'show'])->name('page');
 
