@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ClubController;
+use App\Http\Controllers;
 use App\Http\Controllers\ClubPlayerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PlayerController;
@@ -8,7 +8,6 @@ use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TournamentGameController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers;
 
 require __DIR__ . '/auth.php';
 
@@ -23,6 +22,23 @@ Route::resource('clubes', Controllers\ClubController::class)
   ->only(['index', 'show', 'edit', 'update'])
   ->parameters(['clubes' => 'club'])
   ->names('club');
+
+Route::get('clubes/{club}/aplicar', [Controllers\ManagerContractController::class, 'create'])
+  ->middleware('auth')
+  ->name('club.apply');
+Route::post('clubes/aplicar', [Controllers\ManagerContractController::class, 'store'])
+  ->middleware('auth')
+  ->name('club.apply.store');
+Route::get('clubes/{club}/renunciar', [Controllers\ManagerContractController::class, 'resign'])
+  ->middleware('auth')
+  ->name('club.resign');
+
+Route::get('/license-test/{licenseQuiz}', [Controllers\LicenseQuizController::class, 'show'])
+  ->middleware('level0')
+  ->name('license_test');
+Route::post('/license-test/{licenseQuiz}/submit', [Controllers\LicenseQuizController::class, 'submission'])
+  ->middleware('level0')
+  ->name('license_test_validation');
 
 Route::resource('c.p', ClubPlayerController::class)
     ->only([ 'index' ])
@@ -78,14 +94,6 @@ Route::post('{club}', 'ClubController@store')->middleware('admin')->name('store_
 Route::get('{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
 
 Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
-
-Route::get('/apply-for-job/{club}', 'ManagerContractController@create')->middleware('auth')->name('apply_for_job');
-Route::post('/apply-for-job', 'ManagerContractController@store')->middleware('auth')->name('send_job_application');
-Route::get('/quit-my-job/{club}', 'ManagerContractController@quitJob')->middleware('auth')->name('quit_job');
-
-
-Route::get('/license-test/{licenseQuiz}', 'LicenseQuizController@show')->middleware('level0')->name('license_test');
-Route::post('/license-test/{licenseQuiz}/submit', 'LicenseQuizController@submission')->middleware('level0')->name('license_test_validation');
 
 Route::get('/games/{game}', 'TournamentGameController@show')->name('show_game');
 

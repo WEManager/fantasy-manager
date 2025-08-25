@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LicenseQuiz extends Model
 {
-    protected $table = "license_quizzes";
+  protected $table = "license_quizzes";
 
-    public function questions()
-    {
-        return $this->hasMany(LicenseQuizQuestion::class);
-    }
+  protected $with = ['questions'];
+
+  public function questions(): HasMany
+  {
+    return $this->hasMany(LicenseQuizQuestion::class);
+  }
 }
