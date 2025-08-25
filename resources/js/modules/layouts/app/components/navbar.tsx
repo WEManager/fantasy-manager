@@ -1,6 +1,6 @@
 import type * as React from 'react'
 
-import { usePage } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import { Menu } from 'lucide-react'
 
 import { Button } from '~/modules/core/components/ui/button'
@@ -120,12 +120,11 @@ export function Navbar({ className }: NavbarProps) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuItem asChild>
-                    <form action={route('logout')} method="POST" className="w-full">
-                      {/* ajuste conforme seu framework: Inertia, Next API, etc. */}
-                      <button type="submit" className="w-full text-left">
-                        Logout
-                      </button>
-                    </form>
+                    <Button variant="ghost" className="px-0" asChild>
+                      <Link href={route('logout')} method="post" as="button">
+                        Sair
+                      </Link>
+                    </Button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -190,12 +189,12 @@ export function Navbar({ className }: NavbarProps) {
                   )}
 
                   <Separator className="my-2" />
-                  <div className="text-xs uppercase text-muted-foreground">Account</div>
-                  <form action={route('logout')} method="POST">
-                    <Button type="submit" variant="ghost" className="px-0">
-                      Logout
-                    </Button>
-                  </form>
+                  <div className="text-xs uppercase text-muted-foreground">Conta</div>
+                  <Button variant="ghost" className="px-0" asChild>
+                    <Link href={route('logout')} method="post" as="button">
+                      Sair
+                    </Link>
+                  </Button>
                 </>
               )}
             </div>
