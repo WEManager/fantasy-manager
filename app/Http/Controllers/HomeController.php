@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
@@ -12,7 +11,7 @@ class HomeController extends Controller
   /**
    * Handle the incoming request.
    */
-  public function __invoke(Request $request)
+  public function __invoke()
   {
     $tournaments = Models\Tournament::with('clubsParticipants')
       ->get()
@@ -30,7 +29,7 @@ class HomeController extends Controller
       })
       ->sortBy('nationality')
       ->values();
-    $ongoingGames = $games = Models\TournamentGame::with(['group.tournament', 'hometeam', 'awayteam'])
+    $ongoingGames = Models\TournamentGame::with(['group.tournament', 'hometeam', 'awayteam'])
       ->where('status', '1')
       ->limit(request('limit', 15))
       ->get()
@@ -67,11 +66,24 @@ class HomeController extends Controller
         ];
       });
 
+    function getClubs()
+    {
+      if (!Cache::has('available-clubs')) {
+        $clubs = Models\Club::doesntHave('manager')->inRandomOrder()->take(100)->get();
+
+        Cache::put('available-clubs', $clubs, 5);
+      } else {
+        $clubs = Cache::get('available-clubs');
+      }
+
+      return $clubs;
+    }
+
     session()->flash('type', 'success');
     session()->flash('message', 'Welcome back!');
 
     return Inertia::render('home/page', [
-      'clubs' => Inertia::defer(fn() => Models\Club::doesntHave('manager')->inRandomOrder()->take(100)->get()),
+      'clubs' => Inertia::defer(fn() => getClubs()),
       'tournaments' => $tournaments,
       'ongoingGames' => $ongoingGames,
     ]);
