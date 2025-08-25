@@ -6,11 +6,11 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Player;
 use App\Observers\PlayerObserver;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Laravel\Passport\Passport;
-// use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,9 +33,9 @@ class AppServiceProvider extends ServiceProvider
   /**
    * Configure the application's commands.
    */
-  private function configureCommands()
+  private function configureCommands(): void
   {
-    DB::prohibitDestructiveCommands($this->app->isProduction(),);
+    DB::prohibitDestructiveCommands(App::isProduction());
   }
 
   /**
@@ -62,5 +62,6 @@ class AppServiceProvider extends ServiceProvider
   private function configureVite(): void
   {
     Vite::usePrefetchStrategy('aggressive');
+    Vite::prefetch(concurrency: 3);
   }
 }
