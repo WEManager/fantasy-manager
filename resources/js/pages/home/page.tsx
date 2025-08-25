@@ -2,7 +2,6 @@ import React from 'react'
 import { Deferred } from '@inertiajs/react'
 
 import { useAuth } from '~/modules/core/hooks/useAuth'
-import { AppLayout } from '~/modules/layouts/app'
 
 import { OngoingGamesSection } from './components/ongoing-games-section'
 import { TournamentsSection } from './components/tournaments-section'
@@ -17,17 +16,15 @@ export default function Home() {
   const { isAuthenticated, hasClub } = useAuth()
 
   return (
-    <AppLayout>
-      <div className="container mx-auto">
-        <TournamentsSection />
-        <OngoingGamesSection />
+    <div className="container mx-auto">
+      <TournamentsSection />
+      <OngoingGamesSection />
 
-        {isAuthenticated && !hasClub && (
-          <Deferred data="clubs" fallback={<div>Loading...</div>}>
-            <AvailableClubsSection />
-          </Deferred>
-        )}
-      </div>
-    </AppLayout>
+      {isAuthenticated && !hasClub && (
+        <Deferred data="clubs" fallback={<div>Loading...</div>}>
+          <AvailableClubsSection />
+        </Deferred>
+      )}
+    </div>
   )
 }

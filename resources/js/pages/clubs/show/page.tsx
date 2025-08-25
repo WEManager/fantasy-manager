@@ -3,11 +3,10 @@ import type { ClubShowData } from '~/modules/clubs/types'
 import { ClubHeader } from '~/modules/clubs/components/club-header'
 import { GamesTable } from '~/modules/clubs/components/games-table'
 import { SideMenu } from '~/modules/clubs/components/side-menu'
-import { AppLayout } from '~/modules/layouts/app'
 
 export default function ClubShowPage({ club }: ClubShowData) {
   return (
-    <AppLayout>
+    <>
       <ClubHeader club={club} />
 
       <div className="container mx-auto px-4 py-8">
@@ -33,6 +32,6 @@ export default function ClubShowPage({ club }: ClubShowData) {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   )
 }

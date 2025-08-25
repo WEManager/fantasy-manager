@@ -45,7 +45,7 @@ function ClubListItem({ club, canApply }: ClubListItemProps) {
       <span className={`flag-icon flag-icon-${club.locale.toLowerCase()}`} />
 
       <Link
-        href={`/clubs/${club.slug}`}
+        href={route('club.show', { club: club.slug })}
         className="text-primary hover:text-primary/80 hover:underline flex-1 transition-colors duration-200"
       >
         {club.name}
@@ -65,7 +65,7 @@ function ClubListItem({ club, canApply }: ClubListItemProps) {
         <span className="text-sm text-muted-foreground">Manager: {club.manager?.name}</span>
       ) : canApply ? (
         <Link
-          href={`/clubs/${club.slug}/apply`}
+          href={route('club.apply', { club: club.slug })}
           className="text-sm text-green-600 hover:text-green-700 hover:underline transition-colors duration-200"
         >
           Candidatar-se
