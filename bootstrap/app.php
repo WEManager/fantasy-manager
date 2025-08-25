@@ -2,7 +2,8 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Configuration\Middleware as MiddlewareConfig;
+use App\Http\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
   ->withRouting(
@@ -10,17 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
     commands: __DIR__ . '/../routes/console.php',
     health: '/up',
   )
-  ->withMiddleware(function (Middleware $middleware) {
-    // Uncomment this when you have sidebar state
-    // $middleware->encryptCookies(except: ['sidebar:state']);
-
+  ->withMiddleware(function (MiddlewareConfig $middleware) {
     $middleware->web(append: [
-      \App\Http\Middleware\HandleTheme::class,
-      \App\Http\Middleware\HandleInertiaRequests::class,
+      Middleware\HandleTheme::class,
+      Middleware\HandleInertiaRequests::class,
       \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
     ]);
 
-    //
+    $middleware->alias([
+      'level0' => Middleware\Level0::class,
+    ]);
   })
   ->withExceptions(function (Exceptions $exceptions) {
     //
