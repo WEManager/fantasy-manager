@@ -2,18 +2,13 @@ import type { TournamentGroup } from '../types'
 
 import { Link } from '@inertiajs/react'
 
+import { slugify } from '~/modules/core/utils/string'
+
 interface TournamentNameProps {
   group: TournamentGroup
 }
 
 export function TournamentName({ group }: TournamentNameProps) {
-  const slugify = (str: string) => {
-    return str
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '')
-  }
-
   return (
     <Link
       href={`/tournaments/${group.tournament.slug}#${slugify(group.name)}`}

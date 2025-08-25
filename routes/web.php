@@ -45,10 +45,10 @@ Route::resource('s.t', SeasonTournamentController::class)
     ->names('season.tournament')
     ->shallow();
 
-Route::resource('t', TournamentController::class)
-    ->only(['show'])
-    ->parameters(['t' => 'tournament'])
-    ->names('tournament');
+Route::resource('torneios', Controllers\TournamentController::class)
+  ->only(['show'])
+  ->parameters(['torneios' => 'tournament'])
+  ->names('tournament');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

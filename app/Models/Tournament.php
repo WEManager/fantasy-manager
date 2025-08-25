@@ -14,9 +14,7 @@ class Tournament extends Model
 {
   use HasSlug;
 
-  protected $guarded = [];
-
-  protected $with = ['groups', 'qualifications'];
+  protected $with = ['tournamentGroups', 'qualifications'];
 
   public function getSlugOptions(): SlugOptions
   {
@@ -37,7 +35,7 @@ class Tournament extends Model
 
   public function getStartDateAttribute()
   {
-    $groupIds = $this->groups()->pluck('id');
+    $groupIds = $this->tournamentGroups()->pluck('id');
     try {
       $firstGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'asc')->firstOrFail('start_time');
     } catch (\Exception $exception) {
@@ -51,7 +49,7 @@ class Tournament extends Model
 
   public function getEndDateAttribute()
   {
-    $groupIds = $this->groups()->pluck('id');
+    $groupIds = $this->tournamentGroups()->pluck('id');
     try {
       $lastGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'desc')->firstOrFail('start_time');
     } catch (\Exception $exception) {
@@ -75,8 +73,8 @@ class Tournament extends Model
     return 'ACTIVE';
   }
 
-
-  public function groups(): HasMany
+  // TODO: remove groups column from tournament table to rename it to groups
+  public function tournamentGroups(): HasMany
   {
     return $this->hasMany(TournamentGroup::class);
   }
