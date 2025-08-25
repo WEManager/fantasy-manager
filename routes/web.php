@@ -17,10 +17,10 @@ Route::resource('torneios', Controllers\TournamentController::class)
   ->parameters(['torneios' => 'tournament'])
   ->names('tournament');
 
-Route::resource('c', ClubController::class)
-    ->only([ 'index', 'show', 'edit', 'update' ])
-    ->parameters(['c' => 'club'])
-    ->names('club');
+Route::resource('clubes', Controllers\ClubController::class)
+  ->only(['index', 'show', 'edit', 'update'])
+  ->parameters(['clubes' => 'club'])
+  ->names('club');
 
 Route::resource('c.p', ClubPlayerController::class)
     ->only([ 'index' ])

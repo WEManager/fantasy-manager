@@ -3,27 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Club;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ClubController extends Controller {
-    public function index() {
-        $response = Club::paginate(40);
+class ClubController extends Controller
+{
+  public function index()
+  {
+    $response = Club::paginate(40);
 
-        return Inertia::render('Club/Index', compact('response'));
-    }
+    return Inertia::render('Club/Index', compact('response'));
+  }
 
-    public function show(Club $club) {
-        $club->load('players');
+  public function show(Club $club)
+  {
+    $club->load([
+      'homegames.group.tournament',
+      'homegames.hometeam',
+      'homegames.awayteam',
+      'awaygames.group.tournament',
+      'awaygames.hometeam',
+      'awaygames.awayteam'
+    ]);
 
-        return view('clubs.show')->with(['club' => $club]);
-    }
+    return Inertia::render('clubs/show/page', compact('club'));
+  }
 
-    public function edit(Club $club) {
-        return view('clubs.edit')->with(['club' => $club]);
-    }
+  public function edit(Club $club)
+  {
+    return view('clubs.edit')->with(['club' => $club]);
+  }
 
-    public function store() {
-        return redirect()->back();
-    }
+  public function store()
+  {
+    return redirect()->back();
+  }
 }
