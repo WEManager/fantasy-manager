@@ -21,22 +21,6 @@ export function SideMenu({ club }: SideMenuProps) {
       <CardContent className="space-y-6">
         <div>
           <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wide">
-            Equipes
-          </h3>
-          <ul className="space-y-2">
-            <li>
-              <Link
-                href={route('club.show', { club: club.slug })}
-                className="block w-full text-left px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
-              >
-                Clube
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wide">
             Formações
           </h3>
           <ul className="space-y-2">
