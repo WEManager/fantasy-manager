@@ -5,13 +5,17 @@ use App\Http\Controllers\ClubPlayerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
-use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TournamentGameController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers;
 
 Route::get('/', Controllers\HomeController::class)->name('home');
+
+Route::resource('torneios', Controllers\TournamentController::class)
+  ->only(['show'])
+  ->parameters(['torneios' => 'tournament'])
+  ->names('tournament');
 
 Route::resource('c', ClubController::class)
     ->only([ 'index', 'show', 'edit', 'update' ])
@@ -45,11 +49,6 @@ Route::resource('s.t', SeasonTournamentController::class)
     ->names('season.tournament')
     ->shallow();
 
-Route::resource('torneios', Controllers\TournamentController::class)
-  ->only(['show'])
-  ->parameters(['torneios' => 'tournament'])
-  ->names('tournament');
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -66,7 +65,6 @@ Route::get('/{slug}', [PageController::class, 'show'])->name('page');
 // Route::get('/players', 'PlayerController@index')->name('list_players');
 
 
-Route::get('/{tournament}', 'TournamentController@showOld')->name('show_tournament');
 // Route::get('/tournaments/create', 'TournamentController@create')->middleware('admin')->name('create_tournament');
 // Route::post('/tournaments', 'TournamentController@store')->middleware('auth')->name('store_tournament');
 // Route::get('/tournaments/list', 'TournamentController@index')->name('list_tournaments');
