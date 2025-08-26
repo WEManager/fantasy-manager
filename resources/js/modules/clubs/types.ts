@@ -28,3 +28,17 @@ export interface ClubShowData {
     players?: any[]
   }
 }
+
+export interface ClubIndexData {
+  response: {
+    data: Club[]
+    current_page: number
+    last_page: number
+    per_page: number
+    total: number
+  }
+}
+
+export interface ClubEditData {
+  club: Club
+}

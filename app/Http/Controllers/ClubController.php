@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\UpdateClubAction;
+use App\Http\Requests\UpdateClubRequest;
 use App\Models\Club;
 use Inertia\Inertia;
 
@@ -11,7 +13,7 @@ class ClubController extends Controller
   {
     $response = Club::paginate(40);
 
-    return Inertia::render('Club/Index', compact('response'));
+    return Inertia::render('clubs/index/page', compact('response'));
   }
 
   public function show(Club $club)
@@ -30,11 +32,16 @@ class ClubController extends Controller
 
   public function edit(Club $club)
   {
-    return view('clubs.edit')->with(['club' => $club]);
+    return Inertia::render('clubs/edit/page', compact('club'));
   }
 
-  public function store()
+  public function update(UpdateClubRequest $request, Club $club, UpdateClubAction $action)
   {
-    return redirect()->back();
+    $request->validated();
+    $action->handle($request, $club);
+
+    return redirect()
+      ->route('club.show', $club->slug)
+      ->with('success', 'Clube atualizado com sucesso!');
   }
 }

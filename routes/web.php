@@ -18,6 +18,8 @@ Route::resource('torneios', Controllers\TournamentController::class)
 Route::resource('clubes', Controllers\ClubController::class)
   ->only(['index', 'show', 'edit', 'update'])
   ->parameters(['clubes' => 'club'])
+  ->middlewareFor('update', 'admin')
+  ->middlewareFor('edit', 'admin')
   ->names('club');
 
 Route::get('clubes/{club}/elenco', Controllers\SquadController::class)
