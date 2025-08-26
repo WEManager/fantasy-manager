@@ -11,3 +11,7 @@ trim_trailing_whitespace = false
 [{package.json,*.yml,*.md}]
 indent_size = 2
 indent_style = space
+
+[*.php]
+indent_size = 4
+indent_style = space

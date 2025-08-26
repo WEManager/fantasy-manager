@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "open-southeners.laravel-pint",
+    "biomejs.biome",
+    "sanderronde.phpstan-vscode",
+    "EditorConfig.EditorConfig"
+  ]
+}
