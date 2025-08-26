@@ -1,14 +1,11 @@
 {
-  "name": "laravel/laravel",
+  "name": "wemanager/fantasy-manager",
   "type": "project",
   "description": "The Laravel Framework.",
-  "keywords": [
-    "framework",
-    "laravel"
-  ],
+  "keywords": [],
   "license": "MIT",
   "require": {
-    "php": "^8.2",
+    "php": "^8.4",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^7.8",
     "inertiajs/inertia-laravel": "^2.0",
@@ -27,10 +24,12 @@
     "barryvdh/laravel-debugbar": "^3.8",
     "fakerphp/faker": "^1.23",
     "filp/whoops": "^2.15",
+    "larastan/larastan": "^3.6",
     "laravel/pint": "^1.24",
     "laravel/sail": "^1.18",
     "mockery/mockery": "^1.6",
     "nunomaduro/collision": "^8.1",
+    "phpstan/phpstan": "^2.1",
     "phpunit/phpunit": "^11.0",
     "spatie/laravel-ignition": "^2.0"
   },
@@ -76,7 +75,20 @@
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
     "post-create-project-cmd": [
-      "@php artisan key:generate --ansi"
+      "@php artisan key:generate --ansi",
+      "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+      "@php artisan migrate --graceful --ansi"
+    ],
+    "lint": "pint",
+    "test:lint": "pint --test",
+    "test:types": "phpstan analyse",
+    "test:unit": "pest --colors=allways --parallel --coverage --exactly=100",
+    "test:type-coverage": "pest --type-coverage --min=100",
+    "test": [
+      "@test:type-coverage",
+      "@test:lint",
+      "@test:types",
+      "@test:unit"
     ]
   }
 }
