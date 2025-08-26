@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers;
-use App\Http\Controllers\ClubPlayerController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TournamentGameController;
@@ -22,6 +20,9 @@ Route::resource('clubes', Controllers\ClubController::class)
   ->only(['index', 'show', 'edit', 'update'])
   ->parameters(['clubes' => 'club'])
   ->names('club');
+
+Route::get('clubes/{club}/elenco', Controllers\SquadController::class)
+  ->name('club.squad');
 
 Route::get('clubes/{club}/aplicar', [Controllers\ManagerContractController::class, 'create'])
   ->middleware('auth')
@@ -71,8 +72,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-Route::get('/{slug}', [PageController::class, 'show'])->name('page');
+// Route::get('/{slug}', [PageController::class, 'show'])->name('page');
 
 // Route::get('/players/create', 'PlayerController@create')->middleware('admin')->name('create_player');
 // Route::put('/players/{user}', 'PlayerController@update')->middleware('admin')->name('update_player');
@@ -81,14 +81,13 @@ Route::get('/{slug}', [PageController::class, 'show'])->name('page');
 // Route::get('/players/{person}', 'PlayerController@show')->name('show_player');
 // Route::get('/players', 'PlayerController@index')->name('list_players');
 
-
 // Route::get('/tournaments/create', 'TournamentController@create')->middleware('admin')->name('create_tournament');
 // Route::post('/tournaments', 'TournamentController@store')->middleware('auth')->name('store_tournament');
 // Route::get('/tournaments/list', 'TournamentController@index')->name('list_tournaments');
 
 // Route::get('/clubs/list', 'ClubController@index')->name('list_clubs');
 // Route::get('{club}', 'ClubController@show')->name('show_club');
-// Route::get('{club}/players', 'SquadController@show')->name('show_club_players');
+
 Route::post('{club}', 'ClubController@store')->middleware('admin')->name('store_club');
 // Route::get('{club}/edit', 'ClubController@edit')->middleware('admin')->name('edit_club');
 Route::get('{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
@@ -109,3 +108,7 @@ Route::get('/test-game/{id}', function ($id) {
 
     new \App\Engines\MatchEngine($game);
 });
+
+// JUST TO NOT BREAK THE APP
+Route::get('not-break/1', fn() => '')->name('show_club_players');
+Route::get('not-break/2', fn() => '')->name('quit_job');

@@ -15,65 +15,71 @@ use Spatie\Sluggable\SlugOptions;
 
 class Club extends Model
 {
-    use HasFactory, HasSlug;
+  use HasFactory, HasSlug;
 
-    protected $fillable = ['name', 'colors', 'locale'];
+  protected $fillable = ['name', 'colors', 'locale'];
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
+  /**
+   * Get the route key for the model.
+   *
+   * @return string
+   */
+  public function getRouteKeyName()
+  {
+    return 'slug';
+  }
+
+  public function getSlugOptions(): SlugOptions
+  {
+    return SlugOptions::create()
+      ->generateSlugsFrom('name')
+      ->saveSlugsTo('slug');
+  }
+
+  public function colors(): Attribute
+  {
+    return new Attribute(
+      set: fn($value) => json_encode($value, JSON_UNESCAPED_SLASHES),
+      get: fn($value) => json_decode($value)
+    );
+  }
+
+  public function homeGames(): HasMany
+  {
+    return $this->hasMany(TournamentGame::class, 'hometeam_id', 'id');
+  }
+
+  public function awayGames(): HasMany
+  {
+    return $this->hasMany(TournamentGame::class, 'awayteam_id', 'id');
+  }
+
+  public function manager(): HasOneThrough
+  {
+    return $this->hasOneThrough(User::class, ManagerContract::class, 'club_id', 'id', 'id', 'user_id');
+  }
+
+  public function tournament(): HasOneThrough
+  {
+    return $this->hasOneThrough(Tournament::class, TournamentParticipant::class, 'club_id', 'id', 'id', 'tournament_id');
+  }
+
+  public function arena(): HasOne
+  {
+    return $this->hasOne(Arena::class);
+  }
+
+  public function players($type = null): HasManyThrough
+  {
+    $query = $this
+      ->hasManyThrough(Player::class, Contract::class, 'club_id', 'id', 'id', 'player_id')
+      ->whereDate('from', '<', date('Y-m-d'))
+      ->whereDate('until', '>', date('Y-m-d'));
+
+    if ($type) {
+      $query->whereIn('contracts.type', $type);
     }
 
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
-    }
-
-    public function colors(): Attribute
-    {
-        return new Attribute(
-            set: fn($value) => json_encode($value, JSON_UNESCAPED_SLASHES),
-            get: fn($value) => json_decode($value)
-        );
-    }
-
-    public function homeGames(): HasMany
-    {
-        return $this->hasMany(TournamentGame::class, 'hometeam_id', 'id');
-    }
-
-    public function awayGames(): HasMany
-    {
-        return $this->hasMany(TournamentGame::class, 'awayteam_id', 'id');
-    }
-
-    public function manager(): HasOneThrough
-    {
-        return $this->hasOneThrough(User::class, ManagerContract::class, 'club_id', 'id', 'id', 'user_id');
-    }
-
-    public function tournament(): HasOneThrough
-    {
-        return $this->hasOneThrough(Tournament::class, TournamentParticipant::class, 'club_id', 'id', 'id', 'tournament_id');
-    }
-
-    public function arena(): HasOne
-    {
-        return $this->hasOne(Arena::class);
-    }
-
-    public function players(): HasManyThrough
-    {
-        return $this
-            ->hasManyThrough(Player::class, Contract::class, 'club_id', 'id', 'id', 'player_id')
-            ->whereDate('from', '<', date('Y-m-d'))
-            ->whereDate('until', '>', date('Y-m-d'));
-    }
+    return $query;
+  }
 }

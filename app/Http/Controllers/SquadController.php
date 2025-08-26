@@ -3,28 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\Club;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SquadController extends Controller
 {
-    public function show(Club $club)
-    {
-        $squad = 'senior';
+  public function __invoke(Club $club)
+  {
+    $squad = request()->query('squad', 'senior');
 
-        $type = getContractType($squad);
+    $type = getContractType($squad);
 
-        $players = $club->players($type)
-            ->get([
-                'person_id',
-                'firstname',
-                'lastname',
-                'age',
-                'nationality',
-                'form',
-            ]);
+    $players = $club->players($type)
+      ->select([
+        'players.id',
+        'players.nation_fifa_id',
+        'players.full_name',
+        'players.know_as',
+        'players.age',
+        'players.form',
+      ])
+      ->with(['nation:fifa_id,name'])
+      ->get();
 
-        if ($squad == 'senior') $squad = '';
+    // Ensure nation data is available
+    $players->each(function ($player) {
+      if (!$player->nation) {
+        $player->nation = (object) ['name' => 'Unknown', 'fifa_id' => 0];
+      }
+    });
 
-        return view('squads.show')->with(['club' => $club, 'players' => $players, 'squad' => $squad]);
-    }
+    // Load club with manager relationship
+    $club->load('manager');
+
+    if ($squad == 'senior') $squad = '';
+
+    return Inertia::render('clubs/squad/page', compact('club', 'players', 'squad'));
+  }
 }

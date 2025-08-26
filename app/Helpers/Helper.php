@@ -81,16 +81,11 @@ function getCurrentSeason()
 
 function getContractType($squad)
 {
-    $type = [];
-    if (strtolower($squad) == 'u19') {
-        $type[] = 'youth';
-    } elseif (strtolower($squad) == 'u21') {
-        $type[] = 'reserve';
-    } else {
-        $type[] = 'key';
-        $type[] = 'regular';
-    }
-    return $type;
+  return match (strtolower($squad)) {
+    'u19' => ['youth'],
+    'u21' => ['reserve'],
+    default => ['key', 'regular'],
+  };
 }
 
 function getPositions()
