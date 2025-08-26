@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/react'
 
 import { PlayersTable } from '~/modules/players/components/players-table'
 
-export default function PlayersIndexPage({ players }: PlayerIndexData) {
+export default function PlayersListPage({ players }: PlayerIndexData) {
   return (
     <>
       <Head title="Jogadores" />

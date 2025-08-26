@@ -15,7 +15,7 @@ class PlayerController extends Controller
   {
     $players = Player::with(['nation', 'club', 'contract'])->get();
 
-    return Inertia::render('players/index', ['players' => $players]);
+    return Inertia::render('players/list/page', ['players' => $players]);
   }
 
   public function create()
@@ -38,7 +38,7 @@ class PlayerController extends Controller
       'contract'
     ]);
 
-    return Inertia::render('players/show', ['person' => $player]);
+    return Inertia::render('players/show/page', ['person' => $player]);
   }
 
   public function store(StorePlayerUser $request)
