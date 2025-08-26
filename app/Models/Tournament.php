@@ -53,8 +53,8 @@ class Tournament extends Model
     try {
       $lastGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'desc')->firstOrFail('start_time');
     } catch (\Exception $exception) {
-      $firstGameDate = new TournamentGame();
-      $firstGameDate->start_time = now()->addCenturies(2);
+      $lastGameDate = new TournamentGame();
+      $lastGameDate->start_time = now()->addCenturies(2);
     }
 
     return Carbon::createFromTimeString($lastGameDate->start_time)->addMinutes(106)->format('Y-m-d');

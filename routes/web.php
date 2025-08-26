@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers;
-use App\Http\Controllers\SeasonController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -10,8 +9,10 @@ require __DIR__ . '/auth.php';
 Route::get('/', Controllers\HomeController::class)->name('home');
 
 Route::resource('torneios', Controllers\TournamentController::class)
-  ->only(['show'])
+  ->only(['index', 'show', 'create', 'store'])
   ->parameters(['torneios' => 'tournament'])
+  ->middlewareFor('create', 'admin')
+  ->middlewareFor('store', 'admin')
   ->names('tournament');
 
 Route::resource('clubes', Controllers\ClubController::class)

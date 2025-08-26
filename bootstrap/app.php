@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
     $middleware->alias([
       'level0' => Middleware\Level0::class,
+      'admin' => Middleware\IsAdmin::class,
     ]);
   })
   ->withExceptions(function (Exceptions $exceptions) {

@@ -15,9 +15,9 @@ use App\Http\Controllers;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-  return $request->user();
-});
-Route::resource('/tournaments', Controllers\TournamentController::class);
-Route::get('/games/{game}',  [Controllers\TournamentGameController::class, 'show'])->name('show_game');
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//   return $request->user();
+// });
+// Route::resource('/tournaments', Controllers\TournamentController::class);
+// Route::get('/games/{game}',  [Controllers\TournamentGameController::class, 'show'])->name('show_game');
 // Route::post('/games/{game}/points', 'GameEventController@store')->name('save_score');

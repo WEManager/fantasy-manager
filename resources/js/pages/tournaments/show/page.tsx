@@ -2,7 +2,6 @@ import type { Tournament } from '~/modules/tournaments/types'
 
 import { Head } from '@inertiajs/react'
 
-import { AppLayout } from '~/modules/layouts/app'
 import { TournamentGroup } from '~/modules/tournaments/components/tournament-group'
 import { TournamentHeader } from '~/modules/tournaments/components/tournament-header'
 
@@ -23,7 +22,7 @@ export default function TournamentShowPage({
   loading = false,
 }: TournamentShowProps) {
   return (
-    <AppLayout>
+    <>
       <Head title={tournament.name} />
 
       <TournamentHeader tournament={tournament} />
@@ -44,6 +43,6 @@ export default function TournamentShowPage({
           ))}
         </div>
       </div>
-    </AppLayout>
+    </>
   )
 }

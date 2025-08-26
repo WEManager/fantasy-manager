@@ -2,54 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateTournamentAction;
+use App\Http\Requests\CreateTournamentRequest;
 use App\Models\Club;
 use App\Models\Tournament;
 use App\Models\TournamentGame;
+use App\Models\TournamentGroup;
+use App\Models\TournamentParticipant;
 use App\Models\TournamentStanding;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
-
-use function Sodium\compare;
 
 class TournamentController extends Controller
 {
   public function index()
   {
-    return view('tournaments.index', ['tournaments' => Tournament::all()]);
+    return Inertia::render('tournaments/index/page', ['tournaments' => Tournament::all()]);
   }
 
   public function create()
   {
     $clubs = Club::doesnthave('tournament')->get();
 
-    return view('tournaments.create', ['clubs' => $clubs]);
+    return Inertia::render('tournaments/create/page', ['clubs' => $clubs]);
   }
 
-  // public function store(StoreTournament $tournament)
-  // {
-  //     $createdTournament = Tournament::create([
-  //         'name' => $tournament->name,
-  //         'team' => $tournament->team,
-  //         'type' => $tournament->competitionType,
-  //         'groups' => $tournament->groups,
-  //         'playoffs' => $tournament->playOffs,
-  //         'participants' => count($tournament->selectedClubs),
-  //         'recurring_every_of_year' => $tournament->recurringEveryOfYear,
-  //         'proceeding_to_playoffs' => $tournament->proceedingToPlayoffs,
-  //     ]);
+  public function store(CreateTournamentRequest $request, CreateTournamentAction $action)
+  {
+    $request->validated();
+    $createdTournament = $action->handle($request);
 
-  //     foreach ($tournament->selectedClubs as $club) {
-  //         TournamentParticipant::create([
-  //             'club_id' => $club,
-  //             'tournament_id' => $createdTournament->id,
-  //             'season_id' => $tournament->season,
-  //         ]);
-  //     }
-
-  //     event(new CreateLeagueEvent($createdTournament));
-
-  //     return redirect('tournament.show')->with(['t' => $createdTournament->slug]);
-  // }
+    return redirect()
+      ->route('tournaments.show', $createdTournament->slug)
+      ->with('success', 'Torneio criado com sucesso!');
+  }
 
   public function show(Tournament $tournament)
   {
