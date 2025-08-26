@@ -5,11 +5,15 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Player;
 use App\Observers\PlayerObserver;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Sleep;
 use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
     $this->configureModels();
     $this->configureUrl();
     $this->configureVite();
+    $this->configureDate();
+    $this->configureSleep();
+    $this->configureHttp();
   }
 
   /**
@@ -35,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
    */
   private function configureCommands(): void
   {
+    // Blocks potentially destructive Artisan commands in production (e.g., migrate:fresh).
     DB::prohibitDestructiveCommands(App::isProduction());
   }
 
@@ -45,7 +53,11 @@ class AppServiceProvider extends ServiceProvider
   {
     Model::shouldBeStrict();
 
+    // Disables Laravel's mass assignment protection globally (opt-in).
     Model::unguard();
+
+    // Automatically eager loads relationships defined in the model's $with property.
+    Model::automaticallyEagerLoadRelationships();
   }
 
   /**
@@ -53,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
    */
   private function configureUrl(): void
   {
+    // Forces all generated URLs to use https://.
     URL::forceScheme('https');
   }
 
@@ -61,7 +74,38 @@ class AppServiceProvider extends ServiceProvider
    */
   private function configureVite(): void
   {
+    // Configures Laravel Vite to preload assets more aggressively.
     Vite::usePrefetchStrategy('aggressive');
+
+    // Preloads assets in parallel with a concurrency limit.
     Vite::prefetch(concurrency: 3);
+  }
+
+  /**
+   * Configure the application's Date.
+   */
+  private function configureDate(): void
+  {
+    // Uses CarbonImmutable instead of mutable date objects across your app.
+    Date::use(CarbonImmutable::class);
+  }
+
+  /**
+   * Configure the application's Sleep.
+   */
+  private function configureSleep()
+  {
+    // Configures Laravel Sleep Facade to be faked.
+    // Why: Avoid unexpected sleep during testing cases.
+    Sleep::fake();
+  }
+
+  /**
+   * Configure the application's Http.
+   */
+  private function configureHttp()
+  {
+
+    Http::preventStrayRequests();
   }
 }
