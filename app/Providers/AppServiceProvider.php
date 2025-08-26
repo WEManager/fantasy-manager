@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     $this->configureVite();
     $this->configureDate();
     $this->configureSleep();
-    $this->configureHttp();
+    // $this->configureHttp();
   }
 
   /**
