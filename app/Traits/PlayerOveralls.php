@@ -2,8 +2,10 @@
 
 namespace App\Traits;
 
-trait PlayerOveralls {
-  public function getAverage($skills, $name) {
+trait PlayerOveralls
+{
+  public function getAverage($skills, $name)
+  {
     $summary = 0;
 
     foreach ($skills[$name] as $key => $value) {
@@ -15,7 +17,8 @@ trait PlayerOveralls {
     return $skills;
   }
 
-  private function getSkills() {
+  private function getSkills()
+  {
     $skills = [
       'mental' => $this->getMentalValues(),
       'physical' => $this->getPhysicalValues(),
@@ -31,7 +34,8 @@ trait PlayerOveralls {
     return $skills;
   }
 
-  public function getGoalkeepingAttribute() {
+  public function getGoalkeepingAttribute()
+  {
     $goalkeeping = [
       'goalkeeping' => $this->getGoalkeepingValues(),
       'mental' => $this->getMentalValues(),
@@ -58,7 +62,8 @@ trait PlayerOveralls {
     return $goalkeeping;
   }
 
-  public function getCentralDefendingAttribute() {
+  public function getCentralDefendingAttribute()
+  {
     $skills = $this->getSkills();
 
     $skills['CD'] = $skills['CLD'] = $skills['CRD'] = (
@@ -76,7 +81,8 @@ trait PlayerOveralls {
     return $skills;
   }
 
-  public function getWideDefendingAttribute() {
+  public function getWideDefendingAttribute()
+  {
     $skills = $this->getSkills();
 
     $skills['LD'] = $skills['RD'] = (
@@ -94,13 +100,14 @@ trait PlayerOveralls {
     return $skills;
   }
 
-  public function getCentralMidfielderAttribute() {
+  public function getCentralMidfielderAttribute()
+  {
     $skills = $this->getSkills();
 
     $skills['CM'] = $skills['CLM'] = $skills['CRM'] = (
       (
         // Give primary central defender values more weight (50% more)
-        ($this->passing + $this->decisions + $this->team_work) * 1.5
+        ($this->passing + $this->decisions + $this->teamwork) * 1.5
         // Divide the weighted values to an average
       ) / 3 +
 
@@ -112,13 +119,14 @@ trait PlayerOveralls {
     return $skills;
   }
 
-  public function getWideMidfielderAttribute() {
+  public function getWideMidfielderAttribute()
+  {
     $skills = $this->getSkills();
 
     $skills['LM'] = $skills['RM'] = (
       (
         // Give primary central defender values more weight (50% more)
-        ($this->dribbling + $this->passing + $this->team_work + $this->stamina) * 1.5
+        ($this->dribbling + $this->passing + $this->teamwork + $this->stamina) * 1.5
         // Divide the weighted values to an average
       ) / 4 +
 
@@ -130,13 +138,14 @@ trait PlayerOveralls {
     return $skills;
   }
 
-  public function getCentralAttackerAttribute() {
+  public function getCentralAttackerAttribute()
+  {
     $skills = $this->getSkills();
 
     $skills['CF'] = $skills['CLF'] = $skills['CRF'] = (
       (
         // Give primary central defender values more weight (50% more)
-        ($this->passing + $this->creativity + $this->decisions + $this->movement + $this->team_work + $this->shooting + $this->dribbling) * 1.5
+        ($this->passing + $this->flair + $this->decisions + $this->off_the_ball + $this->teamwork + $this->finishing + $this->dribbling) * 1.5
         // Divide the weighted values to an average
       ) / 7 +
 
@@ -148,7 +157,8 @@ trait PlayerOveralls {
     return $skills;
   }
 
-  public function getWideAttackerAttribute() {
+  public function getWideAttackerAttribute()
+  {
     $skills = $this->getSkills();
 
     $skills['LF'] = $skills['RF'] = (
