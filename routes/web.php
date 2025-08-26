@@ -2,7 +2,6 @@
 
 use App\Http\Controllers;
 use App\Http\Controllers\SeasonController;
-use App\Http\Controllers\TournamentGameController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -45,10 +44,8 @@ Route::resource('jogadores', Controllers\PlayerController::class)
   ->parameters(['jogadores' => 'player'])
   ->names('player');
 
-Route::resource('g', TournamentGameController::class)
-    ->only([ 'index', 'show' ])
-    ->parameters(['g' => 'game'])
-    ->names('game');
+Route::get('partidas/{game}', Controllers\TournamentGameController::class)
+  ->name('game.show');
 
 Route::resource('s', SeasonController::class)
     ->only(['index', 'show'])
