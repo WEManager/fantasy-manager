@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Contract extends Model {
+class Contract extends Model
+{
   protected $fillable = [
     'from',
     'wage',
@@ -15,11 +17,18 @@ class Contract extends Model {
     'player_id',
   ];
 
-  public function player(): BelongsTo {
+  protected $casts = [
+    'from' => 'datetime',
+    'until' => 'datetime',
+  ];
+
+  public function player(): BelongsTo
+  {
     return $this->belongsTo(Player::class);
   }
 
-  public function club(): BelongsTo {
+  public function club(): BelongsTo
+  {
     return $this->belongsTo(Club::class);
   }
 }

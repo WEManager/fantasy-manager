@@ -15,6 +15,8 @@ class Player extends Model
 
   protected $guarded = [];
 
+  protected $appends = ['technical', 'mental', 'physical', 'goalkeeping'];
+
   /**
    * The relationships that should always be loaded.
    *
@@ -22,29 +24,18 @@ class Player extends Model
    */
   protected $with = ['nation'];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array
-   */
-  protected $casts = [
-    'nation_fifa_id' => 'integer',
-  ];
-
   public function nation(): HasOne
   {
     return $this->hasOne(Nation::class, 'fifa_id', 'nation_fifa_id');
   }
 
-  public function club(): HasOneThrough
+  public function contract(): HasOne
   {
-    return $this->hasOneThrough(Club::class, Contract::class, 'person_id', 'id', 'id', 'club_id');
+    return $this->hasOne(Contract::class);
   }
 
-  public function contract()
+  public function club(): HasOneThrough
   {
-    return $this->hasOne(Contract::class, 'person_id')
-      ->whereDate('from', '<', date('Y-m-d'))
-      ->whereDate('until', '>', date('Y-m-d'));
+    return $this->hasOneThrough(Club::class, Contract::class, 'player_id', 'id', 'id', 'club_id');
   }
 }

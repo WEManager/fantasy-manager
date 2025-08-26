@@ -138,3 +138,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Flag Icon Styles */
+.flag-icon {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: middle;
+}
+
+/* Add specific flag styles here if needed */
+.flag-icon-bra {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 504"><rect width="720" height="504" fill="%23009933"/><path d="M360 252L135 126v252z" fill="%23FFCC00"/><circle cx="360" cy="252" r="60" fill="%23003366"/></svg>');
+}
+
+.flag-icon-arg {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 504"><rect width="720" height="168" fill="%23006CB6"/><rect y="168" width="720" height="168" fill="%23FFFFFF"/><rect y="336" width="720" height="168" fill="%23006CB6"/><circle cx="360" cy="252" r="40" fill="%23F4B400"/></svg>');
+}
+
+.flag-icon-eng {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 504"><rect width="720" height="504" fill="%23FFFFFF"/><rect width="720" height="56" y="224" fill="%23C8102E"/><rect width="56" height="504" x="332" fill="%23C8102E"/></svg>');
+}

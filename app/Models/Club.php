@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Sluggable\HasSlug;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -18,6 +16,10 @@ class Club extends Model
   use HasFactory, HasSlug;
 
   protected $fillable = ['name', 'colors', 'locale'];
+
+  protected $casts = [
+    'colors' => 'array',
+  ];
 
   /**
    * Get the route key for the model.
@@ -34,14 +36,6 @@ class Club extends Model
     return SlugOptions::create()
       ->generateSlugsFrom('name')
       ->saveSlugsTo('slug');
-  }
-
-  public function colors(): Attribute
-  {
-    return new Attribute(
-      set: fn($value) => json_encode($value, JSON_UNESCAPED_SLASHES),
-      get: fn($value) => json_decode($value)
-    );
   }
 
   public function homeGames(): HasMany

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers;
-use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TournamentGameController;
 use Illuminate\Support\Facades\Route;
@@ -41,16 +40,10 @@ Route::post('/license-test/{licenseQuiz}/submit', [Controllers\LicenseQuizContro
   ->middleware('level0')
   ->name('license_test_validation');
 
-Route::resource('c.p', ClubPlayerController::class)
-    ->only([ 'index' ])
-    ->parameters(['c' => 'club'])
-    ->names('club.player')
-    ->shallow();
-
-Route::resource('p', PlayerController::class)
-    ->only([ 'index', 'show' ])
-    ->parameters(['p' => 'player'])
-    ->names('player');
+Route::resource('jogadores', Controllers\PlayerController::class)
+  ->only(['index', 'show'])
+  ->parameters(['jogadores' => 'player'])
+  ->names('player');
 
 Route::resource('g', TournamentGameController::class)
     ->only([ 'index', 'show' ])
