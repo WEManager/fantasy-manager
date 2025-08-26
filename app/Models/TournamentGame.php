@@ -22,6 +22,8 @@ class TournamentGame extends Model
 
   protected $hidden = ['group_id', 'hometeam_id', 'awayteam_id', 'created_at', 'updated_at'];
 
+  protected $appends = ['messages', 'gameStatus', 'currentMinute'];
+
   public function homeLineup(): HasOne
   {
     return $this->hasOne(Lineup::class, 'club_id', 'hometeam_id');
@@ -67,12 +69,17 @@ class TournamentGame extends Model
   {
     $messages = [];
 
+    // Garantir que gameHappenings está carregado
+    if (!$this->relationLoaded('gameHappenings')) {
+      $this->load('gameHappenings');
+    }
+
     foreach ($this->gameHappenings as $happening) {
       $messages[] = [
         'minute' => $happening->minute,
         'message' => str_replace(
           ['hometeam', 'awayteam', ':SCORES:'],
-          [$this->hometeam->name, $this->awayteam->name, _('GOAL')],
+          [$this->hometeam->name, $this->awayteam->name, __('GOAL')],
           $happening->event_description_string
         )
       ];
