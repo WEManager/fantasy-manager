@@ -47,10 +47,10 @@ Route::resource('jogadores', Controllers\PlayerController::class)
 Route::get('partidas/{game}', Controllers\TournamentGameController::class)
   ->name('game.show');
 
-Route::resource('s', SeasonController::class)
-    ->only(['index', 'show'])
-    ->parameters(['s' => 'season'])
-    ->names('season');
+Route::resource('temporadas', Controllers\SeasonController::class)
+  ->only(['index', 'show'])
+  ->parameters(['temporadas' => 'season'])
+  ->names('season');
 
 Route::resource('s.t', SeasonTournamentController::class)
     ->only(['index'])
