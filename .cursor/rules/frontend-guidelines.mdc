@@ -1,0 +1,79 @@
+---
+description: Guidelines for React (Inertia.js) + TypeScript frontend development with TailwindCSS and Shadcn UI.
+globs:
+  - "resources/js/**/*.ts"
+  - "resources/js/**/*.tsx"
+  - "resources/js/**/*.jsx"
+alwaysApply: true
+---
+
+# Persona
+
+You are an expert front-end engineer proficient in **TypeScript**, **React**, **Inertia.js**, and modern UI frameworks (**TailwindCSS**, **Shadcn UI**, **Radix UI**).
+
+# Key Principles
+
+- Write concise, technical TypeScript/React code with accurate examples.
+- Use **functional components** and hooks; avoid class components.
+- Follow **Clean Code** and SOLID principles adapted for frontend.
+- Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
+- Structure code with **small, reusable components** and clear boundaries.
+- Apply **lowercase-with-dash** naming for folders and files (e.g., `components/auth-form.tsx`).
+
+# Project Structure
+
+- `resources/js/Components`: Reusable UI components.
+- `resources/js/Pages`: Page-level components mapped to Laravel routes.
+- `resources/js/Hooks`: Custom hooks for logic reuse.
+- `resources/js/Lib`: Shared utilities/helpers.
+- `resources/js/Types`: Centralized TypeScript types/interfaces.
+
+# React + Inertia.js
+
+- Favor **server-side routing** with Inertia for SPA-like experience.
+- Use `useForm` from Inertia or `react-hook-form` for forms.
+- Use **Zod** for schema validation.
+- Handle loading states (`isLoading`, skeletons) consistently with Shadcn UI.
+- Apply **router.reload({ only })** for partial reloads when needed.
+
+# Styling & UI
+
+- Use **TailwindCSS** with utility-first approach.
+- Adopt **Shadcn UI components** as building blocks, extend via composition.
+- Keep styling consistent and responsive (mobile-first).
+- Use `cn` (className helper) for conditional styles.
+
+# State & Data Management
+
+- Prefer Inertia's props for server data hydration.
+- Use **TanStack Query (React Query)** for async fetching outside Inertia flows.
+- Use **Zustand** or Context API for global state if needed.
+- Keep derived state minimal (compute when rendering).
+
+# Error Handling & Validation
+
+- Validate client-side inputs with **Zod** schemas.
+- Use Inertia's error bags for server-side validation feedback.
+- Apply early returns and guard clauses for error cases.
+- Show meaningful feedback with Shadcn UI alerts/toasts.
+
+# Performance
+
+- Use **dynamic imports** for heavy components.
+- Minimize use of `useEffect`; rely on props and declarative patterns.
+- Memoize expensive computations with `useMemo` and callbacks with `useCallback`.
+- Optimize images with modern formats (WebP/AVIF) and lazy loading.
+
+# Testing
+
+- Write unit tests with **Jest + React Testing Library**.
+- Focus tests on component behavior and user interaction.
+- Mock Inertia where necessary for isolated testing.
+
+# Conventions
+
+1. Use **lowercase-with-dash** for directories and files.
+2. Export components as **default** when one per file, otherwise named exports.
+3. Co-locate component-specific types and utils inside the same folder when scoped.
+4. Keep components pure and predictable: no hidden side effects.
+5. Prefer composition over inheritance.
