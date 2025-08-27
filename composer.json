@@ -14,7 +14,6 @@
     "laravel/sanctum": "^4.0",
     "laravel/tinker": "^2.8",
     "laravel/ui": "^4.0",
-    "livewire/livewire": "^3.4",
     "mariuzzo/laravel-js-localization": "^2.0",
     "spatie/laravel-permission": "^6.0",
     "spatie/laravel-sluggable": "^3.4",
