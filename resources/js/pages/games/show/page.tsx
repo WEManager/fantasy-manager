@@ -7,8 +7,6 @@ import { GameMessages } from '~/modules/games/components/game-messages'
 import { LineupTable } from '~/modules/games/components/lineup-table'
 
 export default function GameShowPage({ game, hometeam, awayteam }: GameShowData) {
-  console.log('Game data:', { game, hometeam, awayteam })
-
   // Verificação de segurança para os times
   if (!game.hometeam || !game.awayteam) {
     return (

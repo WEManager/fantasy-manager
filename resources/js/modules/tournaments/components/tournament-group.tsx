@@ -20,12 +20,33 @@ interface Standing {
   }
 }
 
+interface Fixture {
+  id: number
+  hometeam_id: number
+  awayteam_id: number
+  hometeam_score: number | null
+  awayteam_score: number | null
+  start_time: string
+  status: number
+  gameStatus: string
+  hometeam: {
+    id: number
+    name: string
+    slug: string
+  }
+  awayteam: {
+    id: number
+    name: string
+    slug: string
+  }
+}
+
 interface TournamentGroupProps {
   id: number
   name: string
   standings: Standing[]
   positionStatus?: string[]
-  fixtures?: any[]
+  fixtures?: Fixture[]
   selectedDate?: string
   loading?: boolean
 }

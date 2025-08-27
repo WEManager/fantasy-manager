@@ -79,7 +79,7 @@ export function TournamentForm({ clubs }: TournamentFormProps) {
               min="1"
               max="8"
               value={data.groups}
-              onChange={(e) => setData('groups', parseInt(e.target.value))}
+              onChange={(e) => setData('groups', parseInt(e.target.value, 10))}
             />
             {errors.groups && <p className="text-sm text-red-600">{errors.groups}</p>}
           </div>

@@ -63,7 +63,7 @@ export function ContractForm({ club }: ContractFormProps) {
               id={useId()}
               type="number"
               value={data.wage}
-              onChange={(e) => setData('wage', parseInt(e.target.value))}
+              onChange={(e) => setData('wage', parseInt(e.target.value, 10))}
               placeholder="1000"
               min="100"
             />

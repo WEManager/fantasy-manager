@@ -10,7 +10,7 @@ export function ClubName({ club }: ClubNameProps) {
   return (
     <div className="flex items-center gap-2">
       <Link
-        href={`/clubs/${club.slug}`}
+        href={route('club.show', { club })}
         className="text-gray-800 hover:text-blue-600 hover:underline"
       >
         {club.name}

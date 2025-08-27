@@ -6,7 +6,7 @@ import { TournamentsList } from '~/modules/tournaments/components/tournaments-li
 
 interface PageProps {
   tournaments?: Tournament[]
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export function TournamentsSection() {

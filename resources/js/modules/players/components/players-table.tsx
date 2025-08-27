@@ -17,8 +17,6 @@ interface PlayersTableProps {
 }
 
 export function PlayersTable({ players }: PlayersTableProps) {
-  console.log(players)
-
   return (
     <div className="rounded-md border">
       <Table>

@@ -1,4 +1,5 @@
 import type { Club } from '~/modules/core/types'
+import type { Player } from '~/modules/players/types'
 
 export interface TournamentGame {
   id: number
@@ -25,7 +26,7 @@ export interface ClubShowData {
   club: Club & {
     homegames: TournamentGame[]
     awaygames: TournamentGame[]
-    players?: any[]
+    players?: Player[]
   }
 }
 

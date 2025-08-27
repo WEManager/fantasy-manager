@@ -41,7 +41,7 @@ export function OngoingGamesList({ games }: OngoingGamesListProps) {
                   </td>
                   <td className="px-6 py-4">
                     <Link
-                      href={`/games/${game.id}`}
+                      href={route('game.show', { game })}
                       className="text-primary hover:text-primary/80 transition-colors duration-200"
                     >
                       <GameStatus status={game.status} gameStatus={game.gameStatus} />
@@ -52,7 +52,7 @@ export function OngoingGamesList({ games }: OngoingGamesListProps) {
                   </td>
                   <td className="px-6 py-4 text-center font-semibold">
                     <Link
-                      href={`/games/${game.id}`}
+                      href={route('game.show', { game })}
                       className="text-foreground hover:text-primary transition-colors duration-200"
                     >
                       {game.hometeam_score} - {game.awayteam_score}

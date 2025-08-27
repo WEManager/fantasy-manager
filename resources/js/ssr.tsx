@@ -17,8 +17,8 @@ createServer((page) =>
     title: (title) => (title ? `${title} / ${appName}` : appName),
     resolve: (name) =>
       resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')).then(
-        (page: any) => {
-          page.default.layout = page.default.layout || ((page) => <AppLayout children={page} />)
+        (page: { default: { layout?: (page: any) => JSX.Element } }) => {
+          page.default.layout = page.default.layout || ((page) => <AppLayout>{page}</AppLayout>)
 
           return page
         },

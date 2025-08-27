@@ -20,7 +20,7 @@ interface LineupEditorProps {
 }
 
 export function LineupEditor({ lineup, players }: LineupEditorProps) {
-  const { data, setData, post, processing, errors } = useForm({
+  const { data, setData, post, processing } = useForm({
     player_1: lineup.player_1 || null,
     player_2: lineup.player_2 || null,
     player_3: lineup.player_3 || null,
@@ -75,7 +75,7 @@ export function LineupEditor({ lineup, players }: LineupEditorProps) {
                     onValueChange={(value) =>
                       setData(
                         `player_${slot}` as keyof typeof data,
-                        value === 'none' ? null : (parseInt(value) as any),
+                        value === 'none' ? null : (parseInt(value, 10) as number | null),
                       )
                     }
                   >
@@ -130,7 +130,7 @@ export function LineupEditor({ lineup, players }: LineupEditorProps) {
                     onValueChange={(value) =>
                       setData(
                         `substitute_${slot}` as keyof typeof data,
-                        value === 'none' ? null : (parseInt(value) as any),
+                        value === 'none' ? null : parseInt(value, 10),
                       )
                     }
                   >

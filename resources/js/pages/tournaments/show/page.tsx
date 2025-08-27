@@ -1,4 +1,5 @@
-import type { Tournament } from '~/modules/tournaments/types'
+import type { Club } from '~/modules/core/types'
+import type { Tournament, TournamentFixture } from '~/modules/tournaments/types'
 
 import { Head } from '@inertiajs/react'
 
@@ -7,9 +8,9 @@ import { TournamentHeader } from '~/modules/tournaments/components/tournament-he
 
 interface TournamentShowProps {
   tournament: Tournament
-  participating_clubs?: any
+  participating_clubs?: Record<number, Club>
   position_status?: string[]
-  fixtures?: any[]
+  fixtures?: TournamentFixture[]
   selectedDate?: string
   loading?: boolean
 }

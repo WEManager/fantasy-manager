@@ -2,8 +2,6 @@ import type { TournamentGroup } from '../types'
 
 import { Link } from '@inertiajs/react'
 
-import { slugify } from '~/modules/core/utils/string'
-
 interface TournamentNameProps {
   group: TournamentGroup
 }
@@ -11,7 +9,7 @@ interface TournamentNameProps {
 export function TournamentName({ group }: TournamentNameProps) {
   return (
     <Link
-      href={`/tournaments/${group.tournament.slug}#${slugify(group.name)}`}
+      href={route('tournament.show', { tournament: group.tournament })}
       className="text-blue-600 hover:text-blue-800 hover:underline"
     >
       <div className="flex items-center gap-2">

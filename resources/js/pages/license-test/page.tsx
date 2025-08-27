@@ -29,7 +29,7 @@ interface Quiz {
 
 interface LicenseTestPageProps {
   quiz: Quiz
-  errors?: Record<string, any>
+  errors?: Record<string, string[]>
 }
 
 export default function LicenseTestPage({ quiz, errors }: LicenseTestPageProps) {

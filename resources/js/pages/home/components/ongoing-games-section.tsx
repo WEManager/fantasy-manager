@@ -6,7 +6,7 @@ import { OngoingGamesList } from '~/modules/ongoing-games/components/ongoing-gam
 
 interface PageProps {
   ongoingGames?: OngoingGame[]
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export function OngoingGamesSection() {
