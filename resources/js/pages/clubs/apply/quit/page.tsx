@@ -1,3 +1,5 @@
+import type { QuitPageData } from '~/modules/manager-contracts/types'
+
 import { Head, Link } from '@inertiajs/react'
 
 import { Button } from '~/modules/core/components/ui/button'
@@ -9,18 +11,7 @@ import {
   CardTitle,
 } from '~/modules/core/components/ui/card'
 
-interface Club {
-  id: number
-  name: string
-  locale: string
-}
-
-interface QuitPageProps {
-  club: Club
-  boardMessage: string
-}
-
-export default function QuitPage({ club, boardMessage }: QuitPageProps) {
+export default function QuitPage({ club, boardMessage }: QuitPageData) {
   return (
     <div className="min-h-screen bg-background p-4">
       <Head title={`Renúncia - ${club.name}`} />

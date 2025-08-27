@@ -1,7 +1,7 @@
-import { type ChangeEvent, type FormEvent, useId } from 'react'
-import { Head, useForm } from '@inertiajs/react'
+import type { ApplyPageData } from '~/modules/manager-contracts/types'
 
-import { Button } from '~/modules/core/components/ui/button'
+import { Head } from '@inertiajs/react'
+
 import {
   Card,
   CardContent,
@@ -9,44 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '~/modules/core/components/ui/card'
-import { Input } from '~/modules/core/components/ui/input'
-import { Label } from '~/modules/core/components/ui/label'
+import { ContractForm } from '~/modules/manager-contracts/components/contract-form'
 
-interface Club {
-  id: number
-  name: string
-  locale: string
-  manager?: {
-    name: string
-  }
-}
-
-interface ApplyPageProps {
-  club: Club
-}
-
-export default function ApplyPage({ club }: ApplyPageProps) {
-  const fromId = useId()
-  const untilId = useId()
-  const wageId = useId()
-
-  const { data, setData, post, processing, errors } = useForm({
-    club_id: club.id,
-    from: new Date().toISOString().split('T')[0],
-    until: new Date(Date.now() + 9 * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    wage: 100,
-  })
-
-  const onHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = event.target
-    setData(name as keyof typeof data, type === 'number' ? parseInt(value) : value)
-  }
-
-  const submit = (event: FormEvent) => {
-    event.preventDefault()
-    post(route('club.apply.store'))
-  }
-
+export default function ApplyPage({ club }: ApplyPageData) {
   return (
     <div className="min-h-screen bg-background p-4">
       <Head title={`Aplicar para ${club.name}`} />
@@ -66,68 +31,7 @@ export default function ApplyPage({ club }: ApplyPageProps) {
               </CardHeader>
 
               <CardContent>
-                <form onSubmit={submit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor={fromId}>Data de início</Label>
-                    <Input
-                      id={fromId}
-                      type="date"
-                      name="from"
-                      value={data.from}
-                      onChange={onHandleChange}
-                      required
-                      className={
-                        errors.from ? 'border-destructive focus-visible:ring-destructive' : ''
-                      }
-                    />
-                    {errors.from && <p className="text-sm text-destructive">{errors.from}</p>}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor={untilId}>Data de término</Label>
-                    <Input
-                      id={untilId}
-                      type="date"
-                      name="until"
-                      value={data.until}
-                      onChange={onHandleChange}
-                      required
-                      className={
-                        errors.until ? 'border-destructive focus-visible:ring-destructive' : ''
-                      }
-                    />
-                    {errors.until && <p className="text-sm text-destructive">{errors.until}</p>}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor={wageId}>Salário</Label>
-                    <div className="relative">
-                      <Input
-                        id={wageId}
-                        type="number"
-                        name="wage"
-                        value={data.wage}
-                        onChange={onHandleChange}
-                        required
-                        className={
-                          errors.wage
-                            ? 'border-destructive focus-visible:ring-destructive pr-20'
-                            : 'pr-20'
-                        }
-                      />
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <span className="text-muted-foreground text-sm">por mês</span>
-                      </div>
-                    </div>
-                    {errors.wage && <p className="text-sm text-destructive">{errors.wage}</p>}
-                  </div>
-
-                  <div className="flex justify-end pt-4">
-                    <Button type="submit" disabled={processing}>
-                      {processing ? 'Enviando...' : 'Enviar aplicação'}
-                    </Button>
-                  </div>
-                </form>
+                <ContractForm club={club} />
               </CardContent>
             </Card>
           </div>
