@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use App\Models\Lineup;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class LineupController extends Controller {
   public function edit(Club $club, $squad) {
-    if (!$lineup = Lineup::where('club_id', $club->id)->first()) {
+    if (!$lineup = Lineup::where('club_id', $club->id)->where('team', $squad)->first()) {
       $lineup = Lineup::create([
         'club_id' => $club->id,
         'team' => $squad,
@@ -38,14 +38,20 @@ class LineupController extends Controller {
       }
     }
 
-    return view('lineups.edit')->with(['club' => $club, 'lineup' => $lineup, 'players' => $players, 'squad' => $squad]);
+    return Inertia::render('lineups/edit/page', compact('club', 'lineup', 'players', 'squad'));
   }
 
   public function update(Lineup $lineup) {
     $this->authorize('update', $lineup);
 
-    if ($lineup->update(\request()->all())) {
-      return response('Success!');
-    }
+    $data = request()->all();
+    unset($data['_token'], $data['_method']);
+    
+    $lineup->update($data);
+
+    return redirect()
+      ->route('edit_lineup', ['club' => $lineup->club, 'squad' => $lineup->team])
+      ->with('message', 'Escalação atualizada com sucesso!')
+      ->with('type', 'success');
   }
 }

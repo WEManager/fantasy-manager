@@ -40,7 +40,7 @@ export default function QuitPage({ club, boardMessage }: QuitPageData) {
                     </Button>
 
                     <Button asChild variant="outline">
-                      <Link href={`/clubs/${club.id}`}>Ver clube</Link>
+                      <Link href={route('club.show', { club })}>Ver clube</Link>
                     </Button>
                   </div>
                 </div>

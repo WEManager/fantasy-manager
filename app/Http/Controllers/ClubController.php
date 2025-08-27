@@ -42,6 +42,7 @@ class ClubController extends Controller
 
     return redirect()
       ->route('club.show', $club->slug)
-      ->with('success', 'Clube atualizado com sucesso!');
+      ->with('message', 'Clube atualizado com sucesso!')
+      ->with('type', 'success');
   }
 }

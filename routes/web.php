@@ -34,6 +34,8 @@ Route::post('clubes/aplicar', [Controllers\ManagerContractController::class, 'st
 Route::get('clubes/{club}/renunciar', [Controllers\ManagerContractController::class, 'resign'])
   ->middleware('auth')
   ->name('club.resign');
+Route::get('clubes/{club}/{squad}/formacao', [Controllers\LineupController::class, 'edit'])->name('edit_lineup');
+Route::post('clubes/formacao/{lineup}',  [Controllers\LineupController::class, 'update'])->name('update_lineup');
 
 Route::get('/license-test/{licenseQuiz}', [Controllers\LicenseQuizController::class, 'show'])
   ->middleware('level0')
@@ -53,9 +55,6 @@ Route::get('partidas/{game}', Controllers\TournamentGameController::class)
 Route::get('/dashboard', function () {
   return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('{club}/{squad}/lineup', 'LineupController@edit')->name('edit_lineup');
-Route::post('/update-lineup/{lineup}', 'LineupController@update')->name('update_lineup');
 
 Route::get('/test-heading', function () {
   $player = \App\Models\Person::find(1);
