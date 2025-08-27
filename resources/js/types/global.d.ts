@@ -1,5 +1,9 @@
-import type { route as routeFn } from 'ziggy-js'
+import type { route as ziggyRoute } from 'ziggy-js'
 
 declare global {
-  const route: typeof routeFn
+  const route: typeof ziggyRoute
+
+  interface Window {
+    route: ziggyRoute
+  }
 }

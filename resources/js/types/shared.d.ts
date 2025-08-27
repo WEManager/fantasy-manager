@@ -13,3 +13,9 @@ export interface SharedData extends Record<string, unknown> {
   sidebarOpen: boolean
   flash: FlashProps
 }
+
+export interface PageModule {
+  default: {
+    layout?: (page: React.ReactNode) => React.ReactNode
+  }
+}

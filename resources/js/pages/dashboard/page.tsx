@@ -6,7 +6,7 @@ interface DashboardProps extends SharedData {
   // Adicione props específicas do dashboard aqui se necessário
 }
 
-export default function DashboardPage(props: DashboardProps) {
+export default function DashboardPage(_props: DashboardProps) {
   return (
     <>
       <Head title="Dashboard" />

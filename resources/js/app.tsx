@@ -1,3 +1,5 @@
+import type { PageModule } from './types'
+
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { createRoot, hydrateRoot } from 'react-dom/client'
@@ -11,17 +13,18 @@ import { AppLayout } from './modules/layouts/app'
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
 createInertiaApp({
-  title: (title) => (title ? `${title} - ${appName}` : appName),
+  title: (title) => (title ? `${title} | ${appName}` : appName),
   resolve: (name) =>
-    resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')).then(
-      (page: { default: { layout?: (page: any) => JSX.Element } }) => {
-        page.default.layout = page.default.layout || ((page) => <AppLayout>{page}</AppLayout>)
+    resolvePageComponent<PageModule>(
+      `./pages/${name}.tsx`,
+      import.meta.glob<PageModule>('./pages/**/*.tsx'),
+    ).then((page) => {
+      page.default.layout = page.default.layout || ((page) => <AppLayout>{page}</AppLayout>)
 
-        return page
-      },
-    ),
+      return page
+    }),
   setup: ({ el, App, props }) => {
-    window.route = useRoute(Ziggy)
+    window.route = useRoute(Ziggy as never)
 
     const appElement = (
       <AppProviders>

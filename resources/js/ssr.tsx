@@ -1,3 +1,5 @@
+import type { PageModule } from './types'
+
 import { createInertiaApp } from '@inertiajs/react'
 import createServer from '@inertiajs/react/server'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
@@ -14,15 +16,16 @@ createServer((page) =>
   createInertiaApp({
     page,
     render: renderToString,
-    title: (title) => (title ? `${title} / ${appName}` : appName),
+    title: (title) => (title ? `${title} | ${appName}` : appName),
     resolve: (name) =>
-      resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')).then(
-        (page: { default: { layout?: (page: any) => JSX.Element } }) => {
-          page.default.layout = page.default.layout || ((page) => <AppLayout>{page}</AppLayout>)
+      resolvePageComponent<PageModule>(
+        `./pages/${name}.tsx`,
+        import.meta.glob<PageModule>('./pages/**/*.tsx'),
+      ).then((page) => {
+        page.default.layout = page.default.layout || ((page) => <AppLayout>{page}</AppLayout>)
 
-          return page
-        },
-      ),
+        return page
+      }),
     setup: ({ App, props }) => {
       global.route = (name, params, absolute) =>
         route(name, params, absolute, {

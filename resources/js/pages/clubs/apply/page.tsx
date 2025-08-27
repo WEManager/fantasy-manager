@@ -26,7 +26,7 @@ export default function ApplyPage({ club }: ApplyPageData) {
                   {club.name} ({club.locale})
                 </CardTitle>
                 <CardDescription>
-                  {club.manager ? <>Gerente: {club.manager.name}</> : <>Sem gerente</>}
+                  {club.manager ? `Gerente: ${club.manager.name}` : 'Sem gerente'}
                 </CardDescription>
               </CardHeader>
 

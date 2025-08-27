@@ -85,7 +85,7 @@ export default function LicenseTestPage({ quiz, errors }: LicenseTestPageProps) 
                 }
 
                 const questionId = question.id.toString()
-                const isQuestionWrong = errors && errors[questionId]
+                const isQuestionWrong = errors?.[questionId]
                 const isQuestionCorrect = errors && !errors[questionId]
 
                 return (

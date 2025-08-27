@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/compone
 import { FlagIcon } from './flag-icon'
 import { TournamentStatusIcon } from './tournament-status-icon'
 
-interface Tournament {
+interface TournamentListItem {
   id: number
   slug: string
   name: string
@@ -16,7 +16,7 @@ interface Tournament {
 }
 
 interface TournamentsListProps {
-  tournaments: Tournament[]
+  tournaments: TournamentListItem[]
 }
 
 export function TournamentsList({ tournaments }: TournamentsListProps) {
@@ -30,7 +30,7 @@ export function TournamentsList({ tournaments }: TournamentsListProps) {
 
   // Agrupar torneios por nacionalidade
   const tournamentsByNationality = tournaments.reduce(
-    (acc: Record<string, Tournament[]>, tournament: Tournament) => {
+    (acc: Record<string, TournamentListItem[]>, tournament) => {
       const nationality = tournament.nationality || 'unknown'
       if (!acc[nationality]) {
         acc[nationality] = []
@@ -54,9 +54,9 @@ export function TournamentsList({ tournaments }: TournamentsListProps) {
 
           <CardContent>
             <ul className="space-y-2">
-              {(leagues as Tournament[])
-                .filter((league: Tournament) => league.status !== 'NOT_DECIDED')
-                .map((league: Tournament) => (
+              {(leagues as TournamentListItem[])
+                .filter((league: TournamentListItem) => league.status !== 'NOT_DECIDED')
+                .map((league: TournamentListItem) => (
                   <li key={league.id} className="flex items-center gap-2">
                     <TournamentStatusIcon status={league.status} />
                     <Link

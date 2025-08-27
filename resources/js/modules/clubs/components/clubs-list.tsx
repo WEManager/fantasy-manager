@@ -30,9 +30,9 @@ export function ClubsList({ clubs }: ClubsListProps) {
                 <span className="text-sm text-gray-600">{club.locale}</span>
               </div>
               <div className="flex space-x-1">
-                {club.colors.map((color, index) => (
+                {club.colors.map((color) => (
                   <div
-                    key={index}
+                    key={color}
                     className="w-4 h-4 rounded-full border border-gray-300"
                     style={{ backgroundColor: color }}
                   />

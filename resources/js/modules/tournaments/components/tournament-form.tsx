@@ -93,7 +93,7 @@ export function TournamentForm({ clubs }: TournamentFormProps) {
               min="0"
               max="16"
               value={data.playoffs}
-              onChange={(e) => setData('playoffs', parseInt(e.target.value))}
+              onChange={(e) => setData('playoffs', parseInt(e.target.value, 10))}
             />
             {errors.playoffs && <p className="text-sm text-red-600">{errors.playoffs}</p>}
           </div>
@@ -107,7 +107,7 @@ export function TournamentForm({ clubs }: TournamentFormProps) {
               min="1"
               max="8"
               value={data.proceeding_to_playoffs}
-              onChange={(e) => setData('proceeding_to_playoffs', parseInt(e.target.value))}
+              onChange={(e) => setData('proceeding_to_playoffs', parseInt(e.target.value, 10))}
             />
             {errors.proceeding_to_playoffs && (
               <p className="text-sm text-red-600">{errors.proceeding_to_playoffs}</p>

@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useUniqueElementIds: <> */
 import type { Club } from '~/modules/core/types'
 
 import { useId } from 'react'
