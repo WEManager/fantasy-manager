@@ -122,7 +122,10 @@ export function Navbar({ className }: NavbarProps) {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={route('quit_job', { club })} className="dropdown-item w-full">
+                          <Link
+                            href={route('club.resign', { club })}
+                            className="dropdown-item w-full"
+                          >
                             Quit Job
                           </Link>
                         </DropdownMenuItem>
@@ -206,7 +209,7 @@ export function Navbar({ className }: NavbarProps) {
                       <Link href={route('show_club_players', { club })} className="py-2">
                         Players
                       </Link>
-                      <Link href={route('quit_job', { club })} className="py-2">
+                      <Link href={route('club.resign', { club })} className="py-2">
                         Quit Job
                       </Link>
                     </>
