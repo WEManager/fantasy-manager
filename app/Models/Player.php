@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Traits\PlayerOveralls;
@@ -8,34 +10,32 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
-class Player extends Model
+final class Player extends Model
 {
-  use PlayerTraitStats;
-  use PlayerOveralls;
+    use PlayerOveralls;
+    use PlayerTraitStats;
 
-  protected $guarded = [];
+    protected $guarded = [];
 
-  protected $appends = ['technical', 'mental', 'physical', 'goalkeeping'];
+    protected $appends = ['technical', 'mental', 'physical', 'goalkeeping'];
 
-  /**
-   * The relationships that should always be loaded.
-   *
-   * @var array
-   */
-  protected $with = ['nation'];
+    protected $with = ['nation'];
 
-  public function nation(): HasOne
-  {
-    return $this->hasOne(Nation::class, 'fifa_id', 'nation_fifa_id');
-  }
+    /** @return HasOne<Nation, $this> */
+    public function nation(): HasOne
+    {
+        return $this->hasOne(Nation::class);
+    }
 
-  public function contract(): HasOne
-  {
-    return $this->hasOne(Contract::class);
-  }
+    /** @return HasOne<Contract, $this> */
+    public function contract(): HasOne
+    {
+        return $this->hasOne(Contract::class);
+    }
 
-  public function club(): HasOneThrough
-  {
-    return $this->hasOneThrough(Club::class, Contract::class, 'player_id', 'id', 'id', 'club_id');
-  }
+    /** @return HasOneThrough<Club, Contract, $this> */
+    public function club(): HasOneThrough
+    {
+        return $this->hasOneThrough(Club::class, Contract::class);
+    }
 }

@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('players', function (Blueprint $table) {
-            $table->integer('nation_fifa_id')->nullable();
+            $table->unsignedBigInteger('nation_id')->nullable();
 
-            $table->foreign('nation_fifa_id')->references('fifa_id')->on('nations');
+            $table->foreign('nation_id')->references('id')->on('nations');
         });
     }
 
@@ -28,8 +28,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('players', function (Blueprint $table) {
-            $table->dropForeign('players_nation_fifa_id_foreign');
-            $table->dropColumn(['nation_fifa_id']);
+            $table->dropForeign('players_nation_id_foreign');
+            $table->dropColumn(['nation_id']);
         });
     }
 };

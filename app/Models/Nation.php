@@ -1,16 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Nation extends Model
+final class Nation extends Model
 {
-  protected $guarded = [];
+    public $incrementing = false;
 
-  public function players(): HasMany
-  {
-    return $this->hasMany(Player::class, 'nation_fifa_id', 'fifa_id');
-  }
+    protected $guarded = [];
+
+    protected $keyType = 'integer';
+
+    /** @return HasMany<Player, $this> */
+    public function players(): HasMany
+    {
+        return $this->hasMany(Player::class);
+    }
 }

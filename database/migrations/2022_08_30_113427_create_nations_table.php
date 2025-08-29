@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('nations', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id')->primary();
             $table->string('name');
-            $table->integer('fifa_id')->unique();
+            $table->string('iso_code', 3)->unique();
             $table->timestamps();
         });
     }
