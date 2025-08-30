@@ -31,7 +31,7 @@ class LineupControllerTest extends TestCase
 
     private function create_lineup()
     {
-        $this->manager = factory(User::class)->create(['level' => 1]);
+        $this->manager = factory(User::class)->create();
         $this->club = factory(\App\Models\Club::class)->create();
         factory(\App\ManagerContract::class)->create([
             'user_id' => $this->manager->id, 'club_id' => $this->club->id,

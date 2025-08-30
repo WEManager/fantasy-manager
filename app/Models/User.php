@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Laravel\Passport\HasApiTokens;
@@ -10,42 +12,27 @@ use App\Models\Club;
 use App\Models\ManagerContract;
 
 
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password', 'level',
+        'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token', 'email_verified_at', 'admin', 'created_at', 'updated_at',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'level' => 'int',
         'email_verified_at' => 'datetime',
-    ];
+    ];  
 
-    public function getIsAdminAttribute() {
+    public function getIsAdminAttribute(): bool {
         return $this->admin;
     }
 
+    /** @return HasOneThrough<Club, ManagerContract, $this> */
     public function club(): HasOneThrough {
         return $this
             ->hasOneThrough(Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id')

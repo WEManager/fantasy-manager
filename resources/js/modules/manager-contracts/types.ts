@@ -34,7 +34,3 @@ export interface ApplyDeniedPageData {
   club: Club
   job_application: JobApplication
 }
-
-export interface ApplyLowLevelPageData {
-  club: Club
-}

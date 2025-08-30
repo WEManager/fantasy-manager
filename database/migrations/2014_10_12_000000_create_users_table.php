@@ -1,18 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+final class CreateUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
@@ -20,24 +17,18 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('level')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
 
         DB::table('users')->insert([
-            'name' => 'Jimmie Johansson',
-            'email' => 'jimmitjoo@gmail.com',
-            'password' => bcrypt('wannabe123'),
+            'name' => 'Marcelo Oliveira',
+            'email' => 'teka@wem.com',
+            'password' => bcrypt('12345678'),
         ]);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('users');
     }

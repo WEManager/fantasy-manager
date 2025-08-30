@@ -38,13 +38,6 @@ Route::get('clubes/{club}/renunciar', [Controllers\ManagerContractController::cl
 Route::get('clubes/{club}/{squad}/formacao', [Controllers\LineupController::class, 'edit'])->name('edit_lineup');
 Route::post('clubes/formacao/{lineup}', [Controllers\LineupController::class, 'update'])->name('update_lineup');
 
-Route::get('/license-test/{licenseQuiz}', [Controllers\LicenseQuizController::class, 'show'])
-    ->middleware('level0')
-    ->name('license_test');
-Route::post('/license-test/{licenseQuiz}/submit', [Controllers\LicenseQuizController::class, 'submission'])
-    ->middleware('level0')
-    ->name('license_test_validation');
-
 Route::resource('jogadores', Controllers\PlayerController::class)
     ->only(['index', 'show'])
     ->parameters(['jogadores' => 'player'])

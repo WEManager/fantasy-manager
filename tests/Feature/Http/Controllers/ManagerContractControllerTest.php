@@ -60,8 +60,7 @@ class ManagerContractControllerTest extends TestCase
         $club = factory(\App\Models\Club::class)->create();
         $manager = factory(User::class)->create();
         $unmanagedClub = factory(\App\Models\Club::class)->create();
-        $unemployedManagerWithoutLicense = factory(User::class)->create();
-        $unemployedManager = factory(User::class)->create(['level' => 1]);
+        $unemployedManager = factory(User::class)->create();
         factory(\App\ManagerContract::class)->create([
             'user_id' => $manager->id, 'club_id' => $club->id,
         ]);
@@ -75,11 +74,6 @@ class ManagerContractControllerTest extends TestCase
             'club_id' => $club->id,
         ]);
         $loggedIn->assertStatus(302);
-
-        $unemployed = $this->actingAs($unemployedManagerWithoutLicense)->post(route('send_job_application', ['locale' => 'en']), [
-            'club_id' => $unmanagedClub->id,
-        ]);
-        $unemployed->assertRedirect(link_route('license_test', ['licenseQuiz' => 1]));
 
         $unemployed = $this->actingAs($unemployedManager)->post(route('send_job_application', ['locale' => 'en']), [
             'club_id' => $unmanagedClub->id,
