@@ -112,10 +112,10 @@ export function Navbar({ className }: NavbarProps) {
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link
-                            href={route('show_club_players', { club })}
+                            href={route('club.squad', { club })}
                             className={cn(
                               'dropdown-item w-full',
-                              route().current('show_club_players') ? 'active' : '',
+                              route().current('club.squad') ? 'active' : '',
                             )}
                           >
                             Players
@@ -206,7 +206,7 @@ export function Navbar({ className }: NavbarProps) {
                       <Link href={route('club.show', { club })} className="py-2">
                         Clubhouse
                       </Link>
-                      <Link href={route('show_club_players', { club })} className="py-2">
+                      <Link href={route('club.squad', { club })} className="py-2">
                         Players
                       </Link>
                       <Link href={route('club.resign', { club })} className="py-2">
