@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\TournamentType;
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -51,7 +51,7 @@ final class Tournament extends Model
     {
         return 'slug';
     }
-    
+
     /** @return HasManyThrough<TournamentGame, TournamentGroup, $this> */
     public function games(): HasManyThrough
     {
@@ -65,31 +65,31 @@ final class Tournament extends Model
         );
     }
 
-    public function getStartDateAttribute(): string
+    public function getStartDateAttribute(): CarbonImmutable
     {
         $groupIds = $this->tournamentGroups()->pluck('id');
         try {
             $firstGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'asc')->firstOrFail('start_time');
-        } catch (Exception $exception) {
+        } catch (Exception) {
             $firstGameDate = new TournamentGame();
 
             $firstGameDate->start_time = now()->addCenturies(2);
         }
 
-        return Carbon::createFromTimeString($firstGameDate->start_time)->format('Y-m-d');
+        return $firstGameDate->start_time;
     }
 
-    public function getEndDateAttribute(): string   
+    public function getEndDateAttribute(): CarbonImmutable
     {
         $groupIds = $this->tournamentGroups()->pluck('id');
         try {
             $lastGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'desc')->firstOrFail('start_time');
-        } catch (Exception $exception) {
+        } catch (Exception) {
             $lastGameDate = new TournamentGame();
             $lastGameDate->start_time = now()->addCenturies(2);
         }
 
-        return Carbon::createFromTimeString($lastGameDate->start_time)->addMinutes(106)->format('Y-m-d');
+        return $lastGameDate->start_time;
     }
 
     public function getStatusAttribute(): string
