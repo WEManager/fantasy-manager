@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Enums\TournamentType;
 use Illuminate\Console\Command;
 
 final class MakeTournament extends Command
@@ -26,6 +27,12 @@ final class MakeTournament extends Command
         $qualify_up = $this->argument('qualify_up');
         $qualify_down = $this->argument('qualify_down');
         $relegated = $this->argument('relegated');
+
+        // Validar se o tipo é válido
+        if (!in_array($type, array_column(TournamentType::cases(), 'value'))) {
+            $this->error("Tipo inválido. Tipos disponíveis: " . implode(', ', array_column(TournamentType::cases(), 'value')));
+            return;
+        }
 
         \App\Generators\Tournament::create([
             'name' => $name,

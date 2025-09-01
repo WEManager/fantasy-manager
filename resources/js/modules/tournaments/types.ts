@@ -1,12 +1,24 @@
-import type {
-  Club,
-  Tournament,
-  TournamentFixture,
-  TournamentStanding,
-  TournamentStatus,
-} from '~/types'
+import type { Club, TournamentFixture, TournamentStanding, TournamentStatus } from '~/types'
 
 export type { TournamentStatus }
+
+export type TournamentType = 'league' | 'groups' | 'playoffs'
+
+export interface Tournament {
+  id: number
+  name: string
+  slug: string
+  type: TournamentType
+  groups: number
+  playoffs: boolean
+  proceeding_to_playoffs: number
+  created_at: string
+  updated_at: string
+  status: string
+  start_date: string
+  end_date: string
+  tournamentGroups?: TournamentGroup[]
+}
 
 export interface TournamentIndexData {
   tournaments: Tournament[]
@@ -22,20 +34,6 @@ export interface TournamentShowData {
   position_status: string[]
   fixtures: TournamentFixture[]
   selectedDate: string
-}
-id: number
-name: string
-slug: string
-type: string
-groups: number
-playoffs: number
-proceeding_to_playoffs: number
-created_at: string
-updated_at: string
-status: string
-start_date: string
-end_date: string
-tournamentGroups?: TournamentGroup[]
 }
 
 export interface TournamentGroup {

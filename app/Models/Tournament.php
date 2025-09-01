@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\TournamentType;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,21 @@ final class Tournament extends Model
     use HasSlug;
 
     protected $with = ['tournamentGroups', 'qualifications'];
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'type',
+        'participants',
+        'groups',
+        'playoffs',
+        'proceeding_to_playoffs',
+    ];
+
+    protected $casts = [
+        'type' => TournamentType::class,
+        'playoffs' => 'boolean',
+    ];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -35,7 +51,8 @@ final class Tournament extends Model
     {
         return 'slug';
     }
-
+    
+    /** @return HasManyThrough<TournamentGame, TournamentGroup, $this> */
     public function games(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -48,7 +65,7 @@ final class Tournament extends Model
         );
     }
 
-    public function getStartDateAttribute()
+    public function getStartDateAttribute(): string
     {
         $groupIds = $this->tournamentGroups()->pluck('id');
         try {
@@ -62,7 +79,7 @@ final class Tournament extends Model
         return Carbon::createFromTimeString($firstGameDate->start_time)->format('Y-m-d');
     }
 
-    public function getEndDateAttribute()
+    public function getEndDateAttribute(): string   
     {
         $groupIds = $this->tournamentGroups()->pluck('id');
         try {
@@ -75,7 +92,7 @@ final class Tournament extends Model
         return Carbon::createFromTimeString($lastGameDate->start_time)->addMinutes(106)->format('Y-m-d');
     }
 
-    public function getStatusAttribute()
+    public function getStatusAttribute(): string
     {
         return match (true) {
             $this->start_date > now()->addCenturies(1) => 'NOT_DECIDED',
@@ -86,26 +103,31 @@ final class Tournament extends Model
     }
 
     // TODO: remove groups column from tournament table to rename it to groups
+    /** @return HasMany<TournamentGroup, $this> */
     public function tournamentGroups(): HasMany
     {
         return $this->hasMany(TournamentGroup::class);
     }
 
+    /** @return HasMany<TournamentQualification, $this> */
     public function qualifications(): HasMany
     {
         return $this->hasMany(TournamentQualification::class);
     }
 
+    /** @return BelongsToMany<Season, $this> */
     public function seasons(): BelongsToMany
     {
         return $this->belongsToMany(Season::class, 'tournament_season');
     }
 
+    /** @return HasManyThrough<TournamentStanding, TournamentGroup, $this> */
     public function standings(): HasManyThrough
     {
         return $this->hasManyThrough(TournamentStanding::class, TournamentGroup::class, 'tournament_id', 'group_id');
     }
 
+    /** @return BelongsToMany<Club, $this> */
     public function clubsParticipants(): BelongsToMany
     {
         return $this->belongsToMany(Club::class, 'tournament_participants');

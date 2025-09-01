@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Console\Commands\GenerateClub;
+use App\Enums\TournamentType;
 use App\Models\Club;
 use App\Events\CreateLeagueEvent;
 use App\Models\Season;
@@ -12,9 +13,9 @@ use App\Models\Tournament as ModelsTournament;
 use App\Models\TournamentQualification;
 
 final class Tournament {
-    public static function create(array $input) {
+    public static function create(array $input): int {
         $props = [
-            'type' => 'league',
+            'type' => TournamentType::LEAGUE->value,
             'teams' => 16,
             'groups' => 1,
             'champions' => 0,
@@ -31,7 +32,7 @@ final class Tournament {
 
         $tournament = ModelsTournament::create([
             'name' => $props['name'],
-            'type' => $props['type'],
+            'type' => TournamentType::from($props['type']),
             'participants' => $props['teams'],
             // 'recurring_every_of_year' => 1,
             'groups' => $props['groups'],
