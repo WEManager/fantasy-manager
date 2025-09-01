@@ -1,17 +1,25 @@
 <?php
 
+namespace Database\Factories;
+
 use App\Models\Club;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Club::class, function (Faker $faker) {
-    $nations = ['SE', 'ES', 'GB', 'DE', 'IT'];
-    
-    shuffle($nations);
+class ClubFactory extends Factory
+{
+    protected $model = Club::class;
 
-    return [
-        'name' => $faker->name,
-        'colors' => '["#1B3E90", "#CC2030", "#FFFFFF"]',
-        'locale' => $nations[0],
-        'reputation' => $faker->randomNumber(),
-    ];
-});
+    public function definition(): array
+    {
+        $nations = ['SE', 'ES', 'GB', 'DE', 'IT'];
+        
+        shuffle($nations);
+
+        return [
+            'name' => $this->faker->company,
+            'colors' => '["#1B3E90", "#CC2030", "#FFFFFF"]',
+            'locale' => $nations[0],
+            'reputation' => $this->faker->randomNumber(),
+        ];
+    }
+}

@@ -13,12 +13,14 @@ final class NationSeeder extends Seeder
 
     public function run(): void
     {
-        $ok = $this->nationService->updateFromApi();
+        $this->command->info('Importing nations from file...');
+        
+        $ok = $this->nationService->updateFromFile('sofifa/nation.json', 500);
 
         if ($ok) {
-            $this->command->info('Nations seeded successfully from API');
+            $this->command->info('Nations seeded successfully from file');
         } else {
-            $this->command->error('Failed to seed nations from API');
+            $this->command->error('Failed to seed nations from file');
         }
     }
 }

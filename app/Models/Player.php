@@ -4,27 +4,48 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Traits\PlayerOveralls;
-use App\Traits\PlayerTraitStats;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 final class Player extends Model
 {
-    use PlayerOveralls;
-    use PlayerTraitStats;
+    use Traits\PlayerOveralls;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'full_name',
+        'know_as',
+        'fifa_player_id',
+        'weak_foot',
+        'skill_moves',
+        'preferred_foot',
+        'length',
+        'weight',
+        'nation_id',
+        'birth_date',
+        'preferred_position',
+        'positions',
+        'specialities',
+        'play_styles',
+        'stats',
+    ];
 
-    protected $appends = ['technical', 'mental', 'physical', 'goalkeeping'];
+    protected $casts = [
+        'stats' => Casts\PlayerStatsCast::class,
+        'positions' => 'array',
+        'specialities' => 'array',
+        'play_styles' => 'array',
+        'birth_date' => 'datetime',
+    ];
 
     protected $with = ['nation'];
 
-    /** @return HasOne<Nation, $this> */
-    public function nation(): HasOne
+    /** @return BelongsTo<Nation, $this> */
+    public function nation(): BelongsTo
     {
-        return $this->hasOne(Nation::class);
+        return $this->belongsTo(Nation::class);
     }
 
     /** @return HasOne<Contract, $this> */

@@ -28,7 +28,6 @@ class PlayerObserver {
     }
 
     public function generatePersonalDetails() {
-        $this->person->form = rand(1, 99);
         // $this->person->birthday = rand(1, 91);
 
         // $length = rand(160, 210);
