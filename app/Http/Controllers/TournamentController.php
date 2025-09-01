@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateTournamentAction;
-use App\Http\Requests\CreateTournamentRequest;
-use App\Models\Club;
 use App\Models\Tournament;
 use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,25 +15,8 @@ final class TournamentController extends Controller
     public function index(): Response
     {
         return Inertia::render('tournaments/index/page', [
-            'tournaments' => Tournament::all()
+            'tournaments' => Tournament::all(),
         ]);
-    }
-
-    public function create(): Response
-    {
-        $clubs = Club::doesntHave('tournament')->get();
-
-        return Inertia::render('tournaments/create/page', ['clubs' => $clubs]);
-    }
-
-    public function store(CreateTournamentRequest $request, CreateTournamentAction $action): RedirectResponse
-    {
-        $request->validated();
-        $createdTournament = $action->handle($request);
-
-        return redirect()
-            ->route('tournaments.show', $createdTournament->slug)
-            ->with('success', 'Torneio criado com sucesso!');
     }
 
     public function show(Tournament $tournament): Response
@@ -59,7 +38,7 @@ final class TournamentController extends Controller
             ->first();
 
         $first = $bounds->first_start ? Carbon::parse($bounds->first_start) : null;
-        $last  = $bounds->last_start  ? Carbon::parse($bounds->last_start)  : null;
+        $last = $bounds->last_start ? Carbon::parse($bounds->last_start) : null;
 
         // 2) Status calculado (sem accessor)
         $status = 'NOT_DECIDED';
@@ -109,14 +88,14 @@ final class TournamentController extends Controller
                      */
                     function (object $s): array {
                         return [
-                            'id'        => $s->id,
-                            'group_id'  => $s->group_id,
-                            'club_id'   => $s->club_id,
-                            'scored'    => $s->scored,
-                            'conceded'  => $s->conceded,
-                            'points'    => $s->points,
-                            'club'      => [
-                                'id'   => $s->club_id,
+                            'id' => $s->id,
+                            'group_id' => $s->group_id,
+                            'club_id' => $s->club_id,
+                            'scored' => $s->scored,
+                            'conceded' => $s->conceded,
+                            'points' => $s->points,
+                            'club' => [
+                                'id' => $s->club_id,
                                 'name' => $s->club_name,
                                 'slug' => $s->club_slug,
                             ],
@@ -125,8 +104,8 @@ final class TournamentController extends Controller
                 )->values()->all();
 
                 return [
-                    'id'        => $g->id,
-                    'name'      => $g->name,
+                    'id' => $g->id,
+                    'name' => $g->name,
                     'standings' => $rows,
                 ];
             }
@@ -214,6 +193,7 @@ final class TournamentController extends Controller
                 if ($dt->year !== Carbon::now()->year) {
                     return $dt->format('j/n H:i Y');
                 }
+
                 return $dt->format('j/n H:i');
 
             case '1':
@@ -222,9 +202,10 @@ final class TournamentController extends Controller
                     return 'Halftime';
                 }
                 if ($minutes >= 60) {
-                    return '<i class="material-icons">timelapse</i> ' . ($minutes - 15) . "'";
+                    return '<i class="material-icons">timelapse</i> '.($minutes - 15)."'";
                 }
-                return '<i class="material-icons">timelapse</i> ' . $minutes . "'";
+
+                return '<i class="material-icons">timelapse</i> '.$minutes."'";
 
             case '2': return 'Ended';
             case '3': return 'Waiting for second half';

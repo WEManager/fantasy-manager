@@ -10,10 +10,8 @@ require __DIR__.'/auth.php';
 Route::get('/', Controllers\HomeController::class)->name('home');
 
 Route::resource('torneios', Controllers\TournamentController::class)
-    ->only(['index', 'show', 'create', 'store'])
+    ->only(['index', 'show'])
     ->parameters(['torneios' => 'tournament'])
-    ->middlewareFor('create', 'admin')
-    ->middlewareFor('store', 'admin')
     ->names('tournament');
 
 Route::resource('clubes', Controllers\ClubController::class)
