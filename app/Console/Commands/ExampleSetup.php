@@ -11,14 +11,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
 final class ExampleSetup extends Command {
-    /**
-     * @var string
-     */
     protected $signature = 'example:setup';
 
-    /**
-     * @var string
-     */
     protected $description = 'Create an example database';
 
     public function handle(): int {
@@ -59,7 +53,7 @@ final class ExampleSetup extends Command {
             ]);
 
             return self::SUCCESS;
-        } catch (Exception $e) {
+        } catch (Exception) {
             return self::FAILURE;
         }
     }
