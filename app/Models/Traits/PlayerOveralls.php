@@ -6,7 +6,11 @@ namespace App\Models\Traits;
 
 trait PlayerOveralls
 {
-    public function getAverage($skills, $name)
+    /**
+     * @param  array<string, mixed>  $skills
+     * @return array<string, mixed>
+     */
+    public function getAverage(array $skills, string $name): array
     {
         $summary = 0;
 
@@ -14,39 +18,16 @@ trait PlayerOveralls
             $summary += $value;
         }
 
-        $skills['average_' . $name] = $summary / count($skills[$name]);
+        $skills['average_'.$name] = $summary / count($skills[$name]);
 
         return $skills;
     }
 
-    private function getSkills()
+    /** @return array<string, int> */
+    public function getGoalkeepingAttribute(): array
     {
         $stats = $this->stats ?? [];
-        
-        // Usar as estatísticas já agrupadas pelo cast
-        $mental = $stats['mental'] ?? [];
-        $physical = $stats['physical'] ?? [];
-        $technical = $stats['technical'] ?? [];
-        
-        $skills = [
-            'mental' => $mental,
-            'physical' => $physical,
-            'technical' => $technical,
-        ];
 
-        $skills = $this->getAverage($skills, 'mental');
-        $skills = $this->getAverage($skills, 'physical');
-        $skills = $this->getAverage($skills, 'technical');
-
-        $skills['average'] = ($skills['average_mental'] + $skills['average_physical'] + $skills['average_technical']) / 3;
-
-        return $skills;
-    }
-
-    public function getGoalkeepingAttribute()
-    {
-        $stats = $this->stats ?? [];
-        
         // Usar as estatísticas já agrupadas pelo cast
         $goalkeeping = $stats['goalkeeping'] ?? [];
         $mental = $stats['mental'] ?? [];
@@ -70,7 +51,8 @@ trait PlayerOveralls
         return $goalkeeping;
     }
 
-    public function getCentralDefendingAttribute()
+    /** @return array<string, int|float> */
+    public function getCentralDefendingAttribute(): array
     {
         $skills = $this->getSkills();
         $stats = $this->stats['raw'] ?? [];
@@ -89,7 +71,8 @@ trait PlayerOveralls
         return $skills;
     }
 
-    public function getWideDefendingAttribute()
+    /** @return array<string, int|float> */
+    public function getWideDefendingAttribute(): array
     {
         $skills = $this->getSkills();
         $stats = $this->stats['raw'] ?? [];
@@ -108,7 +91,8 @@ trait PlayerOveralls
         return $skills;
     }
 
-        public function getCentralMidfielderAttribute()
+    /** @return array<string, int|float> */
+    public function getCentralMidfielderAttribute(): array
     {
         $skills = $this->getSkills();
         $stats = $this->stats['raw'] ?? [];
@@ -118,7 +102,7 @@ trait PlayerOveralls
                 // Give primary central midfielder values more weight (50% more)
                 (($stats['short_passing']) + ($stats['long_passing']) + ($stats['vision']) + ($stats['composure'])) * 1.5
                 // Divide the weighted values to an average
-                ) / 4 +
+            ) / 4 +
             // Give the rest of central midfielder values importance
             $skills['average']
             // Divide weighted and default values by 2 to get a combined value
@@ -127,7 +111,8 @@ trait PlayerOveralls
         return $skills;
     }
 
-    public function getWideMidfielderAttribute()
+    /** @return array<string, int|float> */
+    public function getWideMidfielderAttribute(): array
     {
         $skills = $this->getSkills();
         $stats = $this->stats['raw'] ?? [];
@@ -146,7 +131,8 @@ trait PlayerOveralls
         return $skills;
     }
 
-    public function getCentralAttackerAttribute()
+    /** @return array<string, int|float> */
+    public function getCentralAttackerAttribute(): array
     {
         $skills = $this->getSkills();
         $stats = $this->stats['raw'] ?? [];
@@ -165,7 +151,8 @@ trait PlayerOveralls
         return $skills;
     }
 
-    public function getWideAttackerAttribute()
+    /** @return array<string, int|float> */
+    public function getWideAttackerAttribute(): array
     {
         $skills = $this->getSkills();
         $stats = $this->stats['raw'] ?? [];
@@ -180,6 +167,31 @@ trait PlayerOveralls
             $skills['average']
             // Divide weighted and default values by 2 to get a combined value
         ) / 2;
+
+        return $skills;
+    }
+
+    /** @return array<string, int> */
+    private function getSkills(): array
+    {
+        $stats = $this->stats ?? [];
+
+        // Usar as estatísticas já agrupadas pelo cast
+        $mental = $stats['mental'] ?? [];
+        $physical = $stats['physical'] ?? [];
+        $technical = $stats['technical'] ?? [];
+
+        $skills = [
+            'mental' => $mental,
+            'physical' => $physical,
+            'technical' => $technical,
+        ];
+
+        $skills = $this->getAverage($skills, 'mental');
+        $skills = $this->getAverage($skills, 'physical');
+        $skills = $this->getAverage($skills, 'technical');
+
+        $skills['average'] = ($skills['average_mental'] + $skills['average_physical'] + $skills['average_technical']) / 3;
 
         return $skills;
     }
