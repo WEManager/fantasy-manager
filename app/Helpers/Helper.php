@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 use App\Models\Season;
 
-function getCurrentSeason()
+function getCurrentSeason(): ?Season
 {
-    $date = date('Y-m-d H:i:s');
-    return Season::whereDate('start_time', '<=', $date)->whereDate('end_time', '>=', $date)->first();
+    return Season::whereDate('start_time', '<=', now())
+        ->whereDate('end_time', '>=', now())
+        ->first();
 }
 
-function getContractType($squad)
+/** @return array<string> */
+function getContractType(string $squad): array
 {
-  return match (strtolower($squad)) {
-    'u19' => ['youth'],
-    'u21' => ['reserve'],
-    default => ['key', 'regular'],
-  };
+    return match (mb_strtolower($squad)) {
+        'u19' => ['youth'],
+        'u21' => ['reserve'],
+        default => ['key', 'regular'],
+    };
 }
 
-function getPositions()
+/** @return array<string> */
+function getPositions(): array
 {
     return [
         'GK',
@@ -29,21 +32,16 @@ function getPositions()
     ];
 }
 
-function getPositionsExceptGoalkeeper()
+/** @return array<string> */
+function getPositionsExceptGoalkeeper(): array
 {
     $positions = getPositions();
 
     foreach ($positions as $key => $position) {
-        if ($position === 'GK') unset($positions[$key]);
+        if ($position === 'GK') {
+            unset($positions[$key]);
+        }
     }
 
     return $positions;
-}
-
-function translations(String $jsonFile) {
-    if(!file_exists($jsonFile)) {
-        return [];
-    }
-
-    return json_decode(file_get_contents($jsonFile), true);
 }
