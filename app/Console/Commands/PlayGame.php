@@ -32,7 +32,7 @@ final class PlayGame extends Command
         $games = TournamentGame::where('start_time', '<=', now())
             ->where('status', '0')
             ->orWhere('status', '1')
-            ->where('start_time', '<=', ago('106 minutes'))
+            ->where('start_time', '<=', now()->subMinutes(106))
             ->get();
 
         foreach ($games as $game) {

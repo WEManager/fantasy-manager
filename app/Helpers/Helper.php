@@ -4,14 +4,6 @@ declare(strict_types=1);
 
 use App\Models\Season;
 
-function ago($string, $precision = null)
-{
-    if ($precision == null) $format = 'Y-m-d H:i:s';
-    if ($precision == 'date') $format = 'Y-m-d';
-
-    return date($format, strtotime($string . ' ago'));
-}
-
 function link_route($name, $parameters = [], $absolute = true)
 {
     if (!is_array($parameters)) {

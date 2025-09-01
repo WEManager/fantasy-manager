@@ -136,8 +136,8 @@ final class TournamentGame extends Model
     public function scopeTimeForHalftime(Builder $query): Builder
     {
         return $query->where('status', GameStatus::ACTIVE)
-            ->where('start_time', '<=', ago('45 minutes'))
-            ->where('start_time', '>=', ago('60 minutes'));
+            ->where('start_time', '<=', now()->subMinutes(45))
+            ->where('start_time', '>=', now()->subMinutes(60));
     }
 
     /**
@@ -147,7 +147,7 @@ final class TournamentGame extends Model
     public function scopeAboutToEnd(Builder $query): Builder
     {
         return $query->where('status', GameStatus::ACTIVE)
-            ->where('start_time', '<=', ago('106 minutes'));
+            ->where('start_time', '<=', now()->subMinutes(106));
     }
 
     /** @return BelongsTo<TournamentGroup, $this> */
