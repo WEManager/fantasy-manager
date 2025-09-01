@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\GameStatus;
+use App\Enums\GameType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +17,8 @@ final class TournamentGame extends Model
     protected $casts = [
         'hometeam_score' => 'int',
         'awayteam_score' => 'int',
+        'type' => GameType::class,
+        'status' => GameStatus::class,
         'start_time' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -49,12 +53,13 @@ final class TournamentGame extends Model
 
     public function getIsAboutToStartAttribute(): bool
     {
-        return $this->status === '0' && now()->greaterThanOrEqualTo($this->start_time);
+        return $this->status === GameStatus::NOT_STARTED
+            && now()->greaterThanOrEqualTo($this->start_time);
     }
 
     public function getIsTimeForHalftimeAttribute(): bool
     {
-        return $this->status === '1'
+        return $this->status === GameStatus::ACTIVE
             && $this->start_time->between(
                 now()->addMinutes(45),
                 now()->addMinutes(60)
@@ -63,13 +68,13 @@ final class TournamentGame extends Model
 
     public function getIsTimeForSecondHalfAttribute(): bool
     {
-        return $this->status === '3'
+        return $this->status === GameStatus::WAITING_FOR_SECOND_HALF
             && $this->start_time->lessThanOrEqualTo(now()->subMinutes(60));
     }
 
     public function getIsAboutToEndAttribute(): bool
     {
-        return $this->status === '1'
+        return $this->status === GameStatus::ACTIVE
             && $this->start_time->lessThanOrEqualTo(now()->subMinutes(60))
             && $this->gameEvents->count() === 0;
     }
@@ -101,47 +106,17 @@ final class TournamentGame extends Model
 
     public function getGameStatusAttribute(): string
     {
-        switch ($this->status) {
-            case '0':
-                if ($this->start_time->isToday()) {
-                    return ucfirst($this->start_time->diffForHumans());
-                }
-                if (! $this->start_time->isCurrentYear()) {
-                    return $this->start_time->format('j/n H:i Y');
-                }
-
-                return $this->start_time->format('j/n H:i');
-
-            case '1':
-                $minutes = now()->diffInMinutes($this->start_time);
-
-                $returnString = $minutes.'\'';
-
-                if ($minutes > 45 && $minutes < 60) {
-                    $returnString = __('Halftime');
-                }
-                if ($minutes >= 60) {
-                    $returnString = ($minutes - 15).'\'';
-                }
-
-                return '<i class="material-icons">timelapse</i> '.$returnString;
-            case '2':
-                return __('Ended');
-            case '3':
-                return __('Waiting for second half');
-            case '4':
-                return __('Waiting for extra time');
-            case '5':
-                return __('Waiting for penalties');
-            case '6':
-                return __('Cancelled');
-            case '7':
-                return __('Postponed');
-            case '8':
-                return __('Not decided');
-            default:
-                return __('Unknown');
-        }
+        return match ($this->status) {
+            GameStatus::NOT_STARTED => $this->getNotStartedStatusText(),
+            GameStatus::ACTIVE => $this->getActiveStatusText(),
+            GameStatus::ENDED => __('Finalizado'),
+            GameStatus::WAITING_FOR_SECOND_HALF => __('Aguardando segundo tempo'),
+            GameStatus::WAITING_FOR_EXTRA_TIME => __('Aguardando prorrogação'),
+            GameStatus::WAITING_FOR_PENALTIES => __('Aguardando pênaltis'),
+            GameStatus::CANCELLED => __('Cancelado'),
+            GameStatus::POSTPONED => __('Adiado'),
+            GameStatus::NOT_DECIDED => __('Não decidido'),
+        };
     }
 
     /**
@@ -150,7 +125,7 @@ final class TournamentGame extends Model
      */
     public function scopeAboutToStart(Builder $query): Builder
     {
-        return $query->where('status', '0')
+        return $query->where('status', GameStatus::NOT_STARTED)
             ->where('start_time', '<=', now());
     }
 
@@ -160,7 +135,7 @@ final class TournamentGame extends Model
      */
     public function scopeTimeForHalftime(Builder $query): Builder
     {
-        return $query->where('status', '1')
+        return $query->where('status', GameStatus::ACTIVE)
             ->where('start_time', '<=', ago('45 minutes'))
             ->where('start_time', '>=', ago('60 minutes'));
     }
@@ -171,7 +146,7 @@ final class TournamentGame extends Model
      */
     public function scopeAboutToEnd(Builder $query): Builder
     {
-        return $query->where('status', '=', '1')
+        return $query->where('status', GameStatus::ACTIVE)
             ->where('start_time', '<=', ago('106 minutes'));
     }
 
@@ -215,5 +190,33 @@ final class TournamentGame extends Model
     public function awayteamEvents()
     {
         return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->awayteam_id);
+    }
+
+    private function getNotStartedStatusText(): string
+    {
+        if ($this->start_time->isToday()) {
+            return ucfirst($this->start_time->diffForHumans());
+        }
+        if (! $this->start_time->isCurrentYear()) {
+            return $this->start_time->format('j/n H:i Y');
+        }
+
+        return $this->start_time->format('j/n H:i');
+    }
+
+    private function getActiveStatusText(): string
+    {
+        $minutes = now()->diffInMinutes($this->start_time);
+
+        $returnString = $minutes.'\'';
+
+        if ($minutes > 45 && $minutes < 60) {
+            $returnString = __('Intervalo');
+        }
+        if ($minutes >= 60) {
+            $returnString = ($minutes - 15).'\'';
+        }
+
+        return '<i class="material-icons">timelapse</i> '.$returnString;
     }
 }

@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use App\Enums\GameStatus;
+use App\Enums\GameType;
 use App\Enums\TournamentType;
+use App\Models\Club;
 use App\Models\Tournament;
 use App\Models\TournamentGame;
 use App\Models\TournamentGroup;
 use App\Models\TournamentStanding;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 final class CreateLeagueEvent
 {
@@ -19,10 +23,11 @@ final class CreateLeagueEvent
         InteractsWithSockets,
         SerializesModels;
 
-    public function __construct(Tournament $tournament) {
+    public function __construct(Tournament $tournament)
+    {
         $clubs = $tournament
-        ->clubsParticipants
-        ->shuffle();
+            ->clubsParticipants
+            ->shuffle();
 
         switch ($tournament->type) {
             case TournamentType::LEAGUE:
@@ -48,7 +53,7 @@ final class CreateLeagueEvent
 
                 for ($i = 0; $i < $tournament->groups; $i++) {
                     $groups[] = TournamentGroup::create([
-                        'name' => __('Group') . ' ' . ($i + 1),
+                        'name' => __('Group').' '.($i + 1),
                         'tournament_id' => $tournament->id,
                     ]);
                 }
@@ -74,25 +79,31 @@ final class CreateLeagueEvent
                 // create games schedule
                 foreach ($groups as $group) {
                     $clubs = TournamentStanding::where('group_id', $group->id)->pluck('club_id');
-                    
+
                     $this->generateGameSchedule($clubs, $group);
                 }
 
                 break;
-            case TournamentType::PLAYOFFS:
+            case TournamentType::CHAMPIONSHIP:
                 break;
         }
     }
 
-    private function generateGameSchedule($clubs, $group, int $meetings = 2): void {
+    /**
+     * @param  Collection<int, Club>  $clubs
+     */
+    private function generateGameSchedule(
+        Collection $clubs,
+        TournamentGroup $group,
+        int $meetings = 2
+    ): void {
         // Count the number of teams
-        $amountOfParticipants = count($clubs);
+        $amountOfParticipants = $clubs->count();
 
         // If number of team is odd, add a ghost-team...
-        if ($amountOfParticipants % 2 != 0) {
-        $amountOfParticipants++;
-            
-        $ghost = $amountOfParticipants;
+        if ($amountOfParticipants % 2 !== 0) {
+            $amountOfParticipants++;
+            $ghost = $amountOfParticipants;
         }
 
         // Number of rounds
@@ -104,54 +115,54 @@ final class CreateLeagueEvent
         $restingDaysBeforeStart = 1;
         $restingDaysAfterSeason = 7;
 
-        $startDate = strtotime($season->start_time . ' +' . $restingDaysBeforeStart . ' days');
-        $endDate = strtotime($season->end_time . ' -' . $restingDaysAfterSeason . ' days');
+        $startDate = strtotime($season->start_time.' +'.$restingDaysBeforeStart.' days');
+        $endDate = strtotime($season->end_time.' -'.$restingDaysAfterSeason.' days');
 
-        $daysBetween = (int)round(($endDate - $startDate) / 86400);
-        //$daysBetween = 47;
+        $daysBetween = (int) round(($endDate - $startDate) / 86400);
+        // $daysBetween = 47;
 
         $oneRoundEvery = $daysBetween / $rounds;
 
         // Loop the rounds...
         for ($r = 1; $r <= $rounds; $r++) {
 
-        $daysAfterStart = round(($r - 1) * $oneRoundEvery);
-        $roundDate = date('Y-m-d 19:00:00', strtotime(date('Y-m-d', $startDate) . ' +' . $daysAfterStart . ' days'));
+            $daysAfterStart = round(($r - 1) * $oneRoundEvery);
+            $roundDate = date('Y-m-d 19:00:00', strtotime(date('Y-m-d', $startDate).' +'.$daysAfterStart.' days'));
 
-        // If it is weekend, set other time
-        if (date('N', strtotime($roundDate)) >= 6) {
-            $roundDate = date('Y-m-d 16:00:00', strtotime(date('Y-m-d', $startDate) . ' +' . $daysAfterStart . ' days'));
-        }
-
-        // For each round loop teams / 2 ... it takes 2 to tango...
-        for ($s = 1; $s <= $amountOfParticipants / 2; $s++) {
-            // algorithm to take each team "backwards"
-            $hometeam = ($s == 1) ? 1 : (($r + $s - 2) % ($amountOfParticipants - 1) + 2);
-
-            // algorithm to prevent home and awayteam to be the same
-            $awayteam = ($amountOfParticipants - 1 + $r - $s) % ($amountOfParticipants - 1) + 2;
-
-            // let the venue change after each round... homegame... then awaygame..
-            if ($r % 2) {
-            $swap = $hometeam;
-            $hometeam = $awayteam;
-            $awayteam = $swap;
+            // If it is weekend, set other time
+            if (date('N', strtotime($roundDate)) >= 6) {
+                $roundDate = date('Y-m-d 16:00:00', strtotime(date('Y-m-d', $startDate).' +'.$daysAfterStart.' days'));
             }
 
-            // never add the ghost-team to database..
-            if (!isset($ghost) || (($hometeam != $ghost) && ($awayteam != $ghost))) {
-            TournamentGame::create([
-                'group_id' => $group->id,
-                'hometeam_id' => $clubs[($hometeam - 1)]->id,
-                'awayteam_id' => $clubs[($awayteam - 1)]->id,
-                // 'hometeam_squad' => $group->tournament->team,
-                // 'awayteam_squad' => $group->tournament->team,
-                'type' => '1', // 90min only
-                'status' => '0', // Not started
-                'start_time' => $roundDate,
-            ]);
+            // For each round loop teams / 2 ... it takes 2 to tango...
+            for ($s = 1; $s <= $amountOfParticipants / 2; $s++) {
+                // algorithm to take each team "backwards"
+                $hometeam = ($s === 1) ? 1 : (($r + $s - 2) % ($amountOfParticipants - 1) + 2);
+
+                // algorithm to prevent home and awayteam to be the same
+                $awayteam = ($amountOfParticipants - 1 + $r - $s) % ($amountOfParticipants - 1) + 2;
+
+                // let the venue change after each round... homegame... then awaygame..
+                if ($r % 2) {
+                    $swap = $hometeam;
+                    $hometeam = $awayteam;
+                    $awayteam = $swap;
+                }
+
+                // never add the ghost-team to database..
+                if (! isset($ghost) || (($hometeam !== $ghost) && ($awayteam !== $ghost))) {
+                    TournamentGame::create([
+                        'group_id' => $group->id,
+                        'hometeam_id' => $clubs[($hometeam - 1)]->id,
+                        'awayteam_id' => $clubs[($awayteam - 1)]->id,
+                        // 'hometeam_squad' => $group->tournament->team,
+                        // 'awayteam_squad' => $group->tournament->team,
+                        'type' => GameType::REGULAR_TIME_ONLY,
+                        'status' => GameStatus::NOT_STARTED,
+                        'start_time' => $roundDate,
+                    ]);
+                }
             }
-        }
         }
     }
 }

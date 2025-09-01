@@ -1,3 +1,5 @@
+import type { GameStatus } from '../tournaments/types'
+
 export interface Club {
   id: number
   name: string
@@ -26,5 +28,3 @@ export interface OngoingGame {
   group: TournamentGroup
   gameStatus: string
 }
-
-export type GameStatus = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'

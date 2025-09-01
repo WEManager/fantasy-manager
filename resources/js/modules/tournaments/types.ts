@@ -2,7 +2,29 @@ import type { Club, TournamentFixture, TournamentStanding, TournamentStatus } fr
 
 export type { TournamentStatus }
 
-export type TournamentType = 'league' | 'groups' | 'playoffs'
+export type TournamentType = 'league' | 'groups' | 'championship'
+
+export const GameTypes = {
+  REGULAR_TIME_ONLY: 1,
+  REGULAR_TIME_PLUS_PENALTIES: 2,
+  EXTRA_TIME_PLUS_PENALTIES: 3,
+}
+
+export type GameType = (typeof GameTypes)[keyof typeof GameTypes]
+
+export const GameStatuses = {
+  NOT_STARTED: 0,
+  ACTIVE: 1,
+  ENDED: 2,
+  WAITING_FOR_SECOND_HALF: 3,
+  WAITING_FOR_EXTRA_TIME: 4,
+  WAITING_FOR_PENALTIES: 5,
+  CANCELLED: 6,
+  POSTPONED: 7,
+  NOT_DECIDED: 8,
+}
+
+export type GameStatus = (typeof GameStatuses)[keyof typeof GameStatuses]
 
 export interface Tournament {
   id: number
@@ -63,7 +85,8 @@ export interface TournamentFixture {
   hometeam_score: number
   awayteam_score: number
   start_time: string
-  status: string
+  type: GameType
+  status: GameStatus
   gameStatus: string
   hometeam: Club
   awayteam: Club

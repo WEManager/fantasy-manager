@@ -1,4 +1,5 @@
 import type { Club } from '~/modules/core/types'
+import type { GameStatus } from '../tournaments/types'
 
 export interface Player {
   id: number
@@ -40,8 +41,6 @@ export interface Game {
   CurrentMinute: number
   messages?: GameMessage[]
 }
-
-export type GameStatus = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'
 
 export interface GameShowData {
   game: Game
