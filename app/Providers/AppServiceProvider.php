@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Models\Player;
 use App\Observers\PlayerObserver;
 use Carbon\CarbonImmutable;
@@ -12,11 +11,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Sleep;
-
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -35,7 +33,6 @@ final class AppServiceProvider extends ServiceProvider
         $this->configureVite();
         $this->configureDate();
         $this->configureSleep();
-        // $this->configureHttp();
     }
 
     /**
@@ -99,14 +96,5 @@ final class AppServiceProvider extends ServiceProvider
         // Configures Laravel Sleep Facade to be faked.
         // Why: Avoid unexpected sleep during testing cases.
         Sleep::fake();
-    }
-
-    /**
-     * Configure the application's Http.
-     */
-    private function configureHttp(): void
-    {
-
-        Http::preventStrayRequests();
     }
 }
