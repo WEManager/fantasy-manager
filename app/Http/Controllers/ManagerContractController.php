@@ -12,17 +12,19 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
+use function request;
+
 final class ManagerContractController extends Controller
 {
-    public function create(Club $club): Response
+    public function create(Club $club): Response|RedirectResponse
     {
         if (auth()->check() && auth()->user()->club) {
             return redirect()->back();
         }
 
-        if ($club->manager != null) {
-        return redirect()->back()->withErrors([
-                __(':Club already has a manager.', ['Club' => $club->name])
+        if ($club->manager !== null) {
+            return redirect()->back()->withErrors([
+                __(':Club already has a manager.', ['Club' => $club->name]),
             ]);
         }
 
@@ -36,26 +38,26 @@ final class ManagerContractController extends Controller
     public function store(): RedirectResponse
     {
         if (auth()->user()->club !== null) {
-        return redirect()->back();
+            return redirect()->back();
         }
 
-        $club = Club::find(\request('club_id'));
+        $club = Club::find(request('club_id'));
 
         $earlierApplications = JobApplication::where([
             'user_id' => auth()->user()->id,
-            'club_id' => \request('club_id'),
+            'club_id' => request('club_id'),
             'status' => 'rejected',
         ])->count();
 
         if ($earlierApplications > 0) {
             return redirect()->back()->withErrors([
-                __(':Club has already rejected your application.', ['Club' => $club->name])
+                __(':Club has already rejected your application.', ['Club' => $club->name]),
             ]);
         }
 
-        if ($club->manager != null) {
+        if ($club->manager !== null) {
             return redirect()->back()->withErrors([
-                __(':Club already has a manager.', ['Club' => $club->name])
+                __(':Club already has a manager.', ['Club' => $club->name]),
             ]);
         }
 
@@ -64,9 +66,9 @@ final class ManagerContractController extends Controller
             ManagerContract::create([
                 'club_id' => $club->id,
                 'user_id' => auth()->id(),
-                'from' => \request('from'),
-                'until' => \request('until'),
-                'wage' => \request('wage'),
+                'from' => request('from'),
+                'until' => request('until'),
+                'wage' => request('wage'),
             ]);
 
             JobApplication::create([
@@ -75,18 +77,18 @@ final class ManagerContractController extends Controller
                 'status' => 'approved',
             ]);
 
-            return redirect(link_route('club.show', ['club' => $club]))->with('message', __('You got the job as manager for :club!', ['club' => $club->name]));
-        } else {
-            JobApplication::create([
-                'user_id' => auth()->id(),
-                'club_id' => $club->id,
-                'status' => 'rejected',
-            ]);
-
-            return redirect()->back()->withErrors([
-                __(':Club did not accept your application.', ['Club' => $club->name])
-            ]);
+            return redirect(route('club.show', ['club' => $club]))->with('message', __('You got the job as manager for :club!', ['club' => $club->name]));
         }
+        JobApplication::create([
+            'user_id' => auth()->id(),
+            'club_id' => $club->id,
+            'status' => 'rejected',
+        ]);
+
+        return redirect()->back()->withErrors([
+            __(':Club did not accept your application.', ['Club' => $club->name]),
+        ]);
+
     }
 
     public function resign(Club $club): Response
@@ -110,9 +112,9 @@ final class ManagerContractController extends Controller
         $signed = Carbon::parse($contract->from);
         if ($signed->diffInDays($now) < 14) {
 
-        $boardMessage = __('You cannot resign within 14 days of signing your contract.');
+            $boardMessage = __('You cannot resign within 14 days of signing your contract.');
 
-        return Inertia::render('clubs/apply/quit/page', ['club' => $club, 'boardMessage' => $boardMessage]);
+            return Inertia::render('clubs/apply/quit/page', ['club' => $club, 'boardMessage' => $boardMessage]);
         }
 
         $contract->status = 'manager_resigned';

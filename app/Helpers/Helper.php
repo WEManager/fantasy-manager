@@ -4,29 +4,6 @@ declare(strict_types=1);
 
 use App\Models\Season;
 
-function link_route($name, $parameters = [], $absolute = true)
-{
-    if (!is_array($parameters)) {
-        throw new Exception('Parameter $parameters has to be an array');
-    }
-    $parameters = setCurrentLocale($parameters);
-
-    return app('url')->route($name, $parameters, $absolute);
-}
-
-/**
- * @param $parameters
- * @return array
- */
-function setCurrentLocale($parameters): array
-{
-    if (!isset($parameters['locale'])) {
-        $locale = ['locale' => app()->getLocale()];
-        $parameters = array_merge($parameters, $locale);
-    }
-    return $parameters;
-}
-
 function slugify($string)
 {
     return \Illuminate\Support\Str::slug($string);
