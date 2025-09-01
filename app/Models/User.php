@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Club;
 use App\Models\ManagerContract;
+use Illuminate\Auth\MustVerifyEmail;
 
 final class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, MustVerifyEmail;
 
     protected $fillable = [
         'name', 'email', 'password',

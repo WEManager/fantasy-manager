@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 
-class VerificationController extends Controller
+final class VerificationController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -22,15 +24,11 @@ class VerificationController extends Controller
 
     /**
      * Where to redirect users after verification.
-     *
-     * @var string
      */
-    protected $redirectTo = route('home');
+    protected string $redirectTo = route('home');
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
