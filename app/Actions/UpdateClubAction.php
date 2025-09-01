@@ -15,7 +15,6 @@ final class UpdateClubAction
         DB::transaction(function () use ($request, $club) {
             $club->update([
                 'name' => $request->name,
-                'locale' => $request->locale,
                 'colors' => [
                     $request->mainColor,
                     $request->secondColor,

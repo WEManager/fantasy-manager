@@ -33,7 +33,6 @@ class GenerateClub extends Command {
         $club = Club::create([
             'name' => $name,
             'colors' => $colors,
-            'locale' => nationalityBasedOnLocale($locale)
         ]);
 
         $players = Player::all()->random(17)->pluck('id');

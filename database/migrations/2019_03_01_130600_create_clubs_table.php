@@ -18,7 +18,7 @@ class CreateClubsTable extends Migration
             $table->string('name')->unique();
             $table->string('slug');
             $table->json('colors');
-            $table->string('locale');
+
             $table->integer('reputation')->default(0);
             $table->timestamps();
         });

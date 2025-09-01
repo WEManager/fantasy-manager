@@ -33,7 +33,6 @@ interface Player {
 interface Club {
   id: number
   name: string
-  locale: string
   colors: string[]
   manager?: {
     name: string
@@ -75,7 +74,7 @@ export default function SquadPage({ club, players, squad }: SquadPageProps) {
                 }}
               >
                 {club.name}
-                <span className={`flag-icon flag-icon-${club.locale.toLowerCase()}`} />
+                <span className="text-sm text-gray-500">🏟️</span>
               </h1>
 
               {club.manager ? (

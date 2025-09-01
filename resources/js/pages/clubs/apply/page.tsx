@@ -22,9 +22,7 @@ export default function ApplyPage({ club }: ApplyPageData) {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">
-                  {club.name} ({club.locale})
-                </CardTitle>
+                <CardTitle className="text-2xl">{club.name}</CardTitle>
                 <CardDescription>
                   {club.manager ? `Gerente: ${club.manager.name}` : 'Sem gerente'}
                 </CardDescription>

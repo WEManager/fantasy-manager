@@ -1,17 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jimmiejohansson
- * Date: 2019-06-16
- * Time: 15:06
- */
+
+declare(strict_types=1);
 
 namespace App\Generators;
 
-
-class Player
+final class Player
 {
-    public static function firstname($locale)
+    public static function firstname(string $locale): string
     {
         $firstnames = include resource_path('firstname/' . $locale . '.php');
         shuffle($firstnames);
@@ -19,7 +14,7 @@ class Player
         return $firstnames[0];
     }
 
-    public static function lastname($locale)
+    public static function lastname(string $locale): string
     {
         $lastnames = include resource_path('lastname/' . $locale . '.php');
         shuffle($lastnames);
@@ -27,19 +22,12 @@ class Player
         return $lastnames[0];
     }
 
-    public static function nationality($locale)
+    public static function age(string $type): int
     {
-        return nationalityBasedOnLocale($locale);
-    }
-
-    public static function age($type)
-    {
-        if ($type == 'U19') {
-            return rand(15, 19);
-        }
-        if ($type == 'U21') {
-            return rand(19, 21);
-        }
-        return rand(20, 35);
+        return match ($type) {
+            'U19' => rand(15, 19),
+            'U21' => rand(19, 21),
+            default => rand(20, 35),
+        };
     }
 }

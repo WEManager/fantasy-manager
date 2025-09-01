@@ -13,7 +13,7 @@ export function TournamentName({ group }: TournamentNameProps) {
       className="text-blue-600 hover:text-blue-800 hover:underline"
     >
       <div className="flex items-center gap-2">
-        <span className={`flag-icon flag-icon-${group.tournament.nationality.toLowerCase()}`} />
+        <span className="text-sm text-gray-500">🏆</span>
         <span>{group.tournament.name}</span>
       </div>
       {group.name !== group.tournament.name && (

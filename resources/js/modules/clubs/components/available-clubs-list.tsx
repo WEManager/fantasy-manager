@@ -42,7 +42,7 @@ function ClubListItem({ club, canApply }: ClubListItemProps) {
 
   return (
     <div className="flex items-center gap-2 py-1">
-      <span className={`flag-icon flag-icon-${club.locale.toLowerCase()}`} />
+      <span className="text-sm text-gray-500">🏟️</span>
 
       <Link
         href={route('club.show', { club: club.slug })}

@@ -19,7 +19,6 @@ export interface TournamentGroup {
     id: number
     name: string
     slug: string
-    nationality: string
   }
 }
 

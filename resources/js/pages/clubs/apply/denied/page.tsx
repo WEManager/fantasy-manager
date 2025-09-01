@@ -12,7 +12,6 @@ import {
 interface Club {
   id: number
   name: string
-  locale: string
 }
 
 interface JobApplication {
@@ -39,9 +38,7 @@ export default function DeniedPage({ club, job_application }: DeniedPageProps) {
           <div className="lg:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">
-                  {club.name} ({club.locale})
-                </CardTitle>
+                <CardTitle className="text-2xl">{club.name}</CardTitle>
                 <CardDescription>Aplicação para gerente</CardDescription>
               </CardHeader>
 

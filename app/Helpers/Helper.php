@@ -1,8 +1,6 @@
 <?php
 
-/*
- * Get datetime from history
- */
+declare(strict_types=1);
 
 use App\Models\Season;
 
@@ -53,24 +51,6 @@ function is_current($name, array $parameters = [], $extension = '')
     $parameters['locale'] = app()->getLocale();
 
     return request()->is(route_path($name, $parameters, $extension));
-}
-
-function nationalityBasedOnLocale($locale)
-{
-    if ($locale == 'sv') {
-        return 'SE';
-    }
-
-    return strtoupper($locale);
-}
-
-function localeBasedOnNationality($nationality)
-{
-    if ($nationality == 'SE') {
-        return 'sv';
-    }
-
-    return strtolower($nationality);
 }
 
 function getCurrentSeason()

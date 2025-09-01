@@ -9,13 +9,11 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 
 final class HomeController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke()
+    public function __invoke(): Response
     {
         // Cache dos torneios otimizado (5 minutos)
         $tournaments = Cache::remember('home-tournaments-optimized', 300, function () {
@@ -24,18 +22,10 @@ final class HomeController extends Controller
                 ->leftJoin('tournament_games  as tg', 'tg.group_id', '=', 'grp.id')
                 ->select([
                     't.id', 't.slug', 't.name',
-                    DB::raw("COALESCE((
-                        SELECT c.locale
-                        FROM tournament_participants tp
-                        JOIN clubs c ON c.id = tp.club_id
-                        WHERE tp.tournament_id = t.id
-                        LIMIT 1
-                    ), 'unknown') as nationality"),
                     DB::raw('MIN(tg.start_time) as first_start'),
                     DB::raw('MAX(tg.start_time) as last_start'),
                 ])
                 ->groupBy('t.id', 't.slug', 't.name')
-                ->orderBy('nationality')
                 ->orderBy('t.name')
                 ->get()
                 ->map(function ($t) {
@@ -57,7 +47,6 @@ final class HomeController extends Controller
                         'id' => $t->id,
                         'slug' => $t->slug,
                         'name' => $t->name,
-                        'nationality' => $t->nationality ?? 'unknown',
                         'status' => $status,
                     ];
                 });
@@ -103,7 +92,7 @@ final class HomeController extends Controller
                 'at.name as awayteam_name',
                 'at.colors as awayteam_colors',
                 'at.slug as awayteam_slug',
-                DB::raw("COALESCE(MIN(cp.locale), 'unknown') as nationality"),
+
             ])
             ->limit($limit)
             ->get()
@@ -133,7 +122,6 @@ final class HomeController extends Controller
                             'id' => $g->tournament_id,
                             'name' => $g->tournament_name,
                             'slug' => $g->tournament_slug,
-                            'nationality' => $g->nationality,
                         ],
                     ],
                     'gameStatus' => $this->getGameStatus($g->status, $g->start_time),
@@ -146,7 +134,7 @@ final class HomeController extends Controller
         return Inertia::render('home/page', [
             // Cache dos clubes disponíveis (10 minutos)
             'clubs' => Inertia::defer(fn () => Cache::remember('home-available-clubs', 600, function () {
-                return Models\Club::select('id', 'name', 'colors', 'slug', 'locale')
+                return Models\Club::select('id', 'name', 'colors', 'slug')
                     ->whereNotExists(function ($q) {
                         $q->select(DB::raw(1))
                             ->from('manager_contracts')
@@ -164,7 +152,7 @@ final class HomeController extends Controller
     /**
      * Get game status based on status and start time
      */
-    private function getGameStatus($status, $startTime)
+    private function getGameStatus(string $status, string $startTime): string
     {
         switch ($status) {
             case '0':

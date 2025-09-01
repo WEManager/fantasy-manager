@@ -26,8 +26,7 @@ export function ClubsList({ clubs }: ClubsListProps) {
           <CardContent>
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <span className={`flag-icon flag-icon-${club.locale.toLowerCase()}`} />
-                <span className="text-sm text-gray-600">{club.locale}</span>
+                <span className="text-sm text-gray-600">Clube</span>
               </div>
               <div className="flex space-x-1">
                 {club.colors.map((color) => (

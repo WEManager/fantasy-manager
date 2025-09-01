@@ -9,7 +9,6 @@ interface PageProps extends InertiaPageProps {
     id: number
     name: string
     slug: string
-    locale: string
     colors: string[]
     manager?: {
       id: number

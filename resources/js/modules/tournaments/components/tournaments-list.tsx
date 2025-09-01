@@ -4,14 +4,12 @@ import { Link } from '@inertiajs/react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '~/modules/core/components/ui/card'
 
-import { FlagIcon } from './flag-icon'
 import { TournamentStatusIcon } from './tournament-status-icon'
 
 interface TournamentListItem {
   id: number
   slug: string
   name: string
-  nationality: string
   status: TournamentStatus
 }
 
@@ -28,49 +26,32 @@ export function TournamentsList({ tournaments }: TournamentsListProps) {
     )
   }
 
-  // Agrupar torneios por nacionalidade
-  const tournamentsByNationality = tournaments.reduce(
-    (acc: Record<string, TournamentListItem[]>, tournament) => {
-      const nationality = tournament.nationality || 'unknown'
-      if (!acc[nationality]) {
-        acc[nationality] = []
-      }
-      acc[nationality].push(tournament)
-      return acc
-    },
-    {},
-  )
+  const tournamentsList = tournaments
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-      {Object.entries(tournamentsByNationality).map(([nationality, leagues]) => (
-        <Card key={nationality} className="transition-colors duration-200">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FlagIcon nationality={nationality.toLowerCase()} />
-              <span className="text-foreground">{nationality}</span>
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <ul className="space-y-2">
-              {(leagues as TournamentListItem[])
-                .filter((league: TournamentListItem) => league.status !== 'NOT_DECIDED')
-                .map((league: TournamentListItem) => (
-                  <li key={league.id} className="flex items-center gap-2">
-                    <TournamentStatusIcon status={league.status} />
-                    <Link
-                      href={route('tournament.show', { tournament: league.slug })}
-                      className="text-primary hover:text-primary/80 hover:underline text-sm transition-colors duration-200"
-                    >
-                      {league.name}
-                    </Link>
-                  </li>
-                ))}
-            </ul>
-          </CardContent>
-        </Card>
-      ))}
+      <Card className="transition-colors duration-200">
+        <CardHeader>
+          <CardTitle className="text-foreground">Torneios</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-2">
+            {tournamentsList
+              .filter((tournament: TournamentListItem) => tournament.status !== 'NOT_DECIDED')
+              .map((tournament: TournamentListItem) => (
+                <li key={tournament.id} className="flex items-center gap-2">
+                  <TournamentStatusIcon status={tournament.status} />
+                  <Link
+                    href={route('tournament.show', { tournament: tournament.slug })}
+                    className="text-primary hover:text-primary/80 hover:underline text-sm transition-colors duration-200"
+                  >
+                    {tournament.name}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   )
 }

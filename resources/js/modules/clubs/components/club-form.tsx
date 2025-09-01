@@ -16,7 +16,6 @@ interface ClubFormProps {
 export function ClubForm({ club }: ClubFormProps) {
   const { data, setData, put, processing, errors } = useForm({
     name: club.name,
-    locale: club.locale,
     mainColor: club.colors[0] || '#000000',
     secondColor: club.colors[1] || '#000000',
     thirdColor: club.colors[2] || '#000000',
@@ -49,19 +48,6 @@ export function ClubForm({ club }: ClubFormProps) {
               placeholder="Digite o nome do clube"
             />
             {errors.name && <p className="text-sm text-red-600">{errors.name}</p>}
-          </div>
-
-          {/* Localização */}
-          <div className="space-y-2">
-            <Label htmlFor="locale">Localização</Label>
-            <Input
-              id={useId()}
-              type="text"
-              value={data.locale}
-              onChange={(e) => setData('locale', e.target.value)}
-              placeholder="Ex: BRA, ARG, ENG"
-            />
-            {errors.locale && <p className="text-sm text-red-600">{errors.locale}</p>}
           </div>
 
           {/* Cores */}
