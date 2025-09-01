@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 use App\Models\Season;
 
-function slugify($string)
-{
-    return \Illuminate\Support\Str::slug($string);
-}
-
 function route_path($name, array $parameters = [], $extension = '')
 {
     $url = link_route($name, $parameters) . $extension;
