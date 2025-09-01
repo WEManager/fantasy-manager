@@ -4,19 +4,6 @@ declare(strict_types=1);
 
 use App\Models\Season;
 
-function route_path($name, array $parameters = [], $extension = '')
-{
-    $url = link_route($name, $parameters) . $extension;
-    return str_replace(config('app.url') . '/', '', $url);
-}
-
-function is_current($name, array $parameters = [], $extension = '')
-{
-    $parameters['locale'] = app()->getLocale();
-
-    return request()->is(route_path($name, $parameters, $extension));
-}
-
 function getCurrentSeason()
 {
     $date = date('Y-m-d H:i:s');
