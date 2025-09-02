@@ -57,6 +57,13 @@ final class Player extends Model
     /** @return HasOneThrough<Club, Contract, $this> */
     public function club(): HasOneThrough
     {
-        return $this->hasOneThrough(Club::class, Contract::class);
+        return $this->hasOneThrough(
+            Club::class,
+            Contract::class,
+            'player_id', // FK em contracts
+            'id',        // FK em clubs
+            'id',        // PK em players
+            'club_id'    // PK em contracts
+        );
     }
 }

@@ -25,6 +25,6 @@ final class PlayerController extends Controller
             'contract',
         ]);
 
-        return Inertia::render('players/show/page', ['person' => $player]);
+        return Inertia::render('players/show/page', compact('player'));
     }
 }

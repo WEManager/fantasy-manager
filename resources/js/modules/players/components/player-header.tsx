@@ -31,7 +31,13 @@ export function PlayerHeader({ player }: PlayerHeaderProps) {
 
               <div>Contrato com {player.club.name}</div>
 
-              <div>{player.age} anos</div>
+              <div>
+                {Math.floor(
+                  (Date.now() - new Date(player.birth_date).getTime()) /
+                    (1000 * 60 * 60 * 24 * 365.25),
+                )}{' '}
+                anos ({new Date(player.birth_date).toLocaleDateString('pt-BR')})
+              </div>
 
               <div>
                 {player.contract.wage} por mês até{' '}

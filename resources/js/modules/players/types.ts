@@ -17,17 +17,20 @@ export interface Player {
   id: number
   know_as: string
   full_name: string
-  age: number
+  birth_date: string
   length: number
   weight: number
   nation_fifa_id: string
   nation: Nation
   club: Club
   contract: Contract
-  technical: Record<string, number>
-  mental: Record<string, number>
-  physical: Record<string, number>
-  goalkeeping: Record<string, number>
+  stats: {
+    raw: Record<string, number>
+    mental: Record<string, number | null>
+    physical: Record<string, number | null>
+    technical: Record<string, number | null>
+    goalkeeping: Record<string, number | null>
+  }
 }
 
 export interface PlayerIndexData {
@@ -35,5 +38,5 @@ export interface PlayerIndexData {
 }
 
 export interface PlayerShowData {
-  person: Player
+  player: Player
 }
