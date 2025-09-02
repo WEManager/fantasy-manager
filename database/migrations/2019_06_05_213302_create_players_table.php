@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-final class CreatePlayersTable extends Migration {
-    public function up() {
+final class CreatePlayersTable extends Migration
+{
+    public function up()
+    {
         Schema::create('players', function (Blueprint $table) {
             $table->id('id');
             $table->string('full_name');
@@ -26,17 +28,18 @@ final class CreatePlayersTable extends Migration {
             $table->json('play_styles');
             $table->json('stats');
             $table->timestamps();
-            
+
             // Foreign key para nations
             $table->foreign('nation_id')->references('id')->on('nations');
-            
+
             // Índices para melhor performance
             $table->index('preferred_position');
             $table->index('fifa_player_id');
         });
     }
 
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('players');
     }
 }

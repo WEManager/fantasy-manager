@@ -1,18 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+declare(strict_types=1);
 
-class CreateTournamentSeasonsTable extends Migration
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+final class CreateTournamentSeasonsTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('tournament_season', function (Blueprint $table) {
             $table->foreignId('season_id')->constrained();
             $table->foreignId('tournament_id')->constrained();
@@ -24,7 +26,8 @@ class CreateTournamentSeasonsTable extends Migration
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('tournament_seasons');
     }
 }

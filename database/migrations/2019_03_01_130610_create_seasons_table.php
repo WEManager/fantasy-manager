@@ -1,16 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+declare(strict_types=1);
 
-class CreateSeasonsTable extends Migration {
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+final class CreateSeasonsTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('seasons', function (Blueprint $table) {
             $table->id('id');
             $table->dateTime('start_time');
@@ -24,7 +28,8 @@ class CreateSeasonsTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('seasons');
     }
 }
