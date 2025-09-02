@@ -19,7 +19,7 @@ final class CreateTournamentRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'type' => 'required|string|in:' . implode(',', array_column(TournamentType::cases(), 'value')),
+            'type' => 'required|string|in:'.implode(',', array_column(TournamentType::cases(), 'value')),
             'groups' => 'required|integer|min:1|max:8',
             'playoffs' => 'required|integer|min:0|max:16',
             'proceeding_to_playoffs' => 'required|integer|min:1|max:8',
