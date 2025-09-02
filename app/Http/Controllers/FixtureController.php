@@ -19,13 +19,17 @@ final class FixtureController extends Controller
         $awayTeamLineup = $game->awayLineup;
 
         $hometeam = [];
-        for ($i = 1; $i < 12; $i++) {
-            $hometeam[$homeTeamLineup->{'position_'.$i}] = Player::find($homeTeamLineup->{'player_'.$i});
+        if ($homeTeamLineup) {
+            for ($i = 1; $i < 12; $i++) {
+                $hometeam[$homeTeamLineup->{'position_'.$i}] = Player::find($homeTeamLineup->{'player_'.$i});
+            }
         }
 
         $awayteam = [];
-        for ($i = 1; $i < 12; $i++) {
-            $awayteam[$awayTeamLineup->{'position_'.$i}] = Player::find($awayTeamLineup->{'player_'.$i});
+        if ($awayTeamLineup) {
+            for ($i = 1; $i < 12; $i++) {
+                $awayteam[$awayTeamLineup->{'position_'.$i}] = Player::find($awayTeamLineup->{'player_'.$i});
+            }
         }
 
         return Inertia::render('games/show/page', compact('game', 'hometeam', 'awayteam'));
