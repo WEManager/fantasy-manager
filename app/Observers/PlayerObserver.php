@@ -1,25 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Observers;
 
 use App\Models\Player;
 
-class PlayerObserver {
-    private $person;
+final class PlayerObserver
+{
+    public function creating(Player $player): void
+    {
 
-    public function creating(Player $person){
-        $this->person = &$person;
-
-        // if ($this->person->club_id) {
+        // if ($this->player->club_id) {
         //     PlayerContract::create([
-        //         'person_id' => $this->person->id,
-        //         'club_id', $this->person->club_id,
+        //         'person_id' => $this->player->id,
+        //         'club_id', $this->player->club_id,
         //         'wage' => rand(100, 999)
         //     ]);
-        //     unset($this->person->club_id);
+        //     unset($this->player->club_id);
         // }
 
-        $this->generatePersonalDetails();
+        $this->generatePlayerDetails();
         // $this->generateGoalkeepingSkills();
         // $this->generateTechnicalSkills();
         // $this->generateMentalSkills();
@@ -27,111 +28,117 @@ class PlayerObserver {
         // $this->generateHiddenSkills();
     }
 
-    public function generatePersonalDetails() {
-        // $this->person->birthday = rand(1, 91);
+    public function generatePlayerDetails(): void
+    {
+        // $this->player->birthday = rand(1, 91);
 
         // $length = rand(160, 210);
         // $diff = rand(1, 15);
 
         // if ($length > 190) {
-        //     $this->person->length = $length - $diff;
+        //     $this->player->length = $length - $diff;
         // } elseif ($length < 170) {
-        //     $this->person->length = $length + $diff;
+        //     $this->player->length = $length + $diff;
         // } else {
-        //     $this->person->length = $length;
+        //     $this->player->length = $length;
         // }
 
         // $weight = rand(60, 100);
         // $diff = rand(1, 5);
 
         // if ($weight < 66) {
-        //     $this->person->weight = $weight + $diff;
+        //     $this->player->weight = $weight + $diff;
         // } elseif ($weight > 90) {
-        //     $this->person->weight = $weight - $diff;
+        //     $this->player->weight = $weight - $diff;
         // } else {
-        //     $this->person->weight = $weight;
+        //     $this->player->weight = $weight;
         // }
 
         // $preferredFoot = ['only_right', 'right', 'left', 'only_left'];
         // shuffle($preferredFoot);
 
-        // $this->person->preferred_foot = $preferredFoot[0];
+        // $this->player->preferred_foot = $preferredFoot[0];
 
         // // Personality
-        // $this->person->ambition = rand(1, 100);
-        // $this->person->controversy = rand(1, 100);
-        // $this->person->loyalty = rand(1, 100);
-        // $this->person->pressure = rand(1, 100);
-        // $this->person->professionalism = rand(1, 100);
-        // $this->person->sportsmanship = rand(1, 100);
-        // $this->person->temperament = rand(1, 100);
+        // $this->player->ambition = rand(1, 100);
+        // $this->player->controversy = rand(1, 100);
+        // $this->player->loyalty = rand(1, 100);
+        // $this->player->pressure = rand(1, 100);
+        // $this->player->professionalism = rand(1, 100);
+        // $this->player->sportsmanship = rand(1, 100);
+        // $this->player->temperament = rand(1, 100);
     }
 
-    public function generateHiddenSkills() {
-        $this->person->adaptability = rand(1, 100);
-        $this->person->consistency = rand(1, 100);
-        $this->person->dirtiness = rand(1, 100);
-        $this->person->important_matches = rand(1, 100);
-        $this->person->injury_proneness = rand(1, 100);
-        $this->person->versatility = rand(1, 100);
+    public function generateHiddenSkills(): void
+    {
+        // $this->player->adaptability = rand(1, 100);
+        // $this->player->consistency = rand(1, 100);
+        // $this->player->dirtiness = rand(1, 100);
+        // $this->player->important_matches = rand(1, 100);
+        // $this->player->injury_proneness = rand(1, 100);
+        // $this->player->versatility = rand(1, 100);
     }
 
-    public function generatePhysicalSkills() {
-        $this->person->acceleration = rand(1, 100);
-        $this->person->agility = rand(1, 100);
-        $this->person->balance = rand(1, 100);
-        $this->person->jumping_reach = rand(1, 100);
-        $this->person->natural_fitness = rand(1, 100);
-        $this->person->pace = rand(1, 100);
-        $this->person->stamina = rand(1, 100);
-        $this->person->strength = round(rand(1, 100) * ($this->person->weight / 100));
+    public function generatePhysicalSkills(): void
+    {
+        // $this->player->acceleration = rand(1, 100);
+        // $this->player->agility = rand(1, 100);
+        // $this->player->balance = rand(1, 100);
+        // $this->player->jumping_reach = rand(1, 100);
+        // $this->player->natural_fitness = rand(1, 100);
+        // $this->player->pace = rand(1, 100);
+        // $this->player->stamina = rand(1, 100);
+        // $this->player->strength = round(rand(1, 100) * ($this->player->weight / 100));
     }
 
-    public function generateMentalSkills() {
-        $this->person->aggression = rand(1, 100);
-        $this->person->anticipation = rand(1, 100);
-        $this->person->bravery = rand(1, 100);
-        $this->person->composure = rand(1, 100);
-        $this->person->concentration = rand(1, 100);
-        $this->person->decisions = rand(1, 100);
-        $this->person->determination = rand(1, 100);
-        $this->person->flair = rand(1, 100);
-        $this->person->leadership = rand(1, 100);
-        $this->person->off_the_ball = rand(1, 100);
-        $this->person->positioning = rand(1, 100);
-        $this->person->teamwork = rand(1, 100);
-        $this->person->vision = rand(1, 100);
-        $this->person->work_rate = rand(1, 100);
+    public function generateMentalSkills(): void
+    {
+        // $this->player->aggression = rand(1, 100);
+        // $this->player->anticipation = rand(1, 100);
+        // $this->player->bravery = rand(1, 100);
+        // $this->player->composure = rand(1, 100);
+        // $this->player->concentration = rand(1, 100);
+        // $this->player->decisions = rand(1, 100);
+        // $this->player->determination = rand(1, 100);
+        // $this->player->flair = rand(1, 100);
+        // $this->player->leadership = rand(1, 100);
+        // $this->player->off_the_ball = rand(1, 100);
+        // $this->player->positioning = rand(1, 100);
+        // $this->player->teamwork = rand(1, 100);
+        // $this->player->vision = rand(1, 100);
+        // $this->player->work_rate = rand(1, 100);
     }
 
-    public function generateTechnicalSkills() {
-        $this->person->corners = rand(1, 100);
-        $this->person->crossing = rand(1, 100);
-        $this->person->dribbling = rand(1, 100);
-        $this->person->finishing = rand(1, 100);
-        $this->person->first_touch = rand(1, 100);
-        $this->person->freekick_taking = rand(1, 100);
-        $this->person->heading = rand(1, 100);
-        $this->person->long_shots = rand(1, 100);
-        $this->person->long_throws = rand(1, 100);
-        $this->person->marking = rand(1, 100);
-        $this->person->passing = rand(1, 100);
-        $this->person->penalty_taking = rand(1, 100);
-        $this->person->tackling = rand(1, 100);
-        $this->person->technique = rand(1, 100);
+    public function generateTechnicalSkills(): void
+    {
+        // $this->player->corners = rand(1, 100);
+        // $this->player->crossing = rand(1, 100);
+        // $this->player->dribbling = rand(1, 100);
+        // $this->player->finishing = rand(1, 100);
+        // $this->player->first_touch = rand(1, 100);
+        // $this->player->freekick_taking = rand(1, 100);
+        // $this->player->heading = rand(1, 100);
+        // $this->player->long_shots = rand(1, 100);
+        // $this->player->long_throws = rand(1, 100);
+        // $this->player->marking = rand(1, 100);
+        // $this->player->passing = rand(1, 100);
+        // $this->player->penalty_taking = rand(1, 100);
+        // $this->player->tackling = rand(1, 100);
+        // $this->player->technique = rand(1, 100);
     }
 
-    public function generateGoalkeepingSkills() {
-        $this->person->aerial_reach = rand(1, 100);
-        $this->person->command_of_area = rand(1, 100);
-        $this->person->communication = rand(1, 100);
-        $this->person->eccentricity = rand(1, 100);
-        $this->person->handling = rand(1, 100);
-        $this->person->kicking = rand(1, 100);
-        $this->person->one_on_ones = rand(1, 100);
-        $this->person->reflexes = rand(1, 100);
-        $this->person->rushing_out = rand(1, 100);
-        $this->person->tendency_to_punch = rand(1, 100);
-        $this->person->throwing = rand(1, 100);
+    public function generateGoalkeepingSkills(): void
+    {
+        // $this->player->aerial_reach = rand(1, 100);
+        // $this->player->command_of_area = rand(1, 100);
+        // $this->player->communication = rand(1, 100);
+        // $this->player->eccentricity = rand(1, 100);
+        // $this->player->handling = rand(1, 100);
+        // $this->player->kicking = rand(1, 100);
+        // $this->player->one_on_ones = rand(1, 100);
+        // $this->player->reflexes = rand(1, 100);
+        // $this->player->rushing_out = rand(1, 100);
+        // $this->player->tendency_to_punch = rand(1, 100);
+        // $this->player->throwing = rand(1, 100);
     }
 }
