@@ -1,53 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
-class HandleInertiaRequests extends Middleware
+final class HandleInertiaRequests extends Middleware
 {
-  /**
-   * The root template that is loaded on the first page visit.
-   *
-   * @var string
-   */
-  protected $rootView = 'app';
+    protected $rootView = 'app';
 
-  /**
-   * Determine the current asset version.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return string|null
-   */
-  public function version(Request $request)
-  {
-    return parent::version($request);
-  }
+    public function version(Request $request): ?string
+    {
+        return parent::version($request);
+    }
 
-  /**
-   * Define the props that are shared by default.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return array
-   */
-  public function share(Request $request)
-  {
-    return [
-      ...parent::share($request),
-      'auth' => [
-        'user' => $request->user() ? $request->user()->load('club') : null,
-      ],
-      'ziggy' => fn(): array => [
-        ...(new Ziggy())->toArray(),
-        'location' => $request->url(),
-      ],
-      'flash' => fn() => [
-        'message' => $request->session()->get('message'),
-        'type' => $request->session()->get('type') ?? 'success',
-        'data' => $request->session()->get('data'),
-      ],
-    ];
-  }
+    /** @return array<string, mixed> */
+    public function share(Request $request): array
+    {
+        return [
+            ...parent::share($request),
+
+            'auth' => [
+                'user' => $request->user()
+                    ? $request->user()->loadMissing('club')
+                    : null,
+            ],
+
+            'ziggy' => fn (): array => [
+                ...(new Ziggy())->toArray(),
+                'location' => $request->url(),
+            ],
+
+            /**
+             * @return array{message:mixed,type:string,data:mixed}
+             */
+            'flash' => fn (): array => [
+                'message' => $request->session()->get('message'),
+                'type' => (string) ($request->session()->get('type') ?? 'success'),
+                'data' => $request->session()->get('data'),
+            ],
+        ];
+    }
 }
