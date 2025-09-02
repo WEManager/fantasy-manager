@@ -10,14 +10,14 @@ enum TournamentType: string implements HasLabel
 {
     case LEAGUE = 'league';
     case GROUPS = 'groups';
-    case CHAMPIONSHIP = 'championship';
+    case PLAYOFFS = 'playoffs';
 
     public function getLabel(): string
     {
         return match ($this) {
             self::LEAGUE => 'League',
             self::GROUPS => 'Groups',
-            self::CHAMPIONSHIP => 'Championship',
+            self::PLAYOFFS => 'Playoffs',
         };
     }
 }

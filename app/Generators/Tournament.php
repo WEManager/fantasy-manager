@@ -58,7 +58,7 @@ final class Tournament
 
         $typeEnum = $props['type'] instanceof TournamentType
             ? $props['type']
-            : TournamentType::from((int) $props['type']);
+            : TournamentType::from((string) $props['type']);
 
         $teams = max(2, (int) $props['teams']);
         $groups = max(1, (int) $props['groups']);

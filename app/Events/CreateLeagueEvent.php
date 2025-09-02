@@ -84,7 +84,7 @@ final class CreateLeagueEvent
                 }
 
                 break;
-            case TournamentType::CHAMPIONSHIP:
+            case TournamentType::PLAYOFFS:
                 break;
         }
     }
