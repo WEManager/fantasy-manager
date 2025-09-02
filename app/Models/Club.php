@@ -69,16 +69,19 @@ final class Club extends Model
         return $this->hasOne(Arena::class);
     }
 
-    /** @return HasManyThrough<Player, Contract, $this> */
-    public function players(?string $type = null): HasManyThrough
+    /** 
+     * @param array<string> $contractType
+     * @return HasManyThrough<Player, Contract, $this>
+     * */
+    public function players(array $contractType = []): HasManyThrough
     {
         $query = $this
             ->hasManyThrough(Player::class, Contract::class, 'club_id', 'id', 'id', 'player_id')
-            ->whereDate('from', '<', date('Y-m-d'))
-            ->whereDate('until', '>', date('Y-m-d'));
+            ->whereDate('from', '<', now())
+            ->whereDate('until', '>', now());
 
-        if ($type) {
-            $query->whereIn('contracts.type', $type);
+        if (count($contractType) > 0) {
+            $query->whereIn('contracts.type', $contractType);
         }
 
         return $query;
