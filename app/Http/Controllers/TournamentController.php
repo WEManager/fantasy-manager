@@ -33,10 +33,9 @@ final class TournamentController extends Controller
         // Carrega só grupos (mínimo necessário)
         $tournament->load(['tournamentGroups:id,tournament_id,name']);
 
-        /** @var Collection<int,int> $groupIds */
+        /** @var \Illuminate\Support\Collection<int,int> $groupIds */
         $groupIds = $tournament->tournamentGroups->pluck('id');
 
-        // Se não há grupos, retorna payload mínimo
         if ($groupIds->isEmpty()) {
             return Inertia::render('tournaments/show/page', [
                 'tournament' => [
@@ -49,7 +48,7 @@ final class TournamentController extends Controller
                     'proceeding_to_playoffs' => $tournament->proceeding_to_playoffs,
                     'created_at' => $tournament->created_at,
                     'updated_at' => $tournament->updated_at,
-                    'status' => 'NOT_DECIDED',
+                    'status' => FixtureStatus::NOT_DECIDED->value,
                     'start_date' => null,
                     'end_date' => null,
                     'tournamentGroups' => [],
@@ -82,7 +81,7 @@ final class TournamentController extends Controller
             }
         }
 
-        /** @var Collection<int,object{
+        /** @var \Illuminate\Support\Collection<int,object{
          *   id:int, group_id:int, club_id:int, scored:int, conceded:int, points:int,
          *   club_name:string, club_slug:string
          * }> $standings
@@ -104,7 +103,7 @@ final class TournamentController extends Controller
             ->orderByRaw('(s.scored - s.conceded) desc')
             ->get();
 
-        /** @var Collection<int,TournamentGroup> $groups */
+        /** @var \Illuminate\Database\Eloquent\Collection<int,TournamentGroup> $groups */
         $groups = $tournament->tournamentGroups;
 
         $tournamentGroups = $groups->map(
@@ -163,7 +162,7 @@ final class TournamentController extends Controller
 
         $fixtures = [];
         if ($groupId) {
-            /** @var Collection<int,object> $fixturesCol */
+            /** @var \Illuminate\Support\Collection<int,object> $fixturesCol */
             $fixturesCol = DB::table('fixtures as fixture')
                 ->join('clubs as ht', 'ht.id', '=', 'fixture.hometeam_id')
                 ->join('clubs as at', 'at.id', '=', 'fixture.awayteam_id')
