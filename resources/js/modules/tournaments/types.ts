@@ -1,6 +1,4 @@
-import type { Club, TournamentFixture, TournamentStanding, TournamentStatus } from '~/types'
-
-export type { TournamentStatus }
+import type { Club } from '../core/types'
 
 export type TournamentType = 'league' | 'groups' | 'championship'
 
