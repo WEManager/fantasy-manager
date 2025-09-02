@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TournamentStanding extends Model {
-    protected $guarded = [];
-
+final class TournamentStanding extends Model
+{
     protected $with = ['club'];
 
     protected $casts = [
@@ -20,11 +21,14 @@ class TournamentStanding extends Model {
         'points' => 'int',
     ];
 
-    public function getGoalDifferenceAttribute() {
+    public function getGoalDifferenceAttribute(): int
+    {
         return (int) $this->scored - $this->conceded;
     }
 
-    public function club(): BelongsTo {
+    /** @return BelongsTo<Club, $this> */
+    public function club(): BelongsTo
+    {
         return $this->belongsTo(Club::class);
     }
 }

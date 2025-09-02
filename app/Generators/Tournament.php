@@ -4,17 +4,47 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Console\Commands\GenerateClub;
 use App\Enums\TournamentType;
-use App\Models\Club;
 use App\Events\CreateLeagueEvent;
+use App\Models\Club;
 use App\Models\Season;
 use App\Models\Tournament as ModelsTournament;
 use App\Models\TournamentQualification;
+use Illuminate\Support\Facades\DB;
+use Webmozart\Assert\InvalidArgumentException;
 
-final class Tournament {
-    public static function create(array $input): int {
-        $props = [
+final class Tournament
+{
+    /**
+     * @param array{
+     *   name:string,
+     *   type?:int|TournamentType,
+     *   teams?:int,
+     *   groups?:int,
+     *   champions?:int,
+     *   promoted?:int,
+     *   qualify_up?:int,
+     *   qualify_down?:int,
+     *   relegated?:int,
+     *   generate_teams?:bool
+     * } $input
+     */
+    public static function create(array $input): int
+    {
+        /** @var array{
+         *   name:string,
+         *   type:int|TournamentType,
+         *   teams:int,
+         *   groups:int,
+         *   champions:int,
+         *   promoted:int,
+         *   qualify_up:int,
+         *   qualify_down:int,
+         *   relegated:int,
+         *   generate_teams:bool
+         * } $props
+         */
+        $props = array_replace([
             'type' => TournamentType::LEAGUE->value,
             'teams' => 16,
             'groups' => 1,
@@ -24,77 +54,128 @@ final class Tournament {
             'qualify_down' => 0,
             'relegated' => 0,
             'generate_teams' => true,
-        ];
+        ], $input);
 
-        foreach ($input as $key => $value) {
-            $props[$key] = $value;
+        $typeEnum = $props['type'] instanceof TournamentType
+            ? $props['type']
+            : TournamentType::from((int) $props['type']);
+
+        $teams = max(2, (int) $props['teams']);
+        $groups = max(1, (int) $props['groups']);
+
+        if ($teams % $groups !== 0) {
+            throw new InvalidArgumentException('teams must be divisible by groups.');
         }
 
-        $tournament = ModelsTournament::create([
-            'name' => $props['name'],
-            'type' => TournamentType::from($props['type']),
-            'participants' => $props['teams'],
-            // 'recurring_every_of_year' => 1,
-            'groups' => $props['groups'],
-        ]);
+        $perGroup = intdiv($teams, $groups);
+        $top = max(0, (int) $props['champions']);
+        $promo = max(0, (int) $props['promoted']);
+        $qUp = max(0, (int) $props['qualify_up']);
+        $qDown = max(0, (int) $props['qualify_down']);
+        $releg = max(0, (int) $props['relegated']);
 
-        $season = Season::whereDate('start_time', '<=', date('Y-m-d'))->first();
-        $season->tournaments()->attach($tournament->id);
-
-        $qualification_date = date('Y-m-d H:i:s', strtotime($season->start_time));
-
-        $teamsInGroup = $props['teams'] / $props['groups'];
-
-        for ($i = 1; $i <= $teamsInGroup; $i++) {
-            $status = 'ended';
-            $seasonEnded = true;
-
-            if ($i <= $props['champions']) {
-                $status = 'champions';
-            } elseif ($i <= $props['promoted']) {
-                $status = 'promoted';
-            } elseif ($i <= $props['promoted'] + $props['qualify_up']) {
-                $status = 'qualify_up';
-                $seasonEnded = false;
-            } elseif ($i > $teamsInGroup - $props['relegated']) {
-                $status = 'relegated';
-            } elseif ($i > $teamsInGroup - $props['relegated'] - $props['qualify_down']) {
-                $status = 'qualify_down';
-                $seasonEnded = false;
-            }
-
-            TournamentQualification::create([
-                'tournament_id' => $tournament->id,
-                'season_id' => $season->id,
-                'position' => $i,
-                'qualified_for_id' => $tournament->id, // TODO
-                'season_ended' => $seasonEnded, // TODO
-                'status' => $status, // TODO
-                'qualification_date' => $qualification_date, // TODO: Should be date efter last game of league
-            ]);
-            }
-
-            // Only generate teams and schedule if set
-            if ($props['generate_teams']) {
-
-            for ($i = 0; $i < $props['teams']; $i++) {      
-                $genereator = new GenerateClub();
-
-                $genereator->createClub('sv');
-            }
-
-            $clubs = Club::orderBy('id', 'desc')
-                ->take($props['teams'])
-                ->pluck('id')
-                ->toArray();
-
-            $tournament->clubsParticipants()->attach($clubs, [
-                'season_id' => $season->id,
-            ]);
-
-            event(new CreateLeagueEvent($tournament));
+        if ($top > $perGroup) {
+            throw new InvalidArgumentException('champions exceeds teams per group.');
+        }
+        if ($promo > $perGroup) {
+            throw new InvalidArgumentException('promoted exceeds teams per group.');
+        }
+        if ($qUp + $top + $promo > $perGroup) {
+            throw new InvalidArgumentException('upper slots exceed teams per group.');
+        }
+        if ($releg > $perGroup) {
+            throw new InvalidArgumentException('relegated exceeds teams per group.');
+        }
+        if ($qDown + $releg > $perGroup) {
+            throw new InvalidArgumentException('lower slots exceed teams per group.');
         }
 
-        return $tournament->id;
+        /** @var int $tournamentId */
+        $tournamentId = DB::transaction(function () use ($props, $typeEnum, $teams, $groups, $perGroup, $top, $promo, $qUp, $qDown, $releg) {
+            /** @var Season|null $season */
+            $season = Season::query()
+                ->whereDate('start_time', '<=', now())
+                ->orderByDesc('start_time')
+                ->first();
+
+            if (! $season) {
+                throw new InvalidArgumentException('No active season found.');
+            }
+
+            // Cria torneio
+            $tournament = ModelsTournament::create([
+                'name' => (string) $props['name'],
+                'type' => $typeEnum,      // ideal: cast enum no Model
+                'participants' => $teams,
+                'groups' => $groups,
+            ]);
+
+            // Liga season
+            $season->tournaments()->attach($tournament->id);
+
+            // Qualifications (por posição no grupo)
+            for ($i = 1; $i <= $perGroup; $i++) {
+                $status = 'ended';
+                $seasonEnded = true;
+
+                if ($i <= $top) {
+                    $status = 'champions';
+                } elseif ($i <= $promo) {
+                    $status = 'promoted';
+                } elseif ($i <= ($promo + $qUp)) {
+                    $status = 'qualify_up';
+                    $seasonEnded = false;
+                } elseif ($i > $perGroup - $releg) {
+                    $status = 'relegated';
+                } elseif ($i > $perGroup - ($releg + $qDown)) {
+                    $status = 'qualify_down';
+                    $seasonEnded = false;
+                }
+
+                TournamentQualification::create([
+                    'tournament_id' => $tournament->id,
+                    'season_id' => $season->id,
+                    'position' => $i,
+                    'qualified_for_id' => $tournament->id, // TODO: ajuste quando existir torneio alvo
+                    'season_ended' => $seasonEnded,
+                    'status' => $status,
+                    'qualification_date' => $season->start_time,
+                ]);
+            }
+
+            // Times + tabela (opcional)
+            if ((bool) $props['generate_teams']) {
+                // Geração de clubes — substitua por Service/Action própria (não use Console Command aqui).
+                self::generateClubs($teams);
+
+                $clubs = Club::query()
+                    ->orderByDesc('id')
+                    ->limit($teams)
+                    ->pluck('id')
+                    ->all();
+
+                $tournament->clubsParticipants()->attach($clubs, [
+                    'season_id' => $season->id,
+                ]);
+
+                event(new CreateLeagueEvent($tournament));
+            }
+
+            return (int) $tournament->id;
+        });
+
+        return $tournamentId;
+    }
+
+    /** Gera N clubes “placeholder”. Troque por um serviço real. */
+    private static function generateClubs(int $count): void
+    {
+        for ($i = 0; $i < $count; $i++) {
+            Club::query()->create([
+                'name' => 'Club '.uniqid(),
+                'slug' => 'club-'.uniqid(),
+                'colors' => ['#111111', '#ffffff'],
+            ]);
+        }
     }
 }

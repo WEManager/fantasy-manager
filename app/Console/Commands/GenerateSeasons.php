@@ -18,12 +18,15 @@ final class GenerateSeasons extends Command
         parent::__construct();
     }
 
-    public function handle():void
+    public function handle(): void
     {
         if (! $lastSeason = Season::latest()->first()) {
-            Season::create(['start_time' => date('Y-m-d'), 'end_time' => date('Y-m-d 23:59:59', strtotime('+3 months'))]);
+            Season::create(['start_time' => now(), 'end_time' => now()->addMonths(3)]);
         } else {
-            Season::create(['start_time' => date('Y-m-d', strtotime($lastSeason->end_time . ' +1 day')), 'end_time' => date('Y-m-d 23:59:59', strtotime($lastSeason->end_time . ' +3 months')) ]);
+            Season::create([
+                'start_time' => $lastSeason->end_time->copy()->addDay(),
+                'end_time' => $lastSeason->end_time->copy()->addDay()->addMonths(3),
+            ]);
         }
     }
 }

@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TournamentParticipant extends Model
+final class TournamentParticipant extends Model
 {
-  protected $guarded = [];
+    /** @return BelongsTo<Tournament, $this> */
+    public function tournament(): BelongsTo
+    {
+        return $this->belongsTo(Tournament::class);
+    }
 
-  public function tournament(): BelongsTo
-  {
-    return $this->belongsTo(Tournament::class);
-  }
-
-  public function club(): BelongsTo
-  {
-    return $this->belongsTo(Club::class);
-  }
+    /** @return BelongsTo<Club, $this> */
+    public function club(): BelongsTo
+    {
+        return $this->belongsTo(Club::class);
+    }
 }

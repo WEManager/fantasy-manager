@@ -8,7 +8,7 @@ final class Player
 {
     public static function firstname(string $locale): string
     {
-        $firstnames = include resource_path('firstname/' . $locale . '.php');
+        $firstnames = include resource_path('firstname/'.$locale.'.php');
         shuffle($firstnames);
 
         return $firstnames[0];
@@ -16,7 +16,7 @@ final class Player
 
     public static function lastname(string $locale): string
     {
-        $lastnames = include resource_path('lastname/' . $locale . '.php');
+        $lastnames = include resource_path('lastname/'.$locale.'.php');
         shuffle($lastnames);
 
         return $lastnames[0];

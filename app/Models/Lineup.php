@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Lineup extends Model
+final class Lineup extends Model
 {
-    protected $guarded = [];
-
     protected $casts = [
         'club_id' => 'int',
     ];
@@ -31,6 +31,7 @@ class Lineup extends Model
         'substitute_4', 'substitute_5', 'substitute_6',
     ];
 
+    /** @return BelongsTo<Club, $this> */
     public function club(): BelongsTo
     {
         return $this->belongsTo(Club::class);

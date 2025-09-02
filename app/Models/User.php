@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Club;
-use App\Models\ManagerContract;
-use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 
 final class User extends Authenticatable
 {
-    use Notifiable, MustVerifyEmail;
+    use MustVerifyEmail, Notifiable;
 
     protected $fillable = [
         'name', 'email', 'password',
@@ -25,14 +23,16 @@ final class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];  
+    ];
 
-    public function getIsAdminAttribute(): bool {
+    public function getIsAdminAttribute(): bool
+    {
         return $this->admin;
     }
 
     /** @return HasOneThrough<Club, ManagerContract, $this> */
-    public function club(): HasOneThrough {
+    public function club(): HasOneThrough
+    {
         return $this
             ->hasOneThrough(Club::class, ManagerContract::class, 'user_id', 'id', 'id', 'club_id')
             ->where('manager_contracts.status', 'ongoing');

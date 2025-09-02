@@ -15,28 +15,39 @@ final class MakeTournament extends Command
 
     public function handle(): void
     {
+        /** @var string $name */
         $name = $this->argument('name');
+        /** @var string $type */
         $type = $this->argument('type');
+        /** @var string $team */
         $team = $this->argument('team');
+        /** @var int $teams */
         $teams = $this->argument('teams');
+        /** @var int $groups */
         $groups = $this->argument('groups');
-        $locale = $this->argument('locale');
-
+        /** @var int $champions */
         $champions = $this->argument('champions');
+        /** @var int $promoted */
         $promoted = $this->argument('promoted');
+        /** @var int $qualify_up */
         $qualify_up = $this->argument('qualify_up');
+        /** @var int $qualify_down */
         $qualify_down = $this->argument('qualify_down');
+        /** @var int $relegated */
         $relegated = $this->argument('relegated');
+        /** @var bool $generate_teams */
+        $generate_teams = $this->argument('generate_teams');
 
         // Validar se o tipo é válido
-        if (!in_array($type, array_column(TournamentType::cases(), 'value'))) {
-            $this->error("Tipo inválido. Tipos disponíveis: " . implode(', ', array_column(TournamentType::cases(), 'value')));
+        if (! in_array($type, array_column(TournamentType::cases(), 'value'))) {
+            $this->error('Tipo inválido. Tipos disponíveis: '.implode(', ', array_column(TournamentType::cases(), 'value')));
+
             return;
         }
 
         \App\Generators\Tournament::create([
             'name' => $name,
-            'type' => $type,
+            'type' => TournamentType::from($type),
             'teams' => $teams,
             'team' => $team,
             'groups' => $groups,
@@ -45,7 +56,7 @@ final class MakeTournament extends Command
             'qualify_up' => $qualify_up,
             'qualify_down' => $qualify_down,
             'relegated' => $relegated,
-            'generate_teams' => $this->argument('generate_teams'),
+            'generate_teams' => $generate_teams,
         ]);
     }
 }

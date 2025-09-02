@@ -34,15 +34,17 @@ final class ImportNationsCommand extends Command
 
         $file = (string) $this->option('file');
         $chunk = (int) $this->option('chunk');
-        
+
         $this->info("Importando nações do arquivo: storage/app/{$file}");
 
         if ($nationService->updateFromFile($file, $chunk)) {
             $this->info('Nations imported successfully from file');
+
             return self::SUCCESS;
         }
-        
+
         $this->error('Failed to import nations from file');
+
         return self::FAILURE;
     }
 }

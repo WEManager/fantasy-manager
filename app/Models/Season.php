@@ -10,6 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 final class Season extends Model
 {
+    protected $fillable = [
+        'start_time',
+        'end_time',
+    ];
+
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+    ];
+
     /** @return BelongsToMany<Tournament, $this> */
     public function tournaments(): BelongsToMany
     {

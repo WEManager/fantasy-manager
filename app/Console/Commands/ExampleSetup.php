@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Enums\TournamentType;
 use App\Generators\Tournament;
 use App\Models\Season;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-final class ExampleSetup extends Command {
+final class ExampleSetup extends Command
+{
     protected $signature = 'example:setup';
 
     protected $description = 'Create an example database';
 
-    public function handle(): int {
+    public function handle(): int
+    {
         try {
             Artisan::call('import:nations');
             Artisan::call('import:players');
@@ -43,13 +46,13 @@ final class ExampleSetup extends Command {
             Tournament::create([
                 'name' => 'Copa WEM',
                 'teams' => 16,
-                'type' => 'groups',
+                'type' => TournamentType::CHAMPIONSHIP,
                 'groups' => 4,
                 'promoted' => 1,
                 'qualify_up' => 1,
                 'qualify_down' => 1,
                 'relegated' => 1,
-                'generate_teams' => false
+                'generate_teams' => false,
             ]);
 
             return self::SUCCESS;

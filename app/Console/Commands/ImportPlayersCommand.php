@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
 final class ImportPlayersCommand extends Command
 {
     protected $signature = 'import:players';
-    
+
     protected $description = 'Import players data from CSV file';
 
     public function __construct(private readonly PlayerService $playerService)
@@ -20,18 +20,20 @@ final class ImportPlayersCommand extends Command
 
     public function handle(): int
     {
-        $this->info("Starting player import from CSV...");
+        $this->info('Starting player import from CSV...');
 
         // Validar estrutura do CSV primeiro
-        if (!$this->validateCsvStructure()) {
+        if (! $this->validateCsvStructure()) {
             $this->error('CSV structure validation failed. Please check the file.');
+
             return self::FAILURE;
         }
 
         $existingCount = \App\Models\Player::count();
         if ($existingCount > 0) {
-            if (!$this->confirm("Found {$existingCount} existing players. Do you want to continue?")) {
+            if (! $this->confirm("Found {$existingCount} existing players. Do you want to continue?")) {
                 $this->info('Import cancelled.');
+
                 return self::SUCCESS;
             }
         }
@@ -40,11 +42,13 @@ final class ImportPlayersCommand extends Command
 
         if ($success) {
             $this->info('Players imported successfully from CSV!');
+
             return self::SUCCESS;
-        } else {
-            $this->error('Failed to import players from CSV.');
-            return self::FAILURE;
         }
+        $this->error('Failed to import players from CSV.');
+
+        return self::FAILURE;
+
     }
 
     /**
@@ -53,15 +57,17 @@ final class ImportPlayersCommand extends Command
     private function validateCsvStructure(): bool
     {
         $csvPath = storage_path('app/sofifa/players.csv');
-        
-        if (!file_exists($csvPath)) {
+
+        if (! file_exists($csvPath)) {
             $this->error("CSV file not found at: {$csvPath}");
+
             return false;
         }
 
         $handle = fopen($csvPath, 'r');
-        if (!$handle) {
+        if (! $handle) {
             $this->error('Failed to open CSV file');
+
             return false;
         }
 
@@ -69,8 +75,9 @@ final class ImportPlayersCommand extends Command
         $headers = fgetcsv($handle);
         fclose($handle);
 
-        if (!$headers) {
+        if (! $headers) {
             $this->error('Failed to read CSV headers');
+
             return false;
         }
 
@@ -97,21 +104,22 @@ final class ImportPlayersCommand extends Command
             'shot_power', 'jumping', 'stamina', 'strength', 'long_shots',
             'aggression', 'interceptions', 'positioning', 'vision', 'penalties', 'composure',
             'defensive_awareness', 'standing_tackle', 'sliding_tackle',
-            'gk_diving', 'gk_handling', 'gk_kicking', 'gk_positioning', 'gk_reflexes'
+            'gk_diving', 'gk_handling', 'gk_kicking', 'gk_positioning', 'gk_reflexes',
         ];
 
         $missingColumns = [];
         foreach ($requiredColumns as $column) {
-            if (!in_array($column, $headers)) {
+            if (! in_array($column, $headers)) {
                 $missingColumns[] = $column;
             }
         }
 
-        if (!empty($missingColumns)) {
+        if (! empty($missingColumns)) {
             $this->error('Missing required columns in CSV:');
             foreach ($missingColumns as $column) {
                 $this->error("  - {$column}");
             }
+
             return false;
         }
 
@@ -119,7 +127,7 @@ final class ImportPlayersCommand extends Command
         $optionalColumns = [
             'best_position',
             'international_reputation',
-            'version'
+            'version',
         ];
 
         $foundOptionalColumns = [];
@@ -130,11 +138,11 @@ final class ImportPlayersCommand extends Command
         }
 
         $this->info('CSV structure validation passed!');
-        $this->info('Found ' . count($headers) . ' columns total');
-        $this->info('Required columns: ' . count($requiredColumns));
-        
-        if (!empty($foundOptionalColumns)) {
-            $this->info('Optional columns found: ' . implode(', ', $foundOptionalColumns));
+        $this->info('Found '.count($headers).' columns total');
+        $this->info('Required columns: '.count($requiredColumns));
+
+        if (! empty($foundOptionalColumns)) {
+            $this->info('Optional columns found: '.implode(', ', $foundOptionalColumns));
         }
 
         // Mostrar algumas estatísticas do arquivo
@@ -149,7 +157,7 @@ final class ImportPlayersCommand extends Command
     private function showCsvStatistics(string $csvPath): void
     {
         $handle = fopen($csvPath, 'r');
-        if (!$handle) {
+        if (! $handle) {
             return;
         }
 
@@ -168,7 +176,7 @@ final class ImportPlayersCommand extends Command
 
         fclose($handle);
 
-        if (!empty($sampleData)) {
+        if (! empty($sampleData)) {
             $this->info('Sample data from first player:');
             $sample = $sampleData[0];
             $this->info("  Player ID: {$sample['player_id']}");
