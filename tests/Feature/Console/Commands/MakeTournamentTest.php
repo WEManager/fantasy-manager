@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Console\Commands;
 
 use App\Models\Tournament;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @see \App\Console\Commands\MakeTournament
  */
-class MakeTournamentTest extends TestCase
+final class MakeTournamentTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -37,4 +37,3 @@ class MakeTournamentTest extends TestCase
         $this->assertDatabaseHas('tournaments', ['id' => 1]);
     }
 }
-

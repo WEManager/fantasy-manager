@@ -12,6 +12,180 @@ use Throwable;
 final class PlayerService
 {
     /**
+     * Processa o arquivo CSV de jogadores do Sofifa
+     *
+     * @return array<array-key, array<string, mixed>>
+     */
+    public function processCsvFile(): array
+    {
+        $csvPath = storage_path('app/sofifa/players.csv');
+
+        if (! file_exists($csvPath)) {
+            Log::error('CSV file not found', ['path' => $csvPath]);
+
+            return [];
+        }
+
+        $processedPlayers = [];
+        $playersProcessed = 0;
+
+        try {
+            Log::info('Starting CSV processing');
+
+            $handle = fopen($csvPath, 'r');
+            if (! $handle) {
+                Log::error('Failed to open CSV file');
+
+                return [];
+            }
+
+            // Pular o cabeçalho
+            $headers = fgetcsv($handle);
+            if (! $headers) {
+                Log::error('Failed to read CSV headers');
+                fclose($handle);
+
+                return [];
+            }
+
+            while (($row = fgetcsv($handle)) !== false) {
+                $playerData = array_combine($headers, $row);
+
+                if (! $playerData) {
+                    continue;
+                }
+
+                try {
+                    $processedPlayer = $this->processCsvRow($playerData);
+
+                    if ($processedPlayer) {
+                        $processedPlayers[] = $processedPlayer;
+                        $playersProcessed++;
+
+                        Log::info('Player processed from CSV', [
+                            'playerId' => $playerData['player_id'] ?? 'Unknown',
+                            'name' => $playerData['full_name'] ?? 'Unknown',
+                            'processed' => $playersProcessed,
+                        ]);
+                    }
+                } catch (Throwable $e) {
+                    Log::error('Failed to process CSV row', [
+                        'playerId' => $playerData['player_id'] ?? 'Unknown',
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+            }
+
+            fclose($handle);
+            Log::info('CSV processing completed', ['totalProcessed' => $playersProcessed]);
+
+            return $processedPlayers;
+
+        } catch (Throwable $e) {
+            Log::error('Error during CSV processing: '.$e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
+     * Testa o processamento do CSV sem salvar no banco
+     *
+     * @return array<array-key, array<string, mixed>>
+     */
+    public function testCsvProcessing(int $maxPlayers = 3): array
+    {
+        try {
+            Log::info('Starting CSV test processing', ['maxPlayers' => $maxPlayers]);
+
+            $players = $this->processCsvFile();
+
+            if (empty($players)) {
+                Log::warning('No players found in CSV');
+
+                return [];
+            }
+
+            // Limitar o número de jogadores para teste
+            $testPlayers = array_slice($players, 0, $maxPlayers);
+
+            Log::info('CSV test processing completed', ['processed' => count($testPlayers)]);
+
+            return $testPlayers;
+
+        } catch (Throwable $e) {
+            Log::error('Error during CSV test processing: '.$e->getMessage());
+
+            return [];
+        }
+    }
+
+    /**
+     * Importa jogadores do CSV para o banco de dados
+     */
+    public function importFromCsv(): bool
+    {
+        try {
+            Log::info('Starting CSV import');
+
+            $players = $this->processCsvFile();
+
+            if (empty($players)) {
+                Log::warning('No players found in CSV');
+
+                return false;
+            }
+
+            $imported = 0;
+            foreach ($players as $playerData) {
+                try {
+                    $playerPayload = new PlayerPayload(
+                        id: $playerData['id'],
+                        fullName: $playerData['full_name'],
+                        knowAs: $playerData['know_as'],
+                        nationId: $playerData['nation_id'],
+                        birthDate: $playerData['birth_date'] ?? 0,
+                        length: $playerData['length'],
+                        weight: $playerData['weight'],
+                        preferredPosition: $playerData['preferred_position'],
+                        positions: $playerData['positions'],
+                        preferredFoot: $playerData['preferred_foot'],
+                        skillMoves: $playerData['skill_moves'],
+                        weakFoot: $playerData['weak_foot'],
+                        specialities: $playerData['specialities'],
+                        playStyles: $playerData['play_styles'],
+                        stats: $playerData['stats'],
+                    );
+
+                    $this->createOrUpdatePlayer($playerPayload);
+                    $imported++;
+
+                    Log::info('Player imported from CSV', [
+                        'playerId' => $playerData['id'],
+                        'name' => $playerData['full_name'],
+                        'imported' => $imported,
+                    ]);
+
+                } catch (Throwable $e) {
+                    Log::error('Failed to import player from CSV', [
+                        'playerId' => $playerData['id'] ?? 'Unknown',
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+            }
+
+            Log::info('CSV import completed', ['totalImported' => $imported]);
+
+            return $imported > 0;
+
+        } catch (Throwable $e) {
+            Log::error('Error during CSV import: '.$e->getMessage());
+
+            return false;
+        }
+    }
+
+    /**
      * Cria ou atualiza um jogador no banco de dados
      * O fifa_player_id é o ID único do jogador no jogo EA FC (Sofifa)
      */
@@ -40,92 +214,22 @@ final class PlayerService
     }
 
     /**
-     * Processa o arquivo CSV de jogadores do Sofifa
-     * @return array<array-key, array<string, mixed>>
-     */
-    public function processCsvFile(): array
-    {
-        $csvPath = storage_path('app/sofifa/players.csv');
-        
-        if (!file_exists($csvPath)) {
-            Log::error('CSV file not found', ['path' => $csvPath]);
-            return [];
-        }
-
-        $processedPlayers = [];
-        $playersProcessed = 0;
-        
-        try {
-            Log::info('Starting CSV processing');
-            
-            $handle = fopen($csvPath, 'r');
-            if (!$handle) {
-                Log::error('Failed to open CSV file');
-                return [];
-            }
-
-            // Pular o cabeçalho
-            $headers = fgetcsv($handle);
-            if (!$headers) {
-                Log::error('Failed to read CSV headers');
-                fclose($handle);
-                return [];
-            }
-
-            while (($row = fgetcsv($handle)) !== false) {
-                $playerData = array_combine($headers, $row);
-                
-                if (!$playerData) {
-                    continue;
-                }
-
-                try {
-                    $processedPlayer = $this->processCsvRow($playerData);
-                    
-                    if ($processedPlayer) {
-                        $processedPlayers[] = $processedPlayer;
-                        $playersProcessed++;
-                        
-                        Log::info('Player processed from CSV', [
-                            'playerId' => $playerData['player_id'] ?? 'Unknown',
-                            'name' => $playerData['full_name'] ?? 'Unknown',
-                            'processed' => $playersProcessed
-                        ]);
-                    }
-                } catch (Throwable $e) {
-                    Log::error('Failed to process CSV row', [
-                        'playerId' => $playerData['player_id'] ?? 'Unknown',
-                        'error' => $e->getMessage()
-                    ]);
-                }
-            }
-
-            fclose($handle);
-            Log::info('CSV processing completed', ['totalProcessed' => $playersProcessed]);
-            return $processedPlayers;
-
-        } catch (Throwable $e) {
-            Log::error('Error during CSV processing: ' . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
      * Processa uma linha do CSV
-     * @param array<string, string> $row
+     *
+     * @param  array<string, string>  $row
      * @return array<string, mixed>
      */
     private function processCsvRow(array $row): array
     {
         // Extrair dados básicos
         $playerId = (int) $row['player_id'];
-        $fullName = trim($row['full_name']);
-        $knowAs = trim($row['name']);
+        $fullName = mb_trim($row['full_name']);
+        $knowAs = mb_trim($row['name']);
         $height = (int) $row['height_cm'];
         $weight = (int) $row['weight_kg'];
         $dob = $row['birthdate'];
         $positions = array_filter(array_map('trim', explode(',', $row['positions'])));
-        $preferredFoot = strtolower($row['preferred_foot']);
+        $preferredFoot = mb_strtolower($row['preferred_foot']);
         $weakFoot = (int) $row['weak_foot'];
         $skillMoves = (int) $row['skill_moves'];
         $specialities = array_filter(array_map('trim', explode(',', $row['specialities'])));
@@ -197,96 +301,4 @@ final class PlayerService
             'stats' => $stats,
         ];
     }
-
-    /**
-     * Testa o processamento do CSV sem salvar no banco
-     * @return array<array-key, array<string, mixed>>
-     */
-    public function testCsvProcessing(int $maxPlayers = 3): array
-    {
-        try {
-            Log::info('Starting CSV test processing', ['maxPlayers' => $maxPlayers]);
-            
-            $players = $this->processCsvFile();
-            
-            if (empty($players)) {
-                Log::warning('No players found in CSV');
-                return [];
-            }
-
-            // Limitar o número de jogadores para teste
-            $testPlayers = array_slice($players, 0, $maxPlayers);
-            
-            Log::info('CSV test processing completed', ['processed' => count($testPlayers)]);
-            return $testPlayers;
-
-        } catch (Throwable $e) {
-            Log::error('Error during CSV test processing: ' . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
-     * Importa jogadores do CSV para o banco de dados
-     */
-    public function importFromCsv(): bool
-    {
-        try {
-            Log::info('Starting CSV import');
-            
-            $players = $this->processCsvFile();
-            
-            if (empty($players)) {
-                Log::warning('No players found in CSV');
-                return false;
-            }
-
-            $imported = 0;
-            foreach ($players as $playerData) {
-                try {
-                    $playerPayload = new PlayerPayload(
-                        id: $playerData['id'],
-                        fullName: $playerData['full_name'],
-                        knowAs: $playerData['know_as'],
-                        nationId: $playerData['nation_id'],
-                        birthDate: $playerData['birth_date'] ?? 0,
-                        length: $playerData['length'],
-                        weight: $playerData['weight'],
-                        preferredPosition: $playerData['preferred_position'],
-                        positions: $playerData['positions'],
-                        preferredFoot: $playerData['preferred_foot'],
-                        skillMoves: $playerData['skill_moves'],
-                        weakFoot: $playerData['weak_foot'],
-                        specialities: $playerData['specialities'],
-                        playStyles: $playerData['play_styles'],
-                        stats: $playerData['stats'],
-                    );
-
-                    $this->createOrUpdatePlayer($playerPayload);
-                    $imported++;
-
-                    Log::info('Player imported from CSV', [
-                        'playerId' => $playerData['id'],
-                        'name' => $playerData['full_name'],
-                        'imported' => $imported
-                    ]);
-
-                } catch (Throwable $e) {
-                    Log::error('Failed to import player from CSV', [
-                        'playerId' => $playerData['id'] ?? 'Unknown',
-                        'error' => $e->getMessage()
-                    ]);
-                }
-            }
-
-            Log::info('CSV import completed', ['totalImported' => $imported]);
-            return $imported > 0;
-
-        } catch (Throwable $e) {
-            Log::error('Error during CSV import: ' . $e->getMessage());
-            return false;
-        }
-    }
-
-
 }

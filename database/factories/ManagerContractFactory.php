@@ -1,11 +1,12 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+declare(strict_types=1);
 
-use App\Model;
+/** @var Illuminate\Database\Eloquent\Factory $factory */
+
 use Faker\Generator as Faker;
 
-$factory->define(\App\ManagerContract::class, function (Faker $faker) {
+$factory->define(App\ManagerContract::class, function (Faker $faker) {
     return [
         'user_id' => 1,
         'club_id' => 1,

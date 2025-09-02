@@ -69,8 +69,8 @@ final class Club extends Model
         return $this->hasOne(Arena::class);
     }
 
-    /** 
-     * @param array<string> $contractType
+    /**
+     * @param  array<string>  $contractType
      * @return HasManyThrough<Player, Contract, $this>
      * */
     public function players(array $contractType = []): HasManyThrough

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'Estadio Ciudad de [town]',
     'Estadio de [town]',

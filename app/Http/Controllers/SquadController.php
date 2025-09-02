@@ -14,9 +14,9 @@ final class SquadController extends Controller
     public function __invoke(Request $request, Club $club): Response
     {
         $squadParam = (string) $request->query('squad', 'senior');
-        
+
         $contractType = getContractType($squadParam);
-        
+
         $club->loadMissing('manager');
 
         /** @var \Illuminate\Support\Collection<int,\App\Models\Player> $players */
@@ -26,9 +26,9 @@ final class SquadController extends Controller
         $displaySquad = $squadParam === 'senior' ? '' : $squadParam;
 
         return Inertia::render('clubs/squad/page', [
-            'club'    => $club,
+            'club' => $club,
             'players' => $players,
-            'squad'   => $displaySquad,
+            'squad' => $displaySquad,
         ]);
     }
 }

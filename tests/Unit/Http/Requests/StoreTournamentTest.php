@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Http\Requests;
 
 use App\Models\User;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 /**
  * @see \App\Http\Requests\StoreTournament
  */
-class StoreTournamentTest extends TestCase
+final class StoreTournamentTest extends TestCase
 {
     use DatabaseMigrations;
 

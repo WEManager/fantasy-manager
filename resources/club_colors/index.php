@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     // Main color, second color, needs light
     ['#A8C4E8', '#A79165', '#FFFFFF'], // AFC Eskilstuna

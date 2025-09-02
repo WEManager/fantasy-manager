@@ -1,26 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Engines;
 
+use App\Models\Fixture;
 use App\Models\Lineup;
 use App\Models\Player;
-use App\Models\Fixture;
 
-class GameEngine
+final class GameEngine
 {
-
     public $gameId;
+
     public $hometeamName = 'Barcelona';
+
     public $awayteamName = 'Espanyol';
-    private $hometeam;
-    private $awayteam;
+
     public $chances = ['hometeam' => 0, 'awayteam' => 0];
-    private $tactics = ['hometeam' => 50, 'awayteam' => 50];
-    private $attacking = ['hometeam' => 0, 'awayteam' => 0];
-    private $defending = ['hometeam' => 0, 'awayteam' => 0];
+
     public $score = ['hometeam' => 0, 'awayteam' => 0];
+
+    private $hometeam;
+
+    private $awayteam;
+
+    private $tactics = ['hometeam' => 50, 'awayteam' => 50];
+
+    private $attacking = ['hometeam' => 0, 'awayteam' => 0];
+
+    private $defending = ['hometeam' => 0, 'awayteam' => 0];
+
     private $eventMinutes = [];
+
     private $events = [];
+
     private $positionFacing = [
         'LD' => 'RF',
         'CLD' => 'CRF',
@@ -40,7 +53,9 @@ class GameEngine
         'CRF' => 'CLD',
         'RF' => 'LD',
     ];
+
     private $hometeamSkills = [];
+
     private $awayteamSkills = [];
 
     private static $availablePositions = [
@@ -50,12 +65,13 @@ class GameEngine
         'LF', 'CLF', 'CF', 'CRF', 'RF',
     ];
 
-    public function __construct($gameId = null) {
+    public function __construct($gameId = null)
+    {
         $this->gameId = $gameId;
 
-        if (!is_null($gameId)) {
+        if (! is_null($gameId)) {
             $game = Fixture::find($gameId);
-            
+
             $homeLineup = Lineup::where('club_id', $game->hometeam_id)->where('team', 'u21')->first();
             $awayLineup = Lineup::where('club_id', $game->awayteam_id)->where('team', 'u21')->first();
 
@@ -97,7 +113,7 @@ class GameEngine
             }
         }*/
 
-        //dd($this->awayteamLineup);
+        // dd($this->awayteamLineup);
 
         /*
          * LD vs RF
@@ -180,7 +196,7 @@ class GameEngine
                     'CRF' => $this->countStrengthForPosition('hometeam', 'CRF'),
                     'RF' => $this->countStrengthForPosition('hometeam', 'RF'),
                 ]);*/
-        //dd($this->countStrengthForPosition('hometeam', 'CD'));
+        // dd($this->countStrengthForPosition('hometeam', 'CD'));
         /*        dd([
                     'CD' => $this->hometeamLineup['CD'],
                     'CLD' => $this->hometeamLineup['CLD'],
@@ -238,33 +254,235 @@ class GameEngine
          * (AM) (Defensive midfielder) Anchor Man -
          */
 
-        //$this->playGame();
+        // $this->playGame();
+    }
+
+    /*
+     * TODO: Applicate the tactics to be reflected in pitch area skills
+     */
+
+    public function playGame()
+    {
+        $this->setWinningChances();
+        /* $this->setTactics(); */
+        $this->setEvents();
+        $this->startEvents();
+
+        // echo $this->score['hometeam'] . ' - ' . $this->score['awayteam'] . '\\n';
+        // echo $this->chances['hometeam'] . '% : ' . $this->chances['awayteam'] . '%\\n';
+    }
+
+    public function makeGoalKick($currentTeamKey)
+    {
+        $competitorTeamKey = ($currentTeamKey === 'hometeam') ? 'awayteam' : 'hometeam';
+
+        $playerName = $this->{$currentTeamKey}['GK']->full_name;
+
+        $startingPlaySkills = $this->{$currentTeamKey}['GK']->kicking + $this->{$currentTeamKey}['GK']->passing;
+
+        // Randomize if keeper is kicking or passing out the ball
+        // TODO: Implement decision based on tactics - right now based on keeper skills
+        $kickOrPass = rand(1, $startingPlaySkills);
+
+        if ($kickOrPass <= $this->{$currentTeamKey}['GK']->kicking) {
+
+            $event = CommentsEngine::goalkeeper_kicks_the_ball($playerName).' ';
+
+            // Decide what part the ball goes to
+            $possiblePositions = ['LF', 'CF', 'RF', 'LM', 'CLM', 'CM', 'CRM', 'RM'];
+            shuffle($possiblePositions);
+
+            if (isset($this->{$competitorTeamKey}[$this->positionFacing[$possiblePositions[0]]])) {
+                // Person model
+                $duelant = $this->{$competitorTeamKey}[$this->positionFacing[$possiblePositions[0]]];
+                $duelantDisadvantage = false;
+            } else {
+                // Get alternative duelant and add disadvantage for being out of position
+                $duelant = $this->getNearbyPlayer($this->positionFacing[$possiblePositions[0]], $competitorTeamKey);
+                $duelantDisadvantage = true;
+            }
+
+            [$player, $playerDisadvantage] = $this->getPlayerOnPitchAtArea($currentTeamKey, $possiblePositions[0]);
+
+            // Heading duels on midfield or offense
+            $event .= GameDuelsEngine::headingDuelBetween($player, $duelant, $playerDisadvantage, $duelantDisadvantage);
+
+            return $event;
+        }
+        // TODO: Decide what part the ball goes to
+        $possiblePositions = ['CLM', 'CM', 'CRM', 'LD', 'CLD', 'CD', 'CRD', 'RD'];
+        shuffle($possiblePositions);
+
+        [$player, $playerDisadvantage] = $this->getPlayerOnPitchAtArea($currentTeamKey, $possiblePositions[0]);
+
+        // dd([$player->full_name, $playerDisadvantage]);
+
+        // TODO: Defenders starting attack or passing back home
+        return CommentsEngine::goalkeeper_passes_the_ball_short($playerName);
+
+    }
+
+    public function makeDefensivePass($currentTeamKey, $pos)
+    {
+        $player = false;
+        if (isset($this->{$currentTeamKey}[$pos])) {
+            $player = $this->{$currentTeamKey}[$pos];
+        }
+
+        if ($player) {
+            shuffle(self::$availablePositions);
+
+            if (mb_strlen(self::$availablePositions[0]) === 2) {
+                $keyLetter = self::$availablePositions[0][1];
+            } else {
+                $keyLetter = self::$availablePositions[0][2];
+            }
+
+            // Short pass to another defender
+            if ($keyLetter === 'D') {
+                // Is pass successful?
+                // TODO: Should depend upon opponent tactics regarding press
+                // Create a new "makeDefensivePass?"
+                if (rand(1, 100) < $player->passing) {
+                    return CommentsEngine::passes($player);
+                }
+
+                return CommentsEngine::bad_pass($player);
+
+            }
+
+            // Pass from defender to midfield
+            if ($keyLetter === 'M') {
+                dd($player->full_name.' passar upp bollen på mittfältet');
+            }
+            // Pass from defender to forwards
+            if ($keyLetter === 'F') {
+                dd($player->full_name.' slår en långboll mot forwardsen');
+            }
+
+        } else {
+            dd('De passar mellan försvararna i backlinjen.');
+        }
+
+        dd([
+            $pos,
+            $player,
+            'Pass in the defense',
+        ]);
+    }
+
+    public function makeMidfieldPass($currentTeamKey, $pos)
+    {
+        $player = false;
+        if (isset($this->{$currentTeamKey}[$pos])) {
+            $player = $this->{$currentTeamKey}[$pos];
+        }
+
+        if ($player) {
+            dd($player->full_name.' passar på mittfältet.');
+        } else {
+            dd('De tar sig fram genom mittfältet.');
+        }
+
+        dd([
+            $pos,
+            $player,
+            'Pass in the midfield',
+        ]);
+    }
+
+    public function makeForwardPlay($currentTeamKey, $pos)
+    {
+        $player = false;
+        if (isset($this->{$currentTeamKey}[$pos])) {
+            $player = $this->{$currentTeamKey}[$pos];
+        }
+
+        if ($player) {
+            dd($player->full_name.' har bollen i anfall.');
+        } else {
+            dd('De spelar runt bollen i anfallet.');
+        }
+
+        dd([
+            $pos,
+            $player,
+            'Forwards got the ball',
+        ]);
+    }
+
+    public function renderEvents()
+    {
+        $data = '<h1>'.$this->hometeamName.' '.$this->score['hometeam'].'-'.$this->score['awayteam'].' '.$this->awayteamName.'</h1>';
+
+        foreach ($this->events as $event) {
+            $ev = str_replace('hometeam', $this->hometeamName, $event['event']);
+            $ev = str_replace('awayteam', $this->awayteamName, $ev);
+            $data .= $event['time'].' min : '.$ev.'<br />';
+        }
+
+        return $data;
+    }
+
+    /*
+     * Get a player that plays nearby this position
+     *
+     * @return Person | null
+     */
+    public function getNearbyPlayer($position, $team): ?Player
+    {
+        // If pos is CD, nearby is CRD and CLD
+        // If pos is CRD, nearby is CD and RD
+        // If pos is CRM, nearby is CM and RM
+        // If pos is CLD, nearby is LD and CD
+        // If pos is DL, nearby is CLD
+        // If pos is DR, nearby is CRD
+
+        if (mb_strlen($position) === 3) {
+            $nearbyPos = [mb_substr($position, -2), 'C'.mb_substr($position, -1)];
+            shuffle($nearbyPos);
+        } elseif (mb_substr($position, 0, 1) === 'C') {
+            $nearbyPos = ['CR'.mb_substr($position, -1), 'CL'.mb_substr($position, -1)];
+            shuffle($nearbyPos);
+        } else {
+            $nearbyPos = ['C'.$position];
+        }
+
+        if (isset($this->{$team}[$nearbyPos[0]])) {
+            return $this->{$team}[$nearbyPos[0]];
+        }
+        if (isset($nearbyPos[1]) && isset($this->{$team}[$nearbyPos[1]])) {
+            return $this->{$team}[$nearbyPos[1]];
+        }
+
+        return null;
+
     }
 
     private function setLineup($team, Lineup $lineup)
     {
-        $this->{$team . 'Lineup'}[$lineup->position_1] = Player::find($lineup->player_1);
-        $this->{$team . 'Lineup'}[$lineup->position_2] = Player::find($lineup->player_2);
-        $this->{$team . 'Lineup'}[$lineup->position_3] = Player::find($lineup->player_3);
-        $this->{$team . 'Lineup'}[$lineup->position_4] = Player::find($lineup->player_4);
-        $this->{$team . 'Lineup'}[$lineup->position_5] = Player::find($lineup->player_5);
-        $this->{$team . 'Lineup'}[$lineup->position_6] = Player::find($lineup->player_6);
-        $this->{$team . 'Lineup'}[$lineup->position_7] = Player::find($lineup->player_7);
-        $this->{$team . 'Lineup'}[$lineup->position_8] = Player::find($lineup->player_8);
-        $this->{$team . 'Lineup'}[$lineup->position_9] = Player::find($lineup->player_9);
-        $this->{$team . 'Lineup'}[$lineup->position_10] = Player::find($lineup->player_10);
-        $this->{$team . 'Lineup'}[$lineup->position_11] = Player::find($lineup->player_11);
-        $this->{$team . 'Lineup'}['tactics'] = 70;
+        $this->{$team.'Lineup'}[$lineup->position_1] = Player::find($lineup->player_1);
+        $this->{$team.'Lineup'}[$lineup->position_2] = Player::find($lineup->player_2);
+        $this->{$team.'Lineup'}[$lineup->position_3] = Player::find($lineup->player_3);
+        $this->{$team.'Lineup'}[$lineup->position_4] = Player::find($lineup->player_4);
+        $this->{$team.'Lineup'}[$lineup->position_5] = Player::find($lineup->player_5);
+        $this->{$team.'Lineup'}[$lineup->position_6] = Player::find($lineup->player_6);
+        $this->{$team.'Lineup'}[$lineup->position_7] = Player::find($lineup->player_7);
+        $this->{$team.'Lineup'}[$lineup->position_8] = Player::find($lineup->player_8);
+        $this->{$team.'Lineup'}[$lineup->position_9] = Player::find($lineup->player_9);
+        $this->{$team.'Lineup'}[$lineup->position_10] = Player::find($lineup->player_10);
+        $this->{$team.'Lineup'}[$lineup->position_11] = Player::find($lineup->player_11);
+        $this->{$team.'Lineup'}['tactics'] = 70;
 
-        $this->tactics[$team] = $this->{$team . 'Lineup'}['tactics'];
-        //dd([$team . 'Lineup' => $this->{$team . 'Lineup'}]);
+        $this->tactics[$team] = $this->{$team.'Lineup'}['tactics'];
+        // dd([$team . 'Lineup' => $this->{$team . 'Lineup'}]);
 
         foreach (self::$availablePositions as $position) {
-            if (!array_key_exists($position, $this->{$team . 'Lineup'})) {
-                $this->{$team . 'Lineup'}[$position] = null;
+            if (! array_key_exists($position, $this->{$team.'Lineup'})) {
+                $this->{$team.'Lineup'}[$position] = null;
             } else {
-                $this->{$team}[$position] = $this->{$team . 'Lineup'}[$position];
-                $this->{$team . 'Lineup'}[$position] = $this->getPlayerPositionSkills($this->{$team . 'Lineup'}[$position], $position)[$position];
+                $this->{$team}[$position] = $this->{$team.'Lineup'}[$position];
+                $this->{$team.'Lineup'}[$position] = $this->getPlayerPositionSkills($this->{$team.'Lineup'}[$position], $position)[$position];
             }
         }
     }
@@ -314,13 +532,27 @@ class GameEngine
 
     private function getPlayerPositionSkills($player, $position)
     {
-        if ($position == 'GK') return $player->goalkeeping;
-        if (in_array($position, ['LD', 'RD'])) return $player->wide_defending;
-        if (in_array($position, ['LM', 'RM'])) return $player->wide_midfielder;
-        if (in_array($position, ['LF', 'RF'])) return $player->wide_attacker;
-        if (in_array($position, ['CLD', 'CD', 'CRD'])) return $player->central_defending;
-        if (in_array($position, ['CLM', 'CM', 'CRM'])) return $player->central_midfielder;
-        if (in_array($position, ['CLF', 'CF', 'CRF'])) return $player->central_attacker;
+        if ($position === 'GK') {
+            return $player->goalkeeping;
+        }
+        if (in_array($position, ['LD', 'RD'])) {
+            return $player->wide_defending;
+        }
+        if (in_array($position, ['LM', 'RM'])) {
+            return $player->wide_midfielder;
+        }
+        if (in_array($position, ['LF', 'RF'])) {
+            return $player->wide_attacker;
+        }
+        if (in_array($position, ['CLD', 'CD', 'CRD'])) {
+            return $player->central_defending;
+        }
+        if (in_array($position, ['CLM', 'CM', 'CRM'])) {
+            return $player->central_midfielder;
+        }
+        if (in_array($position, ['CLF', 'CF', 'CRF'])) {
+            return $player->central_attacker;
+        }
     }
 
     private function countStrengthForPosition($team, $position)
@@ -329,22 +561,22 @@ class GameEngine
         $centerPositions = ['CD', 'CLD', 'CRD', 'CM', 'CLM', 'CRM', 'CF', 'CLF', 'CRF'];
 
         if (in_array($position, $sidePositions)) {
-            //dd($position . ' is a side position');
-            $posVal = isset($this->{$team . 'Lineup'}[$position]) ? $this->{$team . 'Lineup'}[$position] * .75 : null;
-            $assistVal = isset($this->{$team . 'Lineup'}['C' . $position]) ? $this->{$team . 'Lineup'}['C' . $position] * .2 : null;
+            // dd($position . ' is a side position');
+            $posVal = isset($this->{$team.'Lineup'}[$position]) ? $this->{$team.'Lineup'}[$position] * .75 : null;
+            $assistVal = isset($this->{$team.'Lineup'}['C'.$position]) ? $this->{$team.'Lineup'}['C'.$position] * .2 : null;
 
-            //dump('C' . $position . ' is assisting ' . $position);
+            // dump('C' . $position . ' is assisting ' . $position);
 
             return $posVal + $assistVal;
         }
 
         if (in_array($position, $centerPositions)) {
 
-            $posVal = isset($this->{$team . 'Lineup'}[$position]) ? $this->{$team . 'Lineup'}[$position] * .6 : 0;
+            $posVal = isset($this->{$team.'Lineup'}[$position]) ? $this->{$team.'Lineup'}[$position] * .6 : 0;
 
-            $key = array_search($position, array_keys($this->{$team . 'Lineup'}));
-            $assisting1 = array_slice($this->{$team . 'Lineup'}, $key - 1, 1);
-            $assisting2 = array_slice($this->{$team . 'Lineup'}, $key + 1, 1);
+            $key = array_search($position, array_keys($this->{$team.'Lineup'}));
+            $assisting1 = array_slice($this->{$team.'Lineup'}, $key - 1, 1);
+            $assisting2 = array_slice($this->{$team.'Lineup'}, $key + 1, 1);
 
             $ass1pos = array_keys($assisting1)[0];
             $ass2pos = array_keys($assisting2)[0];
@@ -369,22 +601,7 @@ class GameEngine
             dump('Slut på assvärden för ' . $position);
         }*/
 
-        return ($posVal + $assist1Val + $assist2Val);
-    }
-
-    /*
-     * TODO: Applicate the tactics to be reflected in pitch area skills
-     */
-
-    public function playGame()
-    {
-        $this->setWinningChances();
-        /*$this->setTactics();*/
-        $this->setEvents();
-        $this->startEvents();
-
-        // echo $this->score['hometeam'] . ' - ' . $this->score['awayteam'] . '\\n';
-        // echo $this->chances['hometeam'] . '% : ' . $this->chances['awayteam'] . '%\\n';
+        return $posVal + $assist1Val + $assist2Val;
     }
 
     // Calculate winning chances based on pitch area skills
@@ -435,18 +652,26 @@ class GameEngine
 
     private function createEvent($currentTeamKey, $competitorTeamKey, $minute)
     {
-        //dd([$currentTeamKey, $competitorTeamKey, $minute]);
+        // dd([$currentTeamKey, $competitorTeamKey, $minute]);
 
         $areas = self::$availablePositions;
         shuffle($areas);
-        $teamPart = substr($areas[0], -1); // K = Keeper, D = Defense, M = Midfield, F = Forward
+        $teamPart = mb_substr($areas[0], -1); // K = Keeper, D = Defense, M = Midfield, F = Forward
 
-        //dd($this->makeGoalKick($competitorTeamKey));
+        // dd($this->makeGoalKick($competitorTeamKey));
 
-        if ($teamPart == 'K') $event = $this->makeGoalKick($currentTeamKey);
-        if ($teamPart == 'D') $event = $this->makeDefensivePass($currentTeamKey, $areas[0]);
-        if ($teamPart == 'M') $event = $this->makeMidfieldPass($currentTeamKey, $areas[0]);
-        if ($teamPart == 'F') $event = $this->makeForwardPlay($currentTeamKey, $areas[0]);
+        if ($teamPart === 'K') {
+            $event = $this->makeGoalKick($currentTeamKey);
+        }
+        if ($teamPart === 'D') {
+            $event = $this->makeDefensivePass($currentTeamKey, $areas[0]);
+        }
+        if ($teamPart === 'M') {
+            $event = $this->makeMidfieldPass($currentTeamKey, $areas[0]);
+        }
+        if ($teamPart === 'F') {
+            $event = $this->makeForwardPlay($currentTeamKey, $areas[0]);
+        }
 
         /*dd([
             $this->{$currentTeamKey . 'AreaSkills'},
@@ -483,146 +708,11 @@ class GameEngine
         ];
     }
 
-    public function makeGoalKick($currentTeamKey)
-    {
-        $competitorTeamKey = ($currentTeamKey == 'hometeam') ? 'awayteam' : 'hometeam';
-
-        $playerName = $this->{$currentTeamKey}['GK']->full_name;
-
-        $startingPlaySkills = $this->{$currentTeamKey}['GK']->kicking + $this->{$currentTeamKey}['GK']->passing;
-
-        // Randomize if keeper is kicking or passing out the ball
-        // TODO: Implement decision based on tactics - right now based on keeper skills
-        $kickOrPass = rand(1, $startingPlaySkills);
-
-        if ($kickOrPass <= $this->{$currentTeamKey}['GK']->kicking) {
-
-            $event = CommentsEngine::goalkeeper_kicks_the_ball($playerName) . ' ';
-
-            // Decide what part the ball goes to
-            $possiblePositions = ['LF', 'CF', 'RF', 'LM', 'CLM', 'CM', 'CRM', 'RM'];
-            shuffle($possiblePositions);
-
-            if (isset($this->{$competitorTeamKey}[$this->positionFacing[$possiblePositions[0]]])) {
-                // Person model
-                $duelant = $this->{$competitorTeamKey}[$this->positionFacing[$possiblePositions[0]]];
-                $duelantDisadvantage = false;
-            } else {
-                // Get alternative duelant and add disadvantage for being out of position
-                $duelant = $this->getNearbyPlayer($this->positionFacing[$possiblePositions[0]], $competitorTeamKey);
-                $duelantDisadvantage = true;
-            }
-
-            list($player, $playerDisadvantage) = $this->getPlayerOnPitchAtArea($currentTeamKey, $possiblePositions[0]);
-
-            // Heading duels on midfield or offense
-            $event .= GameDuelsEngine::headingDuelBetween($player, $duelant, $playerDisadvantage, $duelantDisadvantage);
-
-            return $event;
-        } else {
-            // TODO: Decide what part the ball goes to
-            $possiblePositions = ['CLM', 'CM', 'CRM', 'LD', 'CLD', 'CD', 'CRD', 'RD'];
-            shuffle($possiblePositions);
-
-            list($player, $playerDisadvantage) = $this->getPlayerOnPitchAtArea($currentTeamKey, $possiblePositions[0]);
-
-
-            //dd([$player->full_name, $playerDisadvantage]);
-
-            // TODO: Defenders starting attack or passing back home
-            return CommentsEngine::goalkeeper_passes_the_ball_short($playerName);
-        }
-
-    }
-
-    public function makeDefensivePass($currentTeamKey, $pos)
-    {
-        $player = false;
-        if (isset($this->{$currentTeamKey}[$pos])) $player = $this->{$currentTeamKey}[$pos];
-
-        if ($player) {
-            shuffle(self::$availablePositions);
-
-            if (strlen(self::$availablePositions[0]) == 2) {
-                $keyLetter = self::$availablePositions[0][1];
-            } else {
-                $keyLetter = self::$availablePositions[0][2];
-            }
-
-            // Short pass to another defender
-            if ($keyLetter == 'D') {
-                // Is pass successful?
-                // TODO: Should depend upon opponent tactics regarding press
-                // Create a new "makeDefensivePass?"
-                if (rand(1,100) < $player->passing) {
-                    return CommentsEngine::passes($player);
-                } else {
-                    return CommentsEngine::bad_pass($player);
-                }
-            }
-
-            // Pass from defender to midfield
-            if ($keyLetter == 'M') {
-                dd($player->full_name . ' passar upp bollen på mittfältet');
-            }
-            // Pass from defender to forwards
-            if ($keyLetter == 'F') {
-                dd($player->full_name . ' slår en långboll mot forwardsen');
-            }
-
-        } else {
-            dd('De passar mellan försvararna i backlinjen.');
-        }
-
-        dd([
-            $pos,
-            $player,
-            'Pass in the defense'
-        ]);
-    }
-
-    public function makeMidfieldPass($currentTeamKey, $pos)
-    {
-        $player = false;
-        if (isset($this->{$currentTeamKey}[$pos])) $player = $this->{$currentTeamKey}[$pos];
-
-        if ($player) {
-            dd($player->full_name . ' passar på mittfältet.');
-        } else {
-            dd('De tar sig fram genom mittfältet.');
-        }
-
-        dd([
-            $pos,
-            $player,
-            'Pass in the midfield'
-        ]);
-    }
-
-    public function makeForwardPlay($currentTeamKey, $pos)
-    {
-        $player = false;
-        if (isset($this->{$currentTeamKey}[$pos])) $player = $this->{$currentTeamKey}[$pos];
-
-        if ($player) {
-            dd($player->full_name . ' har bollen i anfall.');
-        } else {
-            dd('De spelar runt bollen i anfallet.');
-        }
-
-        dd([
-            $pos,
-            $player,
-            'Forwards got the ball'
-        ]);
-    }
-
     /**
-     * @param string $currentTeamKey
-     * @param string $position
-     * @return array
+     * @param  string  $currentTeamKey
+     * @param  string  $position
      */
-    protected function getPlayerOnPitchAtArea($currentTeamKey, $position): array
+    private function getPlayerOnPitchAtArea($currentTeamKey, $position): array
     {
         if (isset($this->{$currentTeamKey}[$position])) {
             // Person model
@@ -636,7 +726,6 @@ class GameEngine
 
         return [$player, $playerDisadvantage];
     }
-
 
     private function createShot($currentTeamKey)
     {
@@ -655,51 +744,31 @@ class GameEngine
         return $event;
     }
 
-    private
-    function createAttack($currentTeamKey, $competitorTeamKey, $counter, $isCounter = false)
+    private function createAttack($currentTeamKey, $competitorTeamKey, $counter, $isCounter = false)
     {
-        $event = (!$isCounter) ? $currentTeamKey . ' ' . CommentsEngine::is_attacking() . '. ' : '';
+        $event = (! $isCounter) ? $currentTeamKey.' '.CommentsEngine::is_attacking().'. ' : '';
 
         // anfall med många man, väldigt stor risk för kontring
         $eventSum = rand(0, ceil($this->attacking[$currentTeamKey] + $this->defending[$competitorTeamKey]));
 
         // $currentTeam får anfall
         if ($eventSum <= $this->attacking[$currentTeamKey]) {
-            $event .= CommentsEngine::is_in_attack_mode($currentTeamKey) . ' ' . $this->createShot($currentTeamKey);
-        } elseif (!$counter) {
-            $event .= CommentsEngine::is_in_attack_mode($currentTeamKey) . ' ' . CommentsEngine::gets_interrupted();
+            $event .= CommentsEngine::is_in_attack_mode($currentTeamKey).' '.$this->createShot($currentTeamKey);
+        } elseif (! $counter) {
+            $event .= CommentsEngine::is_in_attack_mode($currentTeamKey).' '.CommentsEngine::gets_interrupted();
         } else {
-            $event .= CommentsEngine::is_in_attack_mode($currentTeamKey) . ' ' . CommentsEngine::opposition_gets_the_ball($competitorTeamKey) . ' ';
+            $event .= CommentsEngine::is_in_attack_mode($currentTeamKey).' '.CommentsEngine::opposition_gets_the_ball($competitorTeamKey).' ';
 
-            $event .= CommentsEngine::counter_attack($competitorTeamKey) . ' ' . $this->createAttack($competitorTeamKey, $currentTeamKey, rand(0, 1) < 1, true);
+            $event .= CommentsEngine::counter_attack($competitorTeamKey).' '.$this->createAttack($competitorTeamKey, $currentTeamKey, rand(0, 1) < 1, true);
         }
 
         return $event;
     }
 
-
-    public function renderEvents()
-    {
-        $data = '<h1>' . $this->hometeamName . ' ' . $this->score['hometeam'] . '-' . $this->score['awayteam'] . ' ' . $this->awayteamName . '</h1>';
-
-        foreach ($this->events as $event) {
-            $ev = str_replace('hometeam', $this->hometeamName, $event['event']);
-            $ev = str_replace('awayteam', $this->awayteamName, $ev);
-            $data .= $event['time'] . ' min : ' . $ev . '<br />';
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param $assisting
-     * @param $position
-     * @return float
-     */
-    protected function strengthForNearbyPosition($assisting, $position, $percent): float
+    private function strengthForNearbyPosition($assisting, $position, $percent): float
     {
         $a = reset($assisting);
-        if (!is_null($a)) {
+        if (! is_null($a)) {
             $assistVal = $a * ($percent / 100);
         } else {
             $assistVal = 0;
@@ -707,38 +776,4 @@ class GameEngine
 
         return $assistVal;
     }
-
-    /*
-     * Get a player that plays nearby this position
-     *
-     * @return Person | null
-     */
-    public function getNearbyPlayer($position, $team): ?Player
-    {
-        // If pos is CD, nearby is CRD and CLD
-        // If pos is CRD, nearby is CD and RD
-        // If pos is CRM, nearby is CM and RM
-        // If pos is CLD, nearby is LD and CD
-        // If pos is DL, nearby is CLD
-        // If pos is DR, nearby is CRD
-
-        if (strlen($position) == 3) {
-            $nearbyPos = [substr($position, -2), 'C' . substr($position, -1)];
-            shuffle($nearbyPos);
-        } elseif (substr($position, 0, 1) == 'C') {
-            $nearbyPos = ['CR' . substr($position, -1), 'CL' . substr($position, -1)];
-            shuffle($nearbyPos);
-        } else {
-            $nearbyPos = ['C' . $position];
-        }
-
-        if (isset($this->{$team}[$nearbyPos[0]])) {
-            return $this->{$team}[$nearbyPos[0]];
-        } elseif (isset($nearbyPos[1]) && isset($this->{$team}[$nearbyPos[1]])) {
-            return $this->{$team}[$nearbyPos[1]];
-        } else {
-            return null;
-        }
-    }
-
 }

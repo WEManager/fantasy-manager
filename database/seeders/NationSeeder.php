@@ -14,7 +14,7 @@ final class NationSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Importing nations from file...');
-        
+
         $ok = $this->nationService->updateFromFile('sofifa/nation.json', 500);
 
         if ($ok) {

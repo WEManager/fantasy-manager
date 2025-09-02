@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
-use Tests\TestCase;
 use App\Models\Fixture;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
 /**
  * @see \App\Http\Controllers\TournamentGameController
  */
-class TournamentGameControllerTest extends TestCase
+final class TournamentGameControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -27,5 +29,4 @@ class TournamentGameControllerTest extends TestCase
         $response->assertOk();
         $response->assertSee($tournament->name);
     }
-
 }

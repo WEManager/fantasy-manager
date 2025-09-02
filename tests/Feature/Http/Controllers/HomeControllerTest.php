@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * @see \App\Http\Controllers\HomeController
  */
-class HomeControllerTest extends TestCase
+final class HomeControllerTest extends TestCase
 {
     use RefreshDatabase;
 

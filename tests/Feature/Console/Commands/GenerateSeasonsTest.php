@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Console\Commands;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @see \App\Console\Commands\GenerateSeasons
  */
-class GenerateSeasonsTest extends TestCase
+final class GenerateSeasonsTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -29,4 +29,3 @@ class GenerateSeasonsTest extends TestCase
         $this->assertDatabaseHas('seasons', ['id' => 2]);
     }
 }
-

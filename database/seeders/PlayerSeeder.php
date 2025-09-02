@@ -14,9 +14,9 @@ final class PlayerSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('Starting player import from CSV...');
-        
-        $this->command->info("Will import players from CSV");
-        
+
+        $this->command->info('Will import players from CSV');
+
         $ok = $this->playerService->importFromCsv();
 
         if ($ok) {

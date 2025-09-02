@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Engines;
 
-class CommentsEngine
+final class CommentsEngine
 {
     public static function pass_in_defence($player)
     {
@@ -16,9 +18,9 @@ class CommentsEngine
         shuffle($player);
 
         $passBallShort = [
-            $player[0] . __(' is passing the ball short.'),
-            $player[0] . __(' passes the ball short.'),
-            $player[0] . __(' passes the ball to his defense.'),
+            $player[0].__(' is passing the ball short.'),
+            $player[0].__(' passes the ball short.'),
+            $player[0].__(' passes the ball to his defense.'),
         ];
         shuffle($passBallShort);
 
@@ -31,9 +33,9 @@ class CommentsEngine
         shuffle($player);
 
         $kicksBall = [
-            $player[0] . __(' kicks the ball upfield.'),
-            $player[0] . __(' plays the ball long.'),
-            $player[0] . __(' kicks the ball far up the field.'),
+            $player[0].__(' kicks the ball upfield.'),
+            $player[0].__(' plays the ball long.'),
+            $player[0].__(' kicks the ball far up the field.'),
         ];
         shuffle($kicksBall);
 
@@ -72,9 +74,12 @@ class CommentsEngine
     {
         $winnerName = [$winner->lastname, $winner->full_name];
         $loserName = [$loser->lastname, $loser->full_name];
-        shuffle($winnerName); shuffle($loserName);
+        shuffle($winnerName);
+        shuffle($loserName);
 
-        if ($winnerName[0] == $loserName[0]) $loserName[0] = $loserName[1];
+        if ($winnerName[0] === $loserName[0]) {
+            $loserName[0] = $loserName[1];
+        }
 
         $wonBallInHeadingDuel = [
             __(':Winner and :Loser goes up in a duel, this time :Winner gets his head on the ball.', ['winner' => $winnerName[0], 'loser' => $loserName[0]]),
@@ -88,7 +93,6 @@ class CommentsEngine
 
         return $wonBallInHeadingDuel[0];
     }
-
 
     public static function is_attacking()
     {
@@ -113,18 +117,18 @@ class CommentsEngine
 
         $part = [
             'the offensive part of the pitch',
-            'the ' . $side[0] . ' flank',
-            'the ' . $side[0] . 'wing area',
+            'the '.$side[0].' flank',
+            'the '.$side[0].'wing area',
         ];
         shuffle($part);
 
         $isInAttackMode = [
-            $currentTeamKey . ' are still attacking on the offensive part of the pitch.',
-            'They are still attacking on ' . $part[0] . '.',
-            $currentTeamKey . ' are working hard outside the penalty area.',
+            $currentTeamKey.' are still attacking on the offensive part of the pitch.',
+            'They are still attacking on '.$part[0].'.',
+            $currentTeamKey.' are working hard outside the penalty area.',
             'They are working hard outside the penalty area.',
-            $currentTeamKey . ' are passing the ball on ' . $part[0] . '.',
-            'They are passing the ball on ' . $part[0] . '.',
+            $currentTeamKey.' are passing the ball on '.$part[0].'.',
+            'They are passing the ball on '.$part[0].'.',
         ];
         shuffle($isInAttackMode);
 
@@ -153,9 +157,9 @@ class CommentsEngine
 
         $getsInterrupted = [
             'But they gets interrupted.',
-            'But whoops, ' . $lostBall[0] . '.',
-            'But there ' . $lostBall[0] . '.',
-            'But the ball rolls over the line after ' . $missed[0] . '.',
+            'But whoops, '.$lostBall[0].'.',
+            'But there '.$lostBall[0].'.',
+            'But the ball rolls over the line after '.$missed[0].'.',
         ];
         shuffle($getsInterrupted);
 
@@ -186,7 +190,7 @@ class CommentsEngine
             'read the play very well',
             'read the pass',
             'read the pass very well',
-            'saw what was coming, acted accordingly'
+            'saw what was coming, acted accordingly',
         ];
         shuffle($read);
 
@@ -194,9 +198,9 @@ class CommentsEngine
             'and the opposition is now in charge',
             'and the opposition is now in control',
             'and the opposition is now in possession',
-            'and ' . $theOppositionTeamKey . ' is now in charge',
-            'and ' . $theOppositionTeamKey . ' is now in control',
-            'and ' . $theOppositionTeamKey . ' is now in possession',
+            'and '.$theOppositionTeamKey.' is now in charge',
+            'and '.$theOppositionTeamKey.' is now in control',
+            'and '.$theOppositionTeamKey.' is now in possession',
             'and took the ball into their belongings',
         ];
         shuffle($oppositionInCharge);
@@ -204,16 +208,16 @@ class CommentsEngine
         $opposition = [
             'There the opposition',
             'Now the opposition',
-            'There ' . $theOppositionTeamKey,
-            'Now ' . $theOppositionTeamKey,
-            'And... now ' . $theOppositionTeamKey,
-            'There... ' . $theOppositionTeamKey,
+            'There '.$theOppositionTeamKey,
+            'Now '.$theOppositionTeamKey,
+            'And... now '.$theOppositionTeamKey,
+            'There... '.$theOppositionTeamKey,
         ];
         shuffle($opposition);
 
         $oppositionGetsTheBall = [
-            'Oh! They ' . $lostBall[0] . ' ' . $theChargeOfBall[0] . ' ' . $oppositionInCharge[0] . '.',
-            $opposition[0] . ' ' . $read[0] . ' ' . $oppositionInCharge[0] . '.',
+            'Oh! They '.$lostBall[0].' '.$theChargeOfBall[0].' '.$oppositionInCharge[0].'.',
+            $opposition[0].' '.$read[0].' '.$oppositionInCharge[0].'.',
         ];
         shuffle($oppositionGetsTheBall);
 
@@ -224,9 +228,9 @@ class CommentsEngine
     {
 
         $counterAttack = [
-            $theOppositionTeamKey . ' is going for a counter attack! ',
-            $theOppositionTeamKey . ' is rapidly turning into a counter attack! ',
-            $theOppositionTeamKey . ' is starting a counter! ',
+            $theOppositionTeamKey.' is going for a counter attack! ',
+            $theOppositionTeamKey.' is rapidly turning into a counter attack! ',
+            $theOppositionTeamKey.' is starting a counter! ',
         ];
         shuffle($counterAttack);
 
@@ -297,5 +301,4 @@ class CommentsEngine
 
         return $goal[0];
     }
-
 }

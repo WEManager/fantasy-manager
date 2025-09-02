@@ -17,7 +17,7 @@ $factory->define(Tournament::class, function (Faker $faker) {
     }
 
     return [
-        'name' => $faker->country . ' ' . $faker->name,
+        'name' => $faker->country.' '.$faker->name,
         'recurring_every_of_year' => 1,
         'participants' => 8,
         'type' => $selectedType,

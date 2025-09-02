@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Console\Commands;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @see \App\Console\Commands\GeneratePlayer
  */
-class GeneratePlayerTest extends TestCase
+final class GeneratePlayerTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -28,4 +28,3 @@ class GeneratePlayerTest extends TestCase
         $this->assertDatabaseHas('people', ['id' => 1]);
     }
 }
-

@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Console\Commands;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @see \App\Console\Commands\GenerateClub
  */
-class GenerateClubTest extends TestCase
+final class GenerateClubTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -28,4 +28,3 @@ class GenerateClubTest extends TestCase
         $this->assertDatabaseHas('clubs', ['id' => 1]);
     }
 }
-

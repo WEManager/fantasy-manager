@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Player;
-use Tests\TestCase;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * @see \App\Http\Controllers\LineupController
  */
-class LineupControllerTest extends TestCase
+final class LineupControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -18,8 +20,11 @@ class LineupControllerTest extends TestCase
      * @var \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      */
     private $club;
+
     private $manager;
+
     private $players;
+
     private $lineup;
 
     protected function setUp(): void
@@ -27,24 +32,6 @@ class LineupControllerTest extends TestCase
         parent::setUp();
 
         $this->create_lineup();
-    }
-
-    private function create_lineup()
-    {
-        $this->manager = factory(User::class)->create();
-        $this->club = factory(\App\Models\Club::class)->create();
-        factory(\App\ManagerContract::class)->create([
-            'user_id' => $this->manager->id, 'club_id' => $this->club->id,
-        ]);
-
-        $this->players = factory(Player::class)->times(17)->create();
-
-        $lineupData = $this->setLineup();
-
-        $lineupData['club_id'] = $this->club->id;
-        $lineupData['team'] = 'senior';
-
-        $this->lineup = factory(\App\Models\Lineup::class)->create($lineupData);
     }
 
     /**
@@ -76,10 +63,24 @@ class LineupControllerTest extends TestCase
         $response->assertOk();
     }
 
-    /**
-     * @param bool $shuffle
-     * @return array
-     */
+    private function create_lineup()
+    {
+        $this->manager = factory(User::class)->create();
+        $this->club = factory(\App\Models\Club::class)->create();
+        factory(\App\ManagerContract::class)->create([
+            'user_id' => $this->manager->id, 'club_id' => $this->club->id,
+        ]);
+
+        $this->players = factory(Player::class)->times(17)->create();
+
+        $lineupData = $this->setLineup();
+
+        $lineupData['club_id'] = $this->club->id;
+        $lineupData['team'] = 'senior';
+
+        $this->lineup = factory(\App\Models\Lineup::class)->create($lineupData);
+    }
+
     private function setLineup(bool $shuffle = false): array
     {
         $positions = getPositionsExceptGoalkeeper();
@@ -90,7 +91,9 @@ class LineupControllerTest extends TestCase
             $playerIds[] = $player->id;
         }
 
-        if ($shuffle) shuffle($playerIds);
+        if ($shuffle) {
+            shuffle($playerIds);
+        }
 
         $lineupData = [];
         for ($i = 0; $i < count($playerIds); $i++) {
@@ -98,20 +101,21 @@ class LineupControllerTest extends TestCase
                 $position = 'GK';
             }
             if ($i + 1 < 12) {
-                if ($i != 0) {
+                if ($i !== 0) {
                     $position = $positions[$i];
                 }
-                $positionKey = 'position_' . ($i + 1);
-                $playerKey = 'player_' . ($i + 1);
+                $positionKey = 'position_'.($i + 1);
+                $playerKey = 'player_'.($i + 1);
 
             } else {
-                $playerKey = 'substitute_' . ($i - 10);
+                $playerKey = 'substitute_'.($i - 10);
             }
             $lineupData[$playerKey] = $playerIds[$i];
             if (isset($positionKey)) {
                 $lineupData[$positionKey] = $position;
             }
         }
+
         return $lineupData;
     }
 }

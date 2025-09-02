@@ -1,14 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Engines;
 
-class GameEngineTest {
-
+final class GameEngineTest
+{
     public $expected = 0;
+
     public $unexpected = 0;
 
     public function __construct($amount = 100)
     {
-        for ($i=0;$i<$amount;$i++) {
+        for ($i = 0; $i < $amount; $i++) {
             $engine = new GameEngine();
             if ($engine->score['hometeam'] > $engine->score['awayteam']) {
 
@@ -25,8 +29,8 @@ class GameEngineTest {
                 }
             } else {
                 if (
-                    $engine->chances['hometeam']+1 >= $engine->chances['awayteam'] ||
-                    $engine->chances['hometeam']-1 <= $engine->chances['awayteam']
+                    $engine->chances['awayteam'] <= $engine->chances['hometeam'] + 1 ||
+                    $engine->chances['awayteam'] >= $engine->chances['hometeam'] - 1
                 ) {
                     $this->expected++;
                 } else {

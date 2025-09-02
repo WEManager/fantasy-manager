@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * @see \App\Http\Controllers\SquadController
  */
-class SquadControllerTest extends TestCase
+final class SquadControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -24,5 +26,4 @@ class SquadControllerTest extends TestCase
         $response->assertOk();
         $response->assertSee($club->name);
     }
-
 }

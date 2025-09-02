@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
 
 return [
@@ -42,7 +44,7 @@ return [
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
-        
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

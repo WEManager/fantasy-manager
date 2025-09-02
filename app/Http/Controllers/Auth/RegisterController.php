@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
- // <- use o contrato
+// <- use o contrato
 
 final class RegisterController extends Controller
 {
