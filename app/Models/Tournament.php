@@ -52,14 +52,14 @@ final class Tournament extends Model
         return 'slug';
     }
 
-    /** @return HasManyThrough<TournamentGame, TournamentGroup, $this> */
+    /** @return HasManyThrough<Fixture, TournamentGroup, $this> */
     public function games(): HasManyThrough
     {
         return $this->hasManyThrough(
-            TournamentGame::class,
+            Fixture::class,
             TournamentGroup::class,
             'tournament_id', // FK em tournament_groups
-            'group_id',      // FK em tournament_games
+            'group_id',      // FK em fixtures
             'id',            // PK em tournaments
             'id'             // PK em tournament_groups
         );
@@ -69,9 +69,11 @@ final class Tournament extends Model
     {
         $groupIds = $this->tournamentGroups()->pluck('id');
         try {
-            $firstGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'asc')->firstOrFail('start_time');
+            $firstGameDate = Fixture::whereIn('group_id', $groupIds)
+                ->orderBy('start_time', 'asc')
+                ->firstOrFail('start_time');
         } catch (Exception) {
-            $firstGameDate = new TournamentGame();
+            $firstGameDate = new Fixture();
 
             $firstGameDate->start_time = now()->addCenturies(2);
         }
@@ -83,9 +85,11 @@ final class Tournament extends Model
     {
         $groupIds = $this->tournamentGroups()->pluck('id');
         try {
-            $lastGameDate = TournamentGame::whereIn('group_id', $groupIds)->orderBy('start_time', 'desc')->firstOrFail('start_time');
+            $lastGameDate = Fixture::whereIn('group_id', $groupIds)
+                ->orderBy('start_time', 'desc')
+                ->firstOrFail('start_time');
         } catch (Exception) {
-            $lastGameDate = new TournamentGame();
+            $lastGameDate = new Fixture();
             $lastGameDate->start_time = now()->addCenturies(2);
         }
 

@@ -1,39 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Engines\MatchEngine;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class GameEvent extends Model
+final class GameEvent extends Model
 {
-    protected $guarded = [];
+    protected $casts = [
+        'event_time' => 'datetime',
+    ];
 
     protected $with = ['game'];
 
     /**
-     * Scopes
+     * @param  Builder<static>  $query
+     * @return Builder<static>
      */
-
-    public function scopeCurrent(Builder $builder) {
-        $builder->where('event_time', '<=', now());
+    public function scopeCurrent(Builder $query): Builder
+    {
+        return $query->where('event_time', '<=', now());
     }
 
-    /**
-     * Relationships
-     */
-
-    public function game(): BelongsTo {
-        return $this->belongsTo(TournamentGame::class, 'game_id', 'id');
+    /** @return BelongsTo<Fixture, $this> */
+    public function fixture(): BelongsTo
+    {
+        return $this->belongsTo(Fixture::class);
     }
 
-
-    /**
-     * Play this event in game
-     */
-    public function play(): void {
-        new MatchEngine($this->game);
+    public function play(): void
+    {
+        new MatchEngine($this->fixture);
     }
 }

@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Database\Factories\ClubFactory;
-use Spatie\Sluggable\HasSlug;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 final class Club extends Model
 {
     /** @use HasFactory<ClubFactory> */
     use HasFactory;
+
     use HasSlug;
 
     protected $fillable = ['name', 'colors'];
@@ -38,16 +39,16 @@ final class Club extends Model
             ->saveSlugsTo('slug');
     }
 
-    /** @return HasMany<TournamentGame, $this> */
+    /** @return HasMany<Fixture, $this> */
     public function homeGames(): HasMany
     {
-        return $this->hasMany(TournamentGame::class, 'hometeam_id', 'id');
+        return $this->hasMany(Fixture::class, 'hometeam_id', 'id');
     }
 
-    /** @return HasMany<TournamentGame, $this> */
+    /** @return HasMany<Fixture, $this> */
     public function awayGames(): HasMany
     {
-        return $this->hasMany(TournamentGame::class, 'awayteam_id', 'id');
+        return $this->hasMany(Fixture::class, 'awayteam_id', 'id');
     }
 
     /** @return HasOneThrough<User, ManagerContract, $this> */

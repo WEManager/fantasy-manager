@@ -3,7 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use Tests\TestCase;
-use App\Models\TournamentGame;
+use App\Models\Fixture;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -21,7 +21,7 @@ class TournamentGameControllerTest extends TestCase
     {
         Artisan::call('make:tournament', ['name' => 'Test', 'teams' => 4]);
 
-        $tournament = TournamentGame::find(1);
+        $tournament = Fixture::find(1);
 
         $response = $this->get(route('show_game', ['locale' => 'en', 'game' => $tournament->id]));
         $response->assertOk();

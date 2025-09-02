@@ -6,7 +6,7 @@ namespace App\Enums;
 
 use Filament\Support\Contracts\HasLabel;
 
-enum GameType: int implements HasLabel
+enum FixtureType: int implements HasLabel
 {
     case REGULAR_TIME_ONLY = 1;
     case REGULAR_TIME_PLUS_PENALTIES = 2;

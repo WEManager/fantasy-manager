@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\GameStatus;
-use App\Enums\GameType;
+use App\Enums\FixtureStatus;
+use App\Enums\FixtureType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-final class TournamentGame extends Model
+final class Fixture extends Model
 {
     protected $casts = [
+        'type' => FixtureType::class,
+        'status' => FixtureStatus::class,
         'hometeam_score' => 'int',
         'awayteam_score' => 'int',
-        'type' => GameType::class,
-        'status' => GameStatus::class,
         'start_time' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -53,13 +53,13 @@ final class TournamentGame extends Model
 
     public function getIsAboutToStartAttribute(): bool
     {
-        return $this->status === GameStatus::NOT_STARTED
+        return $this->status === FixtureStatus::NOT_STARTED
             && now()->greaterThanOrEqualTo($this->start_time);
     }
 
     public function getIsTimeForHalftimeAttribute(): bool
     {
-        return $this->status === GameStatus::ACTIVE
+        return $this->status === FixtureStatus::ACTIVE
             && $this->start_time->between(
                 now()->addMinutes(45),
                 now()->addMinutes(60)
@@ -68,13 +68,13 @@ final class TournamentGame extends Model
 
     public function getIsTimeForSecondHalfAttribute(): bool
     {
-        return $this->status === GameStatus::WAITING_FOR_SECOND_HALF
+        return $this->status === FixtureStatus::WAITING_FOR_SECOND_HALF
             && $this->start_time->lessThanOrEqualTo(now()->subMinutes(60));
     }
 
     public function getIsAboutToEndAttribute(): bool
     {
-        return $this->status === GameStatus::ACTIVE
+        return $this->status === FixtureStatus::ACTIVE
             && $this->start_time->lessThanOrEqualTo(now()->subMinutes(60))
             && $this->gameEvents->count() === 0;
     }
@@ -107,15 +107,15 @@ final class TournamentGame extends Model
     public function getGameStatusAttribute(): string
     {
         return match ($this->status) {
-            GameStatus::NOT_STARTED => $this->getNotStartedStatusText(),
-            GameStatus::ACTIVE => $this->getActiveStatusText(),
-            GameStatus::ENDED => __('Finalizado'),
-            GameStatus::WAITING_FOR_SECOND_HALF => __('Aguardando segundo tempo'),
-            GameStatus::WAITING_FOR_EXTRA_TIME => __('Aguardando prorrogação'),
-            GameStatus::WAITING_FOR_PENALTIES => __('Aguardando pênaltis'),
-            GameStatus::CANCELLED => __('Cancelado'),
-            GameStatus::POSTPONED => __('Adiado'),
-            GameStatus::NOT_DECIDED => __('Não decidido'),
+            FixtureStatus::NOT_STARTED => $this->getNotStartedStatusText(),
+            FixtureStatus::ACTIVE => $this->getActiveStatusText(),
+            FixtureStatus::ENDED => __('Finalizado'),
+            FixtureStatus::WAITING_FOR_SECOND_HALF => __('Aguardando segundo tempo'),
+            FixtureStatus::WAITING_FOR_EXTRA_TIME => __('Aguardando prorrogação'),
+            FixtureStatus::WAITING_FOR_PENALTIES => __('Aguardando pênaltis'),
+            FixtureStatus::CANCELLED => __('Cancelado'),
+            FixtureStatus::POSTPONED => __('Adiado'),
+            FixtureStatus::NOT_DECIDED => __('Não decidido'),
         };
     }
 
@@ -125,7 +125,7 @@ final class TournamentGame extends Model
      */
     public function scopeAboutToStart(Builder $query): Builder
     {
-        return $query->where('status', GameStatus::NOT_STARTED)
+        return $query->where('status', FixtureStatus::NOT_STARTED)
             ->where('start_time', '<=', now());
     }
 
@@ -135,7 +135,7 @@ final class TournamentGame extends Model
      */
     public function scopeTimeForHalftime(Builder $query): Builder
     {
-        return $query->where('status', GameStatus::ACTIVE)
+        return $query->where('status', FixtureStatus::ACTIVE)
             ->where('start_time', '<=', now()->subMinutes(45))
             ->where('start_time', '>=', now()->subMinutes(60));
     }
@@ -146,7 +146,7 @@ final class TournamentGame extends Model
      */
     public function scopeAboutToEnd(Builder $query): Builder
     {
-        return $query->where('status', GameStatus::ACTIVE)
+        return $query->where('status', FixtureStatus::ACTIVE)
             ->where('start_time', '<=', now()->subMinutes(106));
     }
 
@@ -171,25 +171,27 @@ final class TournamentGame extends Model
     /** @return HasMany<GameEvent, $this> */
     public function gameEvents(): HasMany
     {
-        return $this->hasMany(GameEvent::class, 'game_id');
+        return $this->hasMany(GameEvent::class);
     }
 
     /** @return HasMany<TournamentGameEvent, $this> */
     public function gameHappenings(): HasMany
     {
-        return $this->hasMany(TournamentGameEvent::class)->orderBy('minute');
+        return $this->hasMany(TournamentGameEvent::class, 'fixture_id')->orderBy('minute');
     }
 
     /** @return HasMany<GameEvent, $this> */
     public function hometeamEvents(): HasMany
     {
-        return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->hometeam_id);
+        return $this->hasMany(GameEvent::class)
+            ->where('club_id', $this->hometeam_id);
     }
 
     /** @return HasMany<GameEvent, $this> */
     public function awayteamEvents()
     {
-        return $this->hasMany(GameEvent::class, 'game_id')->where('club_id', $this->awayteam_id);
+        return $this->hasMany(GameEvent::class)
+            ->where('club_id', $this->awayteam_id);
     }
 
     private function getNotStartedStatusText(): string

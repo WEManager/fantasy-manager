@@ -1,5 +1,5 @@
 import type { Club } from '~/modules/core/types'
-import type { GameStatus } from '../tournaments/types'
+import type { FixtureStatus } from '../tournaments/types'
 
 export interface Player {
   id: number
@@ -35,7 +35,7 @@ export interface Game {
   hometeam_score: number
   awayteam_score: number
   start_time: string
-  status: GameStatus
+  status: FixtureStatus
   group: TournamentGroup
   gameStatus: string
   CurrentMinute: number

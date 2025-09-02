@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/correctness/useUniqueElementIds: <> */
-import type { GameStatus as GameStatusType } from '../types'
+import type { FixtureStatus as FixtureStatusType } from '../types'
 
 interface GameStatusProps {
-  status: GameStatusType
+  status: FixtureStatusType
   gameStatus: string
 }
 

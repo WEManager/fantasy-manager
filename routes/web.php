@@ -41,7 +41,7 @@ Route::resource('jogadores', Controllers\PlayerController::class)
     ->parameters(['jogadores' => 'player'])
     ->names('player');
 
-Route::get('partidas/{game}', Controllers\TournamentGameController::class)
+Route::get('partidas/{game}', Controllers\FixtureController::class)
     ->name('game.show');
 
 // Route::get('/test-heading', function () {
@@ -52,7 +52,7 @@ Route::get('partidas/{game}', Controllers\TournamentGameController::class)
 // });
 
 // Route::get('/test-game/{id}', function ($id) {
-//     $game = \App\Models\TournamentGame::find($id);
+//     $fixture = \App\Models\Fixture::find($id);
 
-//     new \App\Engines\MatchEngine($game);
+//     new \App\Engines\MatchEngine($fixture);
 // });

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Events;
 
-use App\Enums\GameStatus;
-use App\Enums\GameType;
+use App\Enums\FixtureStatus;
+use App\Enums\FixtureType;
 use App\Enums\TournamentType;
 use App\Models\Club;
+use App\Models\Fixture;
 use App\Models\Tournament;
-use App\Models\TournamentGame;
 use App\Models\TournamentGroup;
 use App\Models\TournamentStanding;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -151,14 +151,14 @@ final class CreateLeagueEvent
 
                 // never add the ghost-team to database..
                 if (! isset($ghost) || (($hometeam !== $ghost) && ($awayteam !== $ghost))) {
-                    TournamentGame::create([
+                    Fixture::create([
                         'group_id' => $group->id,
                         'hometeam_id' => $clubs[($hometeam - 1)]->id,
                         'awayteam_id' => $clubs[($awayteam - 1)]->id,
                         // 'hometeam_squad' => $group->tournament->team,
                         // 'awayteam_squad' => $group->tournament->team,
-                        'type' => GameType::REGULAR_TIME_ONLY,
-                        'status' => GameStatus::NOT_STARTED,
+                        'type' => FixtureType::REGULAR_TIME_ONLY,
+                        'status' => FixtureStatus::NOT_STARTED,
                         'start_time' => $roundDate,
                     ]);
                 }

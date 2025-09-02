@@ -1,4 +1,4 @@
-import type { GameStatus } from '../tournaments/types'
+import type { FixtureStatus } from '../tournaments/types'
 
 export interface Club {
   id: number
@@ -24,7 +24,7 @@ export interface OngoingGame {
   hometeam_score: number
   awayteam_score: number
   start_time: string
-  status: GameStatus
+  status: FixtureStatus
   group: TournamentGroup
   gameStatus: string
 }

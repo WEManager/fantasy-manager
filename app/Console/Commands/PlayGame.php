@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Engines\MatchEngine;
+use App\Models\Fixture;
 use App\Models\GameEvent;
-use App\Models\TournamentGame;
 use Illuminate\Console\Command;
 
 final class PlayGame extends Command
@@ -29,7 +29,7 @@ final class PlayGame extends Command
         // Delete all events that has been played at once
         GameEvent::whereIn('id', $ids)->delete();
 
-        $games = TournamentGame::where('start_time', '<=', now())
+        $games = Fixture::where('start_time', '<=', now())
             ->where('status', '0')
             ->orWhere('status', '1')
             ->where('start_time', '<=', now()->subMinutes(106))

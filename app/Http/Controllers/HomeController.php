@@ -19,11 +19,11 @@ final class HomeController extends Controller
         $tournaments = Cache::remember('home-tournaments-optimized', 300, function () {
             return DB::table('tournaments as t')
                 ->leftJoin('tournament_groups as grp', 'grp.tournament_id', '=', 't.id')
-                ->leftJoin('tournament_games  as tg', 'tg.group_id', '=', 'grp.id')
+                ->leftJoin('fixtures  as fixture', 'fixture.group_id', '=', 'grp.id')
                 ->select([
                     't.id', 't.slug', 't.name',
-                    DB::raw('MIN(tg.start_time) as first_start'),
-                    DB::raw('MAX(tg.start_time) as last_start'),
+                    DB::raw('MIN(fixture.start_time) as first_start'),
+                    DB::raw('MAX(fixture.start_time) as last_start'),
                 ])
                 ->groupBy('t.id', 't.slug', 't.name')
                 ->orderBy('t.name')
@@ -55,30 +55,30 @@ final class HomeController extends Controller
         // Jogos em andamento SEM cache para dados sempre atualizados
         $limit = (int) request('limit', 15);
 
-        $ongoingGames = DB::table('tournament_games as tg')
-            ->join('tournament_groups as grp', 'tg.group_id', '=', 'grp.id')
+        $ongoingGames = DB::table('fixtures as fixture')
+            ->join('tournament_groups as grp', 'fixture.group_id', '=', 'grp.id')
             ->join('tournaments as t', 'grp.tournament_id', '=', 't.id')
-            ->join('clubs as ht', 'tg.hometeam_id', '=', 'ht.id')
-            ->join('clubs as at', 'tg.awayteam_id', '=', 'at.id')
+            ->join('clubs as ht', 'fixture.hometeam_id', '=', 'ht.id')
+            ->join('clubs as at', 'fixture.awayteam_id', '=', 'at.id')
             // LEFT em participantes, mas agregando para não duplicar linhas do jogo
             ->leftJoin('tournament_participants as tp', 't.id', '=', 'tp.tournament_id')
             ->leftJoin('clubs as cp', 'tp.club_id', '=', 'cp.id')
-            ->where('tg.status', '1')
+            ->where('fixture.status', '1')
             ->groupBy([
-                'tg.id', 'tg.hometeam_id', 'tg.awayteam_id', 'tg.hometeam_score', 'tg.awayteam_score', 'tg.start_time', 'tg.status',
+                'fixture.id', 'fixture.hometeam_id', 'fixture.awayteam_id', 'fixture.hometeam_score', 'fixture.awayteam_score', 'fixture.start_time', 'fixture.status',
                 'grp.id', 'grp.name',
                 't.id', 't.name', 't.slug',
                 'ht.id', 'ht.name', 'ht.colors', 'ht.slug',
                 'at.id', 'at.name', 'at.colors', 'at.slug',
             ])
             ->select([
-                'tg.id',
-                'tg.hometeam_id',
-                'tg.awayteam_id',
-                'tg.hometeam_score',
-                'tg.awayteam_score',
-                'tg.start_time',
-                'tg.status',
+                'fixture.id',
+                'fixture.hometeam_id',
+                'fixture.awayteam_id',
+                'fixture.hometeam_score',
+                'fixture.awayteam_score',
+                'fixture.start_time',
+                'fixture.status',
                 'grp.id as group_id',
                 'grp.name as group_name',
                 't.id as tournament_id',

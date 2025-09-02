@@ -11,7 +11,7 @@ class MatchEngine
   private $hometeamLineup;
   private $awayteamLineup;
 
-  public function __construct(Models\TournamentGame $game)
+  public function __construct(Models\Fixture $game)
   {
     $this->game = $game;
     $this->hometeamLineup = Models\Lineup::where(
@@ -172,7 +172,7 @@ class MatchEngine
 
       Models\TournamentGameEvent::create([
         'minute' => $minute,
-        'tournament_game_id' => $this->game->id,
+        'fixture_id' => $this->game->id,
         'event_description_string' => $string,
       ]);
     }
@@ -295,7 +295,7 @@ class MatchEngine
       if ($minute > 45) $minute = $minute + 15;
 
       $gameEvent = Models\GameEvent::create([
-        'game_id' => $this->game->id,
+        'fixture_id' => $this->game->id,
         'event_time' =>
         date('Y-m-d H:i:s', strtotime($this->game->start_time . ' + ' . $minute . ' minutes')),
       ]);

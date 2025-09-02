@@ -6,7 +6,7 @@ namespace App\Enums;
 
 use Filament\Support\Contracts\HasLabel;
 
-enum GameStatus: int implements HasLabel
+enum FixtureStatus: int implements HasLabel
 {
     case NOT_STARTED = 0;
     case ACTIVE = 1;

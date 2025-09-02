@@ -4,7 +4,7 @@ namespace App\Engines;
 
 use App\Models\Lineup;
 use App\Models\Player;
-use App\Models\TournamentGame;
+use App\Models\Fixture;
 
 class GameEngine
 {
@@ -54,7 +54,7 @@ class GameEngine
         $this->gameId = $gameId;
 
         if (!is_null($gameId)) {
-            $game = TournamentGame::find($gameId);
+            $game = Fixture::find($gameId);
             
             $homeLineup = Lineup::where('club_id', $game->hometeam_id)->where('team', 'u21')->first();
             $awayLineup = Lineup::where('club_id', $game->awayteam_id)->where('team', 'u21')->first();

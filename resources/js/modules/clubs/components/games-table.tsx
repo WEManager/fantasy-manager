@@ -1,4 +1,4 @@
-import type { TournamentGame } from '../types'
+import type { Fixture } from '../types'
 
 import { Link } from '@inertiajs/react'
 
@@ -16,7 +16,7 @@ import { ClubName } from './club-name'
 import { TournamentName } from './tournament-name'
 
 interface GamesTableProps {
-  games: TournamentGame[]
+  games: Fixture[]
   title: string
   isHomeGames?: boolean
 }

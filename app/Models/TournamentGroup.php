@@ -22,16 +22,16 @@ final class TournamentGroup extends Model
         return $this->belongsTo(Tournament::class);
     }
 
-    /** @return HasMany<TournamentGame, $this> */
+    /** @return HasMany<Fixture, $this> */
     public function games(): HasMany
     {
-        return $this->hasMany(TournamentGame::class, 'group_id')->orderBy('start_time');
+        return $this->hasMany(Fixture::class, 'group_id')->orderBy('start_time');
     }
 
-    /** @return HasMany<TournamentGame, $this> */
+    /** @return HasMany<Fixture, $this> */
     public function upcomingGames(): HasMany
     {
-        return $this->hasMany(TournamentGame::class, 'group_id')
+        return $this->hasMany(Fixture::class, 'group_id')
             ->whereDate('start_time', '>=', now()->subHours(12))
             ->whereDate('start_time', '<', now()->addDay())
             ->orderBy('start_time');

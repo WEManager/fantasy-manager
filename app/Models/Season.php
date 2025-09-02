@@ -16,9 +16,9 @@ final class Season extends Model
         return $this->belongsToMany(Tournament::class, 'tournament_season');
     }
 
-    /** @return HasManyThrough<TournamentGame, Tournament, $this> */
+    /** @return HasManyThrough<Fixture, Tournament, $this> */
     public function games(): HasManyThrough
     {
-        return $this->hasManyThrough(TournamentGame::class, Tournament::class);
+        return $this->hasManyThrough(Fixture::class, Tournament::class);
     }
 }

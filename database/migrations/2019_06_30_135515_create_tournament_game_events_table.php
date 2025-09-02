@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTournamentGameEventsTable extends Migration
+final class CreateTournamentGameEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +17,7 @@ class CreateTournamentGameEventsTable extends Migration
     {
         Schema::create('tournament_game_events', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('tournament_game_id');
+            $table->integer('fixture_id');
             $table->string('event_description_string');
             $table->integer('minute');
             $table->json('involved_persons')->nullable();
