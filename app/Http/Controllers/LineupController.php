@@ -6,52 +6,67 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use App\Models\Lineup;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 final class LineupController extends Controller
 {
-    public function edit(Club $club, $squad): Response
+    public function edit(Club $club, string $squad): Response
     {
-        if (! $lineup = Lineup::where('club_id', $club->id)->where('team', $squad)->first()) {
-            $lineup = Lineup::create([
-                'club_id' => $club->id,
-                'team' => $squad,
-            ]);
-        }
+        $club->loadMissing(['players:id,club_id,know_as,best_position,positions']);
 
-        // $type = getContractType($squad);
+        $lineup = Lineup::firstOrCreate(
+            ['club_id' => $club->id, 'team' => $squad],
+            []
+        );
 
-        // if ($squad == 'senior') $squad = '';
+        $selectedByPlayerId = $this->buildSelectedMap($lineup);
 
-        $players = $club->players;
+        /** @var \Illuminate\Support\Collection<int,array{
+         *   id:int, know_as:string, best_position:string,
+         *   positions:array<int,string>, selected_position:string|null
+         * }> $players
+         */
+        $players = $club->players->map(
+            /**
+             * @param  \App\Models\Player  $p
+             * @return array{id:int,know_as:string,best_position:string,positions:array<int,string>,selected_position:string|null}
+             */
+            fn ($p) => [
+                'id' => (int) $p->id,
+                'know_as' => (string) $p->know_as,
+                'best_position' => (string) $p->best_position,
+                'positions' => (array) $p->positions,
+                'selected_position' => $selectedByPlayerId[(int) $p->id] ?? (string) $p->best_position,
+            ]
+        )->values();
 
-        for ($i = 1; $i <= 17; $i++) {
-            foreach ($players as $player) {
-                if ($i < 12) {
-                    if ($player->id === $lineup->{"player_$i"}) {
-                        $player->selected_position = $lineup->{"position_$i"};
-                        break;
-                    }
-                } else {
-                    $sub = $i - 11;
+        $displaySquad = $squad === 'senior' ? '' : $squad;
 
-                    if ($player->id === $lineup->{"substitute_$sub"}) {
-                        $player->selected_position = "SUB_$sub";
-                    }
-                }
-            }
-        }
-
-        return Inertia::render('lineups/edit/page', compact('club', 'lineup', 'players', 'squad'));
+        return Inertia::render('lineups/edit/page', [
+            'club' => $club,
+            'lineup' => $lineup,
+            'players' => $players,
+            'squad' => $displaySquad,
+        ]);
     }
 
-    public function update(Lineup $lineup)
+    public function update(Request $request, Lineup $lineup): RedirectResponse
     {
         $this->authorize('update', $lineup);
 
-        $data = request()->all();
-        unset($data['_token'], $data['_method']);
+        $rules = [];
+        for ($i = 1; $i <= 11; $i++) {
+            $rules["player_$i"] = ['nullable', 'integer', 'exists:players,id'];
+            $rules["position_$i"] = ['nullable', 'string', 'max:20'];
+        }
+        for ($s = 1; $s <= 6; $s++) {
+            $rules["substitute_$s"] = ['nullable', 'integer', 'exists:players,id'];
+        }
+
+        $data = $request->validate($rules);
 
         $lineup->update($data);
 
@@ -59,5 +74,33 @@ final class LineupController extends Controller
             ->route('edit_lineup', ['club' => $lineup->club, 'squad' => $lineup->team])
             ->with('message', 'Escalação atualizada com sucesso!')
             ->with('type', 'success');
+    }
+
+    /**
+     * @return array<int,string>
+     */
+    private function buildSelectedMap(Lineup $lineup): array
+    {
+        $map = [];
+
+        // titulares
+        for ($i = 1; $i <= 11; $i++) {
+            $pid = (int) ($lineup->{"player_$i"} ?? 0);
+            if ($pid > 0) {
+                $pos = (string) ($lineup->{"position_$i"} ?? '');
+                if ($pos !== '') {
+                    $map[$pid] = $pos;
+                }
+            }
+        }
+        // reservas
+        for ($s = 1; $s <= 6; $s++) {
+            $pid = (int) ($lineup->{"substitute_$s"} ?? 0);
+            if ($pid > 0) {
+                $map[$pid] = "SUB_$s";
+            }
+        }
+
+        return $map;
     }
 }

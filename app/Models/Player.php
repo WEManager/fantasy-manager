@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
+/**
+ * @property int $id
+ * @property string $know_as
+ * @property string $best_position
+ * @property array<int,string> $positions
+ */
 final class Player extends Model
 {
     use Traits\PlayerOveralls;
