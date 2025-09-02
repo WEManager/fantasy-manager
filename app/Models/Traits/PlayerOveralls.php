@@ -6,193 +6,218 @@ namespace App\Models\Traits;
 
 trait PlayerOveralls
 {
-    /**
-     * @param  array<string, mixed>  $skills
-     * @return array<string, mixed>
-     */
-    public function getAverage(array $skills, string $name): array
-    {
-        $summary = 0;
-
-        foreach ($skills[$name] as $key => $value) {
-            $summary += $value;
-        }
-
-        $skills['average_'.$name] = $summary / count($skills[$name]);
-
-        return $skills;
-    }
-
-    /** @return array<string, int> */
+    /** @return array<string,int|float> */
     public function getGoalkeepingAttribute(): array
     {
+        /** @var array{
+         *   raw?: array<string,int>,
+         *   mental?: array<string,int>,
+         *   physical?: array<string,int>,
+         *   technical?: array<string,int>,
+         *   goalkeeping?: array<string,int>
+         * } $stats
+         */
         $stats = $this->stats ?? [];
 
-        // Usar as estatísticas já agrupadas pelo cast
-        $goalkeeping = $stats['goalkeeping'] ?? [];
+        /** @var array<string,int> $raw */
+        $raw = $stats['raw'] ?? [];
+        /** @var array<string,int> $gk */
+        $gk = $stats['goalkeeping'] ?? [];
+        /** @var array<string,int> $mental */
         $mental = $stats['mental'] ?? [];
+        /** @var array<string,int> $physical */
         $physical = $stats['physical'] ?? [];
 
-        $goalkeeping = $this->getAverage($goalkeeping, 'goalkeeping');
-        $goalkeeping = $this->getAverage($mental, 'mental');
-        $goalkeeping = $this->getAverage($physical, 'physical');
+        $avgGk = $this->avg($gk);
+        $avgMental = $this->avg($mental);
+        $avgPhysical = $this->avg($physical);
 
-        $goalkeeping['GK'] = (
-            (
-                // Give primary goalkeeping values more weight (50% more)
-                (($stats['gk_diving']) + ($stats['agility']) + ($stats['gk_handling']) + ($stats['gk_reflexes'])) * 1.5
-                // Divide the weighted values to an average
-            ) / 4 +
-            // Give the rest of goalkeeping values importance
-            $goalkeeping['average_goalkeeping']
-            // Divide weighted and default values by 2 to get a combined value
-        ) / 2;
+        $primaryWeighted = (
+            (int) ($raw['gk_diving'] ?? 0) +
+            (int) ($raw['agility'] ?? 0) +
+            (int) ($raw['gk_handling'] ?? 0) +
+            (int) ($raw['gk_reflexes'] ?? 0)
+        ) * 1.5;
 
-        return $goalkeeping;
+        $primaryAvg = $primaryWeighted / 4.0;
+
+        return [
+            ...$gk,
+            'average_goalkeeping' => $avgGk,
+            'average_mental' => $avgMental,
+            'average_physical' => $avgPhysical,
+            'GK' => ($primaryAvg + $avgGk) / 2.0,
+        ];
     }
 
-    /** @return array<string, int|float> */
+    /** @return array<string,int|float> */
     public function getCentralDefendingAttribute(): array
     {
         $skills = $this->getSkills();
-        $stats = $this->stats['raw'] ?? [];
+        /** @var array<string,int> $raw */
+        $raw = $this->stats['raw'] ?? [];
 
         $skills['CD'] = $skills['CLD'] = $skills['CRD'] = (
             (
-                // Give primary central defender values more weight (50% more)
-                (($stats['defensive_awareness']) + ($stats['standing_tackle']) + ($stats['sliding_tackle']) + ($stats['att_position']) + ($stats['strength'])) * 1.5
-                // Divide the weighted values to an average
-            ) / 5 +
-            // Give the rest of central defender values importance
-            $skills['average']
-            // Divide weighted and default values by 2 to get a combined value
-        ) / 2;
+                (($raw['defensive_awareness'] ?? 0)
+                + ($raw['standing_tackle'] ?? 0)
+                + ($raw['sliding_tackle'] ?? 0)
+                + ($raw['att_position'] ?? 0)
+                + ($raw['strength'] ?? 0)) * 1.5
+            ) / 5.0
+            + (float) $skills['average']
+        ) / 2.0;
 
         return $skills;
     }
 
-    /** @return array<string, int|float> */
+    /** @return array<string,int|float> */
     public function getWideDefendingAttribute(): array
     {
         $skills = $this->getSkills();
-        $stats = $this->stats['raw'] ?? [];
+        /** @var array<string,int> $raw */
+        $raw = $this->stats['raw'] ?? [];
 
         $skills['LD'] = $skills['RD'] = (
             (
-                // Give primary wide defender values more weight (50% more)
-                (($stats['dribbling']) + ($stats['standing_tackle']) + ($stats['sliding_tackle']) + ($stats['att_position']) + ($stats['stamina'])) * 1.5
-                // Divide the weighted values to an average
-            ) / 5 +
-            // Give the rest of wide defender values importance
-            $skills['average']
-            // Divide weighted and default values by 2 to get a combined value
-        ) / 2;
+                (($raw['dribbling'] ?? 0)
+                + ($raw['standing_tackle'] ?? 0)
+                + ($raw['sliding_tackle'] ?? 0)
+                + ($raw['att_position'] ?? 0)
+                + ($raw['stamina'] ?? 0)) * 1.5
+            ) / 5.0
+            + (float) $skills['average']
+        ) / 2.0;
 
         return $skills;
     }
 
-    /** @return array<string, int|float> */
+    /** @return array<string,int|float> */
     public function getCentralMidfielderAttribute(): array
     {
         $skills = $this->getSkills();
-        $stats = $this->stats['raw'] ?? [];
+        /** @var array<string,int> $raw */
+        $raw = $this->stats['raw'] ?? [];
 
         $skills['CM'] = $skills['CLM'] = $skills['CRM'] = (
             (
-                // Give primary central midfielder values more weight (50% more)
-                (($stats['short_passing']) + ($stats['long_passing']) + ($stats['vision']) + ($stats['composure'])) * 1.5
-                // Divide the weighted values to an average
-            ) / 4 +
-            // Give the rest of central midfielder values importance
-            $skills['average']
-            // Divide weighted and default values by 2 to get a combined value
-        ) / 2;
+                (($raw['short_passing'] ?? 0)
+                + ($raw['long_passing'] ?? 0)
+                + ($raw['vision'] ?? 0)
+                + ($raw['composure'] ?? 0)) * 1.5
+            ) / 4.0
+            + (float) $skills['average']
+        ) / 2.0;
 
         return $skills;
     }
 
-    /** @return array<string, int|float> */
+    /** @return array<string,int|float> */
     public function getWideMidfielderAttribute(): array
     {
         $skills = $this->getSkills();
-        $stats = $this->stats['raw'] ?? [];
+        /** @var array<string,int> $raw */
+        $raw = $this->stats['raw'] ?? [];
 
         $skills['LM'] = $skills['RM'] = (
             (
-                // Give primary wide midfielder values more weight (50% more)
-                (($stats['dribbling']) + ($stats['crossing']) + ($stats['short_passing']) + ($stats['stamina'])) * 1.5
-                // Divide the weighted values to an average
-            ) / 4 +
-            // Give the rest of wide midfielder values importance
-            $skills['average']
-            // Divide weighted and default values by 2 to get a combined value
-        ) / 2;
+                (($raw['dribbling'] ?? 0)
+                + ($raw['crossing'] ?? 0)
+                + ($raw['short_passing'] ?? 0)
+                + ($raw['stamina'] ?? 0)) * 1.5
+            ) / 4.0
+            + (float) $skills['average']
+        ) / 2.0;
 
         return $skills;
     }
 
-    /** @return array<string, int|float> */
+    /** @return array<string,int|float> */
     public function getCentralAttackerAttribute(): array
     {
         $skills = $this->getSkills();
-        $stats = $this->stats['raw'] ?? [];
+        /** @var array<string,int> $raw */
+        $raw = $this->stats['raw'] ?? [];
 
         $skills['CF'] = $skills['CLF'] = $skills['CRF'] = (
             (
-                // Give primary central attacker values more weight (50% more)
-                (($stats['finishing']) + ($stats['heading_accuracy']) + ($stats['att_position']) + ($stats['composure']) + ($stats['dribbling']) + ($stats['ball_control'])) * 1.5
-                // Divide the weighted values to an average
-            ) / 6 +
-            // Give the rest of central attacker values importance
-            $skills['average']
-            // Divide weighted and default values by 2 to get a combined value
-        ) / 2;
+                (($raw['finishing'] ?? 0)
+                + ($raw['heading_accuracy'] ?? 0)
+                + ($raw['att_position'] ?? 0)
+                + ($raw['composure'] ?? 0)
+                + ($raw['dribbling'] ?? 0)
+                + ($raw['ball_control'] ?? 0)) * 1.5
+            ) / 6.0
+            + (float) $skills['average']
+        ) / 2.0;
 
         return $skills;
     }
 
-    /** @return array<string, int|float> */
+    /** @return array<string,int|float> */
     public function getWideAttackerAttribute(): array
     {
         $skills = $this->getSkills();
-        $stats = $this->stats['raw'] ?? [];
+        /** @var array<string,int> $raw */
+        $raw = $this->stats['raw'] ?? [];
 
         $skills['LF'] = $skills['RF'] = (
             (
-                // Give primary wide attacker values more weight (50% more)
-                (($stats['crossing']) + ($stats['dribbling']) + ($stats['sprint_speed']) + ($stats['finishing'])) * 1.5
-                // Divide the weighted values to an average
-            ) / 4 +
-            // Give the rest of wide attacker values importance
-            $skills['average']
-            // Divide weighted and default values by 2 to get a combined value
-        ) / 2;
+                (($raw['crossing'] ?? 0)
+                + ($raw['dribbling'] ?? 0)
+                + ($raw['sprint_speed'] ?? 0)
+                + ($raw['finishing'] ?? 0)) * 1.5
+            ) / 4.0
+            + (float) $skills['average']
+        ) / 2.0;
 
         return $skills;
     }
 
-    /** @return array<string, int> */
+    /** @param array<string,int|float> $vals */
+    private function avg(array $vals): float
+    {
+        if ($vals === []) {
+            return 0.0;
+        }
+        $sum = 0.0;
+        foreach ($vals as $v) {
+            $sum += (float) $v;
+        }
+
+        return $sum / count($vals);
+    }
+
+    /** @return array<string, int|float|array<string, int|float>> */
     private function getSkills(): array
     {
+        /** @var array{
+         *   mental?: array<string,int>,
+         *   physical?: array<string,int>,
+         *   technical?: array<string,int>
+         * } $stats
+         */
         $stats = $this->stats ?? [];
 
-        // Usar as estatísticas já agrupadas pelo cast
+        /** @var array<string,int> $mental */
         $mental = $stats['mental'] ?? [];
+        /** @var array<string,int> $physical */
         $physical = $stats['physical'] ?? [];
+        /** @var array<string,int> $technical */
         $technical = $stats['technical'] ?? [];
 
-        $skills = [
+        $avgMental = $this->avg($mental);
+        $avgPhysical = $this->avg($physical);
+        $avgTechnical = $this->avg($technical);
+
+        return [
             'mental' => $mental,
             'physical' => $physical,
             'technical' => $technical,
+            'average_mental' => $avgMental,
+            'average_physical' => $avgPhysical,
+            'average_technical' => $avgTechnical,
+            'average' => ($avgMental + $avgPhysical + $avgTechnical) / 3.0,
         ];
-
-        $skills = $this->getAverage($skills, 'mental');
-        $skills = $this->getAverage($skills, 'physical');
-        $skills = $this->getAverage($skills, 'technical');
-
-        $skills['average'] = ($skills['average_mental'] + $skills['average_physical'] + $skills['average_technical']) / 3;
-
-        return $skills;
     }
 }
