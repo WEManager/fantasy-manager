@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Real Al-Kaeda",
+    "colors": [
+      "#FFD700",
+      "#000000"
+    ]
+  },
+  {
+    "name": "AC Eclipse",
+    "colors": [
+      "#002147",
+      "#FFFFFF"
+    ]
+  },
+  {
+    "name": "Fênix",
+    "colors": [
+      "#32CD32",
+      "#FFFFFF"
+    ]
+  },
+  {
+    "name": "Galaxy AU",
+    "colors": [
+      "#002868",
+      "#FF0000"
+    ]
+  },
+  {
+    "name": "Kapetas United",
+    "colors": [
+      "#4B0082",
+      "#000000"
+    ]
+  },
+  {
+    "name": "Orange FC",
+    "colors": [
+      "#FF8C00",
+      "#000000"
+    ]
+  },
+  {
+    "name": "Reds FC",
+    "colors": [
+      "#FF0000",
+      "#FFFFFF"
+    ]
+  },
+  {
+    "name": "Tigres FOP",
+    "colors": [
+      "#FF8C00",
+      "#000000"
+    ]
+  }
+]
