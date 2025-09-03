@@ -77,8 +77,8 @@ final class Club extends Model
     {
         $query = $this
             ->hasManyThrough(Player::class, Contract::class, 'club_id', 'id', 'id', 'player_id')
-            ->whereDate('from', '<', now())
-            ->whereDate('until', '>', now());
+            ->where('from', '<', now())
+            ->where('until', '>', now());
 
         if (count($contractType) > 0) {
             $query->whereIn('contracts.type', $contractType);
