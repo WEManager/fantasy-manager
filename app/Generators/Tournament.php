@@ -26,7 +26,6 @@ final class Tournament
      *   qualify_up?:int,
      *   qualify_down?:int,
      *   relegated?:int,
-     *   generate_teams?:bool
      * } $input
      */
     public static function create(array $input): int
@@ -41,7 +40,6 @@ final class Tournament
          *   qualify_up:int,
          *   qualify_down:int,
          *   relegated:int,
-         *   generate_teams:bool
          * } $props
          */
         $props = array_replace([
@@ -53,7 +51,6 @@ final class Tournament
             'qualify_up' => 0,
             'qualify_down' => 0,
             'relegated' => 0,
-            'generate_teams' => true,
         ], $input);
 
         $typeEnum = $props['type'] instanceof TournamentType
@@ -143,39 +140,26 @@ final class Tournament
                 ]);
             }
 
-            // Times + tabela (opcional)
-            if ((bool) $props['generate_teams']) {
-                // Geração de clubes — substitua por Service/Action própria (não use Console Command aqui).
-                self::generateClubs($teams);
+            // Sempre associa clubes existentes ao torneio
+            $clubs = Club::query()
+                ->orderByDesc('id')
+                ->limit($teams)
+                ->pluck('id')
+                ->all();
 
-                $clubs = Club::query()
-                    ->orderByDesc('id')
-                    ->limit($teams)
-                    ->pluck('id')
-                    ->all();
-
-                $tournament->clubsParticipants()->attach($clubs, [
-                    'season_id' => $season->id,
-                ]);
-
-                event(new CreateLeagueEvent($tournament));
+            if (count($clubs) < $teams) {
+                throw new InvalidArgumentException("Não há clubes suficientes. Necessário: {$teams}, Disponível: ".count($clubs));
             }
+
+            $tournament->clubsParticipants()->attach($clubs, [
+                'season_id' => $season->id,
+            ]);
+
+            event(new CreateLeagueEvent($tournament));
 
             return (int) $tournament->id;
         });
 
         return $tournamentId;
-    }
-
-    /** Gera N clubes “placeholder”. Troque por um serviço real. */
-    private static function generateClubs(int $count): void
-    {
-        for ($i = 0; $i < $count; $i++) {
-            Club::query()->create([
-                'name' => 'Club '.uniqid(),
-                'slug' => 'club-'.uniqid(),
-                'colors' => ['#111111', '#ffffff'],
-            ]);
-        }
     }
 }
