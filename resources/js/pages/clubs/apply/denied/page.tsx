@@ -63,37 +63,6 @@ export default function DeniedPage({ club, job_application }: DeniedPageProps) {
               </CardContent>
             </Card>
           </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Times do Clube</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <nav className="space-y-2">
-                  <a
-                    href={`/clubs/${club.id}/senior`}
-                    className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Senior
-                  </a>
-                  <a
-                    href={`/clubs/${club.id}/u21`}
-                    className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Reserv / U21
-                  </a>
-                  <a
-                    href={`/clubs/${club.id}/u19`}
-                    className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    U19
-                  </a>
-                </nav>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </div>

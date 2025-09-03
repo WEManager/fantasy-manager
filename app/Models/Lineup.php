@@ -15,7 +15,6 @@ final class Lineup extends Model
 
     protected $fillable = [
         'club_id',
-        'team',
         'position_1', 'player_1',
         'position_2', 'player_2',
         'position_3', 'player_3',

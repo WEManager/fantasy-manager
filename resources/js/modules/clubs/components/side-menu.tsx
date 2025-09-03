@@ -21,33 +21,15 @@ export function SideMenu({ club }: SideMenuProps) {
       <CardContent className="space-y-6">
         <div>
           <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wide">
-            Formações
+            Formação
           </h3>
           <ul className="space-y-2">
             <li>
               <Link
-                href={route('edit_lineup', { club: club.slug, squad: 'senior' })}
+                href={route('edit_lineup', { club: club.slug })}
                 className="block w-full text-left px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
               >
-                Time Principal
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href={route('edit_lineup', { club: club.slug, squad: 'u21' })}
-                className="block w-full text-left px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
-              >
-                Reserva / U21
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                href={route('edit_lineup', { club: club.slug, squad: 'u19' })}
-                className="block w-full text-left px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
-              >
-                U19
+                Formação
               </Link>
             </li>
           </ul>

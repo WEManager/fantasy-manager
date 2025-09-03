@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 
 final class MakeTournament extends Command
 {
-    protected $signature = 'make:tournament {name} {teams=16} {locale=sv} {type=league} {groups=1} {team=senior} {champions=0} {promoted=0} {qualify_up=0} {qualify_down=0} {relegated=0} {generate_teams=true}';
+    protected $signature = 'make:tournament {name} {teams=16} {locale=sv} {type=league} {groups=1} {champions=0} {promoted=0} {qualify_up=0} {qualify_down=0} {relegated=0} {generate_teams=true}';
 
     protected $description = 'Create a new tournament';
 
@@ -19,8 +19,6 @@ final class MakeTournament extends Command
         $name = $this->argument('name');
         /** @var string $type */
         $type = $this->argument('type');
-        /** @var string $team */
-        $team = $this->argument('team');
         /** @var int $teams */
         $teams = $this->argument('teams');
         /** @var int $groups */
@@ -49,7 +47,6 @@ final class MakeTournament extends Command
             'name' => $name,
             'type' => TournamentType::from($type),
             'teams' => $teams,
-            'team' => $team,
             'groups' => $groups,
             'champions' => $champions,
             'promoted' => $promoted,

@@ -39,12 +39,12 @@ final class LineupControllerTest extends TestCase
      */
     public function edit_returns_an_ok_response()
     {
-        $response = $this->get(route('edit_lineup', ['locale' => 'en', $this->club, 'squad' => $this->club->players]));
+        $response = $this->get(route('edit_lineup', ['locale' => 'en', $this->club]));
 
         // User is not logged in
         $response->assertStatus(403);
 
-        $loggedIn = $this->actingAs($this->manager)->get(route('edit_lineup', ['locale' => 'en', $this->club, 'squad' => $this->club->players]));
+        $loggedIn = $this->actingAs($this->manager)->get(route('edit_lineup', ['locale' => 'en', $this->club]));
         $loggedIn->assertOk();
     }
 
@@ -76,7 +76,6 @@ final class LineupControllerTest extends TestCase
         $lineupData = $this->setLineup();
 
         $lineupData['club_id'] = $this->club->id;
-        $lineupData['team'] = 'senior';
 
         $this->lineup = factory(\App\Models\Lineup::class)->create($lineupData);
     }

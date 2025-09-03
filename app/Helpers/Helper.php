@@ -12,16 +12,6 @@ function getCurrentSeason(): ?Season
 }
 
 /** @return array<string> */
-function getContractType(string $squad): array
-{
-    return match (mb_strtolower($squad)) {
-        'u19' => ['youth'],
-        'u21' => ['reserve'],
-        default => ['key', 'regular'],
-    };
-}
-
-/** @return array<string> */
 function getPositions(): array
 {
     return [

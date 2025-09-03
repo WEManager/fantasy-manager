@@ -23,6 +23,5 @@ $factory->define(Tournament::class, function (Faker $faker) {
         'type' => $selectedType,
         'groups' => $groups,
         'playoffs' => 0,
-        'team' => 'senior',
     ];
 });

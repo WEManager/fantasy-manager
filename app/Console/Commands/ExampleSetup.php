@@ -157,7 +157,6 @@ final class ExampleSetup extends Command
                     'club_id' => $club->id,
                     'player_id' => $player->id,
                     'wage' => rand(1000, 10000), // Salário aleatório entre 1000-10000
-                    'type' => $i < 3 ? 'key' : 'regular', // Primeiros 3 jogadores são 'key', resto 'regular'
                     'from' => now()->subDays(30), // Contrato começou há 30 dias
                     'until' => now()->addYears(3), // Contrato de 3 anos
                 ]);

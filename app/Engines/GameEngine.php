@@ -72,8 +72,8 @@ final class GameEngine
         if (! is_null($gameId)) {
             $game = Fixture::find($gameId);
 
-            $homeLineup = Lineup::where('club_id', $game->hometeam_id)->where('team', 'u21')->first();
-            $awayLineup = Lineup::where('club_id', $game->awayteam_id)->where('team', 'u21')->first();
+            $homeLineup = Lineup::where('club_id', $game->hometeam_id)->first();
+            $awayLineup = Lineup::where('club_id', $game->awayteam_id)->first();
 
             $this->setLineup('hometeam', $homeLineup);
             $this->setLineup('awayteam', $awayLineup);

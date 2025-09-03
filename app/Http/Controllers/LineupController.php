@@ -13,12 +13,12 @@ use Inertia\Response;
 
 final class LineupController extends Controller
 {
-    public function edit(Club $club, string $squad): Response
+    public function edit(Club $club): Response
     {
         $club->loadMissing(['players:id,club_id,know_as,best_position,positions']);
 
         $lineup = Lineup::firstOrCreate(
-            ['club_id' => $club->id, 'team' => $squad],
+            ['club_id' => $club->id],
             []
         );
 
@@ -43,13 +43,10 @@ final class LineupController extends Controller
             ]
         )->values();
 
-        $displaySquad = $squad === 'senior' ? '' : $squad;
-
         return Inertia::render('lineups/edit/page', [
             'club' => $club,
             'lineup' => $lineup,
             'players' => $players,
-            'squad' => $displaySquad,
         ]);
     }
 
@@ -71,7 +68,7 @@ final class LineupController extends Controller
         $lineup->update($data);
 
         return redirect()
-            ->route('edit_lineup', ['club' => $lineup->club, 'squad' => $lineup->team])
+            ->route('edit_lineup', ['club' => $lineup->club])
             ->with('message', 'Escalação atualizada com sucesso!')
             ->with('type', 'success');
     }

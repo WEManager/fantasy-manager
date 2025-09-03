@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/modules/core/components/ui/table'
+import { age } from '~/modules/core/utils/date'
 
 interface Player {
   id: number
@@ -24,8 +25,9 @@ interface Player {
   know_as: string
   age: number
   form: number
+  birth_date: string
   nation: {
-    fifa_id: number
+    id: number
     name: string
   }
 }
@@ -43,23 +45,12 @@ interface Club {
 interface SquadPageProps {
   club: Club
   players: Player[]
-  squad: string
 }
 
-export default function SquadPage({ club, players, squad }: SquadPageProps) {
-  const squadOptions = [
-    { value: 'senior', label: 'A-Team' },
-    { value: 'u21', label: 'U21' },
-    { value: 'u19', label: 'U19' },
-  ]
-
-  const currentSquad = squad || 'senior'
-
+export default function SquadPage({ club, players }: SquadPageProps) {
   return (
     <div className="min-h-screen bg-background">
-      <Head
-        title={`${squadOptions.find((s) => s.value === currentSquad)?.label || 'A-Team'} em ${club.name}`}
-      />
+      <Head title={`Elenco de ${club.name}`} />
 
       {/* Club Header */}
       <div className="py-6 px-4" style={{ backgroundColor: club.colors?.[0] || '#1f2937' }}>
@@ -106,9 +97,7 @@ export default function SquadPage({ club, players, squad }: SquadPageProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Elenco</CardTitle>
-                <CardDescription>
-                  {squadOptions.find((s) => s.value === currentSquad)?.label || 'A-Team'}
-                </CardDescription>
+                <CardDescription>Todos os jogadores do clube</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -139,7 +128,7 @@ export default function SquadPage({ club, players, squad }: SquadPageProps) {
                             {player.full_name}
                           </Link>
                         </TableCell>
-                        <TableCell>{player.age}</TableCell>
+                        <TableCell>{age(player.birth_date)}</TableCell>
                         <TableCell>
                           <span
                             className={`flag-icon flag-icon-${player.nation.name.toLowerCase()}`}
@@ -151,32 +140,6 @@ export default function SquadPage({ club, players, squad }: SquadPageProps) {
                     ))}
                   </TableBody>
                 </Table>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Squad Navigation */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Elenco</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <nav className="space-y-2">
-                  {squadOptions.map((option) => (
-                    <Link
-                      key={option.value}
-                      href={route('club.squad', { club: club.slug, squad: option.value })}
-                      className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                        currentSquad === option.value
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                      }`}
-                    >
-                      {option.label}
-                    </Link>
-                  ))}
-                </nav>
               </CardContent>
             </Card>
           </div>

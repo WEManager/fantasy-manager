@@ -33,7 +33,7 @@ Route::post('clubes/aplicar', [Controllers\ManagerContractController::class, 'st
 Route::get('clubes/{club}/renunciar', [Controllers\ManagerContractController::class, 'resign'])
     ->middleware('auth')
     ->name('club.resign');
-Route::get('clubes/{club}/{squad}/formacao', [Controllers\LineupController::class, 'edit'])->name('edit_lineup');
+Route::get('clubes/{club}/formacao', [Controllers\LineupController::class, 'edit'])->name('edit_lineup');
 Route::post('clubes/formacao/{lineup}', [Controllers\LineupController::class, 'update'])->name('update_lineup');
 
 Route::resource('jogadores', Controllers\PlayerController::class)

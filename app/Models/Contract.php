@@ -12,7 +12,6 @@ final class Contract extends Model
     protected $fillable = [
         'from',
         'wage',
-        'type',
         'until',
         'club_id',
         'player_id',
