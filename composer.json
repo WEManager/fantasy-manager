@@ -24,6 +24,7 @@
     "fakerphp/faker": "^1.23",
     "filp/whoops": "^2.15",
     "larastan/larastan": "^3.6",
+    "laravel/boost": "^1.1",
     "laravel/pint": "^1.24",
     "laravel/sail": "^1.18",
     "mockery/mockery": "^1.6",
