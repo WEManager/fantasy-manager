@@ -145,6 +145,7 @@ final class CreateLeagueEvent
 
         // Ghost team (null) para n ímpar
         if ($teams->count() % 2 !== 0) {
+            // @phpstan-ignore argument.type
             $teams->push(null); // null == bye
         }
 
@@ -172,7 +173,6 @@ final class CreateLeagueEvent
             for ($r = 0; $r < $roundsPerMeeting; $r++) {
 
                 // Data da rodada r no meeting m
-                /** @var Carbon $roundDate */
                 $roundDate = (clone $start)->addDays(($m * $roundsPerMeeting + $r) * $stepDays);
                 [$h, $i] = $roundDate->isWeekend() ? $weekendKickoff : $weekdayKickoff;
                 $roundDate->setTime($h, $i, 0, 0);
@@ -215,7 +215,7 @@ final class CreateLeagueEvent
                         'awayteam_id' => $away->getKey(),
                         'type' => \App\Enums\FixtureType::REGULAR_TIME_ONLY,
                         'status' => \App\Enums\FixtureStatus::NOT_STARTED,
-                        'start_time' => $roundDate->copy(), // Carbon
+                        'start_time' => $roundDate,
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];
