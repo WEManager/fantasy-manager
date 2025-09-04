@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace App\Events;
 
-use App\Enums\FixtureStatus;
-use App\Enums\FixtureType;
 use App\Enums\TournamentType;
 use App\Models\Club;
-use App\Models\Fixture;
 use App\Models\Tournament;
 use App\Models\TournamentGroup;
 use App\Models\TournamentStanding;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 final class CreateLeagueEvent
 {
@@ -53,7 +50,7 @@ final class CreateLeagueEvent
 
                 for ($i = 0; $i < $tournament->groups; $i++) {
                     $groups[] = TournamentGroup::create([
-                        'name' => __('Group').' '.($i + 1),
+                        'name' => 'Group '.($i + 1),
                         'tournament_id' => $tournament->id,
                     ]);
                 }
@@ -85,84 +82,149 @@ final class CreateLeagueEvent
 
                 break;
             case TournamentType::PLAYOFFS:
+                // Para playoffs, criamos grupos iniciais e depois eliminatórias
+                $groups = [];
+
+                // Criar grupos iniciais
+                for ($i = 0; $i < $tournament->groups; $i++) {
+                    $groups[] = TournamentGroup::create([
+                        'name' => 'Group '.($i + 1),
+                        'tournament_id' => $tournament->id,
+                    ]);
+                }
+
+                // Distribuir clubes entre os grupos
+                $i = 0;
+                foreach ($clubs as $club) {
+                    if (isset($groups[$i])) {
+                        TournamentStanding::create([
+                            'club_id' => $club->id,
+                            'group_id' => $groups[$i]->id,
+                        ]);
+                    }
+
+                    // Se é o último grupo, volta para o primeiro
+                    if ((count($groups) - 1) === $i) {
+                        $i = 0;
+                    } else {
+                        $i++;
+                    }
+                }
+
+                // Criar jogos da fase de grupos
+                foreach ($groups as $group) {
+                    $groupClubs = TournamentStanding::where('group_id', $group->id)
+                        ->with('club')
+                        ->get()
+                        ->pluck('club');
+
+                    $this->generateGameSchedule($groupClubs, $group, 1); // 1 jogo por confronto na fase de grupos
+                }
+
+                // Criar grupo para playoffs (eliminatórias)
+                // As fixtures de playoffs serão criadas dinamicamente quando necessário
+                $playoffsGroup = TournamentGroup::create([
+                    'name' => 'Playoffs',
+                    'tournament_id' => $tournament->id,
+                ]);
+
                 break;
         }
     }
 
     /**
-     * @param  Collection<int, Club>  $clubs
+     * @param  \Illuminate\Support\Collection<int, Club>  $clubs
      */
     private function generateGameSchedule(
-        Collection $clubs,
+        \Illuminate\Support\Collection $clubs,
         TournamentGroup $group,
         int $meetings = 2
     ): void {
-        // Count the number of teams
-        $amountOfParticipants = $clubs->count();
+        // Reindexa para 0..n-1 e garante ordem estável
+        $teams = $clubs->values();
 
-        // If number of team is odd, add a ghost-team...
-        if ($amountOfParticipants % 2 !== 0) {
-            $amountOfParticipants++;
-            $ghost = $amountOfParticipants;
+        // Ghost team (null) para n ímpar
+        if ($teams->count() % 2 !== 0) {
+            $teams->push(null); // null == bye
         }
 
-        // Number of rounds
-        $rounds = ($amountOfParticipants - 1) * $meetings;
+        $n = $teams->count();                 // total de “slots” (inclui ghost, se houver)
+        $roundsPerMeeting = $n - 1;           // algoritmo clássico: n-1 rodadas por turno
+        $totalRounds = $roundsPerMeeting * $meetings;
 
-        // Count playing days
-        $season = getCurrentSeason();
+        // Datas (NÃO muta Season). Define janela e step de rodadas.
+        $season = getCurrentSeason(); // Carbon nos campos
+        $start = (clone $season->start_time)->addDays(1)->startOfDay(); // 1 dia de descanso
+        $end = (clone $season->end_time)->subDays(7)->endOfDay();     // 7 dias antes de encerrar
 
-        $restingDaysBeforeStart = 1;
-        $restingDaysAfterSeason = 7;
+        $totalDays = max(0, $start->diffInDays($end));
+        // Passo mínimo de 1 dia entre rodadas (se janela curta)
+        $stepDays = max(1, (int) floor(($totalDays) / max(1, $totalRounds - 1)));
 
-        $startDate = strtotime($season->start_time.' +'.$restingDaysBeforeStart.' days');
-        $endDate = strtotime($season->end_time.' -'.$restingDaysAfterSeason.' days');
+        // Horários
+        $weekdayKickoff = [19, 0]; // 19:00
+        $weekendKickoff = [16, 0]; // 16:00
 
-        $daysBetween = (int) round(($endDate - $startDate) / 86400);
-        // $daysBetween = 47;
+        $rows = [];
 
-        $oneRoundEvery = $daysBetween / $rounds;
+        // Gera todas as rodadas (turno + returno + extras conforme $meetings)
+        for ($m = 0; $m < $meetings; $m++) {
+            for ($r = 0; $r < $roundsPerMeeting; $r++) {
 
-        // Loop the rounds...
-        for ($r = 1; $r <= $rounds; $r++) {
+                // Data da rodada r no meeting m
+                /** @var Carbon $roundDate */
+                $roundDate = (clone $start)->addDays(($m * $roundsPerMeeting + $r) * $stepDays);
+                [$h, $i] = $roundDate->isWeekend() ? $weekendKickoff : $weekdayKickoff;
+                $roundDate->setTime($h, $i, 0, 0);
 
-            $daysAfterStart = round(($r - 1) * $oneRoundEvery);
-            $roundDate = date('Y-m-d 19:00:00', strtotime(date('Y-m-d', $startDate).' +'.$daysAfterStart.' days'));
+                // Circle method:
+                // Índice fixo 0; os demais giram
+                // Para cada “mesa” i, define par (home, away)
+                for ($iMatch = 0; $iMatch < $n / 2; $iMatch++) {
+                    // Home
+                    $homeIndex = ($iMatch === 0)
+                        ? 0
+                        : ((($r + $iMatch) % ($n - 1)) + 1);
 
-            // If it is weekend, set other time
-            if (date('N', strtotime($roundDate)) >= 6) {
-                $roundDate = date('Y-m-d 16:00:00', strtotime(date('Y-m-d', $startDate).' +'.$daysAfterStart.' days'));
-            }
+                    // Away
+                    $awayIndex = ((($n - 1 - $iMatch + $r) % ($n - 1)) + 1);
 
-            // For each round loop teams / 2 ... it takes 2 to tango...
-            for ($s = 1; $s <= $amountOfParticipants / 2; $s++) {
-                // algorithm to take each team "backwards"
-                $hometeam = ($s === 1) ? 1 : (($r + $s - 2) % ($amountOfParticipants - 1) + 2);
+                    $home = $teams[$homeIndex] ?? null; // null = ghost
+                    $away = $teams[$awayIndex] ?? null;
 
-                // algorithm to prevent home and awayteam to be the same
-                $awayteam = ($amountOfParticipants - 1 + $r - $s) % ($amountOfParticipants - 1) + 2;
+                    // Pula jogos com ghost
+                    if ($home === null || $away === null) {
+                        continue;
+                    }
 
-                // let the venue change after each round... homegame... then awaygame..
-                if ($r % 2) {
-                    $swap = $hometeam;
-                    $hometeam = $awayteam;
-                    $awayteam = $swap;
-                }
+                    // Balanceia mando:
+                    // Turno 0 mantém padrão; demais invertidos para “returno”
+                    $isReturnLeg = ($m % 2) === 1;
+                    if ($isReturnLeg) {
+                        [$home, $away] = [$away, $home];
+                    }
 
-                // never add the ghost-team to database..
-                if (! isset($ghost) || (($hometeam !== $ghost) && ($awayteam !== $ghost))) {
-                    Fixture::create([
-                        'group_id' => $group->id,
-                        'hometeam_id' => $clubs[($hometeam - 1)]->id,
-                        'awayteam_id' => $clubs[($awayteam - 1)]->id,
-                        // 'hometeam_squad' => $group->tournament->team,
-                        // 'awayteam_squad' => $group->tournament->team,
-                        'type' => FixtureType::REGULAR_TIME_ONLY,
-                        'status' => FixtureStatus::NOT_STARTED,
-                        'start_time' => $roundDate,
-                    ]);
+                    // Opcional: inverter mando em rodadas ímpares para evitar sequência grande de casa/fora
+                    if ($r % 2 === 1) {
+                        [$home, $away] = [$away, $home];
+                    }
+
+                    $rows[] = [
+                        'group_id' => $group->getKey(),
+                        'hometeam_id' => $home->getKey(),
+                        'awayteam_id' => $away->getKey(),
+                        'type' => \App\Enums\FixtureType::REGULAR_TIME_ONLY,
+                        'status' => \App\Enums\FixtureStatus::NOT_STARTED,
+                        'start_time' => $roundDate->copy(), // Carbon
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
                 }
             }
         }
+
+        // Persistência: insert em lote (rápido).
+        // Se precisar ser idempotente, troque por upsert usando (group_id, hometeam_id, awayteam_id, start_time) como unique.
+        DB::transaction(fn () => \App\Models\Fixture::insert($rows));
     }
 }

@@ -18,6 +18,7 @@ interface LineupTableProps {
 }
 
 export function LineupTable({ players, title }: LineupTableProps) {
+  console.log("🚀 ~ LineupTable ~ players:", players)
   return (
     <Card>
       <CardHeader>

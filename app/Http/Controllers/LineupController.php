@@ -15,8 +15,6 @@ final class LineupController extends Controller
 {
     public function edit(Club $club): Response
     {
-        $club->loadMissing(['players:id,club_id,know_as,best_position,positions']);
-
         $lineup = Lineup::firstOrCreate(
             ['club_id' => $club->id],
             []
@@ -24,22 +22,22 @@ final class LineupController extends Controller
 
         $selectedByPlayerId = $this->buildSelectedMap($lineup);
 
-        /** @var \Illuminate\Support\Collection<int,array{
-         *   id:int, know_as:string, best_position:string,
+        /** @var \Illuminate\Support\Collection<int,\App\Models\Player> $clubPlayers */
+        $clubPlayers = $club->players()->get();
+
+        /** @var \Illuminate\Support\Collection<int, array{
+         *   id:int, know_as:string, preferred_position:string,
          *   positions:array<int,string>, selected_position:string|null
          * }> $players
          */
-        $players = $club->players->map(
+        $players = $clubPlayers->map(
             /**
              * @param  \App\Models\Player  $p
-             * @return array{id:int,know_as:string,best_position:string,positions:array<int,string>,selected_position:string|null}
+             * @return array{id:int,know_as:string,preferred_position:string,positions:array<int,string>,selected_position:string|null}
              */
             fn ($p) => [
-                'id' => (int) $p->id,
-                'know_as' => (string) $p->know_as,
-                'best_position' => (string) $p->best_position,
-                'positions' => (array) $p->positions,
-                'selected_position' => $selectedByPlayerId[(int) $p->id] ?? (string) $p->best_position,
+                ...$p->toArray(),
+                'selected_position' => $selectedByPlayerId[(int) $p->id] ?? (string) $p->preferred_position,
             ]
         )->values();
 

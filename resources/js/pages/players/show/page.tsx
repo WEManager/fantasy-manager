@@ -8,7 +8,7 @@ import { StatsCard } from '~/modules/players/components/stats-card'
 export default function PlayerShowPage({ player }: PlayerShowData) {
   return (
     <>
-      <Head title={`${player.know_as} jogando por ${player.club.name}`} />
+      <Head title={`${player.know_as}${player.club && ` jogando por ${player.club.name}`}`} />
 
       <PlayerHeader player={player} />
 

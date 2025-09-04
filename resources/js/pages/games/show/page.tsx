@@ -6,7 +6,8 @@ import { GameHeader } from '~/modules/games/components/game-header'
 import { GameMessages } from '~/modules/games/components/game-messages'
 import { LineupTable } from '~/modules/games/components/lineup-table'
 
-export default function GameShowPage({ game, hometeam, awayteam }: GameShowData) {
+export default function GameShowPage({ game }: GameShowData) {
+  console.log('🚀 ~ GameShowPage ~ game:', game)
   // Verificação de segurança para os times
   if (!game.hometeam || !game.awayteam) {
     return (
@@ -29,7 +30,7 @@ export default function GameShowPage({ game, hometeam, awayteam }: GameShowData)
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* Escalação Time da Casa */}
           <div className="lg:col-span-1">
-            <LineupTable players={hometeam} title={`Escalação - ${game.hometeam.name}`} />
+            <LineupTable players={game.homeLineup} title={`Escalação - ${game.hometeam.name}`} />
           </div>
 
           {/* Eventos do Jogo */}
@@ -39,7 +40,7 @@ export default function GameShowPage({ game, hometeam, awayteam }: GameShowData)
 
           {/* Escalação Time Visitante */}
           <div className="lg:col-span-1">
-            <LineupTable players={awayteam} title={`Escalação - ${game.awayteam.name}`} />
+            <LineupTable players={game.awayLineup} title={`Escalação - ${game.awayteam.name}`} />
           </div>
         </div>
       </div>

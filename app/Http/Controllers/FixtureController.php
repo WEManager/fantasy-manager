@@ -13,25 +13,32 @@ final class FixtureController extends Controller
 {
     public function __invoke(Fixture $game): Response
     {
-        $game->load(['group.tournament', 'hometeam', 'awayteam', 'gameHappenings']);
+        $game->loadMissing([
+            'group.tournament',
+            'hometeam',
+            'awayteam',
+            'gameHappenings',
+            'homeLineup',
+            'awayLineup',
+        ]);
 
-        $homeTeamLineup = $game->homeLineup;
-        $awayTeamLineup = $game->awayLineup;
+        // $homeTeamLineup = $game->homeLineup;
+        // $awayTeamLineup = $game->awayLineup;
 
-        $hometeam = [];
-        if ($homeTeamLineup) {
-            for ($i = 1; $i < 12; $i++) {
-                $hometeam[$homeTeamLineup->{'position_'.$i}] = Player::find($homeTeamLineup->{'player_'.$i});
-            }
-        }
+        // $hometeam = [];
+        // if ($homeTeamLineup) {
+        //     for ($i = 1; $i < 12; $i++) {
+        //         $hometeam[$homeTeamLineup->{'position_'.$i}] = Player::find($homeTeamLineup->{'player_'.$i});
+        //     }
+        // }
 
-        $awayteam = [];
-        if ($awayTeamLineup) {
-            for ($i = 1; $i < 12; $i++) {
-                $awayteam[$awayTeamLineup->{'position_'.$i}] = Player::find($awayTeamLineup->{'player_'.$i});
-            }
-        }
+        // $awayteam = [];
+        // if ($awayTeamLineup) {
+        //     for ($i = 1; $i < 12; $i++) {
+        //         $awayteam[$awayTeamLineup->{'position_'.$i}] = Player::find($awayTeamLineup->{'player_'.$i});
+        //     }
+        // }
 
-        return Inertia::render('games/show/page', compact('game', 'hometeam', 'awayteam'));
+        return Inertia::render('games/show/page', compact('game'));
     }
 }

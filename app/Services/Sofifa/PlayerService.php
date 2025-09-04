@@ -137,8 +137,12 @@ final class PlayerService
             }
 
             $imported = 0;
-            foreach ($players as $playerData) {
+            $errors = 0;
+
+            foreach ($players as $index => $playerData) {
                 try {
+                    Log::info("Processing player {$index}: ".($playerData['full_name'] ?? 'Unknown'));
+
                     $playerPayload = new PlayerPayload(
                         id: $playerData['id'],
                         fullName: $playerData['full_name'],
@@ -167,19 +171,23 @@ final class PlayerService
                     ]);
 
                 } catch (Throwable $e) {
+                    $errors++;
                     Log::error('Failed to import player from CSV', [
                         'playerId' => $playerData['id'] ?? 'Unknown',
+                        'name' => $playerData['full_name'] ?? 'Unknown',
                         'error' => $e->getMessage(),
+                        'stack' => $e->getTraceAsString(),
                     ]);
                 }
             }
 
-            Log::info('CSV import completed', ['totalImported' => $imported]);
+            Log::info('CSV import completed', ['totalImported' => $imported, 'totalErrors' => $errors]);
 
             return $imported > 0;
 
         } catch (Throwable $e) {
             Log::error('Error during CSV import: '.$e->getMessage());
+            Log::error('Stack trace: '.$e->getTraceAsString());
 
             return false;
         }
@@ -205,9 +213,9 @@ final class PlayerService
                 'weight' => $playerPayload->weight,
                 'nation_id' => $playerPayload->nationId,
                 'preferred_position' => $playerPayload->preferredPosition,
-                'positions' => json_encode($playerPayload->positions),
-                'specialities' => json_encode($playerPayload->specialities),
-                'play_styles' => json_encode($playerPayload->playStyles),
+                'positions' => $playerPayload->positions,
+                'specialities' => $playerPayload->specialities,
+                'play_styles' => $playerPayload->playStyles,
                 'stats' => $playerPayload->stats,
             ]
         );

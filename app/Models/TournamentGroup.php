@@ -12,8 +12,6 @@ final class TournamentGroup extends Model
 {
     protected $fillable = ['name', 'tournament_id'];
 
-    protected $with = ['games', 'upcomingGames', 'standings'];
-
     protected $hidden = ['tournament_id', 'created_at', 'updated_at'];
 
     /** @return BelongsTo<Tournament, $this> */
