@@ -22,7 +22,7 @@ export function StatsCard({ title, stats }: StatsCardProps) {
 
   // Filtra apenas as estatísticas que têm valores válidos
   const validStats = Object.entries(stats).filter(
-    ([_, value]) => value !== null && value !== undefined && !isNaN(Number(value)),
+    ([_, value]) => value !== null && value !== undefined && !Number.isNaN(Number(value)),
   )
 
   if (validStats.length === 0) {
@@ -50,9 +50,7 @@ export function StatsCard({ title, stats }: StatsCardProps) {
           {validStats.map(([key, value]) => (
             <div key={key} className="flex justify-between items-center">
               <span className="text-sm font-medium capitalize">{key.replace(/_/g, ' ')}</span>
-              <span className="text-sm font-bold text-blue-600">
-                {Math.round(Number(value) / 5)}
-              </span>
+              <span className="text-sm font-bold text-blue-600">{value}</span>
             </div>
           ))}
         </div>
