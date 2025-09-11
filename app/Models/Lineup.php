@@ -30,6 +30,32 @@ final class Lineup extends Model
         'substitute_4', 'substitute_5', 'substitute_6',
     ];
 
+    protected $appends = ['players'];
+
+    /**
+     * Transforma os dados do lineup em um array associativo posição => jogador
+     *
+     * @return array<string, Player|null>
+     */
+    public function getPlayersAttribute(): array
+    {
+        $players = [];
+
+        for ($i = 1; $i <= 11; $i++) {
+            $position = $this->{'position_'.$i};
+            $playerId = $this->{'player_'.$i};
+
+            if ($position && $playerId) {
+                $player = Player::find($playerId);
+                if ($player) {
+                    $players[$position] = $player;
+                }
+            }
+        }
+
+        return $players;
+    }
+
     /** @return BelongsTo<Club, $this> */
     public function club(): BelongsTo
     {

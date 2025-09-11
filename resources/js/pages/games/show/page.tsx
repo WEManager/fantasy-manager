@@ -8,6 +8,8 @@ import { LineupTable } from '~/modules/games/components/lineup-table'
 
 export default function GameShowPage({ game }: GameShowData) {
   console.log('🚀 ~ GameShowPage ~ game:', game)
+  console.log('🚀 ~ GameShowPage ~ homeLineup:', game.homeLineup)
+  console.log('🚀 ~ GameShowPage ~ awayLineup:', game.awayLineup)
   // Verificação de segurança para os times
   if (!game.hometeam || !game.awayteam) {
     return (
@@ -30,7 +32,10 @@ export default function GameShowPage({ game }: GameShowData) {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {/* Escalação Time da Casa */}
           <div className="lg:col-span-1">
-            <LineupTable players={game.homeLineup} title={`Escalação - ${game.hometeam.name}`} />
+            <LineupTable
+              players={game.homeLineup?.players}
+              title={`Escalação - ${game.hometeam.name}`}
+            />
           </div>
 
           {/* Eventos do Jogo */}
@@ -40,7 +45,10 @@ export default function GameShowPage({ game }: GameShowData) {
 
           {/* Escalação Time Visitante */}
           <div className="lg:col-span-1">
-            <LineupTable players={game.awayLineup} title={`Escalação - ${game.awayteam.name}`} />
+            <LineupTable
+              players={game.awayLineup?.players}
+              title={`Escalação - ${game.awayteam.name}`}
+            />
           </div>
         </div>
       </div>

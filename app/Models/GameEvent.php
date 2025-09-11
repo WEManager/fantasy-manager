@@ -15,7 +15,7 @@ final class GameEvent extends Model
         'event_time' => 'datetime',
     ];
 
-    protected $with = ['game'];
+    protected $with = ['fixture'];
 
     /**
      * @param  Builder<static>  $query

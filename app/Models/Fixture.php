@@ -79,10 +79,10 @@ final class Fixture extends Model
             && $this->gameEvents->count() === 0;
     }
 
-    /** @return array{minute: int, message: string}[] */
+    /** @return array{minute: int, message: string, period?: string, action_type?: string, whistle_type?: string, referee_action?: bool, attacking_player?: string, defending_player?: string}[] */
     public function getMessagesAttribute(): array
     {
-        /** @var array{minute: int, message: string}[] */
+        /** @var array{minute: int, message: string, period?: string, action_type?: string, whistle_type?: string, referee_action?: bool, attacking_player?: string, defending_player?: string}[] */
         $messages = [];
 
         // Ensure gameHappenings are loaded
@@ -91,13 +91,19 @@ final class Fixture extends Model
         }
 
         foreach ($this->gameHappenings as $happening) {
+            $involvedPersons = json_decode($happening->involved_persons, true) ?? [];
+
             $messages[] = [
                 'minute' => $happening->minute,
-                'message' => str_replace(
-                    ['hometeam', 'awayteam', ':SCORES:'],
-                    [$this->hometeam->name, $this->awayteam->name, __('GOAL')],
-                    $happening->event_description_string
-                ),
+                'message' => $happening->event_description_string,
+                'period' => $involvedPersons['period'] ?? null,
+                'action_type' => $involvedPersons['action_type'] ?? null,
+                'whistle_type' => $involvedPersons['whistle_type'] ?? null,
+                'referee_action' => $involvedPersons['referee_action'] ?? false,
+                'attacking_player' => $involvedPersons['attacking_player'] ?? null,
+                'defending_player' => $involvedPersons['defending_player'] ?? null,
+                'attacking_player_id' => $involvedPersons['attacking_player_id'] ?? null,
+                'defending_player_id' => $involvedPersons['defending_player_id'] ?? null,
             ];
         }
 

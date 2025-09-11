@@ -5,11 +5,12 @@ export interface Player {
   id: number
   know_as: string
   full_name: string
-  age: number
+  position?: string
+  slot?: number
   nation: {
     id: number
     name: string
-    fifa_id: string
+    iso_code: string
   }
 }
 
@@ -26,6 +27,20 @@ export interface TournamentGroup {
 export interface GameMessage {
   minute: number
   message: string
+  period?: string
+  attacking_player?: string
+  defending_player?: string
+  attacking_player_id?: number
+  defending_player_id?: number
+  action_type?: string
+  whistle_type?: string
+  referee_action?: boolean
+}
+
+export interface Lineup {
+  id: number
+  club_id: number
+  players: Record<string, Player>
 }
 
 export interface Game {
@@ -40,10 +55,10 @@ export interface Game {
   gameStatus: string
   CurrentMinute: number
   messages?: GameMessage[]
+  homeLineup?: Lineup
+  awayLineup?: Lineup
 }
 
 export interface GameShowData {
   game: Game
-  hometeam: Record<string, Player>
-  awayteam: Record<string, Player>
 }
