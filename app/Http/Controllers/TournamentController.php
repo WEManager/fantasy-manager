@@ -82,7 +82,7 @@ final class TournamentController extends Controller
         }
 
         /** @var \Illuminate\Support\Collection<int,object{
-         *   id:int, group_id:int, club_id:int, scored:int, conceded:int, points:int,
+         *   id:int, group_id:int, club_id:int, won:int, tie:int, lost:int, scored:int, conceded:int, points:int,
          *   club_name:string, club_slug:string
          * }> $standings
          */
@@ -93,6 +93,9 @@ final class TournamentController extends Controller
                 's.id',
                 's.group_id',
                 's.club_id',
+                's.won',
+                's.tie',
+                's.lost',
                 's.scored',
                 's.conceded',
                 's.points',
@@ -113,7 +116,7 @@ final class TournamentController extends Controller
                     ->where('group_id', $g->id)
                     ->map(
                         /** @param object{
-                         *   id:int, group_id:int, club_id:int, scored:int, conceded:int, points:int,
+                         *   id:int, group_id:int, club_id:int, won:int, tie:int, lost:int, scored:int, conceded:int, points:int,
                          *   club_name:string, club_slug:string
                          * } $s
                          * @return array<string,mixed>
@@ -123,6 +126,9 @@ final class TournamentController extends Controller
                                 'id' => $s->id,
                                 'group_id' => $s->group_id,
                                 'club_id' => $s->club_id,
+                                'won' => $s->won,
+                                'tie' => $s->tie,
+                                'lost' => $s->lost,
                                 'scored' => $s->scored,
                                 'conceded' => $s->conceded,
                                 'points' => $s->points,
